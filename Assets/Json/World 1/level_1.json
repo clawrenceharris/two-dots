@@ -1,0 +1,52 @@
+{
+    "levelNum": 1,
+    "width": 6,
+    "height": 6,
+    "moves": 10,
+    "baseScore": 2000,
+    "starThresholds": [ 0, 0, 0 ],
+    "goals": [],
+    "tutorialSteps": [
+        {
+            "topText": "HI",
+            "bottomText": "HI"
+        }
+    ],
+
+    "dotsToSpawn": [
+        {
+            "type": "red"
+        },
+        {
+            "type": "red"
+        },
+        {
+            "type": "blank"
+        },
+        {
+            "type": "blank"
+        },
+        {
+            "type": "blank"
+        },
+        {
+            "type": "blank"
+        },
+        {
+            "type": "anchor"
+        }
+        
+       
+
+    ],
+    "boardMechanicTiles": [
+
+       
+    ],
+
+    "tilesOnBoard": [
+       
+
+    ]
+
+}
