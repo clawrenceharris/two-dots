@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1962004455860119994}
   - component: {fileID: 8567817409825067955}
   - component: {fileID: 573003161363665607}
+  - component: {fileID: -7210388392219430239}
   m_Layer: 0
   m_Name: Empty Tile
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_Size: {x: 5.64, y: 5.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &573003161363665607
@@ -97,3 +98,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c61220d2af174e8480cb95687a07c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7210388392219430239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638488678973304467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 578437344c76f4386ad13ebf39311665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftBottom: {fileID: 21300000, guid: 4eb8f780d53894fcb825309c165c282b, type: 3}
+  RightBottom: {fileID: 21300000, guid: 023abe49173ce420bbfc6959adf3b0f5, type: 3}
+  RightTop: {fileID: 1863406433, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  LeftTop: {fileID: -1010937409, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  LeftRightTop: {fileID: -279065124, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  LeftRightBottom: {fileID: -2102798853, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  Single: {fileID: 21300000, guid: a8a5c7f1ba9f14560b8e6b0938d6f6c4, type: 3}
+  Bottom: {fileID: 0}
+  Center: {fileID: -586733124, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  LeftTopBottom: {fileID: 956147020, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  RightTopBottom: {fileID: 1863406433, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  TopBottom: {fileID: 21300000, guid: f937a05dcdd874362b29de936295e84f, type: 3}
