@@ -1,41 +1,42 @@
 {
     "levelNum": 1,
-    "width": 7,
-    "height": 7,
+    "width": 8,
+    "height": 8,
     "moves": 10,
-    "baseScore": 2000,
-    "starThresholds": [ 0, 0, 0 ],
-    "goals": [],
-    "tutorialSteps": [
-        {
-            "topText": "HI",
-            "bottomText": "HI"
-        }
-    ],
-
     "dotsToSpawn": [
 
-
-        
         {
-            "type": "blue"
+            "type": "normal",
+            "color": "purple"
+        },
+        {
+            "type": "normal",
+            "color": "purple"
+        },
+        {
+            "type": "anchor"
+        },
+        {
+            "type": "normal",
+            "color": "purple"
+        },
+        {
+            "type": "normal",
+            "color": "purple"
         }
-        
-       
-
 
     ],
-    "boardMechanicTiles": [
+    "dotsOnBoard": [
 
-       
     ],
 
     "tilesOnBoard": [
 
-       
-
-
-
+        {
+            "type": "block",
+            "row": 3,
+            "col": 4
+        }
     ]
 
 }
