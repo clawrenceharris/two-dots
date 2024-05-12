@@ -110,15 +110,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 578437344c76f4386ad13ebf39311665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftBottom: {fileID: 21300000, guid: 4eb8f780d53894fcb825309c165c282b, type: 3}
-  RightBottom: {fileID: 21300000, guid: 023abe49173ce420bbfc6959adf3b0f5, type: 3}
-  RightTop: {fileID: 1863406433, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
-  LeftTop: {fileID: -1010937409, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  whiteSprite: {fileID: 0}
+  Left: {fileID: -895824873, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
+  RightBottom: {fileID: 311230193, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
+  RightTop: {fileID: -696668663, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
+  LeftTop: {fileID: -1298901424, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
+  LeftBottom: {fileID: -895824873, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
   LeftRightTop: {fileID: -279065124, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
   LeftRightBottom: {fileID: -2102798853, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
   Single: {fileID: 21300000, guid: a8a5c7f1ba9f14560b8e6b0938d6f6c4, type: 3}
-  Bottom: {fileID: 0}
-  Center: {fileID: -586733124, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
+  Bottom: {fileID: -1015339928, guid: ac251c1281ed8423d8dbab98d6ef8d07, type: 3}
+  Top: {fileID: 1815431523, guid: ac251c1281ed8423d8dbab98d6ef8d07, type: 3}
+  Right: {fileID: 311230193, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
+  Center: {fileID: -958194697, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
   LeftTopBottom: {fileID: 956147020, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
   RightTopBottom: {fileID: 1863406433, guid: 2ea006a51298e4ff585cdf3bcb2deff3, type: 3}
-  TopBottom: {fileID: 21300000, guid: f937a05dcdd874362b29de936295e84f, type: 3}
+  TopBottom: {fileID: 1815431523, guid: ac251c1281ed8423d8dbab98d6ef8d07, type: 3}
