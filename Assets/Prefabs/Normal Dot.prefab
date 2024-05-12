@@ -210,10 +210,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outterDot: {fileID: 7796637422996918524}
-  dotSprite: {fileID: 21300000, guid: 7ef069ccf03fd4c089b48d011cf3eefe, type: 3}
+  dotSprite: {fileID: 0}
   scale: {x: 1, y: 1}
   bomb: {fileID: 8347827020213038274}
-  bombHitMaterial: {fileID: 2100000, guid: a3c8d8d214a79420094885a21d8b872c, type: 2}
+  bombHitMaterial: {fileID: 0}
 --- !u!1001 &8982302935553373377
 PrefabInstance:
   m_ObjectHideFlags: 0
