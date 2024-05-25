@@ -1,3 +1,65 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:58590ee1b144713f9d55485aecd302786e57721cd7e5847b89f8cdbe93617bf3
-size 1091
+
+using UnityEngine;
+
+
+public class Game : MonoBehaviour
+{
+
+    [SerializeField] private World[] worlds;
+    private LevelManager levelManager;
+    public static Game Instance { get; private set; }
+    
+    public World[] Worlds
+    {
+        get
+        {
+            return worlds;
+        }
+    }
+
+    [SerializeField] private int worldIndex;
+    public int WorldIndex { get { return worldIndex; }}
+    public static int TotalAmountOfLevels { get; private set; }
+
+    
+    private void Awake()
+    {
+
+        if (Instance == null)
+        {
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+
+            Destroy(gameObject);
+        }
+        SetTotalAmountOfLevels();
+        levelManager = FindObjectOfType<LevelManager>();
+    }
+
+    private void SetTotalAmountOfLevels()
+    {
+        int total = 0;
+        foreach (World world in worlds)
+        {
+            total += world.levels.Length;
+        }
+        TotalAmountOfLevels = total;
+    }
+
+    private void Start()
+    {
+        levelManager.StartLevel(1);
+    }
+
+
+
+
+
+
+
+
+}

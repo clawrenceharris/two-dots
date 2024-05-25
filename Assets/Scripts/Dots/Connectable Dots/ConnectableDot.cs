@@ -1,3 +1,42 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7d2d3285ce191ba6d861fc862143f8bd18a4120157866495f37ee8a425f08f48
-size 803
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static Type;
+
+public abstract class ConnectableDot : Dot, IConnectable
+{
+
+
+    public override Dictionary<HitType, IHitRule> HitRules
+ {
+        get
+        {
+            return new ()
+            {
+
+
+                {
+                    HitType.Connection, new HitByConnectionRule()
+                },
+                {
+                    HitType.Square, new HitBySquareRule()
+                }
+
+            };
+        }
+    }
+    public abstract void Connect();
+
+    public override void InitDisplayController()
+    {
+        visualController = new ConnectableDotVisualController();
+        visualController.Init(this);
+    }
+
+
+    public abstract void Disconnect(); 
+
+    public abstract void Select();
+    
+}

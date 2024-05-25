@@ -1,3 +1,21 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2eecc38642e285cc824a781cb5344b466e4487a0908240d5de49868b4a7a1036
-size 361
+
+using UnityEngine;
+
+public class BackgroundMusic : MonoBehaviour
+{
+    [SerializeField] private AudioClip backgroundMusic;
+    private AudioSource audioSource;
+
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+
+        
+    }
+    private void Start()
+    {
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+}

@@ -1,3 +1,24 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c611a7422cfd5b10460738775ccadf55256409541c3debf1df5463fab9e732e7
-size 558
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BombExplosionRule : IExplosionRule
+{
+    public List<IHittable> Validate(IExplodable explodable, Board board)
+    {
+        List<IHittable> toHit = new();
+        List<IHittable> hittables = board.GetHittableNeighbors(explodable.Column, explodable.Row, true);
+        foreach(IHittable hittable in hittables)
+        {
+            if(hittable != null)
+            {
+                toHit.Add(hittable);
+            }
+        }
+
+        return toHit;
+
+    }
+
+    
+}

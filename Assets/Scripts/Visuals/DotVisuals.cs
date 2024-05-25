@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ff374b5cf5d4a6e39e4320c5dabde880472078e5bf0982dc4932b245496a6c4a
-size 378
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DotVisuals : MonoBehaviour
+{
+    public SpriteRenderer outerDot;
+    public float clearTime = 0.4f;
+    public static float outerDotScaleTime = 0.8f;
+    public static float outerDotAlphaTime = 0.8f;
+    public Sprite bombHitSprite;
+    public static float defaultClearTime = 0.4f;
+
+}

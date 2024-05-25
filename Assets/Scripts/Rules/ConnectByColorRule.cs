@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:34a399424225962eca2099fb83194058edee5c92932eec62bc6f187916510704
-size 521
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ConnectByColorRule : IConnectionRule
+{
+    public bool Validate(ConnectableDot dot)
+    {
+        Connection connection = ConnectionManager.Connection;
+        if (connection.Color == DotColor.Blank ||
+            dot is IBlankDot)
+        {
+            return true;
+        }
+        else if (dot is IColorable colorDot)
+        {
+            return connection.Color == colorDot.Color;
+
+        }
+        return false;
+    }
+}

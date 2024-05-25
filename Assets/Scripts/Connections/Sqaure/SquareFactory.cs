@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:073d26f05b2e201ba20102d771bf3e17fb87919a8767ded939df6b0062894067
-size 486
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static Type;
+
+public static class SquareFactory
+{
+    public static Square CreateSquare(SquareType squareType, Board board)
+    {
+        return squareType switch
+        {
+            SquareType.BlankSqaure => new BlankSquare(board),
+            SquareType.NoramlSqaure => new Square(board),
+            _ => throw new ArgumentException("Invalid square type"),
+        };
+    }
+    
+}

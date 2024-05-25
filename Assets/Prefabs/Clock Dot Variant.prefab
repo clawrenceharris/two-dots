@@ -156,9 +156,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0102b196a3847420f8e518ec7e121c91, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5568628}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.42745098}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -359,7 +359,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: e2d7af2979e8c4ddba406892d9c6288a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.65882355}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -494,6 +494,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 981695197725732803, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
   m_PrefabInstance: {fileID: 781624674258617416}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2813956449724788447 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3302772381405047447, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+  m_PrefabInstance: {fileID: 781624674258617416}
+  m_PrefabAsset: {fileID: 0}
 --- !u!212 &2932566282570179683 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2479920984904146987, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
@@ -502,11 +507,6 @@ SpriteRenderer:
 --- !u!212 &5506220760836670588 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5094386036265484340, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
-  m_PrefabInstance: {fileID: 781624674258617416}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6016895432796813378 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6438085901801995274, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
   m_PrefabInstance: {fileID: 781624674258617416}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8960453033303663421 stripped
@@ -538,15 +538,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2fa48e4fda4439b902be6b94f0dd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outterDot: {fileID: 5506220760836670588}
-  dotSprite: {fileID: 0}
-  scale: {x: 2, y: 2}
-  bomb: {fileID: 6016895432796813378}
-  bombHitMaterial: {fileID: 0}
+  outerDot: {fileID: 5506220760836670588}
+  bomb: {fileID: 2813956449724788447}
+  bombHitSprite: {fileID: 0}
   innerDot: {fileID: 2932566282570179683}
   digit1: {fileID: 5482940535151725559}
   digit2: {fileID: 2033111714938831576}
-  controlButtons: {fileID: 5679960757758592677}
+  top: {fileID: 5679960757758592677}
   numbers:
   - {fileID: 21300000, guid: 4e90cf8faa34743d4be779c763ef5881, type: 3}
   - {fileID: 21300000, guid: 2fe71c858d7454697b7999b2074f7722, type: 3}
@@ -558,6 +556,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b6aa8ad2e83024f65af7652cc7cc9521, type: 3}
   - {fileID: 21300000, guid: cbe1cfe2e31ba459584fe50c6798c2f1, type: 3}
   - {fileID: 21300000, guid: cf95035a8a52c49c499aeb2f5ef68796, type: 3}
+  middle: {fileID: 6865684550561447720}
+  shadow: {fileID: 7387436768553865744}
 --- !u!1001 &4584587409611949380
 PrefabInstance:
   m_ObjectHideFlags: 0

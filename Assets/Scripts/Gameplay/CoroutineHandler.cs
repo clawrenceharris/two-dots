@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3dcd9d5d0c7109e8897b13a5613a966912dc6e500a6f491a67eca81d4775d7a7
-size 709
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CoroutineHandler : MonoBehaviour
+{
+    private static CoroutineHandler instance;
+
+    private void Awake()
+    {
+        // Ensure only one instance of CoroutineHandler exists
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public static Coroutine StartStaticCoroutine(IEnumerator coroutine)
+    {
+        return instance.StartCoroutine(coroutine);
+    }
+
+    public static void StopAllStaticCoroutines()
+    {
+        instance.StopAllCoroutines();
+    }
+
+    
+}

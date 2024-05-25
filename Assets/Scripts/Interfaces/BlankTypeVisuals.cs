@@ -1,3 +1,10 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:925a582cc057178397bbce21ee257938e2955f30d56f9f06e46bc667f24ff4cc
-size 214
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BlankDotVisuals : DotVisuals
+{ 
+    public SpriteRenderer innerDot;
+    public static float innerDotScaleTime = 0.2f;
+
+}

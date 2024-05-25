@@ -1,3 +1,18 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:befd41ef69b88b655f99aee20c525d9648bbc6026fa05e66b7cd66c5fd897787
-size 487
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface IDotVisualController
+{
+    public Dot Dot { get; }
+    public DotVisuals Visuals { get; }
+    public SpriteRenderer SpriteRenderer { get; }
+    public void Init(Dot dot);
+    public void ActivateBomb();
+    public void DeactivateBomb();
+    public void SetUp();
+    public void SetColor();
+    public void SetColor(Color color);
+    public IEnumerator Clear();
+    IEnumerator BombHit();
+}

@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7ef069ccf03fd4c089b48d011cf3eefe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -118,7 +118,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4036485048570625001}
-  - {fileID: 608799013889735133}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5224356030327197459
@@ -160,7 +159,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 7ef069ccf03fd4c089b48d011cf3eefe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -209,79 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad149a792f33488794d32369eeff68a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outterDot: {fileID: 7796637422996918524}
-  dotSprite: {fileID: 0}
-  scale: {x: 1, y: 1}
-  bomb: {fileID: 8347827020213038274}
-  bombHitMaterial: {fileID: 0}
---- !u!1001 &8982302935553373377
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2818817833734586123}
-    m_Modifications:
-    - target: {fileID: 1116607520697210883, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_Name
-      value: bomb
-      objectReference: {fileID: 0}
-    - target: {fileID: 1116607520697210883, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
---- !u!4 &608799013889735133 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8418757775858470172, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-  m_PrefabInstance: {fileID: 8982302935553373377}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8347827020213038274 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1116607520697210883, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
-  m_PrefabInstance: {fileID: 8982302935553373377}
-  m_PrefabAsset: {fileID: 0}
+  outerDot: {fileID: 7796637422996918524}
+  clearTime: 0.4
+  bomb: {fileID: 0}
+  bombHitSprite: {fileID: 21300000, guid: 7ef069ccf03fd4c089b48d011cf3eefe, type: 3}

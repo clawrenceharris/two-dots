@@ -1,3 +1,48 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:193f07237ec3522d875ded1d6a81018385c568500ab5357a8a377c30b6dac022
-size 1117
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using DG.Tweening;
+using System;
+using System.Drawing;
+using Color = UnityEngine.Color;
+
+public class ConnectableDotVisualController : DotVisualController
+{
+
+    public new ConnectableDot Dot;
+
+
+    public override void Init(Dot dot)
+    {
+        Dot = (ConnectableDot)dot;
+        base.Init(Dot);
+        
+
+    }
+
+   
+
+
+    public virtual void AnimateSelectionEffect()
+    {
+        
+        Visuals.outerDot.color = ColorSchemeManager.FromDotColor();
+
+        // Scale animation using DOTween
+        Visuals.outerDot.transform.DOScale(Vector3.one * 3, DotVisuals.outerDotScaleTime)
+            .SetEase(Ease.OutQuad);
+
+        // Alpha animation using DOTween
+        Visuals.outerDot.DOFade(0, DotVisuals.outerDotAlphaTime)
+            .SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                Visuals.outerDot.transform.localScale = Vector2.zero;
+                Color color = Visuals.outerDot.color;
+                color.a = 1;
+                Visuals.outerDot.color = color;
+            });
+    }
+
+    
+}

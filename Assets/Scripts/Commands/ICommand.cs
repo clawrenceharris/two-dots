@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5a30a1ba3275027fc26f5650985f2aa50c653a73a232e9377fc91c8b3ab6b4f2
-size 259
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static Type;
+public interface ICommand
+{
+
+    bool DidExecute { get; }
+    public CommandType CommandType { get; }
+
+    IEnumerator Execute(Board board);
+
+
+
+}

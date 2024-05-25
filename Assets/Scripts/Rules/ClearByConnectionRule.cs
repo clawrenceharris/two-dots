@@ -1,3 +1,12 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:846ef6457817099bea5dee010884128c0e5918285363ef1f3c54d28ef6ad1708
-size 284
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class HitByConnectionRule : IHitRule
+{
+    public bool Validate(IHittable hittable, Board board)
+    {
+        return ConnectionManager.ConnectedDots.Contains(hittable);
+    }
+}

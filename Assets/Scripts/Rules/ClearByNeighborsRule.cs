@@ -1,3 +1,36 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e339da22fd3e6d5b870f5923c217a46e29cf218ca820d2d84b17826923605a46
-size 887
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class HitByNeighborsRule : IHitRule
+{
+    public bool Validate(IHittable hittable,Board board)
+    {
+        List<Dot> dots = board.GetDotNeighbors(hittable.Column, hittable.Row);
+
+        foreach(Dot dot in dots)
+        {
+            if (dot is not ConnectableDot || !dots.Contains(dot))
+            {
+                continue;
+            }
+            if(dot.Column - 1 == hittable.Column)
+            {
+                return true;
+            }
+            if(dot.Column + 1 == hittable.Column)
+            {
+                return true;
+            }
+            if(dot.Row + 1 == hittable.Row)
+            {
+                return true;
+            }
+            if(dot.Row - 1 == hittable.Row)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+}
