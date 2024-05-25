@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:d25af317c9ecf8ea37270ab6f338ca49c3c55fe7ae93dd516032f4d142dc6f93
-size 560
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EmptyTileVisuals : TileVisuals
+{
+    public Sprite Left;
+
+    public Sprite RightBottom;
+    public Sprite RightTop;
+    public Sprite LeftTop;
+    public Sprite LeftBottom;
+
+    public Sprite LeftRightTop;
+    public Sprite LeftRightBottom;
+    public Sprite Single;
+    public Sprite Bottom;
+    public Sprite Top;
+    public Sprite Right;
+    public Sprite Center;
+    public Sprite LeftTopBottom;
+    public Sprite RightTopBottom;
+    public Sprite TopBottom;
+
+}

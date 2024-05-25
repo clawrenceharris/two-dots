@@ -1,3 +1,50 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:c8d1f8f28186f90f2c08f5013bf22e23ccdc45e28d1ce67f50f2d1b3b42ce127
-size 980
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static Type;
+
+public class BlockTile : Tile, IHittable
+{
+
+    public override TileType TileType => TileType.BlockTile;
+    public HitType HitType { get; private set; }
+    public int HitCount { get; private set; }
+
+    public int HitsToClear => 1;
+    public Dictionary<HitType, IHitRule> HitRules
+    {
+        get
+        {
+           return new() { {  HitType.BlockTile, new HitByNeighborsRule()} };
+        }
+    }
+
+    public bool IsBomb => false;
+
+    public override void Debug(Color color)
+    {
+
+        visualController.SpriteRenderer.color = color;
+
+    }
+    public void UndoHit()
+    {
+        HitType = HitType.None;
+        HitCount--;
+    }
+    public IEnumerator Hit(HitType hitType)
+    {
+        HitType = hitType;
+        HitCount--;        
+        yield return null;
+
+    }
+
+    public void BombHit()
+    {
+
+        StartCoroutine(visualController.BombHit());
+    }
+
+   
+}

@@ -172,6 +172,7 @@ MonoBehaviour:
   anchorDotSink: {fileID: 8300000, guid: 1e354fab3eb424443b6cfe588556dd7a, type: 3}
   bombActive: {fileID: 8300000, guid: 67e477fcf6b6e457a9c30523085046b3, type: 3}
   bombExplode: {fileID: 8300000, guid: a3b0d0f9d6ce34f7a9ba2aece648a83f, type: 3}
+  blockTile: {fileID: 0}
 --- !u!164 &171902020
 AudioReverbFilter:
   m_ObjectHideFlags: 0
@@ -719,7 +720,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1285719387}
-  - component: {fileID: 1285719386}
+  - component: {fileID: 1285719388}
   m_Layer: 0
   m_Name: Command Queue
   m_TagString: Untagged
@@ -727,20 +728,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1285719386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285719385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 192243410e3314323a3d17cfe0f424c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  board: {fileID: 0}
-  commandCount: 0
 --- !u!4 &1285719387
 Transform:
   m_ObjectHideFlags: 0
@@ -756,6 +743,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1285719388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285719385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d697abb3ec5f434b98d46af93024b42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1521461854
 GameObject:
   m_ObjectHideFlags: 0

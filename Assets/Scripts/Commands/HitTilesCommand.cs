@@ -1,3 +1,35 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e39514737fa16adbcece08acf403c2d4780d0f06de2a3711fab5887bac7630cf
-size 847
+using System.Collections;
+
+using static Type;
+public class HitTilesCommand : Command
+{
+    public override CommandType CommandType => CommandType.HitTiles;
+
+    public override IEnumerator Execute(Board board)
+    {
+        foreach(Tile tile in board.Tiles)
+        {
+            if(tile is not IHittable hittable)
+            {
+                continue;
+            }
+            foreach (HitType hitType in hittable.HitRules.Keys)
+            {
+                hittable.HitRules.TryGetValue(hitType, out IHitRule rule);
+
+                if (rule.Validate(hittable, board ))
+                {
+
+                    hittable.Hit(hitType);
+                }
+            }
+            
+        }
+        if (DidExecute)
+        {
+            CommandInvoker.Instance.Enqueue(new BoardCommand());
+        }
+        return base.Execute(board);
+    }
+
+}

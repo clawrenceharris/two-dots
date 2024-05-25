@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:ac3dff87435c712d18e5e682a816696482b94619a713683ea0801a057d2b40bf
-size 472
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static Type;
+public class EmptyTile : Tile
+{
+    public override TileType TileType => TileType.EmptyTile;
+
+    
+    public override void InitDisplayController()
+    {
+        visualController = new EmptyTileVisualController();
+        visualController.Init(this);
+    }
+
+    public override void Debug(Color color)
+    {
+
+        visualController.SpriteRenderer.color = color;
+
+    }
+
+}

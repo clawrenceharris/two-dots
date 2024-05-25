@@ -161,14 +161,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2818817833734586123, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 3062972721813983432}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3302772381405047447 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 528065255024196191, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+  m_PrefabInstance: {fileID: 3062972721813983432}
+  m_PrefabAsset: {fileID: 0}
 --- !u!212 &5094386036265484340 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
-  m_PrefabInstance: {fileID: 3062972721813983432}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6438085901801995274 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8347827020213038274, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 3062972721813983432}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8539122926316644213 stripped
@@ -200,8 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2881741ec06684cf08a91e6580c1196d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outterDot: {fileID: 5094386036265484340}
-  sprite: {fileID: 21300000, guid: c0fe66590a2aa4c5fbaf7f6be6ee2911, type: 3}
-  scale: {x: 1, y: 1}
-  bomb: {fileID: 6438085901801995274}
+  outerDot: {fileID: 5094386036265484340}
+  bomb: {fileID: 3302772381405047447}
+  bombHitSprite: {fileID: 21300000, guid: c0fe66590a2aa4c5fbaf7f6be6ee2911, type: 3}
   innerDot: {fileID: 2479920984904146987}

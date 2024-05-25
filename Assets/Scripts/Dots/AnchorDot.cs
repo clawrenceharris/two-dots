@@ -1,3 +1,46 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0e8db5d66327757f59492ebd98327fc4ffd8c21b3f1fa386ab3ce9ead481d3d6
-size 828
+using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine;
+using static Type;
+using Color = UnityEngine.Color;
+
+public class AnchorDot : Dot
+{
+    public override DotType DotType => DotType.AnchorDot;
+
+    public override Dictionary<HitType, IHitRule> HitRules {
+        get
+        {
+            return new()
+            {
+                { HitType.AnchorDot, new HitByBottomOfBoardRule() }
+            };
+        }
+    }
+    public override int HitsToClear => 1;
+
+
+
+
+    public override void InitDisplayController()
+    {
+        visualController = new DotVisualController();
+        visualController.Init(this);
+    }
+
+
+    public override IEnumerator Hit(HitType hitType)
+    {
+        
+        HitCount++;
+        yield return base.Hit(hitType);
+    }
+    
+    
+
+    
+    
+
+    
+}

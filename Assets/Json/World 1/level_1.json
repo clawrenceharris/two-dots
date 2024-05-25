@@ -1,6 +1,6 @@
 {
     "levelNum": 1,
-    "width": 6,
+    "width": 5,
     "height": 5,
     "moves": 10,
     "dotsToSpawn": [
@@ -8,23 +8,32 @@
 
 
 
-        {
-            "type": "normal",
-            "color": "purple"
-        },
-    
-        {
-            "type": "blank"
-        },
+
 
         {
             "type": "clock",
-            "number": 7
+            "number": 6
+        },
+
+       
+        {
+            "type": "anchor",
+
         },
         {
-            "type": "anchor"
+            "type": "normal",
+            "color": "blue"
+
         }
-       
+        //{
+        //    "type": "blank"
+
+        //}
+
+
+
+
+
 
 
 
@@ -32,84 +41,60 @@
     ],
     "dotsOnBoard": [
         
-        {
-            "type": "normal",
-            "color": "red",
-            "row": 0,
-            "col": 1
-        },
-        {
-            "type": "normal",
-            "color": "red",
-            "row": 1,
-            "col": 1
-        },
-        {
-            "type": "normal",
-            "color": "red",
-            "row": 1,
-            "col": 0
-        },
-        {
-            "type": "normal",
-            "color": "red",
-            "row": 2,
-            "col": 2
-        }
     ],
 
     "tilesOnBoard": [
-        {
-            "type": "empty",
-            "row": 4,
-            "col": 5
+        //{
+        //    "type": "empty",
+        //    "row": 4,
+        //    "col": 5
 
-        },
-        {
-            "type": "empty",
-            "row": 4,
-            "col": 4
-        },
-        {
-            "type": "empty",
-            "row": 3,
-            "col": 5
-        },
-        {
-            "type": "empty",
-            "row": 4,
-            "col": 0
-        },
-        {
-            "type": "empty",
-            "row": 4,
-            "col": 1
-        },
-        {
-            "type": "empty",
-            "row": 3,
-            "col": 0
-        },
+        //},
+        //{
+        //    "type": "empty",
+        //    "row": 4,
+        //    "col": 4
+        //},
+        //{
+        //    "type": "empty",
+        //    "row": 3,
+        //    "col": 5
+        //},
+        //{
+        //    "type": "empty",
+        //    "row": 4,
+        //    "col": 0
+        //},
+        //{
+        //    "type": "empty",
+        //    "row": 4,
+        //    "col": 1
+        //},
+        //{
+        //    "type": "empty",
+        //    "row": 3,
+        //    "col": 0
+        //},
 
-        {
-            "type": "one sided block",
-            "row": 0,
-            "col": 0,
-            "direction": {
-                "x": 0,
-                "y": 1
-            }
-        },
+        //{
+        //    "type": "one sided block",
+        //    "row": 0,
+        //    "col": 0,
+        //    "direction": {
+        //        "x": 0,
+        //        "y": 1
+        //    }
+        //},
 
-        {
-            "type": "one sided block",
-            "row": 0,
-            "col": 5,
-            "direction": {
-                "x": 0,
-                "y": 1
-            }
-        }
+        //{
+        //    "type": "one sided block",
+        //    "row": 0,
+        //    "col": 5,
+        //    "direction": {
+        //        "x": 0,
+        //        "y": 1
+        //    }
+        //}
 
 
     ]

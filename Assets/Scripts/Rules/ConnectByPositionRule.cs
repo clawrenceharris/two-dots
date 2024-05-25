@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5375d9bdacc0e75cf8f7b1b95d48fdf96fcc6c711484a5f7401135b46b8f8f4f
-size 639
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ConnectByPositionRule : IConnectionRule
+{
+    public bool Validate(ConnectableDot dot)
+    {
+
+        LinkedList<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots;
+        int rowDiff = Mathf.Abs(dot.Row - connectedDots.Last.Value.Row);
+        int colDiff = Mathf.Abs(dot.Column - connectedDots.Last.Value.Column);
+        
+        if (!(colDiff > 1 || rowDiff > 1))
+        {
+            if (!(colDiff > 0 && rowDiff > 0))
+            {
+                return true;
+            }
+        }
+        
+
+        return false;
+    }
+}

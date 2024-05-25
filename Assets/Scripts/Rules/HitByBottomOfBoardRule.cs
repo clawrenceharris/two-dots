@@ -1,3 +1,19 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:2071d5fb04fb99571738e814d4e9a4443451a3c54233ad01422d7a6aba2c0f64
-size 474
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static Type;
+
+/// <summary>
+/// Represents a hit rule that checks if an IHittable object is at the bottom of the board.
+/// </summary>
+public class HitByBottomOfBoardRule : IHitRule
+{
+
+    public bool Validate(IHittable hittable, Board board)
+    {      
+        bool isAtBottom =  board.IsAtBottomOfBoard(hittable.Column, hittable.Row);
+            
+        return isAtBottom;
+  
+    }
+}

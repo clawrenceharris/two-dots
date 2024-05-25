@@ -1,3 +1,29 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:5b65a6ef181d64c5b2b98c3367a26d104a20c44f4ff9d0abefcd27d95f0d48f6
-size 541
+using System.Collections;
+using UnityEngine;
+using System;
+using static Type;
+
+
+public abstract class Command : ICommand
+{
+    public bool DidExecute { get; protected set; }
+    public abstract CommandType CommandType { get; }
+
+    bool ICommand.DidExecute => DidExecute;
+
+    public static event Action<Command> onCommandExecuted;
+    public virtual IEnumerator Execute(Board board)
+    {
+        if (!DidExecute)
+        {
+            yield break;
+        }
+        yield return null;
+        onCommandExecuted?.Invoke(this);
+
+
+    }
+
+
+
+}

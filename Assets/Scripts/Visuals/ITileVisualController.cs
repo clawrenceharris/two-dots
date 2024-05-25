@@ -1,3 +1,13 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:68531d97c45c40848b7d6d62a836b82088e49d576614c4694346baed2eb9188a
-size 342
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public interface ITileVisualController
+{
+    public void Init(Tile tile);
+    public Tile Tile { get; }
+    public TileVisuals Visuals { get; }
+    public SpriteRenderer SpriteRenderer { get; }
+    public IEnumerator BombHit();
+    public IEnumerator Clear();
+}

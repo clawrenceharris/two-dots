@@ -1,3 +1,15 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:edbd434e59c9a272641fbba33df6b338adc679d57cb8dffafcb7f60513099420
-size 329
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ClockDotVisuals : BlankDotVisuals
+{
+    public SpriteRenderer digit1;
+    public SpriteRenderer digit2;
+    public SpriteRenderer top;
+    public Sprite[] numbers;
+    public SpriteRenderer middle;
+    public SpriteRenderer shadow;
+
+
+}

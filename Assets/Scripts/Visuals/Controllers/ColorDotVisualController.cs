@@ -1,3 +1,52 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:423a5edb10dba778fed7cd60b02e0f75da37ea8d9777d24e3a447b3bf2468615
-size 1338
+using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine;
+
+public class ColorDotVisualController : ConnectableDotVisualController
+{
+    private new IColorable Dot;
+    public override void Init(Dot dot)
+    {
+        IColorable colorDot = (IColorable)dot;
+        Dot = colorDot;
+        base.Init((ConnectableDot)Dot);
+
+    }
+
+
+    public override IEnumerator BombHit()
+    {
+        SpriteRenderer.color = Color.white;
+
+        return base.BombHit();
+    }
+
+
+    public override void SetColor()
+    {
+        SpriteRenderer.color = ColorSchemeManager.FromDotColor(Dot.Color);
+
+    }
+    public override void AnimateSelectionEffect()
+    {
+
+        Visuals.outerDot.color = ColorSchemeManager.FromDotColor(Dot.Color);
+
+        // Scale animation using DOTween
+        Visuals.outerDot.transform.DOScale(Vector3.one * 3, DotVisuals.outerDotScaleTime)
+            .SetEase(Ease.OutQuad);
+
+        // Alpha animation using DOTween
+        Visuals.outerDot.DOFade(0, DotVisuals.outerDotAlphaTime)
+            .SetEase(Ease.Linear)
+            .OnComplete(() =>
+            {
+                Visuals.outerDot.transform.localScale = Vector2.zero;
+                Color color = Visuals.outerDot.color;
+                color.a = 1;
+                Visuals.outerDot.color = color;
+            });
+    }
+
+}

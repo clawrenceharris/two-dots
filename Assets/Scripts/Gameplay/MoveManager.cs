@@ -1,3 +1,39 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:24acbecab494638a89bd58ec6b144d9e65455a00df3a009e1061c89cd3a2ca51
-size 767
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MoveManager
+{   
+    public static event OnMoveMade onMoveMade;
+    public delegate void OnMoveMade();
+
+    public static event OnNoMoves onNoMoves;
+    public delegate void OnNoMoves();
+
+    public int moves {get; private set;}
+    
+    public void SetMoves(int moves){
+        this.moves = moves;
+    }
+
+    // Start is called before the first frame update
+    public  MoveManager()
+    {
+        ConnectionManager.onConnectionEnded += OnConnectionEnded;
+        
+    }
+
+    private void OnConnectionEnded(LinkedList<ConnectableDot> dots){
+        moves -= 1;
+        onMoveMade?.Invoke();
+
+        if(moves == 0){
+            onNoMoves?.Invoke();
+        }
+
+    }
+
+
+
+ 
+}

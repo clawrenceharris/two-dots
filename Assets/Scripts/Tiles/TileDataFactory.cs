@@ -1,3 +1,38 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3ed7b32423b80ed690431e01b8606b635c98aec1e94f98c53ce6e7649ce48603
-size 975
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using UnityEngine;
+using static Type;
+
+public class TileDataFactory
+{
+    
+
+    public static TileData CreateTileData(JObject itemObject)
+    {
+        JToken type = itemObject["type"];
+        JToken col = itemObject["col"];
+        JToken row = itemObject["row"];
+        JToken direction = itemObject["direction"];
+
+        TileType tileType = JSONLevelLoader.FromJsonTileType((string)type);
+        return tileType switch
+        {
+            TileType.OneSidedBlock => new DirectionalTileData()
+            {
+                type = (string)type,
+                col = (int)col,
+                row = (int)row,
+                direction = direction.ToObject<Direction>()
+
+            },
+            _ => new TileData()
+            {
+                type = (string)type,
+                col = (int)col,
+                row = (int)row,
+            },
+        };
+    }
+}

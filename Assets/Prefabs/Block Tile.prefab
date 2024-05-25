@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3f726a7f9e9449390d21f01c592744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteSprite: {fileID: 21300000, guid: a3964ccd7cbe3423ca0c0915ce097fe6, type: 3}
+  bombHitSprite: {fileID: 21300000, guid: ecabe75bd96c14d099311942ff914de2, type: 3}
 --- !u!114 &6330128674848982776
 MonoBehaviour:
   m_ObjectHideFlags: 0
