@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,18 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
 
 
     public override DotType DotType { get; }
+    private BlankDotVisualController VisualController
+    {
+        get
+        {
+            if (visualController is BlankDotVisualController blankDotVisualController)
+            {
+                return blankDotVisualController;
+            }
+            throw new InvalidCastException("Unable to cast base visualController to ClockDotVisualController");
+
+        }
+    }
 
     public override void Init(int column, int row)
     {
@@ -32,69 +45,65 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
     {
         UnsubscribeToEvents();
     }
-    
-    public virtual void OnDotDisconnected(ConnectableDot dot)
-    {
-        
-        if (dot == this && !ConnectionManager.ConnectedDots.Contains(dot))
-            Deselect();
+    /// <summary>
+    /// when dot is disconnected, it starts the deselction animation
+    /// </summary>
+    /// <param name="dot">The dot that was disconnected</param>
 
-        else if (!ConnectionManager.ConnectedDots.Contains(this))
+    public void OnDotDisconnected(ConnectableDot dot)
+    {
+
+      
+        //if any of the blank dots are not set to be hit by the connection then visually disconnect it
+        if (!ConnectionManager.ToHit.Contains(this))
         {
-            Deselect();
+            Disconnect();
         }
-        
-        //if we disconnect update the inner dot's color to match the connection color
+        //update the inner dot's color to match the connection color
         UpdateColor();
     }
-    public virtual void OnConnectionEnded(LinkedList<ConnectableDot> connectedDots)
+    public void OnConnectionEnded(LinkedList<ConnectableDot> connectedDots)
     { 
-        Deselect();
+        Disconnect();
     }
 
-    public virtual void OnDotConnected(ConnectableDot dot)
+    protected virtual void OnDotConnected(ConnectableDot dot)
     {
         UpdateColor();
     }
+    public override void Disconnect()
+    {
+        base.Disconnect();
+        Deselect();
 
+    }
     //changes the color of the inner dot to the connection's color
     private void UpdateColor()
     {
-
         Color color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
-        if (visualController is BlankDotVisualController blankDotVisualController)
         {
-            blankDotVisualController.SetColor(color);
+            VisualController.SetColor(color);
         }
     }
 
     public override void Connect()
     {
-        if (visualController is ConnectableDotVisualController cVisualController)
-            cVisualController.AnimateSelectionEffect();
+        VisualController.AnimateSelectionEffect();
     }
 
-    public override void Disconnect()
-    {
-        //do nothing
-    }
+    
 
     public void Deselect()
     {
-        if (visualController is BlankDotVisualController blankDotVisualController)
-        {
-            blankDotVisualController.AnimateDeselectionEffect();
-        }
+        
+        VisualController.AnimateDeselectionEffect();
+        
 
     }
 
-
-
-
     public override void Select()
     {
-        if (visualController is ConnectableDotVisualController cVisualController)
-            cVisualController.AnimateSelectionEffect();
+        VisualController.AnimateSelectionEffect();
     }
 
 }

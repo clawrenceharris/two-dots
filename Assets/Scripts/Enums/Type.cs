@@ -96,8 +96,7 @@ public static class Type
         ClearClockDots,
 
         Explosion,
-
-
+        ConnectDots,
     }
     public enum ExplosionType
     {

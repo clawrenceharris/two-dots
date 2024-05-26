@@ -139,7 +139,7 @@ public class ConnectionManager
 
             //disconnect it
             ConnectableDot dotToDisconnect = lastDot.Value;
-            Connection.DisconnectDot(dot);
+            Connection.DisconnectDot(dotToDisconnect);
             //ConnectedDots = new(Connection.Dots);
 
             onDotDisconnected?.Invoke(dotToDisconnect);

@@ -139,9 +139,9 @@ public class SoundManager : MonoBehaviour
         if (command is ClearCommand)
         {
             playedSounds.Clear();
-
         }
     }
+
     private void OnSquareMade(Square square)
     {
         if (square.DotsInSquare.Count > 0)

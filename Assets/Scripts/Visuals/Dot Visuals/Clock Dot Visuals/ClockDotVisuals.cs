@@ -10,6 +10,6 @@ public class ClockDotVisuals : BlankDotVisuals
     public Sprite[] numbers;
     public SpriteRenderer middle;
     public SpriteRenderer shadow;
-
+    public GameObject clockDotPreview;
 
 }

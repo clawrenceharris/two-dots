@@ -1,8 +1,6 @@
 
 using System.Collections;
-using System.Collections.Generic;
 using static Type;
-using Color = UnityEngine.Color;
 
 public class BlankDot : BlankDotBase
 {
@@ -17,8 +15,12 @@ public class BlankDot : BlankDotBase
         base.Init(column, row);
     }
 
-    
 
+    public override void Disconnect()
+    {
+        HitCount = 0;
+        base.Disconnect();
+    }
     public override void InitDisplayController()
     {
         visualController = new BlankDotVisualController();

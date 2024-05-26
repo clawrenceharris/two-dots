@@ -67,13 +67,13 @@ public class LevelManager : MonoBehaviour
 
     private void OnDotDisconnected(ConnectableDot dot)
     {
-            DoCommand(new HitClockDotsCommand());
+            DoCommand(new ConnectDotsCommand());
 
     }
 
     private void OnDotConnected(ConnectableDot dot)
     {
-        DoCommand(new HitClockDotsCommand());        
+        DoCommand(new ConnectDotsCommand());        
     }
 
     public static void DestroyGO(GameObject go)

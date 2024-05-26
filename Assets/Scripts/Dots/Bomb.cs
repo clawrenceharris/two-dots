@@ -12,8 +12,6 @@ public class Bomb : Dot, IExplodable
 
     public Dictionary<HitType, IExplosionRule> ExplosionRules => new() { { HitType.BombExplosion, new BombExplosionRule() } };
 
-
-
     public override int HitsToClear => 1;
 
     public override Dictionary<HitType, IHitRule> HitRules => new();

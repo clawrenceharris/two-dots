@@ -9,6 +9,7 @@ public interface IHittable : IBoardElement
     public IEnumerator Hit(HitType hitType);
     public void BombHit();
     public IEnumerator Clear();
+
     /// <summary>
     /// Number of hits made on the dot
     /// </summary>

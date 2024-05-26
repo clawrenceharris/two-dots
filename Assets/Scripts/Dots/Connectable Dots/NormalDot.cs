@@ -3,6 +3,7 @@ using static Type;
 using Color = UnityEngine.Color;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class NormalDot : ConnectableDot, IColorable
 {
@@ -12,17 +13,32 @@ public class NormalDot : ConnectableDot, IColorable
 
     public override int HitsToClear => 1;
 
+    private ColorDotVisualController VisualController
+    {
+        get
+        {
+            if (visualController is ColorDotVisualController colorDotVisualController)
+            {
+                return colorDotVisualController;
+            }
+            throw new InvalidCastException("Unable to cast base visualController to ClockDotVisualController");
+
+        }
+    }
+
+
     public override void Connect()
     {
-        if (visualController is ConnectableDotVisualController cVisualController)
 
-            cVisualController.AnimateSelectionEffect();
+        VisualController.AnimateSelectionEffect();
 
     }
     
     public override void Disconnect()
     {
-        //do nothing
+        HitCount = 0;
+        base.Disconnect();
+
     }
 
    public override void InitDisplayController()
@@ -37,9 +53,8 @@ public class NormalDot : ConnectableDot, IColorable
    
     public override void Select()
     {
-        if (visualController is ConnectableDotVisualController cVisualController)
 
-            cVisualController.AnimateSelectionEffect();
+        VisualController.AnimateSelectionEffect();
 
     }
 

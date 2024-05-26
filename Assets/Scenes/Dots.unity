@@ -170,6 +170,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fec8cb6ccd7c74f9499379ce5f1ad99e, type: 3}
   - {fileID: 8300000, guid: 45f3b547e03ed417e86bce41572950c6, type: 3}
   anchorDotSink: {fileID: 8300000, guid: 1e354fab3eb424443b6cfe588556dd7a, type: 3}
+  clockHit: {fileID: 0}
   bombActive: {fileID: 8300000, guid: 67e477fcf6b6e457a9c30523085046b3, type: 3}
   bombExplode: {fileID: 8300000, guid: a3b0d0f9d6ce34f7a9ba2aece648a83f, type: 3}
   blockTile: {fileID: 0}
@@ -351,7 +352,7 @@ MonoBehaviour:
   OneSidedBlock: {fileID: 5648905683831243604, guid: 226b9a5c2147644af84249074fe13998, type: 3}
   Bomb: {fileID: 2723959319491112794, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
   ClockDot: {fileID: 4499002589781983019, guid: 0fafcb1f472894a4598cc40c64faee9e, type: 3}
-  AnchorDot: {fileID: 1095093492839301703, guid: 1bd84699e5d6c41a6ac5b3372c0d3e32, type: 3}
+  AnchorDot: {fileID: 6403194489089915213, guid: 1bd84699e5d6c41a6ac5b3372c0d3e32, type: 3}
   BlankDot: {fileID: 5651903629060155388, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
   Line: {fileID: 7744309208762822857, guid: 734d110512c864f619561b39d3e05c05, type: 3}
 --- !u!4 &499670593

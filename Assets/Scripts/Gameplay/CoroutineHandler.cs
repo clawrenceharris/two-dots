@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,10 +27,9 @@ public class CoroutineHandler : MonoBehaviour
         return instance.StartCoroutine(coroutine);
     }
 
-    public static void StopAllStaticCoroutines()
+   
+    public static void StopStaticCoroutine(Coroutine coroutine)
     {
-        instance.StopAllCoroutines();
+        instance.StopCoroutine(coroutine);
     }
-
-    
 }

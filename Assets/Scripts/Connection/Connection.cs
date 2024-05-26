@@ -62,7 +62,7 @@ public class Connection
     {
         dot.Disconnect();
         //remove the last dot from the connections list
-        ConnectedDots.Remove(ConnectedDots.Last);
+        ConnectedDots.Remove(dot);
       
         //if the connection has no color dots in it after discconection, change the connection's dotType to blank type 
         if (IsBlankConnection())

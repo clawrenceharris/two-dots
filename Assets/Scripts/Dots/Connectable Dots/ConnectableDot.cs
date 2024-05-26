@@ -9,7 +9,7 @@ public abstract class ConnectableDot : Dot, IConnectable
 
 
     public override Dictionary<HitType, IHitRule> HitRules
- {
+    {
         get
         {
             return new ()
@@ -28,6 +28,9 @@ public abstract class ConnectableDot : Dot, IConnectable
     }
     public abstract void Connect();
 
+   
+
+    
     public override void InitDisplayController()
     {
         visualController = new ConnectableDotVisualController();
@@ -35,7 +38,10 @@ public abstract class ConnectableDot : Dot, IConnectable
     }
 
 
-    public abstract void Disconnect(); 
+    public virtual void Disconnect()
+    {
+        HitType = HitType.None;
+    }
 
     public abstract void Select();
     

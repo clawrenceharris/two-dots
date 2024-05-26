@@ -8,7 +8,7 @@ using Unity.VisualScripting;
 public class DotVisualController : IDotVisualController
 {
 
-    public Dot Dot { get; protected set; }
+    public virtual Dot Dot { get; protected set; }
     public DotVisuals Visuals { get; protected set; }
 
     public SpriteRenderer SpriteRenderer { get; protected set; }
