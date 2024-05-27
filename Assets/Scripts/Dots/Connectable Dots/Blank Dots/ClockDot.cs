@@ -91,14 +91,17 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     public override void Disconnect()
     {
         base.Disconnect();
-        VisualController.Disconnect(this);
         UpdateNumber(currentNumber);
+        VisualController.Disconnect();
+    }
 
+    public override void Select()
+    {
+
+        base.Select();
     }
     public override void Connect()
     {
-        VisualController.StartConnection();
-
         base.Connect();
     }
 
@@ -110,7 +113,8 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
 
             //allow the current number to decrease by number of connected dots
             tempNumber = Mathf.Clamp(currentNumber - connectionCount, 0, int.MaxValue);
-            VisualController.Connect();
+
+            VisualController.Connect(this);
 
             UpdateNumber(tempNumber);
         }
@@ -146,9 +150,12 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
 
     public void PreviewHit()
     {
-
-        ClockDotAnimation animation = new();
-        StartCoroutine(animation.HitAnimation(this));
+        if(currentNumber == 0)
+        {
+            ClockDotAnimation animation = new();
+            StartCoroutine(animation.HitAnimation(this));
+        }
+        
 
     }
 

@@ -4,6 +4,7 @@ using DG.Tweening;
 using static Type;
 using System.Linq;
 using System.Collections.Generic;
+using static UnityEditor.PlayerSettings;
 
 public class ClockDotVisualController : BlankDotVisualController
 {
@@ -76,63 +77,75 @@ public class ClockDotVisualController : BlankDotVisualController
 
     }
 
-    public void PreviewHit()
+
+    public void Disconnect()
     {
-        
+
+        Visuals.clockDotPreview.SetActive(false);
+        Visuals.clockDotPreview.transform.SetParent(Dot.transform);
+
 
     }
-    public void Disconnect(Dot dot)
+
+    private static Dictionary<Dot, GameObject> clockDotPreviews = new();
+
+    public void Connect(ClockDot dot)
     {
-        if (dot == Dot)
-        {
-            Visuals.clockDotPreview.SetActive(false);
-            Visuals.clockDotPreview.transform.SetParent(Dot.transform);
-        }
-        //else
-        //{
-        //    LinkedList<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots;
-        //    if (connectedDots.Last.Value is ClockDot)
-        //    {
-        //        return;
-        //    }
-        //    ConnectableDot nextDot = connectedDots.Find(Dot).Previous.Value;
 
-        //    Vector2 pos = new Vector2(nextDot.Column, nextDot.Row) * Board.offset;
-        //    Visuals.clockDotPreview.transform.DOMove(pos, 0.6f);
-        //    Visuals.clockDotPreview.transform.SetParent(null);
-        //    Visuals.clockDotPreview.SetActive(true);
+        List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
 
-        //}
-    }
 
-    
 
-    public void Connect()
-    {
         
-        LinkedList<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots;
-        if (connectedDots.Count == 1)
-        {
-            Visuals.clockDotPreview.SetActive(false);
-            Visuals.clockDotPreview.transform.SetParent(Dot.transform);
-        }
-
-        if (connectedDots.Last.Value is ClockDot)
-        {
-            return;
-        }
-        
-        Dot nextDot = connectedDots.Last.Value;
-
-        Vector2 pos = new Vector2(nextDot.Column, nextDot.Row) * Board.offset;
-        Visuals.clockDotPreview.transform.DOMove(pos, 0.6f);
-        Visuals.clockDotPreview.transform.SetParent(null);
-
         Visuals.clockDotPreview.SetActive(true);
+        Visuals.clockDotPreview.transform.SetParent(null);
+        
+        clockDotPreviews.TryAdd(dot, Visuals.clockDotPreview);
+        for(int i = connectedDots.Count -1 ; i >= 0 ; i--)
+        {
+            if (connectedDots[i] is ClockDot clockDot)
+            {
+                Dot lastEmptyDot = clockDot;
+                for(int k = i; k < connectedDots.Count; k++)
+                {
+                    if(clockDotPreviews.TryGetValue(connectedDots[k], out var _))
+                    {
+                        continue;
+                    }
+                    
+                    if (connectedDots[k] is ClockDot)
+                    {
+                        continue;
+                    }
+                    lastEmptyDot = connectedDots[k];
+                }
+
+                    
+                    MoveClockDotPreview(clockDot, lastEmptyDot);
+                    clockDotPreviews.Remove(connectedDots[i]);
+                
+
+                
+            }
+           
+        }
+       
+        clockDotPreviews.Clear();
 
     }
 
-    public void StartConnection()
+
+    private void MoveClockDotPreview( ClockDot clockDot, Dot destination)
     {
+        ClockDotVisualController clockDotVisualController = (ClockDotVisualController)clockDot.visualController;
+        GameObject clockDotPreview = clockDotVisualController.Visuals.clockDotPreview;
+        Vector2 pos = new Vector2(destination.Column, destination.Row) * Board.offset;
+
+        clockDotPreview.transform.DOMove(pos, 0.6f);
+        clockDotPreviews.TryAdd(destination, clockDotPreview);
+
     }
+
+
+
 }

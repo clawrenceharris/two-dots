@@ -25,7 +25,7 @@ public abstract class Dot : MonoBehaviour, IHittable
 
     public abstract DotType DotType { get; }
     public bool IsBomb { get; protected set; }
-    protected IDotVisualController visualController;
+    public IDotVisualController visualController;
     public int HitCount { get; protected set; }
     public abstract int HitsToClear { get; }
     public abstract Dictionary<HitType, IHitRule> HitRules { get; }

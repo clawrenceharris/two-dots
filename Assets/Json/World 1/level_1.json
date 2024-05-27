@@ -15,8 +15,18 @@
             "number": 6
         },
 
-       
-        
+
+
+        {
+            "type": "normal",
+            "color": "blue"
+
+        },
+        {
+            "type": "normal",
+            "color": "blue"
+
+        },
         {
             "type": "normal",
             "color": "blue"
