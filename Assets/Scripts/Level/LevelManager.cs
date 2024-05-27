@@ -61,13 +61,14 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
         ConnectionManager.onDotConnected += OnDotConnected;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
+        Command.onCommandExecuted += OnCommandExecuted;
 
         Board.onDotsDropped += OnDotsDropped;
     }
 
     private void OnDotDisconnected(ConnectableDot dot)
     {
-            DoCommand(new ConnectDotsCommand());
+        DoCommand(new ConnectDotsCommand());
 
     }
 
@@ -83,18 +84,43 @@ public class LevelManager : MonoBehaviour
             Destroy(go);
         }
     }
+    private void OnCommandExecuted(Command command)
+    {
+        switch (command.CommandType)
+        {
+            case CommandType.Board:
+                CommandInvoker.Instance.Enqueue(new HitDotsCommand());
+                CommandInvoker.Instance.Enqueue(new HitTilesCommand());
+                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+                break;
+            case CommandType.HitDots:
+            case CommandType.HitTiles:
+                CommandInvoker.Instance.Enqueue(new ClearCommand());
+                break;
+            case CommandType.Clear:
+                CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
+                CommandInvoker.Instance.Enqueue(new BoardCommand());
+                break;
+            
 
+
+
+
+        }
+    }
     private void OnDotsDropped()
     {
         DoCommand(new BoardCommand());
     }
 
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
-    { 
-        DoCommand(new BoardCommand());
+    {
+        DoCommand(new ClearCommand());
+
+
     }
 
-   
+
 
     private void DoCommand(Command command)
     {

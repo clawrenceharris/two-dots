@@ -3,13 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using static Type;
-using DG.Tweening;
-using UnityEngine.UIElements;
-using static UnityEditor.PlayerSettings;
-using Unity.Mathematics;
-using UnityEngine.UI;
-using System.Linq;
-using Unity.VisualScripting;
+
 
 public class Board : MonoBehaviour
 {
@@ -238,7 +232,10 @@ public class Board : MonoBehaviour
 
     }
 
-
+    public void RemoveDot(Dot dot)
+    {
+        Dots[dot.Column, dot.Row] = null;
+    }
     public IHittable GetHittableAt(int col, int row)
     {
         if (col >= 0 && col < Width && row >= 0 && row < Height)
@@ -385,15 +382,21 @@ public class Board : MonoBehaviour
 
 
 
-    public void MoveDot(int x1, int x2, int y1, int y2)
+    public void MoveDot(Dot dotToMove, int desinationCol, int destinationRow)
     {
+        
+        Dots[desinationCol, destinationRow] = dotToMove;
 
-        Dots[x2, y2] = Dots[x1, y1];
-        Dots[x1, y1] = null;
+        
+        Dots[dotToMove.Column, dotToMove.Row] = null;
+
+        dotToMove.Column = desinationCol;
+        dotToMove.Row = destinationRow;
+
     }
 
 
-    
+
 
     public bool FillBoard()
     {
@@ -579,7 +582,7 @@ public class Board : MonoBehaviour
         {
             if (dot)
             {
-                str += dot.name;
+                str += dot.name + " ";
             }
             else
             {
@@ -590,5 +593,13 @@ public class Board : MonoBehaviour
         return str;
     }
 
+    internal void MoveTile(int column, int row1, int col, int row2)
+    {
+        throw new NotImplementedException();
+    }
 
+    internal void MoveTile(Tile tile, int col, int row)
+    {
+        throw new NotImplementedException();
+    }
 }

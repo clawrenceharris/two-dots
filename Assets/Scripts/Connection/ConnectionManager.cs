@@ -90,7 +90,7 @@ public class ConnectionManager
         DotTouchIO.onDotSelected += OnDotSelected;
         DotTouchIO.onSelectionEnded += HandleSelectionEnded;
         DotTouchIO.onDotConnected += OnDotConnected;
-        Command.onCommandExecuted += OnCommandExecuted;
+        CommandInvoker.onCommandsExecuted += OnCommandsExecuted;
     }
 
 
@@ -149,16 +149,10 @@ public class ConnectionManager
         // otherwise if the connection between the last dot and the dot we drag over is valid
         else if (IsValidConnection(dot) && !IsSquare)
         {
-            Connection.ConnectDot(dot);
-
-            
+            Connection.ConnectDot(dot);          
             onDotConnected?.Invoke(dot);
 
         }
-
-
-
-
     }
 
     private void OnDotSelected(ConnectableDot dot)
@@ -198,9 +192,13 @@ public class ConnectionManager
 
     }
 
-    private void OnCommandExecuted(Command command)
+    private void OnCommandsExecuted(Queue<Command> commands)
     {
-        if(command is ExplosionCommand)
+        Debug.Log("COMMANDS FINISHED");
+        if(!commands.Any((command) =>
+        
+             command.CommandType == CommandType.ConnectDots
+        ))
         {
             Connection?.ResetConnection();
         }

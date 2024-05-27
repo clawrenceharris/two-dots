@@ -16,6 +16,8 @@ public class DotAnimationManager : MonoBehaviour
             Coroutine animationCoroutine = StartCoroutine(coroutine);
             DotAnimations.Add(dot, animationCoroutine);
         }
+
+
     }
 
     public void StopDotAnimation(Dot dot)

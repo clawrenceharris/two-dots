@@ -32,7 +32,7 @@ public class TileController
 
     public static void MoveTile(Tile tile, int col, int row, float speed = 0.5f)
     {
-        board.MoveDot(tile.Column, tile.Row, col, row);
+        board.MoveTile(tile, col, row);
 
         tile.transform.DOMove(new Vector2(col, row) * Board.offset, speed);
     }

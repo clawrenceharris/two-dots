@@ -25,10 +25,7 @@ public class HitTilesCommand : Command
             }
             
         }
-        if (DidExecute)
-        {
-            CommandInvoker.Instance.Enqueue(new BoardCommand());
-        }
+        
         return base.Execute(board);
     }
 

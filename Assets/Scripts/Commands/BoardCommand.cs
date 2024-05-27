@@ -31,18 +31,14 @@ public class BoardCommand : Command
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(BoardCommand));
 
-        yield return new BombCommand().Execute(board);
+
+        //CommandInvoker.Instance.Enqueue(new HitDotsCommand());
+        //CommandInvoker.Instance.Enqueue(new ClearCommand());
+
+        //CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+
+
         yield return DropDots(board);
-
-
-
-        CommandInvoker.Instance.Enqueue(new HitDotsCommand());
-        CommandInvoker.Instance.Enqueue(new HitTilesCommand());
-
-        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
-
-
-
 
 
         yield return base.Execute(board);

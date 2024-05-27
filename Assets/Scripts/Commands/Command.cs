@@ -14,12 +14,13 @@ public abstract class Command : ICommand
     public static event Action<Command> onCommandExecuted;
     public virtual IEnumerator Execute(Board board)
     {
-        if (!DidExecute)
+        if (DidExecute)
         {
-            yield break;
+            onCommandExecuted?.Invoke(this);
+            DidExecute = false;
+
         }
         yield return null;
-        onCommandExecuted?.Invoke(this);
 
 
     }

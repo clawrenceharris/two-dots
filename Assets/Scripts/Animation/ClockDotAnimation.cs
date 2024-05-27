@@ -9,7 +9,7 @@ public class ClockDotAnimation
     public delegate void AnimationCallback();
     public IEnumerator HitAnimation(Dot dot)
     {
-        while (dot.HitType == HitType.Connection && ConnectionManager.ConnectedDots.Count > 1)
+        while (dot.HitCount >= dot.HitsToClear)
         {
 
             float elapsedTime = 0f;

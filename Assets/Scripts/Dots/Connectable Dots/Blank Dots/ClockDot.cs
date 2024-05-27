@@ -74,6 +74,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     }
 
     
+
     public void SetCurrentNumber(int number)
     {
         currentNumber = number;
@@ -114,7 +115,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
             //allow the current number to decrease by number of connected dots
             tempNumber = Mathf.Clamp(currentNumber - connectionCount, 0, int.MaxValue);
 
-            VisualController.Connect(this);
+            VisualController.Connect();
 
             UpdateNumber(tempNumber);
         }
@@ -150,11 +151,9 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
 
     public void PreviewHit()
     {
-        if(currentNumber == 0)
-        {
-            ClockDotAnimation animation = new();
-            StartCoroutine(animation.HitAnimation(this));
-        }
+        
+        ClockDotAnimation animation = new();
+        StartCoroutine(animation.HitAnimation(this));
         
 
     }

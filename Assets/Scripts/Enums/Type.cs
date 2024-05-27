@@ -84,6 +84,7 @@ public static class Type
 
     public enum CommandType
     {
+
         Board,
         Bomb,
 
@@ -93,7 +94,8 @@ public static class Type
         HitBlocks,
         HitOneSidedBlocks,
         Clear,
-        ClearClockDots,
+        MoveClockDots,
+
 
         Explosion,
         ConnectDots,

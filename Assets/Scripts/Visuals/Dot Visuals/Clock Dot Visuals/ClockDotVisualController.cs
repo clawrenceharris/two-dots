@@ -1,16 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 using DG.Tweening;
-using static Type;
 using System.Linq;
 using System.Collections.Generic;
-using static UnityEditor.PlayerSettings;
 
 public class ClockDotVisualController : BlankDotVisualController
 {
     private new ClockDotVisuals Visuals;
     private new ClockDot Dot;
-    private static Coroutine currentAnimationCoroutine;
 
     public override void Init(Dot dot)
     {
@@ -83,24 +80,22 @@ public class ClockDotVisualController : BlankDotVisualController
 
         Visuals.clockDotPreview.SetActive(false);
         Visuals.clockDotPreview.transform.SetParent(Dot.transform);
-
+        Visuals.clockDotPreview.transform.position = Dot.transform.position;
 
     }
 
     private static Dictionary<Dot, GameObject> clockDotPreviews = new();
 
-    public void Connect(ClockDot dot)
+    public void Connect()
     {
 
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
-
-
-
-        
+ 
         Visuals.clockDotPreview.SetActive(true);
         Visuals.clockDotPreview.transform.SetParent(null);
-        
-        clockDotPreviews.TryAdd(dot, Visuals.clockDotPreview);
+        Color color = Visuals.clockDotPreview.GetComponent<SpriteRenderer>().color;
+        color.a = 0.6f;
+        clockDotPreviews.TryAdd(Dot, Visuals.clockDotPreview);
         for(int i = connectedDots.Count -1 ; i >= 0 ; i--)
         {
             if (connectedDots[i] is ClockDot clockDot)

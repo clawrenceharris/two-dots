@@ -41,6 +41,10 @@ public class LineManager
     /// </summary>
     private void RemoveLine()
     {
+        if(lines.Count == 0)
+        {
+            return;
+        }
         if (lines.Count > 1)
             currentLine = lines[^2];
 

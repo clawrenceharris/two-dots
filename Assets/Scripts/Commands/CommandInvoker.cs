@@ -34,13 +34,15 @@ public class PriorityQueue<T>
     }
 }
 
+
 public class CommandInvoker : MonoBehaviour
 {
-    private readonly PriorityQueue<Command> commands = new();
+    private readonly Queue<Command> commands = new();
     private Board board;
     public static CommandInvoker Instance;
-    public static event Action onCommandsExecuted;
+    public static event Action<Queue<Command>> onCommandsExecuted;
     public static int commandCount;
+    private Queue<Command> tempCommands = new();
     public static bool IsExecuting { get; private set; }
     private void Awake()
     {
@@ -56,13 +58,18 @@ public class CommandInvoker : MonoBehaviour
     }
 
 
+    public void ExecuteCommand(Command command)
+    {
+        CoroutineHandler.StartStaticCoroutine(ExecuteCommandCo(command));
+    }
+
 
     public void Enqueue(Command command)
     {
 
        
-        commands.Enqueue(command, (int)command.CommandType);
-        
+        commands.Enqueue(command);
+        tempCommands.Enqueue(command);
     }
 
 
@@ -72,26 +79,25 @@ public class CommandInvoker : MonoBehaviour
 
         if (commands.Count > 0)
         {
-            
-            StartCoroutine(ExecuteCommandCo());
+            Command command = commands.Dequeue();
+
+            CoroutineHandler.StartStaticCoroutine(ExecuteCommandCo(command));
         }
         else
         {
             IsExecuting = false;
-            onCommandsExecuted?.Invoke();
-
+            onCommandsExecuted?.Invoke(tempCommands);
+            tempCommands.Clear();
         }
 
 
 
     }
 
-    private IEnumerator ExecuteCommandCo()
+    private IEnumerator ExecuteCommandCo(Command command)
     {
-        Command command = commands.Dequeue();
-
         IsExecuting = true; // Set flag to indicate that commands are executing
-        yield return StartCoroutine(command.Execute(board)); // Execute the command
+        yield return command.Execute(board); // Execute the command
         ExecuteNextCommand();
     }
 
@@ -101,4 +107,7 @@ public class CommandInvoker : MonoBehaviour
         
         
     }
+
+   
+
 }

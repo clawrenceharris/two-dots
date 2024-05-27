@@ -40,11 +40,7 @@ public class HitDotsCommand : Command
 
         }
 
-        if (DidExecute)
-        {
-            CommandInvoker.Instance.Enqueue(new ClearCommand());
-        }
-        
+       
 
         yield return base.Execute(board);
 

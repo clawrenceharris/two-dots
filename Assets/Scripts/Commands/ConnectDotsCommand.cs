@@ -8,10 +8,7 @@ public class ConnectDotsCommand : Command
     public override CommandType CommandType => CommandType.ConnectDots;
 
 
-    protected virtual void HitDots()
-    {
-        
-    }
+    
     public override IEnumerator Execute(Board board)
     {
 

@@ -44,8 +44,8 @@ public class ClearCommand : Command
 
         yield return new WaitForSeconds(DotVisuals.defaultClearTime);
 
-        if (DidExecute)
-            CommandInvoker.Instance.Enqueue(new BoardCommand());
+        //if (DidExecute)
+        //    CommandInvoker.Instance.Enqueue(new BoardCommand());
 
 
 

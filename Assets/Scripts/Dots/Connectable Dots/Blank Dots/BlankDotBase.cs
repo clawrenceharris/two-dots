@@ -50,7 +50,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
     /// </summary>
     /// <param name="dot">The dot that was disconnected</param>
 
-    public void OnDotDisconnected(ConnectableDot dot)
+    protected virtual void OnDotDisconnected(ConnectableDot dot)
     {
 
       
@@ -62,7 +62,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
         //update the inner dot's color to match the connection color
         UpdateColor();
     }
-    public void OnConnectionEnded(LinkedList<ConnectableDot> connectedDots)
+    protected virtual void OnConnectionEnded(LinkedList<ConnectableDot> connectedDots)
     { 
         Disconnect();
     }
