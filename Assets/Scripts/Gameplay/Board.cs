@@ -390,8 +390,7 @@ public class Board : MonoBehaviour
         
         Dots[dotToMove.Column, dotToMove.Row] = null;
 
-        dotToMove.Column = desinationCol;
-        dotToMove.Row = destinationRow;
+       
 
     }
 

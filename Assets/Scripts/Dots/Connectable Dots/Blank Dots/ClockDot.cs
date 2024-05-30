@@ -130,7 +130,6 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
         {
             //set temp number to be one less than the current number
             tempNumber = Mathf.Clamp(currentNumber - 1, 0, int.MaxValue);
-            currentNumber = tempNumber;
         }
 
         HitCount = initialNumber - tempNumber;
@@ -142,7 +141,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     
     public override void BombHit()
     {
-        UpdateNumber(currentNumber);
+        SetCurrentNumber(tempNumber);
 
         base.BombHit();
 

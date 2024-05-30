@@ -17,7 +17,7 @@ public class ClearCommand : Command
         {
             DidExecute = true;
 
-           CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
         }
 
     }

@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
     public static int MoveCount { get; private set; } = 0;
     public bool IsHighscore { get; private set; }
     public int score;
+    private bool didMove;
     [SerializeField] private ColorScheme[] colorSchemes;
     public bool IsTutorial
     {
@@ -98,8 +99,12 @@ public class LevelManager : MonoBehaviour
                 CommandInvoker.Instance.Enqueue(new ClearCommand());
                 break;
             case CommandType.Clear:
-                CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
+                if(didMove)
+                    CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
+                CommandInvoker.Instance.Enqueue(new BombCommand());
+
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
+                didMove = false;
                 break;
             
 
@@ -115,6 +120,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
+        didMove = true;
         DoCommand(new ClearCommand());
 
 
@@ -132,6 +138,7 @@ public class LevelManager : MonoBehaviour
    
     public void StartLevel(int levelNum)
     {
+        new CommandInvoker(board);
         new ConnectionManager(board);
         new DotController(board);
         Level = JSONLevelLoader.ReadJsonFile(levelNum);

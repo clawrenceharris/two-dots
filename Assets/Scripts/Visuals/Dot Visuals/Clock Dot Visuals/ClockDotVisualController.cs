@@ -8,6 +8,7 @@ public class ClockDotVisualController : BlankDotVisualController
 {
     private new ClockDotVisuals Visuals;
     private new ClockDot Dot;
+    public static Dictionary<Dot, GameObject> clockDotPreviews { get; private set; } = new();
 
     public override void Init(Dot dot)
     {
@@ -84,7 +85,6 @@ public class ClockDotVisualController : BlankDotVisualController
 
     }
 
-    private static Dictionary<Dot, GameObject> clockDotPreviews = new();
 
     public void Connect()
     {
