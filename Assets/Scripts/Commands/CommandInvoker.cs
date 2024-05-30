@@ -35,7 +35,7 @@ public class PriorityQueue<T>
 }
 
 
-public class CommandInvoker : MonoBehaviour
+public class CommandInvoker
 {
     private readonly Queue<Command> commands = new();
     private Board board;
@@ -44,16 +44,14 @@ public class CommandInvoker : MonoBehaviour
     public static int commandCount;
     private Queue<Command> tempCommands = new();
     public static bool IsExecuting { get; private set; }
-    private void Awake()
+    
+
+    public CommandInvoker(Board board)
     {
         Instance = this;
-    }
 
-    private void Start()
-    {
         Command.onCommandExecuted += OnCommandExecuted;
-        board = FindObjectOfType<Board>();
-
+        this.board = board;
 
     }
 
