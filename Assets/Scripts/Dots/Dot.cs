@@ -31,7 +31,7 @@ public abstract class Dot : MonoBehaviour, IHittable
     public abstract Dictionary<HitType, IHitRule> HitRules { get; }
 
 
-    public HitType HitType;
+    public HitType HitType { get; protected set; }
     HitType IHittable.HitType => HitType;
 
 
