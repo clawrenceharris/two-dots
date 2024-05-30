@@ -10,8 +10,13 @@ public class BoardCommand : Command
 
     
    
-    private IEnumerator DropDots(Board board)
+    
+
+    public override IEnumerator Execute(Board board)
     {
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(BoardCommand));
+
+
         bool dotsDropped;
         do
         {
@@ -25,20 +30,7 @@ public class BoardCommand : Command
         DidExecute = dotsDropped || DidExecute;
         yield return new WaitForSeconds(DidExecute ? Board.DotDropSpeed : 0f);
 
-    }
 
-    public override IEnumerator Execute(Board board)
-    {
-        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(BoardCommand));
-
-
-        //CommandInvoker.Instance.Enqueue(new HitDotsCommand());
-        //CommandInvoker.Instance.Enqueue(new ClearCommand());
-
-        //CommandInvoker.Instance.Enqueue(new ExplosionCommand());
-
-
-        yield return DropDots(board);
 
 
         yield return base.Execute(board);
