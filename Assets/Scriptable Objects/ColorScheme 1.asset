@@ -19,4 +19,4 @@ MonoBehaviour:
   red: {r: 1, g: 0.25, b: 0.34239566, a: 1}
   blank: {r: 1, g: 1, b: 1, a: 1}
   clockDot: {r: 1, g: 0.7877358, b: 0.987985, a: 0.8235294}
-  backgroundColor: {r: 0.46693477, g: 0.24608402, b: 0.6603774, a: 1}
+  backgroundColor: {r: 0.9529412, g: 0.8901961, b: 0.8117647, a: 1}

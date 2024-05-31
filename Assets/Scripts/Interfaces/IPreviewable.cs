@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IPreviewable
 {
-    public void PreviewHit();
+    public IEnumerator PreviewHit();
     
 }

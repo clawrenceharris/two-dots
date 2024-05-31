@@ -31,11 +31,15 @@ public class JSONLevelLoader
             "bomb" => DotType.Bomb,
             "blank" => DotType.BlankDot,
             "anchor" => DotType.AnchorDot,
+            "nesting" => DotType.NestingDot,
 
 
             _ => DotType.None,
         };
     }
+
+
+
     public static Dot FromJsonDot(DotData dotData)
     {
         DotType dotType = FromJsonDotType(dotData.type);

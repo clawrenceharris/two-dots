@@ -12,7 +12,7 @@ public class DotVisualController : IDotVisualController
     public DotVisuals Visuals { get; protected set; }
 
     public SpriteRenderer SpriteRenderer { get; protected set; }
-    private Color color;
+    public Color Color { get; private set; }
     private Sprite sprite;
     
 
@@ -21,7 +21,6 @@ public class DotVisualController : IDotVisualController
         Dot = dot;
         Visuals = dot.GetComponent<DotVisuals>();
         SpriteRenderer = dot.GetComponent<SpriteRenderer>();
-        color = SpriteRenderer.color;
         sprite = SpriteRenderer.sprite;
         SetUp();
     }
@@ -29,35 +28,38 @@ public class DotVisualController : IDotVisualController
     {
         SetColor();
     }
+
     public virtual void SetColor()
-    {
-        SpriteRenderer.color = color;
-        
+    { 
+        Color = SpriteRenderer.color;
     }
 
     public void ActivateBomb()
     {
-        SpriteRenderer.enabled = false;
-        DisableChildren();
+        DisableSprites();
     }
 
     public void DeactivateBomb()
     {
-        SpriteRenderer.enabled = true;
-        EnableChildren();
+        EnableSprites();
     }
 
-    private void EnableChildren()
+    private void EnableSprites()
     {
+        if(SpriteRenderer)
+            SpriteRenderer.enabled = true;
+
         foreach (Transform child in Dot.transform)
         {
             child.gameObject.SetActive(true);
         }
     }
 
-    private void DisableChildren()
+    private void DisableSprites()
     {
-        foreach(Transform child in Dot.transform)
+        if (SpriteRenderer)
+            SpriteRenderer.enabled = false;
+        foreach (Transform child in Dot.transform)
         {
             child.gameObject.SetActive(false);
         }
@@ -65,6 +67,9 @@ public class DotVisualController : IDotVisualController
 
     public virtual IEnumerator BombHit()
     {
+        if (!SpriteRenderer)
+            yield break;
+
         SpriteRenderer.sprite = Visuals.bombHitSprite;
  
         yield return new WaitForSeconds(Visuals.clearTime);
@@ -74,6 +79,10 @@ public class DotVisualController : IDotVisualController
 
     public void SetColor(Color color)
     {
+        if (!SpriteRenderer)
+        {
+            return;
+        }
         SpriteRenderer.color = color;
 
         foreach (Transform child in Dot.transform)

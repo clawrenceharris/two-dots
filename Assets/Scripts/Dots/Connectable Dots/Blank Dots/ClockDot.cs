@@ -148,11 +148,11 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     }
 
 
-    public void PreviewHit()
+    public IEnumerator PreviewHit()
     {
         
         ClockDotAnimation animation = new();
-        StartCoroutine(animation.HitAnimation(this));
+        yield return StartCoroutine(animation.HitAnimation(this));
         
 
     }

@@ -25,8 +25,6 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
 
     public int HitsToClear => 1;
 
-    public bool IsBomb => false;
-
     public override void InitDisplayController()
     {
         visualController = new OneSidedBlockVisualController();
@@ -39,17 +37,11 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
 
         HitCount++;    
         yield return null;
-     }
+    }
 
     public void BombHit()
     {
 
        StartCoroutine(visualController.BombHit());
-    }
-
-    public void UndoHit()
-    {
-        HitType = HitType.None;
-        HitCount--;
     }
 }

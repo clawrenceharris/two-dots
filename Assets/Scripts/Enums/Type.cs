@@ -78,6 +78,7 @@ public static class Type
         Square,
         ClockDot,
         OneSidedBlock,
+        NestingDot,
     }
 
 

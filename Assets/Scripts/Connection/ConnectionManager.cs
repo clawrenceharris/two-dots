@@ -194,7 +194,7 @@ public class ConnectionManager
 
     private void OnCommandsExecuted(Queue<Command> commands)
     {
-        Debug.Log("COMMANDS FINISHED");
+        Debug.Log(CommandInvoker.commandCount + " COMMANDS FINISHED");
         if(!commands.Any((command) =>
         
              command.CommandType == CommandType.ConnectDots

@@ -29,11 +29,7 @@ public class ExplosionCommand : Command
         for(int i =0; i < explodables.Count; i++)
         {
             IExplodable explodable = explodables[i];
-            if (explodable == null)
-            {
-                continue;
-            }
-
+            
             foreach (HitType hitType in explodable.ExplosionRules.Keys)
             {
                 if (explodable.ExplosionRules.TryGetValue(hitType, out IExplosionRule rule))

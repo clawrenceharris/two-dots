@@ -46,3 +46,12 @@ TagManager:
   - name: Dot
     uniqueID: 1239392859
     locked: 0
+  - name: Tile
+    uniqueID: 1988139559
+    locked: 0
+  - name: Line
+    uniqueID: 1023218459
+    locked: 0
+  - name: Connectable Dot
+    uniqueID: 3682903627
+    locked: 0

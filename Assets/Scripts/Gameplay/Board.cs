@@ -152,6 +152,8 @@ public class Board : MonoBehaviour
         }
         return explodables;
     }
+
+
     public List<Dot> GetBombDots()
     {
         List<Dot> bombDots = new();
@@ -305,7 +307,7 @@ public class Board : MonoBehaviour
         return neighbors;
     }
 
-    public List<Tile> GetTileNeighbors(int col, int row, bool diagonal )
+    public List<Tile> GetTileNeighbors(int col, int row, bool diagonal = false)
     {
 
         List<Tile> neighbors = new()

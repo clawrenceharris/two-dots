@@ -140,7 +140,6 @@ public class Square
         foreach (Dot dot in DotsInSquare)
         {
             board.CreateBomb(dot.Column, dot.Row);
-            dot.ActivateBomb();
 
         }
     }
@@ -153,7 +152,6 @@ public class Square
             Dot bomb = board.GetDotAt(dot.Column, dot.Row);
             Object.Destroy(bomb.gameObject);
             board.PutDot(dot);
-            dot.DeactivateBomb();
 
         }
 

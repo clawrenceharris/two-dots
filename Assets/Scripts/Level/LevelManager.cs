@@ -99,7 +99,9 @@ public class LevelManager : MonoBehaviour
                 CommandInvoker.Instance.Enqueue(new ClearCommand());
                 break;
             case CommandType.Clear:
-                if(didMove)
+                CommandInvoker.Instance.Enqueue(new HitDotsCommand());
+                CommandInvoker.Instance.Enqueue(new HitTilesCommand());
+                if (didMove)
                     CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
                 CommandInvoker.Instance.Enqueue(new BombCommand());
 
@@ -121,7 +123,8 @@ public class LevelManager : MonoBehaviour
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
         didMove = true;
-        DoCommand(new ClearCommand());
+        DoCommand(new HitDotsCommand());
+        DoCommand(new HitTilesCommand());
 
 
     }

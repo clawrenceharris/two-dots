@@ -27,15 +27,11 @@ public class BlockTile : Tile, IHittable
         visualController.SpriteRenderer.color = color;
 
     }
-    public void UndoHit()
-    {
-        HitType = HitType.None;
-        HitCount--;
-    }
+    
     public IEnumerator Hit(HitType hitType)
     {
         HitType = hitType;
-        HitCount--;        
+        HitCount++;        
         yield return null;
 
     }

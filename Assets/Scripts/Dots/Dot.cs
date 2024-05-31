@@ -63,21 +63,6 @@ public abstract class Dot : MonoBehaviour, IHittable
         
         StartCoroutine(visualController.BombHit());
     }
-  
-    public virtual void ActivateBomb()
-    {
-        IsBomb = true;
-        visualController.ActivateBomb();
-        
-    }
-
-    public virtual void DeactivateBomb()
-    {
-        IsBomb = false;
-        visualController.DeactivateBomb();
-
-
-    }
 
     public void Debug()
     {

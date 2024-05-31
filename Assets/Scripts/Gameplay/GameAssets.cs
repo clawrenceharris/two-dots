@@ -8,11 +8,11 @@ public class GameAssets : MonoBehaviour
     public Tile EmptyTile;
     public Tile BlockTile;
     public Tile OneSidedBlock;
-
+    public NestingDot NestingDot;
     public Bomb Bomb;
     public ClockDot ClockDot;
-    public Dot AnchorDot;
-    public Dot BlankDot;
+    public AnchorDot AnchorDot;
+    public BlankDot BlankDot;
     public ConnectorLine Line;
     public static GameAssets Instance { get; private set; }
 
@@ -30,6 +30,7 @@ public class GameAssets : MonoBehaviour
             DotType.AnchorDot => AnchorDot,
             DotType.ClockDot => ClockDot,
             DotType.Bomb => Bomb,
+            DotType.NestingDot => NestingDot,
 
             _ => null,
         };

@@ -25,8 +25,7 @@ public class HitDotsCommand : Command
                 continue;
             }
 
-            IEnumerable<HitType> keys = hittable.HitRules.Keys.Where(key => !Type.IsExplosion(key));
-            foreach (HitType hitType in keys)
+            foreach (HitType hitType in hittable.HitRules.Keys)
             {
                 if (hittable.HitRules.TryGetValue(hitType, out var rule))
                     if (rule.Validate(hittable, board) )

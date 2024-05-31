@@ -8,7 +8,6 @@ public interface IDotVisualController
     public DotVisuals Visuals { get; }
     public SpriteRenderer SpriteRenderer { get; }
     public void Init(Dot dot);
-    public void ActivateBomb();
     public void DeactivateBomb();
     public void SetUp();
     public void SetColor();
