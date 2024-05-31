@@ -103,7 +103,6 @@ public class LevelManager : MonoBehaviour
                 CommandInvoker.Instance.Enqueue(new HitTilesCommand());
                 if (didMove)
                     CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
-                CommandInvoker.Instance.Enqueue(new BombCommand());
 
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
                 didMove = false;
