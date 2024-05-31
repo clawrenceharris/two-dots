@@ -34,36 +34,7 @@ public class DotVisualController : IDotVisualController
         Color = SpriteRenderer.color;
     }
 
-    public void ActivateBomb()
-    {
-        DisableSprites();
-    }
-
-    public void DeactivateBomb()
-    {
-        EnableSprites();
-    }
-
-    private void EnableSprites()
-    {
-        if(SpriteRenderer)
-            SpriteRenderer.enabled = true;
-
-        foreach (Transform child in Dot.transform)
-        {
-            child.gameObject.SetActive(true);
-        }
-    }
-
-    private void DisableSprites()
-    {
-        if (SpriteRenderer)
-            SpriteRenderer.enabled = false;
-        foreach (Transform child in Dot.transform)
-        {
-            child.gameObject.SetActive(false);
-        }
-    }
+   
 
     public virtual IEnumerator BombHit()
     {
