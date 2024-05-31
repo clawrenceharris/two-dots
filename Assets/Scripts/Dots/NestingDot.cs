@@ -27,10 +27,8 @@ public class NestingDot : Dot
 
     public override IEnumerator Clear()
     {
-        if (IsBomb)
-            yield return base.Clear();
-        else
-            IsBomb = true;
+        DotController.DoBombDot(this);
+        yield break;
     }
 
     public override IEnumerator Hit(HitType hitType)

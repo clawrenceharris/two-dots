@@ -102,6 +102,9 @@ public class DotController
         Object.Destroy(dot.gameObject);
     }
 
-    
-
+    public static void DoBombDot(Dot dot)
+    {
+        DestroyDot(dot);
+        board.CreateBomb(dot.Column, dot.Row);
+    }
 }

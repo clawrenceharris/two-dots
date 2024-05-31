@@ -18,12 +18,9 @@ public class ExplosionCommand : Command
 
         List<IExplodable> explodables = board.GetExplodables();
 
-        if (explodables.Count == 0)
-        {
-            yield break;
-        }
+        
 
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(explodables.Count >  0 ? 0.7f : 0f);
 
         
         for(int i =0; i < explodables.Count; i++)
