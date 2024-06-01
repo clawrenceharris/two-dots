@@ -51,17 +51,20 @@ public abstract class Dot : MonoBehaviour, IHittable
     }
 
     public abstract void InitDisplayController();
+
     public virtual IEnumerator Hit(HitType hitType)
     {
         HitType = hitType;
         onDotHit?.Invoke(this);
-        yield return null;
 
-    }
-    public virtual void BombHit()
-    {
-        
-        StartCoroutine(visualController.BombHit());
+        StartCoroutine(visualController.Hit(hitType));
+
+        if (hitType == HitType.BombExplosion)
+        {
+            yield return visualController.BombHit();
+
+        }
+
     }
 
     public void Debug()

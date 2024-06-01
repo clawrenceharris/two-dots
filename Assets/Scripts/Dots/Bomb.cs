@@ -17,7 +17,7 @@ public class Bomb : Dot, IExplodable
     public override Dictionary<HitType, IHitRule> HitRules => new();
 
     private static List<IHittable> Hits { get; } = new();
-
+    public static event Action<IHittable> onBombExploded;
 
     public override void InitDisplayController()
     {
@@ -40,7 +40,7 @@ public class Bomb : Dot, IExplodable
 
         line.transform.parent = transform;
         line.transform.localScale = new Vector2(1f, 0.1f);
-        line.sprite.color = ColorSchemeManager.FromDotColor();
+        line.sprite.color = Hits.Contains(hittable) ?  Color.clear : ColorSchemeManager.FromDotColor();
         line.transform.rotation = Quaternion.Euler(0, 0, angle);
         line.disabled = true;
 
@@ -58,7 +58,8 @@ public class Bomb : Dot, IExplodable
 
             yield return null;
         }
-        hittable.BombHit();
+
+        yield return hittable.Hit(HitType.BombExplosion);
         Destroy(line.gameObject);
         
 
@@ -77,7 +78,7 @@ public class Bomb : Dot, IExplodable
 
         foreach (IHittable hittable in hittables)
         {
-            if (Hits.Contains(hittable) || hittable is Bomb)
+            if (hittable is Bomb)
             {
                 continue;
             }

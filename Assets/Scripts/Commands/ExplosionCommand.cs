@@ -18,9 +18,14 @@ public class ExplosionCommand : Command
 
         List<IExplodable> explodables = board.GetExplodables();
 
+        //exit method if there are no explodables to explode
+        if(explodables.Count == 0)
+        {
+            yield break;
+        }
         
 
-        yield return new WaitForSeconds(explodables.Count >  0 ? 0.7f : 0f);
+        yield return new WaitForSeconds(0.7f);
 
         
         for(int i =0; i < explodables.Count; i++)
@@ -33,14 +38,7 @@ public class ExplosionCommand : Command
                 {
                     List<IHittable> toHit = rule.Validate(explodable, board);
 
-                    foreach (IHittable hittable in toHit)
-                    {
-                        
-                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
-                        DidExecute = true;
-
-                    }
-
+                    DidExecute = toHit.Count > 0;
                  
                     CoroutineHandler.StartStaticCoroutine(explodable.Explode(toHit));
                     CoroutineHandler.StartStaticCoroutine(explodable.Hit(hitType));

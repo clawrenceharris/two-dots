@@ -143,7 +143,7 @@ public class LineManager
         line.transform.parent = board.transform;
         line.color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
         line.startPos = start.position;
-        line.initialScale = new Vector2(1f, 0.4f);
+        line.initialScale = new Vector2(1f, 0.3f);
         lines.Add(line);
 
         //we dont want the line to be active when we have a square

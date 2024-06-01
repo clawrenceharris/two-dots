@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 using Unity.VisualScripting;
-
+using static Type;
 public class DotVisualController : IDotVisualController
 {
 
@@ -38,14 +38,18 @@ public class DotVisualController : IDotVisualController
 
     public virtual IEnumerator BombHit()
     {
-        if (!SpriteRenderer)
-            yield break;
-
+        
         SpriteRenderer.sprite = Visuals.bombHitSprite;
  
         yield return new WaitForSeconds(Visuals.clearTime);
 
         SpriteRenderer.sprite = sprite;
+    }
+
+    public virtual IEnumerator Hit(HitType hitType)
+    {
+        yield return null;
+
     }
 
     public void SetColor(Color color)
@@ -71,4 +75,6 @@ public class DotVisualController : IDotVisualController
         Dot.transform.DOScale(Vector2.zero, Visuals.clearTime);
         yield return new WaitForSeconds(Visuals.clearTime);
     }
+
+   
 }

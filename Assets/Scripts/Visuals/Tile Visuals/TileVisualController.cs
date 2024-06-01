@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-
+using static Type;
 public class TileVisualController : ITileVisualController
 {
     public Tile Tile { get; protected set; }
@@ -31,6 +31,10 @@ public class TileVisualController : ITileVisualController
 
     }
 
+    public virtual IEnumerator Hit(HitType hitType)
+    {
+        yield return null;
+    }
 
     public virtual IEnumerator BombHit()
     {

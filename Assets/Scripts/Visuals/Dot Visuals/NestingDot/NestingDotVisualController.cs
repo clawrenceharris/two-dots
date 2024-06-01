@@ -14,7 +14,7 @@ public class NestingDotVisualController : DotVisualController
     public IEnumerator Hit()
     {
         if(Dot.HitCount == 1)
-            Dot.transform.localScale = Vector2.one * 1.5f;
+            Dot.transform.localScale = Vector2.one * 1.3f;
         else
         {
             Dot.transform.localScale = Vector2.one * 1f;

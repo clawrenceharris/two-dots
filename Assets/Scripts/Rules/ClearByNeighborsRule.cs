@@ -6,28 +6,41 @@ public class HitByNeighborsRule : IHitRule
 {
     public bool Validate(IHittable hittable,Board board)
     {
-        List<Dot> dots = board.GetDotNeighbors(hittable.Column, hittable.Row);
-        Debug.Log("COUNT: " + ConnectionManager.ConnectedDots.Count);
-        foreach(Dot dot in dots)
+        List<Dot> neighbors = board.GetDotNeighbors(hittable.Column, hittable.Row);
+
+        foreach(Dot neighbor in neighbors)
         {
-            
-            if (dot is not ConnectableDot connectableDot || !ConnectionManager.ConnectedDots.Contains(connectableDot))
+            //if the neighbor is not a connectable dot or it is not to be hit by the connection
+            if (neighbor is not ConnectableDot connectableDot)
             {
                 continue;
             }
-            if(dot.Column == hittable.Column -1)
+
+            if (!ConnectionManager.ToHit.Contains(connectableDot))
+            {
+                continue;
+            }
+
+            //if the neighbor is to the left of the target hittable
+            if(neighbor.Column == hittable.Column -1)
             {
                 return true;
             }
-            if(dot.Column == hittable.Column + 1)
+
+            //if the neighbor is to the right of the target hittable
+            if (neighbor.Column == hittable.Column + 1)
             {
                 return true;
             }
-            if(dot.Row == hittable.Row + 1)
+
+            //if the neighbor is above the target hittable
+            if (neighbor.Row == hittable.Row + 1)
             {
                 return true;
             }
-            if(dot.Row == hittable.Row - 1)
+
+            //if the neighbor is below the target hittable
+            if (neighbor.Row == hittable.Row - 1)
             {
                 return true;
             }

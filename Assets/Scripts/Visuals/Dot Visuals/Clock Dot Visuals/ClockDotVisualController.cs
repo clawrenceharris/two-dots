@@ -3,6 +3,7 @@ using UnityEngine;
 using DG.Tweening;
 using System.Linq;
 using System.Collections.Generic;
+using static Type;
 
 public class ClockDotVisualController : BlankDotVisualController
 {
@@ -57,6 +58,9 @@ public class ClockDotVisualController : BlankDotVisualController
         SetColor();
 
     }
+
+
+
     public void UpdateNumbers(int number)
     {
         string numberStr = number.ToString();
@@ -86,11 +90,14 @@ public class ClockDotVisualController : BlankDotVisualController
     }
 
 
-    public void Connect()
+    public override IEnumerator Hit(HitType hitType)
     {
 
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
- 
+        if(connectedDots.Count == 0)
+        {
+            yield break;
+        }
         Visuals.clockDotPreview.SetActive(true);
         Visuals.clockDotPreview.transform.SetParent(null);
         Color color = Visuals.clockDotPreview.GetComponent<SpriteRenderer>().color;
@@ -127,6 +134,7 @@ public class ClockDotVisualController : BlankDotVisualController
        
         clockDotPreviews.Clear();
 
+        yield return base.Hit(hitType);
     }
 
 

@@ -16,7 +16,7 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     {
         get
         {
-            return new() { { HitType.OneSidedBlock, new ClearByNeighborRule()} };
+            return new() { { HitType.OneSidedBlock, new HitByNeighborRule()} };
         }
     }
 

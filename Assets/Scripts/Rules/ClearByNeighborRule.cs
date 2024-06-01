@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-public class ClearByNeighborRule : IHitRule
+public class HitByNeighborRule : IHitRule
 {
 
 
@@ -18,7 +18,7 @@ public class ClearByNeighborRule : IHitRule
             {
                 continue;
             }
-            if (!ConnectionManager.ConnectedDots.Contains(connectableDot))
+            if (!ConnectionManager.ToHit.Contains(connectableDot))
             {
                 continue;
             }

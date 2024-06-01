@@ -83,10 +83,8 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     
     public override IEnumerator Clear()
     {
-        if (IsBomb)
-            yield return base.Clear();
-        else
-            IsBomb = true;
+        DotController.DoBombDot(this);
+        yield return null;
     }
 
     public override void Disconnect()
@@ -115,8 +113,6 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
             //allow the current number to decrease by number of connected dots
             tempNumber = Mathf.Clamp(currentNumber - connectionCount, 0, int.MaxValue);
 
-            VisualController.Connect();
-
             UpdateNumber(tempNumber);
         }
 
@@ -128,8 +124,9 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
         }
         else if (hitType == HitType.BombExplosion)
         {
-            //set temp number to be one less than the current number
-            tempNumber = Mathf.Clamp(currentNumber - 1, 0, int.MaxValue);
+            //set current number to be one less than the current number
+            SetCurrentNumber(Mathf.Clamp(currentNumber - 1, 0, int.MaxValue)); 
+
         }
 
         HitCount = initialNumber - tempNumber;
@@ -139,14 +136,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     }
     
     
-    public override void BombHit()
-    {
-        SetCurrentNumber(tempNumber);
-
-        base.BombHit();
-
-    }
-
+  
 
     public IEnumerator PreviewHit()
     {
