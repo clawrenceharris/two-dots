@@ -27,6 +27,8 @@ public class NestingDot : Dot
 
     public override IEnumerator Clear()
     {
+        NotifyDotCleared();
+
         DotController.DoBombDot(this);
         yield break;
     }

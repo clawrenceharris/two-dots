@@ -7,7 +7,6 @@ public interface IHittable : IBoardElement
 {
     public HitType HitType { get; }
     public IEnumerator Hit(HitType hitType);
-    public void BombHit();
     public IEnumerator Clear();
 
     /// <summary>

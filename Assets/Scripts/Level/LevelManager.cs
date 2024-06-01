@@ -47,9 +47,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-
-
-
     private void Awake()
     {
         board = FindObjectOfType<Board>();
@@ -102,17 +99,10 @@ public class LevelManager : MonoBehaviour
                 CommandInvoker.Instance.Enqueue(new HitDotsCommand());
                 CommandInvoker.Instance.Enqueue(new HitTilesCommand());
                 if (didMove)
-                    CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
-                CommandInvoker.Instance.Enqueue(new BombCommand());
-
+                    CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());  
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
                 didMove = false;
                 break;
-            
-
-
-
-
         }
     }
     private void OnDotsDropped()

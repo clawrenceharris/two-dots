@@ -51,40 +51,8 @@ public class MoveClockDotsCommand : Command
 
             currentNode = currentNode.Previous;
         }
-
-        //for (int i = connectedDots.Count - 1; i >= 0; i--)
-        //{
-
-        //    if (connectedDots[i] is ClockDot clockDot)
-        //    {
-        //        int count = 0;
-
-        //        ConnectableDot lastEmptyDot = clockDot;
-        //        for (int j = i; j < connectedDots.Count; j++)
-        //        {
-
-        //            if (connectedDots[j] is ClockDot)
-        //            {
-        //                count++;
-        //                continue;
-        //            }
-        //            else
-        //            {
-        //                lastEmptyDot = connectedDots[j - count -1];
-        //                DidExecute = true;
-        //            }
-
-
-
-        //        }
-
-
-
-        //    }
-
-        //}
-
-        yield return new WaitForSeconds(1f);
+        if(DidExecute)
+            yield return new WaitForSeconds(1f);
 
         yield return base.Execute(board);
     }

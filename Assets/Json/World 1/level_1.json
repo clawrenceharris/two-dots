@@ -5,14 +5,6 @@
     "moves": 10,
     "dotsToSpawn": [
 
-
-
-
-
-
-       
-        
-
         {
             "type": "nesting"
         },
@@ -27,8 +19,12 @@
 
         },
         {
+            "type": "blank"
+
+        },
+        {
             "type": "normal",
-            "color": "blue"
+            "color": "purple"
 
         }
         //{

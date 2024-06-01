@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Type;
 
 public interface IDotVisualController
 {
@@ -12,5 +13,7 @@ public interface IDotVisualController
     public void SetColor();
     public void SetColor(Color color);
     public IEnumerator Clear();
-    IEnumerator BombHit();
+    public IEnumerator Hit(HitType hitType);
+    public IEnumerator BombHit();
+
 }

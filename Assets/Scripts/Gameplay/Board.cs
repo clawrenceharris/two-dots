@@ -20,7 +20,7 @@ public class Board : MonoBehaviour
     private DotData[] dotsOnBoard;
     private LineManager lineManager;
 
-    public static float offset = 2.5f;
+    public static float offset = 2.2f;
     public static float DotDropSpeed { get; private set; } = 0.5f;
 
     public static event Action<Board> onBoardCreated;

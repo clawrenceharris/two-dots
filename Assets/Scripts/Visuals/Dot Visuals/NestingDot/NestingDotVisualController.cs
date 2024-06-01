@@ -2,24 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class NestingDotVisualController : DotVisualController
 {
-   
+    private new NestingDotVisuals Visuals;
+
+    public override void Init(Dot dot)
+    {
+        Visuals = dot.GetComponent<NestingDotVisuals>();
+        base.Init(dot);
+    }
+
     public override void SetColor()
     {
+        foreach(Transform child in Dot.transform)
+        {
+            if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer)) {
+                if(child.name != "Nesting Dot Highlight")
+                    spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+                
+            }
+        }
         SpriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+
         base.SetColor();
     }
     public IEnumerator Hit()
     {
-        if(Dot.HitCount == 1)
-            Dot.transform.localScale = Vector2.one * 1.5f;
-        else
-        {
-            Dot.transform.localScale = Vector2.one * 1f;
+        UpdateDotScale();
+        CoroutineHandler.StartStaticCoroutine(AnimateDotHit());
 
-        }
+
 
         while (Dot.HitCount == 2)
         {
@@ -32,6 +46,45 @@ public class NestingDotVisualController : DotVisualController
 
 
     }
+
+    private IEnumerator AnimateDotHit()
+    {
+        
+
+        Visuals.nestingDotBottom.transform.DOMoveY(Dot.transform.position.y - Board.offset, 0.5f);
+        Visuals.nestingDotTop.transform.DOMoveY(Dot.transform.position.y + Board.offset, 0.5f);
+        SpriteRenderer nestingDotBottomSprite = Visuals.nestingDotBottom.GetComponent<SpriteRenderer>();
+        SpriteRenderer nestingDotTopSprite = Visuals.nestingDotTop.GetComponent<SpriteRenderer>();
+        nestingDotBottomSprite.enabled = true;
+        nestingDotTopSprite.enabled = true;
+        float duration = 0.5f;
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            nestingDotBottomSprite.color = Color.Lerp(Color, Color.clear, timer / duration);
+            nestingDotTopSprite.color = Color.Lerp(Color, Color.clear, timer / duration);
+            yield return null;
+        }
+
+        Visuals.nestingDotBottom.transform.position = Dot.transform.position;
+        Visuals.nestingDotTop.transform.position = Dot.transform.position;
+
+    }
+
+    private void UpdateDotScale()
+    {
+        if (Dot.HitCount == 1)
+            Dot.transform.localScale = Vector2.one * 1.3f;
+        else if(Dot.HitCount == 2)
+        {
+            Dot.transform.localScale = Vector2.one * 1f;
+
+        }
+
+    }
+
 
     public override IEnumerator BombHit()
     {
@@ -65,7 +118,6 @@ public class NestingDotVisualController : DotVisualController
             yield return null;
         }
 
-        // Ensure it's fully black
         SpriteRenderer.color = Color.black;
         timer = 0f;
 
