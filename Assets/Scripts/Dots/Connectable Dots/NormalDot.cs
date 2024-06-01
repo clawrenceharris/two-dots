@@ -34,12 +34,7 @@ public class NormalDot : ConnectableDot, IColorable
 
     }
     
-    public override void Disconnect()
-    {
-        HitCount = 0;
-        base.Disconnect();
-
-    }
+   
 
    public override void InitDisplayController()
     {

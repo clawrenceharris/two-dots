@@ -52,6 +52,7 @@ public class DotDataFactory
         switch (dotType)
         {
             case DotType.NormalDot:
+            case DotType.BeetleDot:
                 return new ColorDotToSpawnData() {
                     type = (string)type,
                     color = (string)color

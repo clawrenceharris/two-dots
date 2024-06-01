@@ -86,11 +86,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
         }
     }
 
-    public override void Connect()
-    {
-        VisualController.AnimateSelectionEffect();
-    }
-
+    
     
 
     public void Deselect()
@@ -100,11 +96,6 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
         
 
     }
-
-    public override void Select()
-    {
-        VisualController.AnimateSelectionEffect();
-    }
-
+   
 }
 

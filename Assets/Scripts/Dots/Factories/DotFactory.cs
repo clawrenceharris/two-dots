@@ -10,9 +10,8 @@ public class DotFactory
 
         Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
 
-        if (Type.HasColor(dotType))
+        if (dot is IColorable colorDot)
         {
-            IColorable colorDot = (IColorable)dot;
             ColorDotToSpawnData colorDotData = (ColorDotToSpawnData)dotData;
 
             colorDot.Color = JSONLevelLoader.FromJSONColor(colorDotData.color);
