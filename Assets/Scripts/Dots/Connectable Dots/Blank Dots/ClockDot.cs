@@ -83,7 +83,10 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     
     public override IEnumerator Clear()
     {
+        NotifyDotCleared();
+
         DotController.DoBombDot(this);
+
         yield return null;
     }
 

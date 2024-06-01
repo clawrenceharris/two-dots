@@ -54,6 +54,7 @@ public class SoundManager : MonoBehaviour
         return dot.DotType switch
         {
             DotType.ClockDot => bombActive,
+            DotType.NestingDot => bombActive,
 
             _ => null,
         };
