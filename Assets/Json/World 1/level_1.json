@@ -26,12 +26,14 @@
             "type": "normal",
             "color": "purple"
 
+        },
+        {
+            "type": "beetle",
+            "color": "purple"
+
         }
-        //{
-        //    "type": "blank"
 
-        //}
-
+       
 
 
 

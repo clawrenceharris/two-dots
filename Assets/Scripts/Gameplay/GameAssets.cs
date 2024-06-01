@@ -14,6 +14,7 @@ public class GameAssets : MonoBehaviour
     public AnchorDot AnchorDot;
     public BlankDot BlankDot;
     public ConnectorLine Line;
+    public BeetleDot BeetleDot;
     public static GameAssets Instance { get; private set; }
 
     private void Awake()
@@ -31,6 +32,7 @@ public class GameAssets : MonoBehaviour
             DotType.ClockDot => ClockDot,
             DotType.Bomb => Bomb,
             DotType.NestingDot => NestingDot,
+            DotType.BeetleDot => BeetleDot,
 
             _ => null,
         };

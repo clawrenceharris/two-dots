@@ -32,6 +32,7 @@ public class JSONLevelLoader
             "blank" => DotType.BlankDot,
             "anchor" => DotType.AnchorDot,
             "nesting" => DotType.NestingDot,
+            "beetle" => DotType.BeetleDot,
 
 
             _ => DotType.None,

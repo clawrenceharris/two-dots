@@ -20,18 +20,11 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     {
         get
         {
-            return new()
+            return new(base.HitRules)
             {
-
-
                 {
                     HitType.ClockDot, new HitByConnectionRule()
                 },
-                {
-                    HitType.Square, new HitBySquareRule()
-
-                }
-
             };
         }
     }
@@ -60,7 +53,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
         base.Init(column, row);
     }
     
-    public void UpdateNumber(int number)
+    public void UpdateNumberVisuals(int number)
     {
        
         VisualController.UpdateNumbers(number);
@@ -78,7 +71,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     public void SetCurrentNumber(int number)
     {
         currentNumber = number;
-        UpdateNumber(number);
+        UpdateNumberVisuals(number);
     }
     
     public override IEnumerator Clear()
@@ -93,7 +86,8 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     public override void Disconnect()
     {
         base.Disconnect();
-        UpdateNumber(currentNumber);
+        UpdateNumberVisuals(currentNumber);
+        HitCount = currentNumber;
         VisualController.Disconnect();
     }
 
@@ -102,10 +96,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
 
         base.Select();
     }
-    public override void Connect()
-    {
-        base.Connect();
-    }
+    
 
     public override IEnumerator Hit(HitType hitType)
     {
@@ -116,7 +107,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
             //allow the current number to decrease by number of connected dots
             tempNumber = Mathf.Clamp(currentNumber - connectionCount, 0, int.MaxValue);
 
-            UpdateNumber(tempNumber);
+            UpdateNumberVisuals(tempNumber);
         }
 
         //this happens when the connection has concluded  

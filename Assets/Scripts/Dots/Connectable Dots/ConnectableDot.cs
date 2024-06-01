@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,18 @@ public abstract class ConnectableDot : Dot, IConnectable
 {
 
 
+    private ConnectableDotVisualController VisualController
+    {
+        get
+        {
+            if (visualController is ConnectableDotVisualController connectableDotVisualController)
+            {
+                return connectableDotVisualController;
+            }
+            throw new InvalidCastException("Unable to cast base visualController to ClockDotVisualController");
+
+        }
+    }
     public override Dictionary<HitType, IHitRule> HitRules
     {
         get
@@ -15,10 +28,6 @@ public abstract class ConnectableDot : Dot, IConnectable
             return new ()
             {
 
-
-                {
-                    HitType.Connection, new HitByConnectionRule()
-                },
                 {
                     HitType.Square, new HitBySquareRule()
                 }
@@ -26,7 +35,6 @@ public abstract class ConnectableDot : Dot, IConnectable
             };
         }
     }
-    public abstract void Connect();
 
    
 
@@ -40,9 +48,21 @@ public abstract class ConnectableDot : Dot, IConnectable
 
     public virtual void Disconnect()
     {
+        HitCount = 0;
         HitType = HitType.None;
     }
 
-    public abstract void Select();
-    
+    public virtual void Connect()
+    {
+        
+        VisualController.AnimateSelectionEffect();
+
+        
+    }
+
+    public virtual void Select()
+    {
+        VisualController.AnimateSelectionEffect();
+    }
+
 }
