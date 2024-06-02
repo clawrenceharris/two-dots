@@ -37,13 +37,15 @@ public class DotVisualController : IDotVisualController
    
 
     public virtual IEnumerator BombHit()
-    {
-        
+    {   
         SpriteRenderer.sprite = Visuals.bombHitSprite;
- 
+
         yield return new WaitForSeconds(Visuals.clearTime);
 
         SpriteRenderer.sprite = sprite;
+
+        
+        
     }
 
     public virtual IEnumerator Hit(HitType hitType)
@@ -54,10 +56,6 @@ public class DotVisualController : IDotVisualController
 
     public void SetColor(Color color)
     {
-        if (!SpriteRenderer)
-        {
-            return;
-        }
         SpriteRenderer.color = color;
 
         foreach (Transform child in Dot.transform)

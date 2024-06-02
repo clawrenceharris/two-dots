@@ -5,23 +5,31 @@ using UnityEngine;
 
 public class ColorDotVisualController : ConnectableDotVisualController
 {
-    private new IColorable Dot;
+    protected new ColorableDot Dot;
     public override void Init(Dot dot)
     {
-        IColorable colorDot = (IColorable)dot;
+        ColorableDot colorDot = (ColorableDot)dot;
         Dot = colorDot;
-        base.Init((ConnectableDot)Dot);
+        base.Init(Dot);
 
     }
 
 
     public override IEnumerator BombHit()
     {
-        SpriteRenderer.color = Color.white;
+        if(Dot.gameObject == null)
+        {
+            yield break;
+        }
+        //set the color to the blank color
+        SetColor(ColorSchemeManager.CurrentColorScheme.blank);
 
-        return base.BombHit();
+
+        //set the color back to the default color
+        SetColor();
+        yield return null;
     }
-
+    
 
     public override void SetColor()
     {

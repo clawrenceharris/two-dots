@@ -89,11 +89,11 @@ public class LevelManager : MonoBehaviour
             case CommandType.Board:
                 CommandInvoker.Instance.Enqueue(new HitDotsCommand());
                 CommandInvoker.Instance.Enqueue(new HitTilesCommand());
-                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
                 break;
             case CommandType.HitDots:
             case CommandType.HitTiles:
                 CommandInvoker.Instance.Enqueue(new ClearCommand());
+
                 break;
             case CommandType.Clear:
                 CommandInvoker.Instance.Enqueue(new HitDotsCommand());
@@ -101,6 +101,8 @@ public class LevelManager : MonoBehaviour
                 if (didMove)
                     CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());  
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
+                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+
                 didMove = false;
                 break;
         }

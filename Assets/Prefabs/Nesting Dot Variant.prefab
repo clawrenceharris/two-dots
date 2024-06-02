@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a163ed744313241f994179ffe04dfe51, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,7 +155,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: f80fac22bd9dd4b23983f218e400e392, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -239,7 +239,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 49d0e9edd3c8741caa8d2b35249f6e6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -387,3 +387,5 @@ MonoBehaviour:
   bombHitSprite: {fileID: 0}
   nestingDotTop: {fileID: 7845775649337258509}
   nestingDotBottom: {fileID: 2421772789560536524}
+  nestingDotBottomSprite: {fileID: 4463504198251220756}
+  nestingDotTopSprite: {fileID: 1090832818109188376}

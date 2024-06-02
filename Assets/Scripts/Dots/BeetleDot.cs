@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-public class BeetleDot : ConnectableDot, IColorable
+public class BeetleDot : ColorableDot
 {
     public override DotType DotType => DotType.BeetleDot;
 
     public override int HitsToClear => 3;
 
-    private DotColor color;
-    public DotColor Color { get => color; set => color = value; }
-
+   
     public override Dictionary<HitType, IHitRule> HitRules
     {
         get
@@ -18,21 +16,37 @@ public class BeetleDot : ConnectableDot, IColorable
             return new(base.HitRules)
             {
                 {
-                    HitType.Connection, new HitByConnectionRule()
+                    HitType.BeetleDot, new HitByConnectionRule()
                 },
             };
         }
     }
 
+    public override IEnumerator Clear()
+    {
+        NotifyDotCleared();
+        DotController.DoBombDot(this);
+        yield return null;
+    }
+
+
     public override IEnumerator Hit(HitType hitType)
     {
-        HitCount++;
-        return base.Hit(hitType);
+       
+        if (hitType == HitType.BeetleDot || hitType == HitType.BombExplosion)
+        {
+            HitCount++;
+
+        }
+        
+        yield return DoVisualHit(hitType);
+
+        yield return base.Hit(hitType);
     }
 
     public override void InitDisplayController()
     {
-        visualController = new ColorDotVisualController();
+        visualController = new BeetleDotVisualController();
         visualController.Init(this);
     }
 

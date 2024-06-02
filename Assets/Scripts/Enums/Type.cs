@@ -79,6 +79,7 @@ public static class Type
         ClockDot,
         OneSidedBlock,
         NestingDot,
+        BeetleDot,
     }
 
 

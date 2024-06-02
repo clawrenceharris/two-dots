@@ -82,7 +82,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
     {
         Color color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
         {
-            VisualController.SetColor(color);
+            VisualController.SetInnerColor(color);
         }
     }
 

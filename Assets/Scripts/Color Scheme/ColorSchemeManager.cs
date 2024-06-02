@@ -28,7 +28,7 @@ public class ColorSchemeManager
     }
 
 
-    public static Color FromDotColor(DotColor dotColor = DotColor.None)
+    public static Color FromDotColor(DotColor dotColor)
     {
         return dotColor switch
         {

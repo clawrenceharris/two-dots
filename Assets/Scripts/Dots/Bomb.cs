@@ -40,7 +40,7 @@ public class Bomb : Dot, IExplodable
 
         line.transform.parent = transform;
         line.transform.localScale = new Vector2(1f, 0.1f);
-        line.sprite.color = Hits.Contains(hittable) ?  Color.clear : ColorSchemeManager.FromDotColor();
+        line.sprite.color = Hits.Contains(hittable) ?  Color.clear : ColorSchemeManager.CurrentColorScheme.blank;
         line.transform.rotation = Quaternion.Euler(0, 0, angle);
         line.disabled = true;
 
@@ -58,9 +58,16 @@ public class Bomb : Dot, IExplodable
 
             yield return null;
         }
+        Destroy(line.gameObject);
 
         yield return hittable.Hit(HitType.BombExplosion);
-        Destroy(line.gameObject);
+        if (Hits.Contains(hittable))
+        {
+            if(hittable is Dot dot)
+            {
+                yield return dot.DoVisualHit(HitType.BombExplosion);
+            }
+        }
         
 
     }
