@@ -8,14 +8,14 @@ using static Type;
 
    
 
-public class HitDotsCommand : Command
+public class HitCommand : Command
 {
     public override CommandType CommandType => CommandType.HitDots;
 
 
     public override IEnumerator Execute(Board board)
     {
-        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(HitDotsCommand));
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(HitCommand));
 
         List<IHittable> hittables = board.GetHittables();
         foreach (IHittable hittable in hittables)
