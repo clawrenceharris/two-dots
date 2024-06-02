@@ -30,16 +30,14 @@ public class NestingDot : Dot
         NotifyDotCleared();
 
         DotController.DoBombDot(this);
-        yield break;
+        yield return null;
     }
 
     public override IEnumerator Hit(HitType hitType)
     {
         HitCount++;
-        
-        StartCoroutine(VisualController.Hit());
-
-        return base.Hit(hitType);
+        yield return DoVisualHit(hitType);
+        yield return base.Hit(hitType);
     }
     public override void InitDisplayController()
     {

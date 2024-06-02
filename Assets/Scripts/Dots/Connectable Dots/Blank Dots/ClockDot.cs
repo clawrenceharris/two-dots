@@ -108,31 +108,45 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
             tempNumber = Mathf.Clamp(currentNumber - connectionCount, 0, int.MaxValue);
 
             UpdateNumberVisuals(tempNumber);
+            StartCoroutine(visualController.Hit(hitType));
+            HitCount = initialNumber - tempNumber;
+
         }
 
         //this happens when the connection has concluded  
         else if (hitType == HitType.ClockDot)
         {
             SetCurrentNumber(tempNumber);
+            HitCount = initialNumber - tempNumber;
 
         }
         else if (hitType == HitType.BombExplosion)
         {
             //set current number to be one less than the current number
-            SetCurrentNumber(Mathf.Clamp(currentNumber - 1, 0, int.MaxValue)); 
+            SetCurrentNumber(Mathf.Clamp(currentNumber - 1, 0, int.MaxValue));
+            HitCount++;
 
         }
 
-        HitCount = initialNumber - tempNumber;
 
         yield return base.Hit(hitType);
 
     }
-    
-    
-  
 
-    public IEnumerator PreviewHit()
+    public override IEnumerator DoVisualHit(HitType hitType)
+    {
+       
+        if (hitType == HitType.BombExplosion)
+        {
+            yield return visualController.BombHit();
+
+        }
+
+        yield return visualController.Hit(hitType);
+    }
+
+
+        public IEnumerator PreviewHit()
     {
         
         ClockDotAnimation animation = new();

@@ -5,10 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class NormalDot : ConnectableDot, IColorable
+public class NormalDot : ColorableDot
 {
-    private DotColor color;
-    public DotColor Color { get => color; set => color = value; }
+    
     public override DotType DotType => DotType.NormalDot;
 
     public override int HitsToClear => 1;
@@ -45,10 +44,10 @@ public class NormalDot : ConnectableDot, IColorable
 
     
 
-   
+    
     public override void Select()
     {
-
+        
         VisualController.AnimateSelectionEffect();
 
     }

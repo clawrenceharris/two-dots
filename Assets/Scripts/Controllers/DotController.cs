@@ -107,4 +107,6 @@ public class DotController
         DestroyDot(dot);
         board.CreateBomb(dot.Column, dot.Row);
     }
+
+    
 }

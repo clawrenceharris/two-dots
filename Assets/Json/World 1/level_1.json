@@ -8,30 +8,24 @@
         {
             "type": "nesting"
         },
-        {
-            "type": "normal",
-            "color": "blue"
-
-        },
-        {
-            "type": "normal",
-            "color": "blue"
-
-        },
+      
+       
         {
             "type": "blank"
 
         },
+      
         {
-            "type": "normal",
+            "type": "beetle",
             "color": "purple"
 
         },
         {
             "type": "beetle",
-            "color": "purple"
+            "color": "blue"
 
         }
+
 
        
 

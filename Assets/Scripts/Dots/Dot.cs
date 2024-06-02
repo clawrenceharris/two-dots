@@ -56,8 +56,13 @@ public abstract class Dot : MonoBehaviour, IHittable
     {
         HitType = hitType;
         onDotHit?.Invoke(this);
+        yield return null;
 
-        StartCoroutine(visualController.Hit(hitType));
+        
+    }
+
+    public virtual IEnumerator DoVisualHit(HitType hitType)
+    {
 
         if (hitType == HitType.BombExplosion)
         {
@@ -65,6 +70,7 @@ public abstract class Dot : MonoBehaviour, IHittable
 
         }
 
+        yield return visualController.Hit(hitType);
     }
 
     public void Debug()

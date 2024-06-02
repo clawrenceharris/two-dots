@@ -25,14 +25,14 @@ public class ConnectableDotVisualController : DotVisualController
 
     public virtual void AnimateSelectionEffect()
     {
-        
-        Visuals.outerDot.color = ColorSchemeManager.FromDotColor();
+
+        Visuals.outerDot.color = ColorSchemeManager.CurrentColorScheme.blank;
 
         // Scale animation using DOTween
         Visuals.outerDot.transform.DOScale(Vector3.one * 3, DotVisuals.outerDotScaleTime)
             .SetEase(Ease.OutQuad);
 
-        // Alpha animation using DOTween
+        //Animate alpha 
         Visuals.outerDot.DOFade(0, DotVisuals.outerDotAlphaTime)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
