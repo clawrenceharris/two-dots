@@ -56,23 +56,56 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
+        SubscribeToEvents();
+    }
+    private void OnDisable()
+    {
+        UnsubscribeFromEvents();
+    }
+    private void HandleDotConnected()
+    {
+        List<IHittable> dotsToHit = ConnectionManager.ToHit;
+
+
+
+        foreach (IHittable hittable in dotsToHit)
+        {
+            CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.Connection));
+            if (hittable is IPreviewable previewable)
+            {
+                CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(HitType.Connection));
+            }
+        }
+
+    }
+    private void UnsubscribeFromEvents()
+    {
+        ConnectionManager.onConnectionEnded -= OnConnectionEnded;
+        ConnectionManager.onDotConnected -= OnDotConnected;
+        ConnectionManager.onDotDisconnected -= OnDotDisconnected;
+        Command.onCommandExecuted -= OnCommandExecuted;
+        CommandInvoker.onCommandsEnded -= OnCommnadsEnded;
+        Board.onDotsDropped -= OnDotsDropped;
+    }
+
+    private void SubscribeToEvents()
+    {
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
         ConnectionManager.onDotConnected += OnDotConnected;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
         Command.onCommandExecuted += OnCommandExecuted;
-
+        CommandInvoker.onCommandsEnded += OnCommnadsEnded;
         Board.onDotsDropped += OnDotsDropped;
     }
 
     private void OnDotDisconnected(ConnectableDot dot)
     {
-        DoCommand(new ConnectDotsCommand());
-
+        HandleDotConnected();
     }
 
     private void OnDotConnected(ConnectableDot dot)
     {
-        DoCommand(new ConnectDotsCommand());        
+        HandleDotConnected();
     }
 
     public static void DestroyGO(GameObject go)
@@ -88,22 +121,16 @@ public class LevelManager : MonoBehaviour
         {
             case CommandType.Board:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new HitTilesCommand());
                 break;
-            case CommandType.HitDots:
-            case CommandType.HitTiles:
+            case CommandType.Hit:
                 CommandInvoker.Instance.Enqueue(new ClearCommand());
 
                 break;
             case CommandType.Clear:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new HitTilesCommand());
-                if (didMove)
-                    CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());  
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
                 CommandInvoker.Instance.Enqueue(new ExplosionCommand());
 
-                didMove = false;
                 break;
         }
     }
@@ -116,12 +143,20 @@ public class LevelManager : MonoBehaviour
     {
         didMove = true;
         DoCommand(new HitCommand());
-        DoCommand(new HitTilesCommand());
 
 
     }
 
+    private void OnCommnadsEnded()
+    {
+        if (didMove)
+        {
+            CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
+            CommandInvoker.Instance.Enqueue(new MoveBeetleDotsCommand());
+            didMove = false;
 
+        }
+    }
 
     private void DoCommand(Command command)
     {
