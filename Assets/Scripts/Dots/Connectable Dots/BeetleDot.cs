@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-public class BeetleDot : ColorableDot
+public class BeetleDot : ColorableDot, IDirectional
 {
     public override DotType DotType => DotType.BeetleDot;
 
@@ -22,6 +23,23 @@ public class BeetleDot : ColorableDot
         }
     }
 
+    private BeetleDotVisualController VisualController
+    {
+        get
+        {
+            if (visualController is BeetleDotVisualController beetleDotVisualController)
+            {
+                return beetleDotVisualController;
+            }
+            throw new InvalidCastException("Unable to cast base visualController to BeetleDotVisualController");
+
+        }
+    }
+    private int directionX;
+    private int directionY;
+    public int DirectionX { get => directionX; set => directionX = value; }
+    public int DirectionY { get => directionY; set => directionY = value; }
+
     public override IEnumerator Clear()
     {
         NotifyDotCleared();
@@ -32,7 +50,7 @@ public class BeetleDot : ColorableDot
 
     public override IEnumerator Hit(HitType hitType)
     {
-       
+        
         if (hitType == HitType.BeetleDot || hitType == HitType.BombExplosion)
         {
             HitCount++;
@@ -50,6 +68,14 @@ public class BeetleDot : ColorableDot
         visualController.Init(this);
     }
 
+    public IEnumerator AlternateDirection()
+    {
+        //Rotate 90 deg
+        int temp = DirectionX;
+        DirectionX = DirectionY;
+        DirectionY = -temp;
 
+        yield return VisualController.Rotate();
+    }
 
 }
