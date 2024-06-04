@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-public class BeetleDot : ColorableDot, IDirectional
+public class BeetleDot : ColorableDot, IDirectional, IPreviewable
 {
     public override DotType DotType => DotType.BeetleDot;
 
@@ -78,4 +78,8 @@ public class BeetleDot : ColorableDot, IDirectional
         yield return VisualController.Rotate();
     }
 
+    public IEnumerator PreviewHit(HitType hitType)
+    {
+        yield return visualController.PreviewHit(hitType);
+    }
 }

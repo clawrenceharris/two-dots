@@ -74,5 +74,8 @@ public class DotVisualController : IDotVisualController
         yield return new WaitForSeconds(Visuals.clearTime);
     }
 
-   
+    public virtual IEnumerator PreviewHit(HitType hitType)
+    {
+        yield return null;
+    }
 }

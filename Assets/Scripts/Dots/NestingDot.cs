@@ -15,7 +15,7 @@ public class NestingDot : Dot
             {
                 return nestingDotVisualController;
             }
-            throw new InvalidCastException("Unable to cast base visualController to ClockDotVisualController");
+            throw new InvalidCastException("Unable to cast base visualController to NestingDotVisualController");
 
         }
     }

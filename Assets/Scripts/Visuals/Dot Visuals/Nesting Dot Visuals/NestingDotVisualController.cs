@@ -29,16 +29,8 @@ public class NestingDotVisualController : DotVisualController
         base.SetColor();
     }
 
-
-    public override IEnumerator Hit(HitType hitType)
+    public override IEnumerator PreviewHit(HitType hitType)
     {
-        
-        if(Dot.HitCount < Dot.HitsToClear)
-        {
-            UpdateDotScale();
-            AnimateDotHit();
-        }
-
         while (Dot.HitCount == 2)
         {
             yield return DoShakeAnimation();
@@ -46,12 +38,25 @@ public class NestingDotVisualController : DotVisualController
             yield return new WaitForSeconds(1.5f);
 
         }
-
-
-
+        yield return base.PreviewHit(hitType);
     }
 
-    private void AnimateDotHit()
+    public override IEnumerator Hit(HitType hitType)
+    {
+        
+        if(Dot.HitCount < Dot.HitsToClear)
+        {
+            UpdateDotScale();
+            DoHitAnimation();
+
+        }
+
+        yield return base.Hit(hitType);
+
+        
+    }
+
+    private void DoHitAnimation()
     {
 
         float duration = 0.5f;
