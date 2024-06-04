@@ -10,7 +10,7 @@ using static Type;
 
 public class HitCommand : Command
 {
-    public override CommandType CommandType => CommandType.HitDots;
+    public override CommandType CommandType => CommandType.Hit;
 
 
     public override IEnumerator Execute(Board board)

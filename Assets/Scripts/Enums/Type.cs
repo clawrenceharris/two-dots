@@ -89,18 +89,11 @@ public static class Type
 
         Board,
         Bomb,
-
-        HitDots,
-        HitClockDots,
-        HitTiles,
-        HitBlocks,
-        HitOneSidedBlocks,
+        Hit,
         Clear,
         MoveClockDots,
-
-
         Explosion,
-        ConnectDots,
+        MoveBeetleDots,
     }
     public enum ExplosionType
     {
