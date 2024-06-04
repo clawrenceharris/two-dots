@@ -23,7 +23,7 @@ public class ConnectDotsCommand : Command
             CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.Connection));
             if(hittable is IPreviewable previewable)
             {
-              CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit());
+              CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(HitType.Connection));
             }
         }
 

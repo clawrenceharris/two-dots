@@ -10,6 +10,7 @@ public interface IDotVisualController
     public SpriteRenderer SpriteRenderer { get; }
     public void Init(Dot dot);
     public void SetUp();
+    public IEnumerator PreviewHit(HitType hitType);
     public void SetColor();
     public void SetColor(Color color);
     public IEnumerator Clear();

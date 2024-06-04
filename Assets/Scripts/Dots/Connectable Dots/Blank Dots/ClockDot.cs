@@ -146,11 +146,10 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     }
 
 
-        public IEnumerator PreviewHit()
+        public IEnumerator PreviewHit(HitType hitType)
     {
-        
-        ClockDotAnimation animation = new();
-        yield return StartCoroutine(animation.HitAnimation(this));
+
+        yield return visualController.PreviewHit(hitType);
         
 
     }
