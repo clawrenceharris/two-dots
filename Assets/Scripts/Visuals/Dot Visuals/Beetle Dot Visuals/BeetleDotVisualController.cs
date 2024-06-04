@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using static Type;
 public class BeetleDotVisualController : ColorDotVisualController
 {
     protected new BeetleDotVisuals Visuals;
     protected new BeetleDot Dot;
+    private Transform leftWing;
+    private Transform rightWing;
     public override void Init(Dot dot)
     {
         Visuals = dot.GetComponent<BeetleDotVisuals>();
@@ -30,17 +33,43 @@ public class BeetleDotVisualController : ColorDotVisualController
     {
         if (Dot.HitCount == 1)
         {
+
             yield return RemoveWings(Visuals.rightWing3, Visuals.leftWing3);
+            leftWing = Visuals.leftWing2.transform;
+            rightWing = Visuals.rightWing2.transform;
 
 
 
         }
         else if (Dot.HitCount == 2)
         {
+
             yield return RemoveWings(Visuals.rightWing2, Visuals.leftWing2);
+            leftWing = Visuals.leftWing1.transform;
+            rightWing = Visuals.rightWing1.transform;
+
         }
 
     }
+
+    public override IEnumerator PreviewHit(HitType hitType)
+    {
+        while(Dot.HitType == HitType.Connection)
+        {
+            leftWing.DORotate(new Vector3(0, 0, 90), 0.5f).OnComplete(() =>
+            {
+                leftWing.DORotate(new Vector3(0, 0, 0), 0.5f);
+            });
+            rightWing.DORotate(new Vector3(0, 0, -90), 0.5f).OnComplete(() =>
+            {
+                rightWing.DORotate(new Vector3(0, 0, 0), 0.5f);
+            });
+
+
+        }
+        return base.PreviewHit(hitType);
+    }
+
     public IEnumerator Rotate()
     {
         Vector3 rotation = Vector3.zero;
@@ -74,7 +103,6 @@ public class BeetleDotVisualController : ColorDotVisualController
     {
         rightWing.transform.DOScale(Vector2.zero, 0.7f);
         leftWing.transform.DOScale(Vector2.zero, 0.7f);
-
         yield return null;
     }
 }
