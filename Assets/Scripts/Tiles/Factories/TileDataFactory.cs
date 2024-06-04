@@ -14,7 +14,9 @@ public class TileDataFactory
         JToken type = itemObject["type"];
         JToken col = itemObject["col"];
         JToken row = itemObject["row"];
-        JToken direction = itemObject["direction"];
+        JToken directionX = itemObject["directionX"];
+        JToken directionY = itemObject["directionY"];
+
 
         TileType tileType = JSONLevelLoader.FromJsonTileType((string)type);
         return tileType switch
@@ -24,7 +26,9 @@ public class TileDataFactory
                 type = (string)type,
                 col = (int)col,
                 row = (int)row,
-                direction = direction.ToObject<Direction>()
+                DirectionX = (int)directionX,
+                DirectionY = (int)directionY
+
 
             },
             _ => new TileData()

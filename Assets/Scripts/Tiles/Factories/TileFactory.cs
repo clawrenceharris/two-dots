@@ -11,13 +11,12 @@ public class TileFactory
         Tile tile = Object.Instantiate(GameAssets.Instance.FromTileType(tileType));
 
        
-        if (Type.HasDirection(tileType))
+        if (tile is IDirectional directionalTile)
         {
-            IDirectional directionalTile = (IDirectional)tile;
             DirectionalTileData directionalTileData = (DirectionalTileData)tileData;
 
-            directionalTile.DirectionX = directionalTileData.direction.x;
-            directionalTile.DirectionY = directionalTileData.direction.y;
+            directionalTile.DirectionX = directionalTileData.DirectionX;
+            directionalTile.DirectionY = directionalTileData.DirectionY;
 
         }
         return tile;

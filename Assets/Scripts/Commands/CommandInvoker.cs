@@ -9,8 +9,7 @@ public class CommandInvoker
     private readonly Board board;
     public static CommandInvoker Instance;
     public static int commandCount;
-    public static bool IsExecuting { get; private set; }
-    private bool commandsEnded = false; 
+    public static bool CommandsEnded { get; private set; } = true;
     private Coroutine checkCommandsEndedCoroutine; 
 
     public static event Action onCommandsEnded;
@@ -42,7 +41,6 @@ public class CommandInvoker
 
     private IEnumerator ExecuteCommandCo(Command command)
     {
-        IsExecuting = true; // Set flag to indicate that commands are executing
         yield return command.Execute(board); // Execute the command
         ExecuteNextCommand();
     }
@@ -68,11 +66,11 @@ public class CommandInvoker
         yield return new WaitForSeconds(3f); // Adjust the wait time as needed
 
         // Check if there are no new commands enqueued
-        if (commands.Count == 0 && !IsExecuting)
+        if (commands.Count == 0 )
         {
-            if (!commandsEnded)
+            if (!CommandsEnded)
             {
-                commandsEnded = true;
+                CommandsEnded = true;
                 Debug.Log("All commands have ended.");
 
                 onCommandsEnded?.Invoke(); // Invoke the event when commands end
@@ -81,9 +79,8 @@ public class CommandInvoker
         }
         else
         {
-            commandsEnded = false;
+            CommandsEnded = false;
         }
     }
 
-    public bool CommandsEnded => commandsEnded; // Expose the commandsEnded field
 }
