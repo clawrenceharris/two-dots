@@ -66,11 +66,8 @@ public class LevelManager : MonoBehaviour
     {
         List<IHittable> dotsToHit = ConnectionManager.ToHit;
 
-
-
         foreach (IHittable hittable in dotsToHit)
         {
-            CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.Connection));
             if (hittable is IPreviewable previewable)
             {
                 CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(HitType.Connection));
@@ -136,7 +133,7 @@ public class LevelManager : MonoBehaviour
     }
     private void OnDotsDropped()
     {
-        DoCommand(new BoardCommand());
+       DoCommand(new BoardCommand());
     }
 
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
@@ -151,8 +148,8 @@ public class LevelManager : MonoBehaviour
     {
         if (didMove)
         {
-            CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
-            CommandInvoker.Instance.Enqueue(new MoveBeetleDotsCommand());
+            DoCommand(new MoveClockDotsCommand());
+            DoCommand(new MoveBeetleDotsCommand());
             didMove = false;
 
         }
@@ -177,7 +174,6 @@ public class LevelManager : MonoBehaviour
         board.Init(Level);
         
         colorSchemeManager.SetColorScheme(Level.levelNum - 1);
-        DoCommand(new BoardCommand());
         
     }
 
