@@ -10,7 +10,9 @@ public class BeetleDotVisuals : DotVisuals
     public GameObject leftWing1;
     public GameObject leftWing2;
     public GameObject rightWing2;
-    
+
+    public Transform leftWings;
+    public Transform rightWings;
 
 
 
