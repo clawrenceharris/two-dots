@@ -10,10 +10,8 @@ public class DotTouchIO : MonoBehaviour
     public static event Action<ConnectableDot> onDotSelected;
     public static event Action<ConnectableDot> onDotConnected;
     public static event Action onSelectionEnded;
-    private static Dot currentDot;
     private float offset = 0.5f;
-
-
+    private static bool selectionEnded;
 
 
     private void Awake() => dot = GetComponent<ConnectableDot>();
@@ -33,22 +31,20 @@ public class DotTouchIO : MonoBehaviour
         Vector3 worldPos = (Camera.main.ScreenToWorldPoint(Input.mousePosition) / Board.offset) + Vector3.one * offset;
         if (Input.GetMouseButtonDown(0) && IsDotAt(worldPos))
         {
-           
+            selectionEnded = false;
             onDotSelected?.Invoke(dot);
         }
 
-        if (Input.GetMouseButton(0) && IsDotAt(worldPos) )
+        else if (Input.GetMouseButton(0) && IsDotAt(worldPos))
         {
            
             onDotConnected?.Invoke(dot);
         }
 
-        if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0) && !selectionEnded)
         {
             onSelectionEnded?.Invoke();
-            
-           
-            
+            selectionEnded = true;
         }
         
     }
@@ -60,9 +56,4 @@ public class DotTouchIO : MonoBehaviour
             CheckInput();
 
     }
-
-   
-     
-   
-
 }

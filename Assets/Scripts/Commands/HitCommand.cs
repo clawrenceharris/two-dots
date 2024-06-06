@@ -39,7 +39,6 @@ public class HitCommand : Command
 
         }
 
-       
 
         yield return base.Execute(board);
 

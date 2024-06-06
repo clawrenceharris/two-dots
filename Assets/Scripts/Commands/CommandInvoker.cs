@@ -9,22 +9,23 @@ public class CommandInvoker
     private readonly Board board;
     public static CommandInvoker Instance;
     public static int commandCount;
+    private bool isExecuting;
     public static bool CommandsEnded { get; private set; } = true;
-    private Coroutine checkCommandsEndedCoroutine; 
-
+    private Coroutine checkCommandsEndedCoroutine;
     public static event Action onCommandsEnded;
 
     public CommandInvoker(Board board)
     {
         Instance = this;
-
         Command.onCommandExecuted += OnCommandExecuted;
         this.board = board;
     }
 
     public void Enqueue(Command command)
     {
+        CommandsEnded = false;
         commands.Enqueue(command);
+
         // Restart the check coroutine when a new command is executed
         RestartCheckCommandsEndedCoroutine();
 
@@ -41,8 +42,10 @@ public class CommandInvoker
 
     private IEnumerator ExecuteCommandCo(Command command)
     {
-        yield return command.Execute(board); // Execute the command
+        isExecuting = true;
+        yield return command.Execute(board); 
         ExecuteNextCommand();
+        isExecuting = false;
     }
 
     private void OnCommandExecuted(Command command)
@@ -62,25 +65,18 @@ public class CommandInvoker
 
     private IEnumerator CheckCommandsEnded()
     {
-        // Wait for a few seconds
-        yield return new WaitForSeconds(3f); // Adjust the wait time as needed
+       
+        yield return new WaitForSeconds(0.5f); 
 
-        // Check if there are no new commands enqueued
-        if (commands.Count == 0 )
+        if (commands.Count == 0  && !CommandsEnded)
         {
-            if (!CommandsEnded)
-            {
+            
                 CommandsEnded = true;
                 Debug.Log("All commands have ended.");
 
-                onCommandsEnded?.Invoke(); // Invoke the event when commands end
-
-            }
+                onCommandsEnded?.Invoke();
         }
-        else
-        {
-            CommandsEnded = false;
-        }
+        
     }
 
 }
