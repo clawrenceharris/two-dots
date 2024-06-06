@@ -10,28 +10,41 @@ public class DotDataFactory
 {   
     public static DotData CreateDotData(JObject itemObject)
     {
-        JToken type = itemObject["type"];// Assuming "color" is the key for color property in the JObject
-        JToken number = itemObject["number"];// Assuming "color" is the key for color property in the JObject
-        JToken color = itemObject["color"];// Assuming "color" is the key for color property in the JObject
-        JToken col = itemObject["col"];// Assuming "color" is the key for color property in the JObject
-        JToken row = itemObject["row"];// Assuming "color" is the key for color property in the JObject
+        JToken type = itemObject["type"];
+        JToken color = itemObject["color"];
+        JToken col = itemObject["col"];
+        JToken row = itemObject["row"];
+        JToken directionX = itemObject["directionX"];
+        JToken directionY = itemObject["directionY"];
+        JToken number = itemObject["number"];
+
 
         DotType dotType = JSONLevelLoader.FromJsonDotType((string)type);
         return dotType switch
         {
-            DotType.NormalDot => new ColorDotData()
+            DotType.NormalDot => new ColorableDotData()
             {
-                color = (string)color,
+                Color = (string)color,
                 type = (string)type,
                 col = (int)col,
                 row = (int)row
             },
-            DotType.ClockDot => new NumberDotData()
+            DotType.ClockDot => new NumerableDotData()
             {
-                number = (int)number,
+                Number = (int)number,
                 type = (string)type,
                 col = (int)col,
                 row = (int)row
+
+            },
+            DotType.BeetleDot => new DirectionalColorDotData()
+            {
+                type = (string)type,
+                col = (int)col,
+                row = (int)row,
+                Color = (string)color,
+                DirectionX = (int)directionX,
+                DirectionY = (int)directionY
 
             },
             _ => new DotData()
@@ -47,29 +60,37 @@ public class DotDataFactory
         JToken type = itemObject["type"];// Assuming "color" is the key for color property in the JObject
         JToken number = itemObject["number"];// Assuming "color" is the key for color property in the JObject
         JToken color = itemObject["color"];// Assuming "color" is the key for color property in the JObject
+        JToken directionX = itemObject["directionX"];
+        JToken directionY = itemObject["directionY"];
 
         DotType dotType = JSONLevelLoader.FromJsonDotType((string)type);
-        switch (dotType)
+        return dotType switch
         {
-            case DotType.NormalDot:
-            case DotType.BeetleDot:
-                return new ColorDotToSpawnData() {
-                    type = (string)type,
-                    color = (string)color
-                };
-            case DotType.ClockDot:
-                return new NumberDotToSpawnData() {
-                    type = (string)type,
-                    number = (int)number
-                    
-                };
-            
-            default:
-                return new DotToSpawnData()
-                {
-                    type = (string)type,
-                };
-        }
+            DotType.NormalDot => new ColorableDotToSpawnData()
+            {
+                type = (string)type,
+                Color = (string)color
+            },
+            DotType.ClockDot => new NumberDotToSpawnData()
+            {
+                type = (string)type,
+                Number = (int)number
+
+            },
+            DotType.BeetleDot => new DirectionalColorDotToSpawnData()
+            {
+                type = (string)type,
+                Color = (string)color,
+                DirectionX = (int)directionX,
+                DirectionY = (int)directionY
+
+            },
+            _ => new DotToSpawnData()
+            {
+                type = (string)type,
+            },
+           
+        };
     }
 
 

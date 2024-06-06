@@ -1,55 +1,52 @@
 using UnityEngine;
 using static Type;
+using System;
+using Object = UnityEngine.Object;
 
 public class DotFactory
 {
+   
 
-    public static Dot CreateDot(DotToSpawnData dotData)
+    public static Dot CreateDot<T>(T dotData)
     {
-        DotType dotType = JSONLevelLoader.FromJsonDotType(dotData.type);
-
-        Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
-
-        if (dot is IColorable colorDot)
-        {
-            ColorDotToSpawnData colorDotData = (ColorDotToSpawnData)dotData;
-
-            colorDot.Color = JSONLevelLoader.FromJSONColor(colorDotData.color);
+        Dot dot = null;
+        if (dotData is DotToSpawnData data) {
+            DotType dotType = JSONLevelLoader.FromJsonDotType(data.type);
+            dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
         }
 
-        if (Type.HasNumber(dotType))
+        if(dot == null)
         {
-            INumerable numberDot = (INumerable)dot;
-            NumberDotToSpawnData numberDotData = (NumberDotToSpawnData)dotData;
-
-            numberDot.InitialNumber = numberDotData.number;
+            throw new ArgumentException("The dot type to return could not be determined with the given data.");
         }
 
+        if (dot is IColorable colorableDot)
+        {
+            IColorableData colorableData = (IColorableData)dotData;
 
+            colorableDot.Color = JSONLevelLoader.FromJSONColor(colorableData.Color);
+        }
+
+        if (dot is INumerable numberableDot)
+        {
+            INumerableData numerableData = (INumerableData)dotData;
+
+            numberableDot.InitialNumber = numerableData.Number;
+        }
+
+        if (dot is IDirectional directionalDot)
+        {
+            IDirectionalData directionalData = (IDirectionalData)dotData;
+
+            directionalDot.DirectionX = directionalData.DirectionX;
+            directionalDot.DirectionY = directionalData.DirectionY;
+
+        }
+
+        
 
         return dot;
     }
 
-    public static Dot CreateDot(DotData dotData)
-    {
-        DotType dotType = JSONLevelLoader.FromJsonDotType(dotData.type);
-        Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
-
-        if (dotData is ColorDotData cDotData)
-        {
-            IColorable cDot = (IColorable)dot;
-            cDot.Color = JSONLevelLoader.FromJSONColor(cDotData.color);
-        }
-        if (Type.HasNumber(dotType))
-        {
-            INumerable numberDot = (INumerable)dot;
-            NumberDotData numberDotData = (NumberDotData)dotData;
-
-            numberDot.InitialNumber = numberDotData.number;
-        }
-
-
-
-        return dot;
-    }
+   
 }

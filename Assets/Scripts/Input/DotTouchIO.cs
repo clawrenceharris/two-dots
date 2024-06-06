@@ -56,7 +56,7 @@ public class DotTouchIO : MonoBehaviour
     void Update()
     {
         
-        if(!CommandInvoker.IsExecuting)
+        if(CommandInvoker.CommandsEnded)
             CheckInput();
 
     }

@@ -7,8 +7,6 @@ public class BeetleDotVisualController : ColorDotVisualController
 {
     protected new BeetleDotVisuals Visuals;
     protected new BeetleDot Dot;
-    private Transform leftWing;
-    private Transform rightWing;
     public override void Init(Dot dot)
     {
         Visuals = dot.GetComponent<BeetleDotVisuals>();
@@ -18,9 +16,16 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     public override void SetColor()
     {
-        foreach(Transform child in Dot.transform)
+        foreach(Transform child in Visuals.leftWings.transform)
         {
             if(child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.color = ColorSchemeManager.FromDotColor(Dot.Color);
+            }
+        }
+        foreach (Transform child in Visuals.rightWings.transform)
+        {
+            if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
             {
                 spriteRenderer.color = ColorSchemeManager.FromDotColor(Dot.Color);
             }
@@ -35,8 +40,6 @@ public class BeetleDotVisualController : ColorDotVisualController
         {
 
             yield return RemoveWings(Visuals.rightWing3, Visuals.leftWing3);
-            leftWing = Visuals.leftWing2.transform;
-            rightWing = Visuals.rightWing2.transform;
 
 
 
@@ -45,8 +48,6 @@ public class BeetleDotVisualController : ColorDotVisualController
         {
 
             yield return RemoveWings(Visuals.rightWing2, Visuals.leftWing2);
-            leftWing = Visuals.leftWing1.transform;
-            rightWing = Visuals.rightWing1.transform;
 
         }
 
@@ -56,18 +57,17 @@ public class BeetleDotVisualController : ColorDotVisualController
     {
         while(Dot.HitType == HitType.Connection)
         {
-            leftWing.DORotate(new Vector3(0, 0, 90), 0.5f).OnComplete(() =>
+            Visuals.leftWings.DORotate(new Vector3(0, 0, 90), 1f).OnComplete(() =>
             {
-                leftWing.DORotate(new Vector3(0, 0, 0), 0.5f);
+                Visuals.leftWings.DORotate(new Vector3(0, 0, 0), 1f);
             });
-            rightWing.DORotate(new Vector3(0, 0, -90), 0.5f).OnComplete(() =>
+            yield return Visuals.rightWings.DORotate(new Vector3(0, 0, -90), 1f).OnComplete(() =>
             {
-                rightWing.DORotate(new Vector3(0, 0, 0), 0.5f);
+                Visuals.rightWings.DORotate(new Vector3(0, 0, 0), 1f);
             });
-
-
+            
         }
-        return base.PreviewHit(hitType);
+        yield return base.PreviewHit(hitType);
     }
 
     public IEnumerator Rotate()
