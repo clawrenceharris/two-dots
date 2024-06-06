@@ -38,11 +38,13 @@ public class DotController
     }
 
 
-    public static void MoveDot(Dot dot, int col, int row, float speed = 0.5f)
+    public static IEnumerator MoveDot(Dot dot, int col, int row, float speed = 0.5f)
     {
         board.MoveDot(dot, col, row);
 
-        dot.transform.DOMove(new Vector2(col, row) * Board.offset, speed);
+        yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, speed);
+        dot.Column = col;
+        dot.Row = row;
     }
     public static IEnumerator MoveDotThroughConnection(ConnectableDot start, ConnectableDot end, float speed = 0.5f)
     {
