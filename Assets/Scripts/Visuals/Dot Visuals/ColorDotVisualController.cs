@@ -31,7 +31,7 @@ public class ColorDotVisualController : ConnectableDotVisualController
     }
     
 
-    public override void SetColor()
+    protected override void SetColor()
     {
         SpriteRenderer.color = ColorSchemeManager.FromDotColor(Dot.Color);
 

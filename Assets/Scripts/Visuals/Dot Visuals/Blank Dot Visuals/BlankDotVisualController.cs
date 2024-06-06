@@ -16,7 +16,7 @@ public class BlankDotVisualController : ConnectableDotVisualController
         
     }
 
-    public override void SetColor()
+    protected override void SetColor()
     {
         base.SetColor();
         SpriteRenderer.color = ColorSchemeManager.CurrentColorScheme.blank;

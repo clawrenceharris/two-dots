@@ -18,14 +18,14 @@
         {
             "type": "beetle",
             "color": "purple",
-            "directionX": 0,
-            "directionY": 1
+            "directionX": -1,
+            "directionY": 0
         },
         {
             "type": "beetle",
             "color": "blue",
-            "directionX": 0,
-            "directionY": 1
+            "directionX": 1,
+            "directionY": 0
         }
 
 
@@ -40,7 +40,32 @@
 
     ],
     "dotsOnBoard": [
-        
+        {
+            "type": "beetle",
+            "color": "purple",
+            "row": 0,
+            "col": 0,
+            "directionX": 1,
+            "directionY": 0
+        },
+        {
+            "type": "normal",
+            "color": "red",
+            "row": 0,
+            "col": 1
+           
+        },
+
+
+        {
+            "type": "beetle",
+            "color": "blue",
+            "row": 0,
+            "col": 2,
+            "directionX": -1,
+            "directionY": 0
+        }
+
     ],
 
     "tilesOnBoard": [
@@ -76,35 +101,35 @@
         //    "col": 0
         //},
 
-        {
-            "type": "one sided block",
-            "row": 0,
-            "col": 0,
-            "directionX": 0,
-            "directionY": 1
-        },
+        //{
+        //    "type": "one sided block",
+        //    "row": 0,
+        //    "col": 0,
+        //    "directionX": 0,
+        //    "directionY": 1
+        //},
 
-        {
-            "type": "one sided block",
-            "row": 0,
-            "col": 4,
-            "directionX": 0,
-            "directionY": 1
+        //{
+        //    "type": "one sided block",
+        //    "row": 0,
+        //    "col": 4,
+        //    "directionX": 0,
+        //    "directionY": 1
               
-        },
+        //},
 
-        {
-            "type": "block",
-            "row": 1,
-            "col": 0
+        //{
+        //    "type": "block",
+        //    "row": 1,
+        //    "col": 0
 
-        },
-        {
-            "type": "block",
-            "row": 1,
-            "col": 4
+        //},
+        //{
+        //    "type": "block",
+        //    "row": 1,
+        //    "col": 4
 
-        }
+        //}
 
 
 

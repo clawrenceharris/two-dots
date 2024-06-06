@@ -24,12 +24,13 @@ public class DotVisualController : IDotVisualController
         sprite = SpriteRenderer.sprite;
         SetUp();
     }
-    public virtual void SetUp()
+
+    protected virtual void SetUp()
     {
         SetColor();
     }
 
-    public virtual void SetColor()
+    protected virtual void SetColor()
     { 
         Color = SpriteRenderer.color;
     }

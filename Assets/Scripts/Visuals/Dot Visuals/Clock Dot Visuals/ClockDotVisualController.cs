@@ -23,13 +23,13 @@ public class ClockDotVisualController : BlankDotVisualController
 
     }
 
-    public override void SetUp()
+    protected override void SetUp()
     {
         base.SetUp();
         UpdateNumbers(Dot.CurrentNumber);
     }
 
-    public override void SetColor()
+    protected override void SetColor()
     {
         Visuals.top.color = ColorSchemeManager.CurrentColorScheme.clockDot;
         Visuals.middle.color = new Color(255, 255, 255, 0.6f);

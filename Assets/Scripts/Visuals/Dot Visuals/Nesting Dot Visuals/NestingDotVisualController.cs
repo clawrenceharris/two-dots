@@ -14,7 +14,7 @@ public class NestingDotVisualController : DotVisualController
         base.Init(dot);
     }
 
-    public override void SetColor()
+    protected override void SetColor()
     {
         foreach(Transform child in Dot.transform)
         {
