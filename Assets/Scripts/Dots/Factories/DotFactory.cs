@@ -7,36 +7,29 @@ public class DotFactory
 {
    
 
-    public static Dot CreateDot<T>(T dotData)
+    public static Dot CreateDot<T>(T data)
     {
-        Dot dot = null;
-        if (dotData is DotToSpawnData data) {
-            DotType dotType = JSONLevelLoader.FromJsonDotType(data.type);
-            dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
-        }
-
-        if(dot == null)
-        {
-            throw new ArgumentException("The dot type to return could not be determined with the given data.");
-        }
+        DotToSpawnData dotToSpawnData = data as DotToSpawnData;
+        DotType dotType = JSONLevelLoader.FromJsonDotType(dotToSpawnData.type);
+        Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
 
         if (dot is IColorable colorableDot)
         {
-            IColorableData colorableData = (IColorableData)dotData;
+            IColorableData colorableData = (IColorableData)dotToSpawnData;
 
             colorableDot.Color = JSONLevelLoader.FromJSONColor(colorableData.Color);
         }
 
         if (dot is INumerable numberableDot)
         {
-            INumerableData numerableData = (INumerableData)dotData;
+            INumerableData numerableData = (INumerableData)dotToSpawnData;
 
             numberableDot.InitialNumber = numerableData.Number;
         }
 
         if (dot is IDirectional directionalDot)
         {
-            IDirectionalData directionalData = (IDirectionalData)dotData;
+            IDirectionalData directionalData = (IDirectionalData)dotToSpawnData;
 
             directionalDot.DirectionX = directionalData.DirectionX;
             directionalDot.DirectionY = directionalData.DirectionY;
