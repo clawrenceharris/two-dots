@@ -9,7 +9,6 @@ public class CommandInvoker
     private readonly Board board;
     public static CommandInvoker Instance;
     public static int commandCount;
-    private bool isExecuting;
     public static bool CommandsEnded { get; private set; } = true;
     private Coroutine checkCommandsEndedCoroutine;
     public static event Action onCommandsEnded;
@@ -42,10 +41,8 @@ public class CommandInvoker
 
     private IEnumerator ExecuteCommandCo(Command command)
     {
-        isExecuting = true;
         yield return command.Execute(board); 
         ExecuteNextCommand();
-        isExecuting = false;
     }
 
     private void OnCommandExecuted(Command command)
