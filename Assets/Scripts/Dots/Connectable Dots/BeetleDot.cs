@@ -74,7 +74,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
         DirectionX = DirectionY;
         DirectionY = -temp;
 
-        yield return VisualController.Rotate();
+        yield return VisualController.RotateCo();
     }
 
     public IEnumerator PreviewHit(HitType hitType)

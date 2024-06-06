@@ -14,7 +14,13 @@ public class BeetleDotVisualController : ColorDotVisualController
         base.Init(Dot);
     }
 
-    public override void SetColor()
+    protected override void SetUp()
+    {
+        Rotate();
+        base.SetUp();
+    }
+
+    protected override void SetColor()
     {
         foreach(Transform child in Visuals.leftWings.transform)
         {
@@ -70,28 +76,43 @@ public class BeetleDotVisualController : ColorDotVisualController
         yield return base.PreviewHit(hitType);
     }
 
-    public IEnumerator Rotate()
+    public IEnumerator RotateCo()
+    {
+
+        Vector3 rotation = GetRotation();
+        yield return Dot.transform.DORotate(rotation, 0.5f);
+    }
+
+    private Vector3 GetRotation()
     {
         Vector3 rotation = Vector3.zero;
-        if(Dot.DirectionY < 0)
+        if (Dot.DirectionY < 0)
         {
             rotation = new Vector3(0, 0, 180);
         }
 
-        if(Dot.DirectionX < 0)
-        {
-            rotation = new Vector3(0, 0, -90);
-
-        }
-        if (Dot.DirectionX > 0)
+        if (Dot.DirectionX < 0)
         {
             rotation = new Vector3(0, 0, 90);
 
         }
+        if (Dot.DirectionX > 0)
+        {
+            rotation = new Vector3(0, 0, -90);
 
-        yield return Dot.transform.DORotate(rotation, 0.5f);
+        }
+        return rotation;
     }
-    
+
+    private void Rotate()
+    {
+        Vector3 rotation = GetRotation();
+
+        
+
+        Dot.transform.DORotate(rotation, 0.5f);
+    }
+
     public override IEnumerator Hit(Type.HitType hitType)
     {
         yield return DoHitAnimation();
