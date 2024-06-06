@@ -54,7 +54,6 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
         if (hitType == HitType.BeetleDot || hitType == HitType.BombExplosion)
         {
             HitCount++;
-
         }
         
         yield return DoVisualHit(hitType);
