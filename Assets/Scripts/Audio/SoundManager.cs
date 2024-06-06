@@ -1,7 +1,6 @@
 using static Type;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.Collections.AllocatorManager;
 
 public class SoundManager : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class SoundManager : MonoBehaviour
 
     private AudioSource audioSource;
     private AudioDistortionFilter audioDistortion;
-    private readonly HashSet<AudioClip> playedSounds = new HashSet<AudioClip>();
+    private readonly HashSet<AudioClip> playedSounds = new();
 
     private void Awake()
     {
@@ -32,7 +31,7 @@ public class SoundManager : MonoBehaviour
         Tile.onTileCleared += OnTileCleared;
         Dot.onDotHit += OnDotHit;
         Connection.onSquareMade += OnSquareMade;
-        Command.onCommandExecuted += OnCommandExecuted;
+        CommandInvoker.onCommandsEnded += OnCommandsEnded;
 
     }
 
@@ -135,12 +134,9 @@ public class SoundManager : MonoBehaviour
         PlayTileCleardSound(tile);
 
     }
-    private void OnCommandExecuted(ICommand command)
+    private void OnCommandsEnded()
     {
-        if (command is ClearCommand)
-        {
-            playedSounds.Clear();
-        }
+        playedSounds.Clear();
     }
 
     private void OnSquareMade(Square square)
