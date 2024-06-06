@@ -48,7 +48,6 @@ public abstract class ConnectableDot : Dot, IConnectable
 
     public virtual void Disconnect()
     {
-        HitCount = 0;
         HitType = HitType.None;
     }
 

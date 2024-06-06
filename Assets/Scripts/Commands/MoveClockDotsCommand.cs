@@ -8,7 +8,6 @@ using static Type;
 public class MoveClockDotsCommand : Command
 {
     public override CommandType CommandType => CommandType.MoveClockDots;
-    public static new bool DidExecute {get; private set;}
     public override IEnumerator Execute(Board board)
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveClockDotsCommand));
@@ -51,8 +50,11 @@ public class MoveClockDotsCommand : Command
 
             currentNode = currentNode.Previous;
         }
-        if(DidExecute)
+        if (DidExecute)
+        {
             yield return new WaitForSeconds(1f);
+
+        }
 
         yield return base.Execute(board);
     }

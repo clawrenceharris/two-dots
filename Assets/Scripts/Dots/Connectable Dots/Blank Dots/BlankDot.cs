@@ -1,5 +1,6 @@
 
 using System.Collections;
+using System.Collections.Generic;
 using static Type;
 
 public class BlankDot : BlankDotBase
@@ -8,7 +9,21 @@ public class BlankDot : BlankDotBase
 
     public override int HitsToClear => 1;
 
-    
+    public override Dictionary<HitType, IHitRule> HitRules
+    {
+        get
+        {
+            return new()
+            {
+
+                {
+                    HitType.Connection, new HitByConnectionRule()
+                }
+
+            };
+        }
+    }
+
 
     public override void Init(int column, int row)
     {
@@ -18,9 +33,10 @@ public class BlankDot : BlankDotBase
 
     public override void Disconnect()
     {
-        HitCount = 0;
         base.Disconnect();
     }
+
+
     public override void InitDisplayController()
     {
         visualController = new BlankDotVisualController();

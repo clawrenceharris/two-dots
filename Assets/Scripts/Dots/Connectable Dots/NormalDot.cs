@@ -25,7 +25,20 @@ public class NormalDot : ColorableDot
         }
     }
 
+    public override Dictionary<HitType, IHitRule> HitRules
+    {
+        get
+        {
+            return new()
+            {
 
+                {
+                    HitType.Connection, new HitByConnectionRule()
+                }
+
+            };
+        }
+    }
     public override void Connect()
     {
 
