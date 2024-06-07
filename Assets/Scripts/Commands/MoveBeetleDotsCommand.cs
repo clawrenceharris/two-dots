@@ -35,6 +35,8 @@ public class MoveBeetleDotsCommand : Command
     
     public override IEnumerator Execute(Board board)
     {
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
+
         Dictionary<BeetleDot, Dot> dotsToSwap = new();
         foreach(Dot dot in board.Dots)
         {

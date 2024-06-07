@@ -50,11 +50,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
 
     public override IEnumerator Hit(HitType hitType)
     {
-        
-        if (hitType == HitType.BeetleDot || hitType == HitType.BombExplosion)
-        {
-            HitCount++;
-        }
+        HitCount++;
         
         yield return DoVisualHit(hitType);
 
@@ -79,6 +75,9 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
 
     public IEnumerator PreviewHit(HitType hitType)
     {
-        yield return visualController.PreviewHit(hitType);
+        HitType = hitType;
+        yield return StartCoroutine(VisualController.PreviewHit(hitType));   
     }
+
+    
 }

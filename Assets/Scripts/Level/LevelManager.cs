@@ -62,19 +62,7 @@ public class LevelManager : MonoBehaviour
     {
         UnsubscribeFromEvents();
     }
-    private void HandleDotConnected()
-    {
-        List<IHittable> dotsToHit = ConnectionManager.ToHit;
-
-        foreach (IHittable hittable in dotsToHit)
-        {
-            if (hittable is IPreviewable previewable)
-            {
-                CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(HitType.Connection));
-            }
-        }
-
-    }
+    
     private void UnsubscribeFromEvents()
     {
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
@@ -95,23 +83,33 @@ public class LevelManager : MonoBehaviour
         Board.onDotsDropped += OnDotsDropped;
     }
 
+
+
+
     private void OnDotDisconnected(ConnectableDot dot)
     {
-        HandleDotConnected();
+        if (dot is IPreviewable previewable)
+        {
+            StartCoroutine(previewable.PreviewHit(HitType.None));
+        }
     }
 
     private void OnDotConnected(ConnectableDot dot)
     {
-        HandleDotConnected();
-    }
+        List<IHittable> toHit = ConnectionManager.ToHit;
 
-    public static void DestroyGO(GameObject go)
-    {
-        if (go != null && go.activeInHierarchy)
+        foreach (IHittable hittable in toHit)
         {
-            Destroy(go);
+            if (hittable is IPreviewable previewable)
+            {
+                StartCoroutine(previewable.PreviewHit(HitType.Connection));
+            }
         }
     }
+
+
+
+
     private void OnCommandExecuted(Command command)
     {
         switch (command.CommandType)
@@ -120,7 +118,9 @@ public class LevelManager : MonoBehaviour
                 CommandInvoker.Instance.Enqueue(new HitCommand());
                 break;
             case CommandType.Hit:
-                CommandInvoker.Instance.Enqueue(new ClearCommand());
+                //CommandInvoker.Instance.Enqueue(new ClearCommand());
+                CommandInvoker.Instance.Enqueue(new BoardCommand());
+                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
 
                 break;
             case CommandType.Clear:
