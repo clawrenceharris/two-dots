@@ -41,7 +41,7 @@ public class ClearCommand : Command
 
 
 
-        yield return new WaitForSeconds(DotVisuals.defaultClearTime);
+        yield return new WaitForSeconds(DotVisuals.clearTime);
 
        
 

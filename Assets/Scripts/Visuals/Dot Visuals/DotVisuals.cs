@@ -5,10 +5,9 @@ using UnityEngine;
 public class DotVisuals : MonoBehaviour
 {
     public SpriteRenderer outerDot;
-    public float clearTime = 0.4f;
     public static float outerDotScaleTime = 0.8f;
     public static float outerDotAlphaTime = 0.8f;
     public Sprite bombHitSprite;
-    public static float defaultClearTime = 0.4f;
+    public static float clearTime = 0.4f;
 
 }

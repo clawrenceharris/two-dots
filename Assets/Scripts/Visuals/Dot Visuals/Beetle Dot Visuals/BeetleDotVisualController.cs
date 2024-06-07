@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using static Type;
-using System.Net.NetworkInformation;
 
 public class BeetleDotVisualController : ColorDotVisualController
 {
     protected new BeetleDotVisuals Visuals;
     protected new BeetleDot Dot;
+    private List<GameObject> wings;
     public override void Init(Dot dot)
     {
         Visuals = dot.GetComponent<BeetleDotVisuals>();
@@ -18,13 +18,7 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     protected override void SetUp()
     {
-        Rotate();
-        base.SetUp();
-    }
-
-    protected override void SetColor()
-    {
-        GameObject[] wings = new[] {
+        wings = new() {
             Visuals.leftWing1,
             Visuals.leftWing2,
             Visuals.leftWing3,
@@ -32,16 +26,49 @@ public class BeetleDotVisualController : ColorDotVisualController
             Visuals.rightWing2,
             Visuals.rightWing3
         };
+        Rotate();
+        base.SetUp();
+    }
+
+    protected override void SetColor()
+    {
+        
         foreach(GameObject wing in wings)
         {
-            SpriteRenderer spriteRenderer = wing.GetComponent<SpriteRenderer>();
-            
-            spriteRenderer.color = ColorSchemeManager.FromDotColor(Dot.Color);
-            
+            if(wing.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.color = ColorSchemeManager.FromDotColor(Dot.Color);
+            }
         }
+           
         
     }
 
+    public override void DisableSprites()
+    {
+        foreach (GameObject wing in wings)
+        {
+            if (wing.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.enabled = false;
+            }
+        }
+
+        base.DisableSprites();
+    }
+    public override void EnableSprites()
+    {
+        foreach (GameObject wing in wings)
+        {
+            if (wing.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.enabled = true;
+            }
+        }
+
+
+        base.EnableSprites();
+    }
 
     private IEnumerator DoHitAnimation()
     {
@@ -68,44 +95,6 @@ public class BeetleDotVisualController : ColorDotVisualController
             yield return Dot.transform.DOMove(Dot.transform.position * 2, 1f);
         }
           
-
-    }
-
-    private GameObject GetCurrentRightWing()
-    {
-        if(Dot.HitCount == 0)
-        {
-            return Visuals.rightWing3;
-        }
-
-        if (Dot.HitCount == 1)
-        {
-            return Visuals.rightWing2;
-        }
-
-        else
-        {
-            return Visuals.rightWing1;
-        }
-        
-    }
-
-    private GameObject GetCurrentLeftWing()
-    {
-        if (Dot.HitCount == 0)
-        {
-            return Visuals.leftWing3;
-        }
-
-        if (Dot.HitCount == 1)
-        {
-            return Visuals.leftWing2;
-        }
-        else
-        {
-            return Visuals.leftWing1;
-        }
-
 
     }
 
@@ -177,7 +166,7 @@ public class BeetleDotVisualController : ColorDotVisualController
         Dot.transform.localRotation = Quaternion.Euler(rotation);
     }
 
-    public override IEnumerator Hit(Type.HitType hitType)
+    public override IEnumerator Hit(HitType hitType)
     {
         yield return DoHitAnimation();
         yield return base.Hit(hitType);
@@ -194,7 +183,8 @@ public class BeetleDotVisualController : ColorDotVisualController
         yield return new WaitForSeconds(0.7f);
         Object.Destroy(leftWing);
         Object.Destroy(rightWing);
-
+        wings.Remove(leftWing);
+        wings.Remove(rightWing);
 
 
 

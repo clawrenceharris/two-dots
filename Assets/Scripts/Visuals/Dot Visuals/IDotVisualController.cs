@@ -11,6 +11,9 @@ public interface IDotVisualController
     public void Init(Dot dot);
     public IEnumerator PreviewHit(HitType hitType);
     public void SetColor(Color color);
+    public void DisableSprites();
+    public void EnableSprites();
+
     public IEnumerator Clear();
     public IEnumerator Hit(HitType hitType);
     public IEnumerator BombHit();

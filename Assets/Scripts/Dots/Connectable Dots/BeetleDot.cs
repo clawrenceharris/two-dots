@@ -42,6 +42,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
 
     public override IEnumerator Clear()
     {
+        
         NotifyDotCleared();
         DotController.DoBombDot(this);
         yield return null;

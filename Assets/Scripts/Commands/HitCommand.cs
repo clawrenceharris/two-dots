@@ -34,7 +34,7 @@ public class HitCommand : Command
                         DidExecute = true;
                         hits.Add(hittable);
                         CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
-                        if (hittable.HitCount >= hittable.HitsToClear)
+                        if (hittable.HitCount == hittable.HitsToClear)
                         {
                             toClear.Add(hittable);
                             CoroutineHandler.StartStaticCoroutine(hittable.Clear());
@@ -45,14 +45,8 @@ public class HitCommand : Command
 
             
         }
-        foreach (IHittable hittable in hits)
-        {
-            if (hittable is Dot dot)
-                yield return new WaitForSeconds(dot.visualController.Visuals.clearTime);
-            if (hittable is Tile tile)
-                yield return new WaitForSeconds(tile.visualController.Visuals.clearTime);
 
-        }
+        yield return new WaitForSeconds(DotVisuals.clearTime);
 
         yield return base.Execute(board);
 

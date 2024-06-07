@@ -63,13 +63,13 @@ public class CommandInvoker
     private IEnumerator CheckCommandsEnded()
     {
        
-        yield return new WaitForSeconds(0.5f); 
+        yield return new WaitForSeconds(0.8f); 
 
         if (commands.Count == 0  && !CommandsEnded)
         {
             
                 CommandsEnded = true;
-                Debug.Log("All commands have ended.");
+                Debug.Log(commandCount+ " All commands have ended.");
 
                 onCommandsEnded?.Invoke();
         }
