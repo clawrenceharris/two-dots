@@ -13,7 +13,7 @@ public abstract class Tile : MonoBehaviour
     public int Column { get => column; set => column = value; }
     public int Row { get => row; set => row = value; }
     public abstract TileType TileType { get;}
-    protected ITileVisualController visualController;
+    public ITileVisualController visualController;
 
     public virtual void Init(int column, int row)
     {

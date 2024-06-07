@@ -16,7 +16,6 @@ public class ClearCommand : Command
         if (hittable.HitCount >= hittable.HitsToClear)
         {
             DidExecute = true;
-            hittable.Debug(Color.black);
             CoroutineHandler.StartStaticCoroutine(hittable.Clear());
         }
 

@@ -13,7 +13,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
     {
         get
         {
-            if (visualController is BlankDotVisualController blankDotVisualController)
+            if (base.visualController is BlankDotVisualController blankDotVisualController)
             {
                 return blankDotVisualController;
             }

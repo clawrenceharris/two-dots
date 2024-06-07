@@ -13,7 +13,7 @@ public abstract class ConnectableDot : Dot, IConnectable
     {
         get
         {
-            if (visualController is ConnectableDotVisualController connectableDotVisualController)
+            if (base.visualController is ConnectableDotVisualController connectableDotVisualController)
             {
                 return connectableDotVisualController;
             }
@@ -42,7 +42,7 @@ public abstract class ConnectableDot : Dot, IConnectable
     public override void InitDisplayController()
     {
         visualController = new ConnectableDotVisualController();
-        visualController.Init(this);
+        base.visualController.Init(this);
     }
 
 

@@ -25,7 +25,7 @@ public class ExplosionCommand : Command
         }
         
 
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.4f);
 
         
         for(int i =0; i < explodables.Count; i++)

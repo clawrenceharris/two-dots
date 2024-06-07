@@ -108,7 +108,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
             tempNumber = Mathf.Clamp(currentNumber - connectionCount, 0, int.MaxValue);
 
             UpdateNumberVisuals(tempNumber);
-            StartCoroutine(visualController.Hit(hitType));
+            StartCoroutine(base.visualController.Hit(hitType));
             HitCount = initialNumber - tempNumber;
 
         }
@@ -138,18 +138,18 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
        
         if (hitType == HitType.BombExplosion)
         {
-            yield return visualController.BombHit();
+            yield return base.visualController.BombHit();
 
         }
 
-        yield return visualController.Hit(hitType);
+        yield return base.visualController.Hit(hitType);
     }
 
 
         public IEnumerator PreviewHit(HitType hitType)
     {
 
-        yield return visualController.PreviewHit(hitType);
+        yield return base.visualController.PreviewHit(hitType);
         
 
     }
