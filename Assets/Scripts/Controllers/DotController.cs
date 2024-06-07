@@ -38,14 +38,21 @@ public class DotController
     }
 
 
-    public static IEnumerator MoveDot(Dot dot, int col, int row, float duration = 0.5f)
+    public static Tween MoveDot(Dot dot, int col, int row, float duration = 0.5f)
     {
 
-        yield return dot.transform.DOLocalMove(new Vector2(col, row) * Board.offset, duration);
+        return dot.transform.DOMove(new Vector2(col, row) * Board.offset, duration).OnComplete(() =>
+        {
 
-        board.MoveDot(dot, col, row);
-        dot.Column = col;
-        dot.Row = row;
+            board.MoveDot(dot, col, row);
+            dot.Column = col;
+            dot.Row = row;
+        });
+        
+       
+       
+
+       
     }
     public static IEnumerator MoveDotThroughConnection(ConnectableDot start, ConnectableDot end, float speed = 0.5f)
     {

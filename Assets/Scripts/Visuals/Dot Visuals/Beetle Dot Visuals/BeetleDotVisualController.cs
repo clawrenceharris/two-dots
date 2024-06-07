@@ -6,7 +6,7 @@ using static Type;
 
 public class BeetleDotVisualController : ColorDotVisualController
 {
-    protected new BeetleDotVisuals Visuals;
+    public new BeetleDotVisuals Visuals;
     protected new BeetleDot Dot;
     private List<GameObject> wings;
     public override void Init(Dot dot)
@@ -133,9 +133,11 @@ public class BeetleDotVisualController : ColorDotVisualController
     {
 
         Vector3 rotation = GetRotation();
-        yield return Dot.transform.DOLocalRotate(rotation, 0.5f);
+        yield return Dot.transform.DOLocalRotate(rotation, Visuals.rotationSpeed)
+                    .SetEase(Visuals.rotationEase);
+
     }
-    
+
     private Vector3 GetRotation()
     {
         Vector3 rotation = Vector3.zero;

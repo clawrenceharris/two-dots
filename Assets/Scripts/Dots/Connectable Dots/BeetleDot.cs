@@ -8,7 +8,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
     public override DotType DotType => DotType.BeetleDot;
 
     public override int HitsToClear => 3;
-
+    
    
     public override Dictionary<HitType, IHitRule> HitRules
     {
@@ -23,7 +23,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
         }
     }
 
-    private BeetleDotVisualController VisualController
+    public BeetleDotVisualController VisualController
     {
         get
         {
@@ -64,12 +64,10 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
         visualController.Init(this);
     }
 
-    public IEnumerator AlternateDirection()
+    public IEnumerator ChangeDirection(int directionX, int directionY)
     {
-        //Rotate 90 deg
-        int temp = DirectionX;
-        DirectionX = DirectionY;
-        DirectionY = -temp;
+        DirectionX = directionX;
+        DirectionY = directionY;
 
         yield return VisualController.RotateCo();
     }

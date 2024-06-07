@@ -1,7 +1,7 @@
 {
     "levelNum": 1,
     "width": 5,
-    "height": 5,
+    "height": 3,
     "moves": 10,
     "dotsToSpawn": [
 
@@ -21,15 +21,25 @@
 
         },
 
+
+
+
         {
             "type": "beetle",
             "color": "purple",
-            "directionX": 1,
+
+            "directionX": -1,
             "directionY": 0
+        },
+        {
+            "type": "beetle",
+            "color": "purple",
+
+            "directionX": 0,
+            "directionY": 1
         }
 
-
-
+       
 
 
 
@@ -40,8 +50,16 @@
 
     ],
     "dotsOnBoard": [
-        
 
+
+        {
+            "type": "beetle",
+            "color": "purple",
+            "row": 0,
+            "col": 0,
+            "directionX": -1,
+            "directionY": 0
+        }
 
        
 
