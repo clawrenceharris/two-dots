@@ -30,19 +30,20 @@ public class DotController
         board.RemoveDot(dot);
     }
 
-    public static Tween DropDot(Dot dot, int row, float speed = 0.6f)
+    public static Tween DropDot(Dot dot, int row, float duration = 0.6f)
     {
         dot.Row = row;
         dot.name = "(" + dot.Column + ", " + dot.Row + ")";
-        return dot.transform.DOMoveY(row * Board.offset, speed).SetEase(Ease.OutBounce);
+        return dot.transform.DOMoveY(row * Board.offset, duration).SetEase(Ease.OutBounce);
     }
 
 
-    public static IEnumerator MoveDot(Dot dot, int col, int row, float speed = 0.5f)
+    public static IEnumerator MoveDot(Dot dot, int col, int row, float duration = 0.5f)
     {
-        board.MoveDot(dot, col, row);
 
-        yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, speed);
+        yield return dot.transform.DOLocalMove(new Vector2(col, row) * Board.offset, duration);
+
+        board.MoveDot(dot, col, row);
         dot.Column = col;
         dot.Row = row;
     }

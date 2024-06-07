@@ -4,31 +4,21 @@ using UnityEngine;
 using static Type;
 public class MoveBeetleDotsCommand : Command
 {
+    Dictionary<BeetleDot, Dot> dotsToSwap = new();
+
     public override CommandType CommandType => CommandType.MoveBeetleDots;
 
-    private bool CanMove(Dot dotToSwap, BeetleDot beetleDot, Board board)
+    private bool CanMove(Dot dotToSwap)
     {
-
 
         if(dotToSwap == null || dotToSwap is BeetleDot)
         {
             return false;
         }
-        List<Dot> dotToSwapNeighbors = board.GetDotNeighbors(dotToSwap.Column, dotToSwap.Row);
-
-        //if there is another beetle dot beside the dot to swap and they are going towards the same dot then it cannot move 
-        foreach (Dot neighbor in dotToSwapNeighbors)
+        if (dotsToSwap.ContainsValue(dotToSwap))
         {
-            
-            if (neighbor is BeetleDot beetleDotNeighbor && beetleDotNeighbor != beetleDot)
-            {
-                if (-beetleDotNeighbor.DirectionX == beetleDot.DirectionX && -beetleDotNeighbor.DirectionY == beetleDot.DirectionY)
-                {
-                    return false;
-                }
-            }
+            return false;
         }
-
         return true;
 
     }
@@ -37,18 +27,18 @@ public class MoveBeetleDotsCommand : Command
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
 
-        Dictionary<BeetleDot, Dot> dotsToSwap = new();
         foreach(Dot dot in board.Dots)
         {
             if(dot is BeetleDot beetleDot)
             {
                 Dot dotToSwap = board.GetDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
-                if (CanMove(dotToSwap, beetleDot, board))
+                if (CanMove(dotToSwap))
                 {
                     dotsToSwap.TryAdd(beetleDot, dotToSwap);
                 }
                 else
                 {
+                    Debug.Log("Changing direction!");
                     CoroutineHandler.StartStaticCoroutine(beetleDot.AlternateDirection());
                     
                 }
@@ -66,13 +56,12 @@ public class MoveBeetleDotsCommand : Command
                     int dotToSwapRow = dotToSwap.Row;
                     int beetleDotCol = beetleDot.Column;
                     int beetleDotRow = beetleDot.Row;
-
                     CoroutineHandler.StartStaticCoroutine(DotController.MoveDot(beetleDot, dotToSwapCol, dotToSwapRow));
                     CoroutineHandler.StartStaticCoroutine(DotController.MoveDot(dotToSwap, beetleDotCol, beetleDotRow));
-                    dotToSwap.Column = beetleDotCol;
-                    dotToSwap.Row = beetleDotRow;
-                    beetleDot.Column = dotToSwapCol;
-                    beetleDot.Row = dotToSwapRow;
+                    //dotToSwap.Column = beetleDotCol;
+                    //dotToSwap.Row = beetleDotRow;
+                    //beetleDot.Column = dotToSwapCol;
+                    //beetleDot.Row = dotToSwapRow;
                     
 
                 }
