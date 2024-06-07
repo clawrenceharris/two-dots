@@ -10,7 +10,7 @@ public class Board : MonoBehaviour
     public int Width;
     public int Height;
 
-    public Dot[,] Dots { get; private set; }
+    private Dot[,] Dots;
 
     public Tile[,] Tiles { get; private set; }
     private List<IHittable> cleared;

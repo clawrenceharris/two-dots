@@ -89,91 +89,101 @@ public class MoveBeetleDotsCommand : Command
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
 
-        foreach(Dot dot in board.Dots)
+        for(int i = 0; i < board.Width; i++)
+
         {
-            if(dot is BeetleDot beetleDot)
+            for(int j = 0; j < board.Height; j++)
             {
-                Dot dotToSwap = board.GetDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
-                
-                if (CanMove(dotToSwap))
+                Dot dot = board.GetDotAt(i, j);
+                if (dot is BeetleDot beetleDot)
                 {
-                    dotsToSwap.TryAdd(beetleDot, dotToSwap);
+                    Dot dotToSwap = board.GetDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
 
-                }
-                else
-                {
-                    float offset = 0.3f;
-
-                    //Set the small movement based on the beetle dot's current direction
-                    Vector2 currentDirection = new(beetleDot.DirectionX, beetleDot.DirectionY);
-                    Vector2 smallMovement = currentDirection * offset;
-
-                    //set the new local position
-                    Vector2 originalPosition = new Vector2(beetleDot.Column, beetleDot.Row) * Board.offset;
-                    Vector2 newPosition = originalPosition + smallMovement;
-
-                    beetleDot.transform.DOLocalMove(newPosition, 0.1f)
-                        .SetEase(Ease.OutCubic)
-                        .OnComplete(() =>
+                    if (CanMove(dotToSwap))
                     {
-                        beetleDot.transform.DOLocalMove(originalPosition, 0.1f)
-                        .SetEase(Ease.OutCubic)
+                        dotsToSwap.TryAdd(beetleDot, dotToSwap);
 
-                        .OnComplete(() =>
-                        {
-                            //beetle dot can't move so update its direction
-                            UpdateBeetleDotDirection(beetleDot, dotToSwap, board);
-                        });
-                    });
+                    }
+                    else
+                    {
+                        float offset = 0.3f;
+
+                        //Set the small movement based on the beetle dot's current direction
+                        Vector2 currentDirection = new(beetleDot.DirectionX, beetleDot.DirectionY);
+                        Vector2 smallMovement = currentDirection * offset;
+
+                        //set the new local position
+                        Vector2 originalPosition = new Vector2(beetleDot.Column, beetleDot.Row) * Board.offset;
+                        Vector2 newPosition = originalPosition + smallMovement;
+
+                        beetleDot.transform.DOLocalMove(newPosition, 0.1f)
+                            .SetEase(Ease.OutCubic)
+                            .OnComplete(() =>
+                            {
+                                beetleDot.transform.DOLocalMove(originalPosition, 0.1f)
+                            .SetEase(Ease.OutCubic)
+
+                            .OnComplete(() =>
+                            {
+                                //beetle dot can't move so update its direction
+                                UpdateBeetleDotDirection(beetleDot, dotToSwap, board);
+                            });
+                            });
+
+
+                    }
 
 
                 }
-                
-                
             }
+            
         }
 
-        foreach(Dot dot in board.Dots)
+        for (int i = 0; i < board.Width; i++)
+
         {
-            if(dot is BeetleDot beetleDot)
+            for (int j = 0; j < board.Height; j++)
             {
-                if (dotsToSwap.TryGetValue(beetleDot, out var dotToSwap))
+                Dot dot = board.GetDotAt(i, j);
+                if (dot is BeetleDot beetleDot)
                 {
-                    float moveSpeed = beetleDot.VisualController.Visuals.moveSpeed;
-                    int dotToSwapCol = dotToSwap.Column;
-                    int dotToSwapRow = dotToSwap.Row;
-                    int beetleDotCol = beetleDot.Column;
-                    int beetleDotRow = beetleDot.Row;
-                    dotToSwap.transform.DOLocalMove(new Vector2(beetleDotCol, beetleDotRow) * Board.offset, moveSpeed)
+                    if (dotsToSwap.TryGetValue(beetleDot, out var dotToSwap))
+                    {
+                        float moveSpeed = beetleDot.VisualController.Visuals.moveSpeed;
+                        int dotToSwapCol = dotToSwap.Column;
+                        int dotToSwapRow = dotToSwap.Row;
+                        int beetleDotCol = beetleDot.Column;
+                        int beetleDotRow = beetleDot.Row;
+                        dotToSwap.transform.DOLocalMove(new Vector2(beetleDotCol, beetleDotRow) * Board.offset, moveSpeed)
+                            .OnComplete(() =>
+                            {
+                                board.MoveDot(dotToSwap, beetleDotCol, beetleDotRow);
+                                dotToSwap.Column = beetleDotCol;
+                                dotToSwap.Row = beetleDotRow;
+
+                            });
+
+                        beetleDot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveSpeed)
                         .OnComplete(() =>
                         {
-                            board.MoveDot(dotToSwap, beetleDotCol, beetleDotRow);
-                            dotToSwap.Column = beetleDotCol;
-                            dotToSwap.Row = beetleDotRow;
-
+                            board.MoveDot(beetleDot, dotToSwapCol, dotToSwapRow);
+                            beetleDot.Column = dotToSwapCol;
+                            beetleDot.Row = dotToSwapRow;
+                            Dot nextDotToSwap = board.GetDotAt(dotToSwapCol + beetleDot.DirectionX, dotToSwapRow + beetleDot.DirectionY);
+                            //beetle dot moved so update direction
+                            UpdateBeetleDotDirection(beetleDot, nextDotToSwap, board);
                         });
 
-                    beetleDot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveSpeed)
-                    .OnComplete(() =>
-                    {
-                        board.MoveDot(beetleDot, dotToSwapCol, dotToSwapRow);
-                        beetleDot.Column = dotToSwapCol;
-                        beetleDot.Row = dotToSwapRow;
-                        Dot nextDotToSwap = board.GetDotAt(dotToSwapCol + beetleDot.DirectionX, dotToSwapRow + beetleDot.DirectionY);
-                        //beetle dot moved so update direction
-                        UpdateBeetleDotDirection(beetleDot, nextDotToSwap, board);
-                    });
-
-
-                   
-                   
 
 
 
 
 
+
+
+
+                    }
                 }
-
             }
             
         }
