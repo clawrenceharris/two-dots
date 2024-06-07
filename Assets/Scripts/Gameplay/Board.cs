@@ -214,7 +214,7 @@ public class Board : MonoBehaviour
         Dot dot = DotFactory.CreateDot(dotData);
         dot.Init(dotData.col, dotData.row);
         dot.transform.parent = transform;
-        dot.name = "(" + dot.Column + ", " + dot.Row + ")";
+        dot.name = dot.DotType.ToString() + " (" + dotData.col + ", " + dotData.col + ")";
         dot.transform.position = new Vector2(dot.Column, dot.Row) * offset;
 
         Dots[dot.Column, dot.Row] = dot;
@@ -236,7 +236,7 @@ public class Board : MonoBehaviour
         Dot dot = DotFactory.CreateDot(dotData);
         dot.Init(col, row);
         dot.transform.parent = transform;
-        dot.name = "(" + col + ", " + row + ")";
+        dot.name = dot.DotType.ToString() + " (" + col + ", " + row + ")";
         dot.transform.position = new Vector2(col, row + 100) * offset;
 
         Dots[col, row] = dot;

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class BeetleDotVisuals : DotVisuals
 {
     public GameObject rightWing3;
@@ -14,6 +14,9 @@ public class BeetleDotVisuals : DotVisuals
     public Transform leftWings;
     public Transform leftPivot;
     public Transform rightPivot;
+    public Ease rotationEase = Ease.OutCubic;
+    public float rotationSpeed = 0.15f;
+    public float moveSpeed = 0.5f;
 
 
 
