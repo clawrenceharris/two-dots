@@ -13,7 +13,7 @@ public class Board : MonoBehaviour
     public Dot[,] Dots { get; private set; }
 
     public Tile[,] Tiles { get; private set; }
-
+    private List<IHittable> cleared;
     private TileData[] tilesOnBoard;
     public static event Action OnWin;
     private DotToSpawnData[] dotsToSpawn;
@@ -38,7 +38,7 @@ public class Board : MonoBehaviour
         Tiles = new Tile[level.width, level.height];
         lineManager = new LineManager(this);
         tilesOnBoard = level.tilesOnBoard;
-       
+        cleared = new();
         SetUpBoard();
 
 
@@ -69,7 +69,7 @@ public class Board : MonoBehaviour
     {
         Dot.onDotCleared += OnDotCleared;
         Tile.onTileCleared += OnTileCleared;
-
+        CommandInvoker.onCommandsEnded += OnCommandsEnded;
     }
      private void Update()
     {
@@ -79,7 +79,19 @@ public class Board : MonoBehaviour
     private void OnDotCleared(Dot dot)
     {
         Dots[dot.Column, dot.Row] = null;
-        DotController.DestroyDot(dot);
+        cleared.Add(dot); 
+    }
+
+    private void OnCommandsEnded()
+    {
+        foreach (IHittable hittable in cleared)
+        {
+            if (hittable is Dot dot)
+                Destroy(dot.gameObject);
+            if (hittable is Tile tile)
+                Destroy(tile.gameObject);
+        }
+        cleared.Clear();
     }
 
     private void OnTileCleared(Tile tile)

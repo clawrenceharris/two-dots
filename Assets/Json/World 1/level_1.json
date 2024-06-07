@@ -5,31 +5,31 @@
     "moves": 10,
     "dotsToSpawn": [
 
-        {
-            "type": "nesting"
-        },
-      
-       
+
         {
             "type": "blank"
+
+        },
+        {
+            "type": "normal",
+            "color": "blue"
+
+        },
+        {
+            "type": "normal",
+            "color": "purple"
 
         },
 
         {
             "type": "beetle",
             "color": "purple",
-            "directionX": -1,
-            "directionY": 0
-        },
-        {
-            "type": "beetle",
-            "color": "yellow",
             "directionX": 1,
             "directionY": 0
         }
 
 
-       
+
 
 
 
@@ -40,31 +40,10 @@
 
     ],
     "dotsOnBoard": [
-        {
-            "type": "beetle",
-            "color": "purple",
-            "row": 0,
-            "col": 0,
-            "directionX": 1,
-            "directionY": 0
-        },
-        {
-            "type": "normal",
-            "color": "red",
-            "row": 0,
-            "col": 1
-           
-        },
+        
 
 
-        {
-            "type": "beetle",
-            "color": "blue",
-            "row": 0,
-            "col": 2,
-            "directionX": -1,
-            "directionY": 0
-        }
+       
 
     ],
 

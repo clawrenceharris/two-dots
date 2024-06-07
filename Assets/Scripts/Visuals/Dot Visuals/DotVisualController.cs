@@ -41,7 +41,7 @@ public class DotVisualController : IDotVisualController
     {   
         SpriteRenderer.sprite = Visuals.bombHitSprite;
 
-        yield return new WaitForSeconds(Visuals.clearTime);
+        yield return new WaitForSeconds(DotVisuals.clearTime);
 
         SpriteRenderer.sprite = sprite;
 
@@ -71,12 +71,36 @@ public class DotVisualController : IDotVisualController
 
     public virtual IEnumerator Clear()
     {
-        Dot.transform.DOScale(Vector2.zero, Visuals.clearTime);
-        yield return new WaitForSeconds(Visuals.clearTime);
+        Dot.transform.DOScale(Vector2.zero, DotVisuals.clearTime);
+        yield return new WaitForSeconds(DotVisuals.clearTime);
     }
 
     public virtual IEnumerator PreviewHit(HitType hitType)
     {
         yield return null;
+    }
+
+    public virtual void DisableSprites()
+    {
+        SpriteRenderer.enabled = false;
+        foreach(Transform child in Dot.transform)
+        {
+            if(child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.enabled = false;
+            }
+        }
+    }
+
+    public virtual void EnableSprites()
+    {
+        SpriteRenderer.enabled = true;
+        foreach (Transform child in Dot.transform)
+        {
+            if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.enabled = true;
+            }
+        }
     }
 }

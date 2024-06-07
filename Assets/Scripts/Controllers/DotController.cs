@@ -99,14 +99,10 @@ public class DotController
 
     }
 
-    public static void DestroyDot(Dot dot)
-    {
-        Object.Destroy(dot.gameObject);
-    }
 
     public static void DoBombDot(Dot dot)
     {
-        DestroyDot(dot);
+        dot.visualController.DisableSprites();
         board.CreateBomb(dot.Column, dot.Row);
     }
 

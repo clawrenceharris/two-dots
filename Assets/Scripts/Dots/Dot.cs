@@ -63,6 +63,10 @@ public abstract class Dot : MonoBehaviour, IHittable
 
     public virtual IEnumerator DoVisualHit(HitType hitType)
     {
+        if(HitCount > HitsToClear)
+        {
+            yield break;
+        }
 
         if (hitType == HitType.BombExplosion)
         {

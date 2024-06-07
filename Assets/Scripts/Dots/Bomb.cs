@@ -61,13 +61,7 @@ public class Bomb : Dot, IExplodable
         Destroy(line.gameObject);
 
         yield return hittable.Hit(HitType.BombExplosion);
-        if (Hits.Contains(hittable))
-        {
-            if(hittable is Dot dot)
-            {
-                yield return dot.DoVisualHit(HitType.BombExplosion);
-            }
-        }
+        
         
 
     }
