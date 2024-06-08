@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using Newtonsoft.Json.Linq;
 [Serializable]
 public class LevelData
 {
@@ -10,99 +10,55 @@ public class LevelData
     public int width;
     public int height;
     public int moves;
-    public DotToSpawnData[] dotsToSpawn;
+    public DotData[] dotsToSpawn;
     public DotData[] dotsOnBoard;
     public TileData[] tilesOnBoard;
 }
 
 
 
-public class DotToSpawnData
-{
-    public string type;
-}
-
-public class DotData : DotToSpawnData
+[Serializable]
+public class DotData
 {
     public int col;
     public int row;
+    public int hitCount;
+    public string type;
+    public DotData(string type)
+    {
+        this.type = type;
+    }
 
+    // Dictionary to hold dynamic properties
+    private readonly Dictionary<string, object> properties = new();
+
+    public T GetProperty<T>(string key)
+    {
+        if (properties.ContainsKey(key))
+        {
+            return (T)properties[key];
+        }
+        return default;
+    }
+
+    public void SetProperty<T>(string key, T value)
+    {
+        if (properties.ContainsKey(key))
+        {
+            properties[key] = value;
+        }
+        else
+        {
+            properties.Add(key, value);
+        }
+    }
 }
-
-public interface IColorableData
-{
-    public string Color { get; set; }
-}
-
-
-public class ColorableDotData : DotData, IColorableData
-{
-
-    public string Color { get; set; }
-}
-
-
-public class ColorableDotToSpawnData : DotToSpawnData, IColorableData
-{
-    public string Color { get; set; }
-}
-
-public interface INumerableData 
-{
-
-    public int Number { get; set; }
-}
-
-public class NumerableDotData : DotData, INumerableData
-{
-    public int Number { get; set; }
-}
-
-
-public class NumberDotToSpawnData : DotToSpawnData, INumerableData
-{
-    public int Number { get; set; }
-}
-
 public interface IDirectionalData
 {
     public int DirectionX { get; set; }
     public int DirectionY { get; set; }
 
 }
-
-
-public class DirectionalDotData : DotData, IDirectionalData
-{
-    public int DirectionX { get; set; }
-    public int DirectionY { get; set; }
-
-}
-
-public class DirectionalDotToSpawnData : DotToSpawnData, IDirectionalData
-{
-    public int DirectionX { get; set; }
-    public int DirectionY { get; set; }
-
-}
-
-public class DirectionalColorDotData : DotData, IDirectionalData, IColorableData
-{
-    public int DirectionX { get; set; }
-    public int DirectionY { get; set; }
-    public string Color { get; set; }
-
-}
-
-public class DirectionalColorDotToSpawnData : DotToSpawnData, IDirectionalData, IColorableData
-{
-    public int DirectionX { get; set; }
-    public int DirectionY { get; set; }
-    public string Color { get; set; }
-
-}
-
-
 
 public class TileData
 {

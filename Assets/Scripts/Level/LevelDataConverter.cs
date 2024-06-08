@@ -19,10 +19,10 @@ public class LevelDataConverter : JsonConverter<LevelData>
 
         // Deserialize dotsToSpawn array
         JArray dotsToSpawnArray = (JArray)jsonObject["dotsToSpawn"];
-        levelData.dotsToSpawn = DeserializeDotsToSpawn(dotsToSpawnArray);
+        levelData.dotsToSpawn = DeserializeDotsArray(dotsToSpawnArray);
         // Deserialize dotsOnBoard array
         JArray dotsOnBoardArray = (JArray)jsonObject["dotsOnBoard"];
-        levelData.dotsOnBoard = DeserializeDotsOnBoardData(dotsOnBoardArray);
+        levelData.dotsOnBoard = DeserializeDotsArray(dotsOnBoardArray);
 
         
 
@@ -34,7 +34,7 @@ public class LevelDataConverter : JsonConverter<LevelData>
 
         return levelData;
     }
-    private DotData[] DeserializeDotsOnBoardData(JArray array)
+    private DotData[] DeserializeDotsArray(JArray array)
 
     {
 
@@ -48,20 +48,6 @@ public class LevelDataConverter : JsonConverter<LevelData>
         return deserializedArray;
     }
 
-
-    private DotToSpawnData[] DeserializeDotsToSpawn(JArray array)
-
-    {
-
-        DotToSpawnData[] deserializedArray = new DotToSpawnData[array.Count];
-        for (int i = 0; i < array.Count; i++)
-        {
-            JObject itemObject = (JObject)array[i];
-            deserializedArray[i] = DotDataFactory.CreateDotToSpawnData(itemObject);
-        }
-
-        return deserializedArray;
-    }
 
     private TileData[] DeserializeTilesArray(JArray array)
 
