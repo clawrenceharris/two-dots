@@ -29,7 +29,9 @@ public class DotVisualController : IDotVisualController
     {
         SetColor();
     }
-
+    public virtual void ActivateBomb() {
+        DisableSprites();
+    }
     protected virtual void SetColor()
     { 
         Color = SpriteRenderer.color;
