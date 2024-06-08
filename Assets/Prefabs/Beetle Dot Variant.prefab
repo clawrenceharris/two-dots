@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 674355286482062177}
   - component: {fileID: 5451360227085682791}
   m_Layer: 0
-  m_Name: Beetle Dot Right Wing 2
+  m_Name: Right Wing Layer 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 3212968937752267505}
   - component: {fileID: 318908160909679498}
   m_Layer: 0
-  m_Name: Beetle Dot Left Wing 3
+  m_Name: Left Wing Layer 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 5633704780186032157}
   - component: {fileID: 2924625010476529036}
   m_Layer: 0
-  m_Name: Beetle Dot Right Wing 1
+  m_Name: Right Wing Layer 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 4040285003299596336}
   - component: {fileID: 6987961834894658620}
   m_Layer: 0
-  m_Name: Beetle Dot Right Wing 3
+  m_Name: Right Wing Layer 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 7081792166548744187}
   - component: {fileID: 1275438299152516774}
   m_Layer: 0
-  m_Name: Beetle Dot Left Wing 1
+  m_Name: Left Wing Layer 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -613,7 +613,7 @@ GameObject:
   - component: {fileID: 2085245789266679256}
   - component: {fileID: 4127337358718649202}
   m_Layer: 0
-  m_Name: Beetle Dot Left Wing 2
+  m_Name: Left Wing Layer 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -849,18 +849,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outerDot: {fileID: 8576582511116832377}
-  clearTime: 0.4
   bombHitSprite: {fileID: 0}
-  rightWing3: {fileID: 3486266184288131690}
-  leftWing3: {fileID: 1835650987876660849}
-  rightWing1: {fileID: 2969042392531368742}
-  leftWing1: {fileID: 5206370952881365465}
-  leftWing2: {fileID: 6784024091193511163}
-  rightWing2: {fileID: 1000969558112632331}
+  rightWingLayer3: {fileID: 2969042392531368742}
+  leftWingLayer3: {fileID: 5206370952881365465}
+  rightWingLayer1: {fileID: 3486266184288131690}
+  leftWingLayer1: {fileID: 1835650987876660849}
+  leftWingLayer2: {fileID: 6784024091193511163}
+  rightWingLayer2: {fileID: 1000969558112632331}
   rightWings: {fileID: 8187732682292148997}
   leftWings: {fileID: 1787027141210881331}
   leftPivot: {fileID: 0}
   rightPivot: {fileID: 0}
+  rotationEase: 9
+  rotationSpeed: 0.2
+  moveSpeed: 0.5
 --- !u!212 &8576582511116832377 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
