@@ -78,8 +78,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     {
         NotifyDotCleared();
 
-        DotController.DoBombDot(this);
-
+        NotifyBombActive();
         yield return null;
     }
 

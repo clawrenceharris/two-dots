@@ -48,7 +48,6 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
         
         NotifyDotCleared();
         NotifyBombActive();
-        DotController.DoBombDot(this);
         yield return null;
     }
 

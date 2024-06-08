@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using static Type;
-using System.Net.NetworkInformation;
+using System;
+using Object = UnityEngine.Object;
 
 public class BeetleDotVisualController : ColorDotVisualController
 {
@@ -219,6 +220,56 @@ public class BeetleDotVisualController : ColorDotVisualController
         wingLayers[currentLayerIndex].Remove(rightWing);
 
 
+
+
+    }
+
+    public IEnumerator DoSwap(Dot dotToSwap)
+    {
+        float moveSpeed = Visuals.moveSpeed;
+        int dotToSwapCol = dotToSwap.Column;
+        int dotToSwapRow = dotToSwap.Row;
+        int beetleDotCol = Dot.Column;
+        int beetleDotRow = Dot.Row;
+        dotToSwap.transform.DOLocalMove(new Vector2(beetleDotCol, beetleDotRow) * Board.offset, moveSpeed)
+            .OnComplete(() =>
+            {
+                dotToSwap.Column = beetleDotCol;
+                dotToSwap.Row = beetleDotRow;
+
+            });
+
+
+        yield return Dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveSpeed)
+        .OnComplete(() =>
+        {
+            Dot.Column = dotToSwapCol;
+            Dot.Row = dotToSwapRow;
+        });
+
+    }
+
+    public IEnumerator TrySwap(Action callback)
+    {
+        float offset = 0.3f;
+
+        //Set the small movement based on the beetle dot's current direction
+        Vector2 currentDirection = new(Dot.DirectionX, Dot.DirectionY);
+        Vector2 smallMovement = currentDirection * offset;
+
+        //set the new local position
+        Vector2 originalPosition = new Vector2(Dot.Column, Dot.Row) * Board.offset;
+        Vector2 newPosition = originalPosition + smallMovement;
+
+        yield return Dot.transform.DOLocalMove(newPosition, 0.1f)
+            .SetEase(Ease.OutCubic)
+            .OnComplete(() =>
+            {
+                Dot.transform.DOLocalMove(originalPosition, 0.1f)
+            .SetEase(Ease.OutCubic);
+            });
+
+            
 
 
     }
