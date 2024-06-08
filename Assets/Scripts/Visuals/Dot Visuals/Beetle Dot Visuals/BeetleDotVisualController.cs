@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using static Type;
+using System.Net.NetworkInformation;
 
 public class BeetleDotVisualController : ColorDotVisualController
 {
     public new BeetleDotVisuals Visuals;
     protected new BeetleDot Dot;
-    private List<GameObject> wings;
+    private List<GameObject> wingsLayer1;
+    private List<GameObject> wingsLayer2;
+    private List<GameObject> wingsLayer3;
+    private List<GameObject>[] wingLayers;
+    private int currentLayerIndex;
     public override void Init(Dot dot)
     {
         Visuals = dot.GetComponent<BeetleDotVisuals>();
@@ -18,52 +23,77 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     protected override void SetUp()
     {
-        wings = new() {
-            Visuals.leftWing1,
-            Visuals.leftWing2,
-            Visuals.leftWing3,
-            Visuals.rightWing1,
-            Visuals.rightWing2,
-            Visuals.rightWing3
+        wingsLayer1 = new() {
+            Visuals.leftWingLayer1,
+            Visuals.rightWingLayer1,
         };
+        wingsLayer2 = new() {
+            Visuals.leftWingLayer2,
+            Visuals.rightWingLayer2,
+        };
+        wingsLayer3 = new() {
+            Visuals.leftWingLayer3,
+            Visuals.rightWingLayer3,
+        };
+        wingLayers = new[] { wingsLayer1, wingsLayer2, wingsLayer3 };
+        currentLayerIndex = 0;
+
         Rotate();
         base.SetUp();
     }
 
     protected override void SetColor()
     {
-        
-        foreach(GameObject wing in wings)
+        for(int i =0; i < Dot.Colors.Length; i++)
         {
-            if(wing.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            Color color = ColorSchemeManager.FromDotColor(Dot.Colors[i]);
+            SetColor(i, color);
+        }
+        
+
+
+    }
+
+
+    private void SetColor(int layer, Color color)
+    {
+        foreach (GameObject wing in wingLayers[layer])
+        {
+            if (wing.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
             {
-                spriteRenderer.color = ColorSchemeManager.FromDotColor(Dot.Color);
+                spriteRenderer.color = color;
             }
         }
-           
-        
     }
 
     public override void DisableSprites()
     {
-        foreach (GameObject wing in wings)
+        for (int i =0; i < wingLayers.Length; i++)
         {
-            if (wing.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            for(int j = 0; j < wingLayers[i].Count; j++)
             {
-                spriteRenderer.enabled = false;
+                if (wingLayers[i][j].TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+                {
+                    spriteRenderer.enabled = false;
+                }
             }
+            
         }
 
         base.DisableSprites();
     }
     public override void EnableSprites()
     {
-        foreach (GameObject wing in wings)
+        for (int i = 0; i < wingLayers.Length; i++)
         {
-            if (wing.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            for (int j = 0; j < wingLayers[i].Count; j++)
             {
-                spriteRenderer.enabled = true;
+                if (wingLayers[i][j].TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+                {
+                    spriteRenderer.enabled = true;
+                }
             }
+
         }
 
 
@@ -77,16 +107,16 @@ public class BeetleDotVisualController : ColorDotVisualController
         Visuals.rightWings.DOLocalRotate(Vector3.zero, 0.1f);
         if (Dot.HitCount == 1)
         {
-            yield return RemoveWings(Visuals.rightWing3, Visuals.leftWing3);
-            Visuals.rightWing2.transform.parent = Visuals.rightWings;
-            Visuals.leftWing2.transform.parent = Visuals.leftWings;
+            yield return RemoveWings(Visuals.rightWingLayer1, Visuals.leftWingLayer1);
+            Visuals.rightWingLayer2.transform.parent = Visuals.rightWings;
+            Visuals.leftWingLayer2.transform.parent = Visuals.leftWings;
 
         }
         else if (Dot.HitCount == 2)
         {
-            yield return RemoveWings(Visuals.rightWing2, Visuals.leftWing2);
-            Visuals.rightWing1.transform.parent = Visuals.rightWings;
-            Visuals.leftWing1.transform.parent = Visuals.leftWings;
+            yield return RemoveWings(Visuals.rightWingLayer2, Visuals.leftWingLayer2);
+            Visuals.rightWingLayer3.transform.parent = Visuals.rightWings;
+            Visuals.leftWingLayer3.transform.parent = Visuals.leftWings;
 
         }
 
@@ -185,8 +215,8 @@ public class BeetleDotVisualController : ColorDotVisualController
         yield return new WaitForSeconds(0.7f);
         Object.Destroy(leftWing);
         Object.Destroy(rightWing);
-        wings.Remove(leftWing);
-        wings.Remove(rightWing);
+        wingLayers[currentLayerIndex].Remove(leftWing);
+        wingLayers[currentLayerIndex].Remove(rightWing);
 
 
 
