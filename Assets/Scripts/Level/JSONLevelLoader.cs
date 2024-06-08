@@ -41,7 +41,7 @@ public class JSONLevelLoader
 
 
 
-    public static Dot FromJsonDot(DotData dotData)
+    public static Dot FromJsonDot(DotsObjectData dotData)
     {
         DotType dotType = FromJsonDotType(dotData.type);
         Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));

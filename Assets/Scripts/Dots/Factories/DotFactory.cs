@@ -7,7 +7,7 @@ public class DotFactory
 {
    
 
-    public static Dot CreateDot(DotData data)
+    public static Dot CreateDot(DotsObjectData data)
     {
         DotType dotType = JSONLevelLoader.FromJsonDotType(data.type);
         Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
