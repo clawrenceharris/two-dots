@@ -3,13 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-public class BeetleDot : ColorableDot, IDirectional, IPreviewable
+public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 {
     public override DotType DotType => DotType.BeetleDot;
-
+    public override DotColor Color { get => colors[HitCount]; }
     public override int HitsToClear => 3;
-    
-   
+    private int directionX;
+    private int directionY;
+    public int DirectionX { get => directionX; set => directionX = value; }
+    public int DirectionY { get => directionY; set => directionY = value; }
+    private DotColor[] colors;
+    public DotColor[] Colors { get => colors; set => colors = value; }
+
     public override Dictionary<HitType, IHitRule> HitRules
     {
         get
@@ -35,10 +40,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
 
         }
     }
-    private int directionX;
-    private int directionY;
-    public int DirectionX { get => directionX; set => directionX = value; }
-    public int DirectionY { get => directionY; set => directionY = value; }
+
 
     public override IEnumerator Clear()
     {
@@ -52,7 +54,6 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable
     public override IEnumerator Hit(HitType hitType)
     {
         HitCount++;
-        
         yield return DoVisualHit(hitType);
 
         yield return base.Hit(hitType);
