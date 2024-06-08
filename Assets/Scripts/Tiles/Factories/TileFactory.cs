@@ -4,19 +4,18 @@ using static Type;
 public class TileFactory
 {
 
-    public static Tile CreateTile(TileData tileData)
+    public static Tile CreateTile(DotsObjectData data)
     {
-        TileType tileType = JSONLevelLoader.FromJsonTileType(tileData.type);
+        TileType tileType = JSONLevelLoader.FromJsonTileType(data.type);
 
         Tile tile = Object.Instantiate(GameAssets.Instance.FromTileType(tileType));
 
        
         if (tile is IDirectional directionalTile)
         {
-            DirectionalTileData directionalTileData = (DirectionalTileData)tileData;
 
-            directionalTile.DirectionX = directionalTileData.DirectionX;
-            directionalTile.DirectionY = directionalTileData.DirectionY;
+            directionalTile.DirectionX = data.GetProperty<int>("DirectionX");
+            directionalTile.DirectionY = data.GetProperty<int>("DirectionY");
 
         }
         return tile;

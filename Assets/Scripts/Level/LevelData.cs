@@ -10,21 +10,21 @@ public class LevelData
     public int width;
     public int height;
     public int moves;
-    public DotData[] dotsToSpawn;
-    public DotData[] dotsOnBoard;
-    public TileData[] tilesOnBoard;
+    public DotsObjectData[] dotsToSpawn;
+    public DotsObjectData[] dotsOnBoard;
+    public DotsObjectData[] tilesOnBoard;
 }
 
 
 
 [Serializable]
-public class DotData
+public class DotsObjectData
 {
     public int col;
     public int row;
     public int hitCount;
     public string type;
-    public DotData(string type)
+    public DotsObjectData(string type)
     {
         this.type = type;
     }
@@ -58,20 +58,6 @@ public interface IDirectionalData
     public int DirectionX { get; set; }
     public int DirectionY { get; set; }
 
-}
-
-public class TileData
-{
-    public string type;
-    public int row;
-    public int col;
-
-}
-
-public class DirectionalTileData : TileData, IDirectionalData
-{
-    public int DirectionX { get; set; }
-    public int DirectionY { get; set; }
 }
 
 [Serializable]

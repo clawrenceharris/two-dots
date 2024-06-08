@@ -34,11 +34,11 @@ public class LevelDataConverter : JsonConverter<LevelData>
 
         return levelData;
     }
-    private DotData[] DeserializeDotsArray(JArray array)
+    private DotsObjectData[] DeserializeDotsArray(JArray array)
 
     {
 
-        DotData[] deserializedArray = new DotData[array.Count];
+        DotsObjectData[] deserializedArray = new DotsObjectData[array.Count];
         for (int i = 0; i < array.Count; i++)
         {
             JObject itemObject = (JObject)array[i];
@@ -49,11 +49,11 @@ public class LevelDataConverter : JsonConverter<LevelData>
     }
 
 
-    private TileData[] DeserializeTilesArray(JArray array)
+    private DotsObjectData[] DeserializeTilesArray(JArray array)
 
     {
 
-        TileData[] deserializedArray = new TileData[array.Count];
+        DotsObjectData[] deserializedArray = new DotsObjectData[array.Count];
         for (int i = 0; i < array.Count; i++)
         {
             JObject itemObject = (JObject)array[i];

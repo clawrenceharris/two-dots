@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 public class DotDataFactory
 {
-    public static DotData CreateDotData(JObject itemObject)
+    public static DotsObjectData CreateDotData(JObject itemObject)
     {
         string type = (string)itemObject["type"];
         JToken col = itemObject["col"];
@@ -17,7 +17,7 @@ public class DotDataFactory
         JToken directionX = itemObject["directionX"];
         JToken directionY = itemObject["directionY"];
         JToken number = itemObject["number"];
-        DotData dotData = new(type)
+        DotsObjectData dotData = new(type)
         {
             hitCount = hitCount != null ? (int)hitCount : 0,
             col = col != null ? (int)col : -1,

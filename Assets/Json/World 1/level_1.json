@@ -26,14 +26,14 @@
 
         {
             "type": "beetle",
-            "color": "purple",
+            "colors": [ "blue", "purple", "red" ],
 
             "directionX": -1,
             "directionY": 0
         },
         {
             "type": "beetle",
-            "color": "purple",
+            "colors": ["blue", "purple", "red"],
 
             "directionX": 0,
             "directionY": 1
@@ -52,14 +52,6 @@
     "dotsOnBoard": [
 
 
-        {
-            "type": "beetle",
-            "color": "purple",
-            "row": 0,
-            "col": 0,
-            "directionX": -1,
-            "directionY": 0
-        }
 
        
 
@@ -98,23 +90,22 @@
         //    "col": 0
         //},
 
-        //{
-        //    "type": "one sided block",
-        //    "row": 0,
-        //    "col": 0,
-        //    "directionX": 0,
-        //    "directionY": 1
-        //},
+        {
+            "type": "one sided block",
+            "row": 0,
+            "col": 0,
+            "directionX": 0,
+            "directionY": 1
+        },
 
-        //{
-        //    "type": "one sided block",
-        //    "row": 0,
-        //    "col": 4,
-        //    "directionX": 0,
-        //    "directionY": 1
+        {
+            "type": "one sided block",
+            "row": 0,
+            "col": 4,
+            "directionX": 0,
+            "directionY": 1
               
-        //},
-
+        }
         //{
         //    "type": "block",
         //    "row": 1,

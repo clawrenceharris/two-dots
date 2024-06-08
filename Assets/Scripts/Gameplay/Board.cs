@@ -14,10 +14,10 @@ public class Board : MonoBehaviour
 
     public Tile[,] Tiles { get; private set; }
     private List<IHittable> cleared;
-    private TileData[] tilesOnBoard;
+    private DotsObjectData[] tilesOnBoard;
     public static event Action OnWin;
-    private DotData[] dotsToSpawn;
-    private DotData[] dotsOnBoard;
+    private DotsObjectData[] dotsToSpawn;
+    private DotsObjectData[] dotsOnBoard;
     private LineManager lineManager;
 
     public static float offset = 2.2f;
@@ -120,7 +120,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void InitTile(TileData tileData)
+    private void InitTile(DotsObjectData tileData)
     {
         Tile tile = TileFactory.CreateTile(tileData);
         tile.Init(tileData.col, tileData.row);
@@ -208,7 +208,7 @@ public class Board : MonoBehaviour
         }
         return null;
     }
-    private Dot InitDotOnBoard(DotData dotData)
+    private Dot InitDotOnBoard(DotsObjectData dotData)
     {
 
         Dot dot = DotFactory.CreateDot(dotData);
@@ -231,7 +231,7 @@ public class Board : MonoBehaviour
 
         int randDot = UnityEngine.Random.Range(0, dotsToSpawn.Length);
 
-        DotData dotData = dotsToSpawn[randDot];
+        DotsObjectData dotData = dotsToSpawn[randDot];
 
         Dot dot = DotFactory.CreateDot(dotData);
         dot.Init(col, row);

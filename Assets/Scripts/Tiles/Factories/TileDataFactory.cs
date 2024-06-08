@@ -9,34 +9,32 @@ public class TileDataFactory
 {
     
 
-    public static TileData CreateTileData(JObject itemObject)
+    public static DotsObjectData CreateTileData(JObject itemObject)
     {
-        JToken type = itemObject["type"];
+        string type = (string)itemObject["type"];
         JToken col = itemObject["col"];
         JToken row = itemObject["row"];
+        JToken hitCount = itemObject["hitCount"];
+
         JToken directionX = itemObject["directionX"];
         JToken directionY = itemObject["directionY"];
-
-
-        TileType tileType = JSONLevelLoader.FromJsonTileType((string)type);
-        return tileType switch
+        JToken number = itemObject["number"];
+        DotsObjectData dotData = new(type)
         {
-            TileType.OneSidedBlock => new DirectionalTileData()
-            {
-                type = (string)type,
-                col = (int)col,
-                row = (int)row,
-                DirectionX = (int)directionX,
-                DirectionY = (int)directionY
+            hitCount = hitCount != null ? (int)hitCount : 0,
+            col = col != null ? (int)col : -1,
+            row = row != null ? (int)row : -1,
 
-
-            },
-            _ => new TileData()
-            {
-                type = (string)type,
-                col = (int)col,
-                row = (int)row,
-            },
         };
+
+        switch (type)
+        {
+            case "one sided block":
+                dotData.SetProperty("DirectionX", (int)directionX);
+                dotData.SetProperty("DirectionY", (int)directionY);
+                break;
+            
+        };
+        return dotData;
     }
 }
