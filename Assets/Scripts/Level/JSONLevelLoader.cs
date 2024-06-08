@@ -48,13 +48,7 @@ public class JSONLevelLoader
         return dot;
     }
 
-    public static Dot FromJsonDot(DotToSpawnData dotData)
-    {
-        DotType dotType = FromJsonDotType(dotData.type);
-        Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
-        return dot;
-    }
-
+   
     
 
     public static TileType FromJsonTileType(string type)

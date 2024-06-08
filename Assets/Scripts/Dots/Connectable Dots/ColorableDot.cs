@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class ColorableDot : ConnectableDot, IColorable
 {
     private DotColor color;
-    public DotColor Color { get => color; set => color = value; }
+    public virtual DotColor Color { get => color; set => color = value; }
 
    
 }

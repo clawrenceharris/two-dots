@@ -16,7 +16,7 @@ public class Board : MonoBehaviour
     private List<IHittable> cleared;
     private TileData[] tilesOnBoard;
     public static event Action OnWin;
-    private DotToSpawnData[] dotsToSpawn;
+    private DotData[] dotsToSpawn;
     private DotData[] dotsOnBoard;
     private LineManager lineManager;
 
@@ -231,7 +231,7 @@ public class Board : MonoBehaviour
 
         int randDot = UnityEngine.Random.Range(0, dotsToSpawn.Length);
 
-        DotToSpawnData dotData = dotsToSpawn[randDot];
+        DotData dotData = dotsToSpawn[randDot];
 
         Dot dot = DotFactory.CreateDot(dotData);
         dot.Init(col, row);
