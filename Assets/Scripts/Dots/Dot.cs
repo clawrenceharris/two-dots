@@ -14,8 +14,7 @@ public abstract class Dot : MonoBehaviour, IHittable
 
     public static event Action<Dot> onDotCleared;
     public static event Action<Dot> onDotHit;
-    public static event Action<Dot> onBombActivated;
-    public static event Action<Dot> onBombDeactivated;
+    public static event Action<Dot> onBombActivate;
 
     private int row;
     private int column;
@@ -96,7 +95,10 @@ public abstract class Dot : MonoBehaviour, IHittable
         onDotCleared?.Invoke(this);
     }
 
-
+    protected void NotifyBombActive()
+    {
+        onBombActivate?.Invoke(this);
+    }
 
     public virtual void Pulse()
     {
