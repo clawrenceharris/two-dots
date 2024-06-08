@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using static Type;
 public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
@@ -14,7 +15,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
     public int DirectionY { get => directionY; set => directionY = value; }
     private DotColor[] colors;
     public DotColor[] Colors { get => colors; set => colors = value; }
-
+    public bool WasHit { get; private set; }
     public override Dictionary<HitType, IHitRule> HitRules
     {
         get
@@ -46,14 +47,29 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
     {
         
         NotifyDotCleared();
+        NotifyBombActive();
         DotController.DoBombDot(this);
         yield return null;
     }
 
+    public IEnumerator DoSwap(Dot dotToSwap, Action callback)
+    {
+        if (!WasHit)
+        {
+            yield return StartCoroutine(VisualController.DoSwap(dotToSwap));
+            callback?.Invoke();
+        }
+        else
+        {
+            WasHit = false;
+        }
+            
+    }
 
     public override IEnumerator Hit(HitType hitType)
     {
         HitCount++;
+        WasHit = true;
         yield return DoVisualHit(hitType);
 
         yield return base.Hit(hitType);
@@ -76,8 +92,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
     public IEnumerator PreviewHit(HitType hitType)
     {
         HitType = hitType;
-        yield return StartCoroutine(VisualController.PreviewHit(hitType));   
+        yield return VisualController.PreviewHit(hitType);   
     }
 
-    
 }
