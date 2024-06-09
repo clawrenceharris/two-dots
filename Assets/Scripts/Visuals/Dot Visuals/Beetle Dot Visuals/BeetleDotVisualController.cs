@@ -240,12 +240,14 @@ public class BeetleDotVisualController : ColorDotVisualController
             });
 
 
-        yield return Dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveSpeed)
+         Dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveSpeed)
         .OnComplete(() =>
         {
             Dot.Column = dotToSwapCol;
             Dot.Row = dotToSwapRow;
         });
+
+        yield return new WaitForSeconds(moveSpeed);
 
     }
 
@@ -261,15 +263,15 @@ public class BeetleDotVisualController : ColorDotVisualController
         Vector2 originalPosition = new Vector2(Dot.Column, Dot.Row) * Board.offset;
         Vector2 newPosition = originalPosition + smallMovement;
 
-        yield return Dot.transform.DOLocalMove(newPosition, 0.1f)
+        Dot.transform.DOLocalMove(newPosition, 0.2f)
             .SetEase(Ease.OutCubic)
             .OnComplete(() =>
             {
-                Dot.transform.DOLocalMove(originalPosition, 0.1f)
+                Dot.transform.DOLocalMove(originalPosition, 0.2f)
             .SetEase(Ease.OutCubic);
             });
-
-            
+        yield return new WaitForSeconds(0.5f);
+        callback?.Invoke();
 
 
     }

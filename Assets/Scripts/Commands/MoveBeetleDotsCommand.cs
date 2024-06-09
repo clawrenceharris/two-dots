@@ -85,6 +85,14 @@ public class MoveBeetleDotsCommand : Command
 
     }
 
+
+    /// <summary>
+    /// Returns whether the beetle dot wants to move,
+    /// meaning it wasnt hit already in the last move but it can not move forward
+    /// </summary>
+    /// <param name="beetleDot">The beetle dot</param>
+    /// <param name="dotToSwap">The dot to be swapped with</param>
+    /// <returns></returns>
     private bool WantsToMove(BeetleDot beetleDot, Dot dotToSwap)
     {
         return !beetleDot.WasHit && !CanMove(dotToSwap);
@@ -105,14 +113,13 @@ public class MoveBeetleDotsCommand : Command
                     Dot dotToSwap = board.GetDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
 
                     //if the dot can move and wants to move 
-                    if (CanMove(dotToSwap) && WantsToMove(beetleDot,dotToSwap))
+                    if (CanMove(dotToSwap))
                     {
                         //then add it to the dictionary
                         dotsToSwap.TryAdd(beetleDot, dotToSwap);
 
                     }
-                    //if the dot cant move but wants to move then change its direction
-                    else if(!CanMove(dotToSwap) && WantsToMove(beetleDot, dotToSwap))
+                    else
                     {
                         //visually try to make the swap
                         CoroutineHandler.StartStaticCoroutine(beetleDot.VisualController.TrySwap(() =>

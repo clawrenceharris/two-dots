@@ -13,10 +13,10 @@ public class DotController
     private static Board board;
 
 
-    public DotController(Board b)
+    public DotController(Board board)
     {
-        board = b;
-        
+        DotController.board = board;
+
 
     }
 
@@ -107,24 +107,5 @@ public class DotController
 
     }
 
-
-    public static void ActivateBomb(Dot dot)
-    {
-        dot.visualController.DisableSprites();
-        board.CreateBomb(dot.Column, dot.Row);
-    }
-
-    public static void DeactivateBomb(Dot dot)
-    {
-        dot.visualController.EnableSprites();
-
-        //get the bomb that is at this dot's position on the board
-        //then destroy it
-        Dot bomb = board.GetDotAt(dot.Column, dot.Row);
-        Object.Destroy(bomb.gameObject);
-        
-        //put the original dot back
-        board.PutDot(dot);
-    }
 
 }
