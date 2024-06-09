@@ -17,7 +17,7 @@ public class BeetleDotVisuals : DotVisuals
     public Ease rotationEase = Ease.OutCubic;
     public float rotationSpeed = 0.2f;
     public float moveSpeed = 0.5f;
-
-
-
+    public float clearAmplitude = 1.2f;
+    public float clearFrequeuncy = 2f;
+    public float clearSpeed = 10f;
 }

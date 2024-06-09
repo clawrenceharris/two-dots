@@ -13,7 +13,7 @@ public class Board : MonoBehaviour
     private Dot[,] Dots;
 
     public Tile[,] Tiles { get; private set; }
-    private List<IHittable> cleared;
+    public List<IHittable> cleared { get; private set; }
     private DotsObjectData[] tilesOnBoard;
     public static event Action OnWin;
     private DotsObjectData[] dotsToSpawn;
@@ -72,7 +72,8 @@ public class Board : MonoBehaviour
         CommandInvoker.onCommandsEnded += OnCommandsEnded;
         Dot.onBombActivate += OnBombActive;
     }
-     private void Update()
+
+    private void Update()
     {
         lineManager.UpdateLines();
     }
@@ -80,19 +81,40 @@ public class Board : MonoBehaviour
     private void OnDotCleared(Dot dot)
     {
         Dots[dot.Column, dot.Row] = null;
-        cleared.Add(dot); 
+        cleared.Add(dot);
+
     }
 
     private void OnCommandsEnded()
     {
-        foreach (IHittable hittable in cleared)
+        StartCoroutine(DestroyCleared());
+    }
+
+
+    private IEnumerator DestroyCleared()
+    {
+
+        for (int i = 0; i < cleared.Count; i++)
         {
+            IHittable hittable = cleared[i];
             if (hittable is Dot dot)
+            {
+                yield return new WaitForSeconds(dot.visualController.Visuals.clearTime);
                 Destroy(dot.gameObject);
+                Debug.Log("Dot destroyed");
+
+            }
             if (hittable is Tile tile)
+            {
+                yield return new WaitForSeconds(tile.visualController.Visuals.clearTime);
                 Destroy(tile.gameObject);
+
+            }
+
         }
+
         cleared.Clear();
+
     }
 
     private void OnTileCleared(Tile tile)

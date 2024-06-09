@@ -35,7 +35,7 @@ public class BoardCommand : Command
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(BoardCommand));
 
         }
-
+        
         yield return base.Execute(board);
 
 

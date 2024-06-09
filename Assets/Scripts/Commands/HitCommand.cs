@@ -34,6 +34,7 @@ public class HitCommand : Command
 
                     }
             }
+
             if (hittable.HitCount >= hittable.HitsToClear)
             {
                 CoroutineHandler.StartStaticCoroutine(hittable.Clear());
@@ -46,7 +47,7 @@ public class HitCommand : Command
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
 
         }
-        yield return new WaitForSeconds(DotVisuals.clearTime);
+        yield return new WaitForSeconds(DotVisuals.defaultClearTime);
 
         yield return base.Execute(board);
 

@@ -37,9 +37,10 @@ public class ExplosionCommand : Command
                 {
                     List<IHittable> toHit = rule.Validate(explodable, board);
 
-                    DidExecute = toHit.Count > 0;
                     if(explodable.HitCount >= explodable.HitsToClear)
                     {
+                        DidExecute =true;
+
                         CoroutineHandler.StartStaticCoroutine(explodable.Explode(toHit));
 
                     }

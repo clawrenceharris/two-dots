@@ -10,28 +10,20 @@
             "type": "blank"
 
         },
-       
-
-
 
 
         {
-            "type": "beetle",
-            "colors": [ "blue", "purple", "blue" ],
+            "type": "blank"
 
-            "directionX": -1,
-            "directionY": 0
         },
         {
-            "type": "beetle",
-            "colors": ["blue", "purple", "blue"],
+            "type": "blank"
 
-            "directionX": 0,
-            "directionY": 1
-        }
+        },
+
+
 
        
-
 
 
 
@@ -43,6 +35,14 @@
     "dotsOnBoard": [
 
 
+        {
+            "type": "beetle",
+            "colors": [ "blue", "purple", "blue" ],
+            "row": 3,
+            "col": 3,
+            "directionX": -1,
+            "directionY": 0
+        }
 
        
 
