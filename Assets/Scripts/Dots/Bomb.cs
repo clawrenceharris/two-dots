@@ -97,17 +97,10 @@ public class Bomb : Dot, IExplodable
             yield return coroutine;
         }
 
-        
-
-
+        StartCoroutine(Clear());
     }
     
-    public override IEnumerator Hit(HitType hitType)
-    {
-        HitCount++;
-        yield return null;
-    }
-
+    
    
 }
    

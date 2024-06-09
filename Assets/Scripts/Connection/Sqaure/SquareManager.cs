@@ -139,8 +139,8 @@ public class Square
         FindDotsInsideSquare();
         foreach (Dot dot in DotsInSquare)
         {
-            DotController.ActivateBomb(dot);
-
+            dot.visualController.DisableSprites();
+            board.CreateBomb(dot.Column, dot.Row);
         }
     }
 
@@ -149,7 +149,15 @@ public class Square
 
         foreach (Dot dot in DotsInSquare)
         {
-            DotController.DeactivateBomb(dot);
+            dot.visualController.EnableSprites();
+
+            //get the bomb that is at this dot's position on the board
+            //then destroy it
+            Dot bomb = board.GetDotAt(dot.Column, dot.Row);
+            Object.Destroy(bomb.gameObject);
+
+            //put the original dot back
+            board.PutDot(dot);
 
         }
 

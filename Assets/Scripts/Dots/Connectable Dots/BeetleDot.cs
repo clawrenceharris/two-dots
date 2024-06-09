@@ -55,14 +55,10 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
     {
         if (!WasHit)
         {
-            yield return StartCoroutine(VisualController.DoSwap(dotToSwap));
-            callback?.Invoke();
-        }
-        else
-        {
+            yield return VisualController.DoSwap(dotToSwap);
             WasHit = false;
-        }
-            
+            callback?.Invoke();
+        }     
     }
 
     public override IEnumerator Hit(HitType hitType)

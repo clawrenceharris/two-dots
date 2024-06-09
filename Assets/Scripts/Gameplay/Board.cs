@@ -70,6 +70,7 @@ public class Board : MonoBehaviour
         Dot.onDotCleared += OnDotCleared;
         Tile.onTileCleared += OnTileCleared;
         CommandInvoker.onCommandsEnded += OnCommandsEnded;
+        Dot.onBombActivate += OnBombActive;
     }
      private void Update()
     {
@@ -189,6 +190,12 @@ public class Board : MonoBehaviour
         bomb.Init(col, row);
         
     }
+
+    private void OnBombActive(Dot dot)
+    {
+        CreateBomb(dot.Column, dot.Row);
+    }
+
     public void PutDot(Dot dot)
     {
         Dots[dot.Column, dot.Row] = dot;

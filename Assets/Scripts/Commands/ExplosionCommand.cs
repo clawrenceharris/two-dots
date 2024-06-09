@@ -41,7 +41,6 @@ public class ExplosionCommand : Command
                     DidExecute = toHit.Count > 0;
                  
                     CoroutineHandler.StartStaticCoroutine(explodable.Explode(toHit));
-                    CoroutineHandler.StartStaticCoroutine(explodable.Hit(hitType));
 
 
                    
