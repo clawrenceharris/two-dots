@@ -123,7 +123,10 @@ public class LevelManager : MonoBehaviour
 
                 break;
             case CommandType.Explosion:
+                CommandInvoker.Instance.Enqueue(new HitCommand());
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
+
+
 
 
 

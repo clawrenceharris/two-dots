@@ -5,6 +5,7 @@ using DG.Tweening;
 using static Type;
 using System;
 using Object = UnityEngine.Object;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class BeetleDotVisualController : ColorDotVisualController
 {
@@ -104,7 +105,6 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     private IEnumerator DoHitAnimation()
     {
-        Dot.StopAllCoroutines();
         Visuals.leftWings.DOLocalRotate(Vector3.zero, 0.1f);
         Visuals.rightWings.DOLocalRotate(Vector3.zero, 0.1f);
         if (Dot.HitCount == 1)
@@ -114,20 +114,57 @@ public class BeetleDotVisualController : ColorDotVisualController
             Visuals.leftWingLayer2.transform.parent = Visuals.leftWings;
 
         }
-        else if (Dot.HitCount == 2)
+        if (Dot.HitCount == 2)
         {
             yield return RemoveWings(Visuals.rightWingLayer2, Visuals.leftWingLayer2);
             Visuals.rightWingLayer3.transform.parent = Visuals.rightWings;
             Visuals.leftWingLayer3.transform.parent = Visuals.leftWings;
 
         }
+        
 
-        else
+    }
+
+    public override IEnumerator Clear()
+    {
+        float duration = 6f;
+        float elapsedTime = 0f;
+        float amplitude = Visuals.clearAmplitude;
+        float frequency = Visuals.clearFrequeuncy;
+        float speed = Visuals.clearSpeed;      // Speed of movement
+
+        Vector3 startPosition = Dot.transform.position;
+        Vector3 direction = new(Dot.DirectionX, Dot.DirectionY);
+
+        while (elapsedTime < duration)
         {
-            yield return Dot.transform.DOMove(Dot.transform.position * 2, 1f);
-        }
-          
+            // Calculate the linear displacement along the direction vector
+            Vector3 linearDisplacement = elapsedTime * speed * direction;
 
+            // Calculate the perpendicular displacement using the sine function
+            Vector3 perpendicularDisplacement = amplitude * Mathf.Sin(elapsedTime * frequency) * Vector3.Cross(direction, Vector3.forward).normalized;
+
+            // Update the position of the GameObject
+            Vector3 newPosition = startPosition + linearDisplacement + perpendicularDisplacement;
+
+            // Calculate the direction of the movement
+            Vector3 movementDirection = (newPosition - Dot.transform.position).normalized;
+
+            // Update the rotation of the GameObject to face the movement direction
+            if (movementDirection != Vector3.zero)
+            {
+                Dot.transform.rotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
+            }
+
+            // Update the position
+            Dot.transform.position = newPosition;
+
+            // Increment elapsed time
+            elapsedTime += Time.deltaTime;
+
+            // Wait for the next frame
+            yield return null;
+        }
     }
 
     public override IEnumerator PreviewHit(HitType hitType)
@@ -139,7 +176,7 @@ public class BeetleDotVisualController : ColorDotVisualController
         Vector3 rightWingAngle = new(0, 0, flapAngle);
 
 
-        while (ConnectionManager.ToHit.Contains(Dot))
+        while (ConnectionManager.ToHit.Contains(Dot) || Dot.HitCount >= Dot.HitsToClear)
         {
             // Flap up
             Visuals.leftWings.DOLocalRotate(leftWingAngle, flapDuration);
@@ -228,7 +265,7 @@ public class BeetleDotVisualController : ColorDotVisualController
     public override IEnumerator BombHit()
     {
         SetColor(currentLayerIndex, Color.white);
-        yield return new WaitForSeconds(DotVisuals.clearTime);
+        yield return new WaitForSeconds(Visuals.clearTime);
         SetColor(currentLayerIndex, Color);
     }
 

@@ -43,7 +43,7 @@ public class DotVisualController : IDotVisualController
     {   
         SpriteRenderer.sprite = Visuals.bombHitSprite;
 
-        yield return new WaitForSeconds(DotVisuals.clearTime);
+        yield return new WaitForSeconds(DotVisuals.defaultClearTime);
 
         SpriteRenderer.sprite = sprite;
 
@@ -73,8 +73,8 @@ public class DotVisualController : IDotVisualController
 
     public virtual IEnumerator Clear()
     {
-        Dot.transform.DOScale(Vector2.zero, DotVisuals.clearTime);
-        yield return new WaitForSeconds(DotVisuals.clearTime);
+        Dot.transform.DOScale(Vector2.zero, Visuals.clearTime);
+        yield return new WaitForSeconds(Visuals.clearTime);
     }
 
     public virtual IEnumerator PreviewHit(HitType hitType)
