@@ -86,17 +86,6 @@ public class MoveBeetleDotsCommand : Command
     }
 
 
-    /// <summary>
-    /// Returns whether the beetle dot wants to move,
-    /// meaning it wasnt hit already in the last move but it can not move forward
-    /// </summary>
-    /// <param name="beetleDot">The beetle dot</param>
-    /// <param name="dotToSwap">The dot to be swapped with</param>
-    /// <returns></returns>
-    private bool WantsToMove(BeetleDot beetleDot, Dot dotToSwap)
-    {
-        return !beetleDot.WasHit && !CanMove(dotToSwap);
-    }
 
     public override IEnumerator Execute(Board board)
     {
