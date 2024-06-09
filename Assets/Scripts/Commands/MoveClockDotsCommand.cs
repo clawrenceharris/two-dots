@@ -10,7 +10,6 @@ public class MoveClockDotsCommand : Command
     public override CommandType CommandType => CommandType.MoveClockDots;
     public override IEnumerator Execute(Board board)
     {
-        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveClockDotsCommand));
         LinkedList<ConnectableDot> connectedDots = new(ConnectionManager.ConnectedDots);
         LinkedListNode<ConnectableDot> currentNode = connectedDots.Last;
 
@@ -52,6 +51,8 @@ public class MoveClockDotsCommand : Command
         }
         if (DidExecute)
         {
+            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(MoveClockDotsCommand));
+
             yield return new WaitForSeconds(1f);
 
         }

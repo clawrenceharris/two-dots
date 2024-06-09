@@ -100,7 +100,6 @@ public class MoveBeetleDotsCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
-        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
 
         for(int i = 0; i < board.Width; i++)
 
@@ -110,6 +109,7 @@ public class MoveBeetleDotsCommand : Command
                 Dot dot = board.GetDotAt(i, j);
                 if (dot is BeetleDot beetleDot)
                 {
+                    
                     Dot dotToSwap = board.GetDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
 
                     //if the dot can move and wants to move 
@@ -129,6 +129,7 @@ public class MoveBeetleDotsCommand : Command
                         }));
 
                     }
+                    DidExecute = true;
 
 
                 }
@@ -170,8 +171,12 @@ public class MoveBeetleDotsCommand : Command
             
         }
 
-        
 
+        if (DidExecute)
+        {
+            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(MoveBeetleDotsCommand));
+
+        }
 
         yield return base.Execute(board);
     }

@@ -63,7 +63,7 @@ public class CommandInvoker
     private IEnumerator CheckCommandsEnded()
     {
        
-        yield return new WaitForSeconds(0.8f); 
+        yield return new WaitForSeconds(1.5f); 
 
         if (commands.Count == 0  && !CommandsEnded)
         {

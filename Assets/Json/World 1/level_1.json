@@ -10,30 +10,21 @@
             "type": "blank"
 
         },
-        {
-            "type": "normal",
-            "color": "blue"
-
-        },
-        {
-            "type": "normal",
-            "color": "purple"
-
-        },
+       
 
 
 
 
         {
             "type": "beetle",
-            "colors": [ "blue", "purple", "red" ],
+            "colors": [ "blue", "purple", "blue" ],
 
             "directionX": -1,
             "directionY": 0
         },
         {
             "type": "beetle",
-            "colors": ["blue", "purple", "red"],
+            "colors": ["blue", "purple", "blue"],
 
             "directionX": 0,
             "directionY": 1

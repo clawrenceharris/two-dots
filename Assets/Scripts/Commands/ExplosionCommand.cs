@@ -14,7 +14,6 @@ public class ExplosionCommand : Command
     
     public override IEnumerator Execute(Board board)
     {
-        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ExplosionCommand));
 
         List<IExplodable> explodables = board.GetExplodables();
 
@@ -39,11 +38,13 @@ public class ExplosionCommand : Command
                     List<IHittable> toHit = rule.Validate(explodable, board);
 
                     DidExecute = toHit.Count > 0;
-                 
-                    CoroutineHandler.StartStaticCoroutine(explodable.Explode(toHit));
+                    if(explodable.HitCount >= explodable.HitsToClear)
+                    {
+                        CoroutineHandler.StartStaticCoroutine(explodable.Explode(toHit));
+
+                    }
 
 
-                   
 
 
 
@@ -64,14 +65,14 @@ public class ExplosionCommand : Command
 
 
 
-        yield return new WaitForSeconds(0.5f);
-
+        yield return new WaitForSeconds(1f);
 
         if (DidExecute)
         {
-            CommandInvoker.Instance.Enqueue(new ClearCommand());
+            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ExplosionCommand));
 
         }
+
         yield return base.Execute(board);
 
 
