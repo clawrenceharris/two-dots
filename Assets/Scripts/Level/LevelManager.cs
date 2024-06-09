@@ -114,26 +114,26 @@ public class LevelManager : MonoBehaviour
     {
         switch (command.CommandType)
         {
-            case CommandType.Board:
-                CommandInvoker.Instance.Enqueue(new HitCommand());
-                break;
+            
             case CommandType.Hit:
-                //CommandInvoker.Instance.Enqueue(new ClearCommand());
+                
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
                 CommandInvoker.Instance.Enqueue(new ExplosionCommand());
 
+
                 break;
-            case CommandType.Clear:
-                CommandInvoker.Instance.Enqueue(new HitCommand());
+            case CommandType.Explosion:
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
-                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+
+
+
 
                 break;
         }
     }
     private void OnDotsDropped()
     {
-       DoCommand(new BoardCommand());
+
     }
 
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)

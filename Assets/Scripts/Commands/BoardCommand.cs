@@ -14,7 +14,6 @@ public class BoardCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
-        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(BoardCommand));
 
 
         bool dotsDropped;
@@ -31,7 +30,11 @@ public class BoardCommand : Command
         yield return new WaitForSeconds(DidExecute ? Board.DotDropSpeed : 0f);
 
 
+        if (DidExecute)
+        {
+            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(BoardCommand));
 
+        }
 
         yield return base.Execute(board);
 

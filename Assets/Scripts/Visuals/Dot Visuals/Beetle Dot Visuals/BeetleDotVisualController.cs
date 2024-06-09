@@ -56,6 +56,7 @@ public class BeetleDotVisualController : ColorDotVisualController
     }
 
 
+
     private void SetColor(int layer, Color color)
     {
         foreach (GameObject wing in wingLayers[layer])
@@ -222,6 +223,13 @@ public class BeetleDotVisualController : ColorDotVisualController
 
 
 
+    }
+
+    public override IEnumerator BombHit()
+    {
+        SetColor(currentLayerIndex, Color.white);
+        yield return new WaitForSeconds(DotVisuals.clearTime);
+        SetColor(currentLayerIndex, Color);
     }
 
     public IEnumerator DoSwap(Dot dotToSwap)
