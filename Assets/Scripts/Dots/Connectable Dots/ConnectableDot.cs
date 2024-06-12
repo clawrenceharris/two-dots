@@ -30,6 +30,9 @@ public abstract class ConnectableDot : Dot, IConnectable
 
                 {
                     HitType.Square, new HitBySquareRule()
+                },
+                {
+                    HitType.Explosion, new HitByExplosionRule()
                 }
 
             };
@@ -48,7 +51,7 @@ public abstract class ConnectableDot : Dot, IConnectable
 
     public virtual void Disconnect()
     {
-        HitType = HitType.None;
+
     }
 
     public virtual void Connect()

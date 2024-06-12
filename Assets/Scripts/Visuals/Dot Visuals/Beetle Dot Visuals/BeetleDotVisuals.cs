@@ -19,5 +19,5 @@ public class BeetleDotVisuals : DotVisuals
     public float moveSpeed = 0.5f;
     public float clearAmplitude = 1.2f;
     public float clearFrequeuncy = 2f;
-    public float clearSpeed = 10f;
+    public float clearSpeed = 50f;
 }

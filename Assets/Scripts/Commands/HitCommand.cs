@@ -14,33 +14,43 @@ public class HitCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
+        Debug.Log(nameof(HitCommand));
 
         List<IHittable> hittables = board.GetHittables();
         foreach (IHittable hittable in hittables)
         {
-            if(hittable == null)
+            if (hittable == null)
             {
                 continue;
             }
 
+
             foreach (HitType hitType in hittable.HitRules.Keys)
             {
                 if (hittable.HitRules.TryGetValue(hitType, out var rule))
-                    if (rule.Validate(hittable, board) )
+                    if (rule.Validate(hittable, board))
                     {
                         DidExecute = true;
                         CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
-                        
-
+                        if (hittable.HitCount >= hittable.HitsToClear)
+                        {
+                            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+                        }
                     }
+
+
+                else if (new HitByExplosionRule().Validate(hittable, board))
+                {
+                        DidExecute = true;
+                    CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
+                        if (hittable.HitCount >= hittable.HitsToClear)
+                        {
+                            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+                        }
+                    }
+
+
             }
-
-            if (hittable.HitCount >= hittable.HitsToClear)
-            {
-                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
-            }
-
-
         }
         if (DidExecute)
         {

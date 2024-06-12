@@ -29,7 +29,7 @@ public class NestingDotVisualController : DotVisualController
         base.SetColor();
     }
 
-    public override IEnumerator PreviewHit(HitType hitType)
+    public override IEnumerator PreviewHit(PreviewHitType hitType)
     {
         while (Dot.HitCount == 2)
         {

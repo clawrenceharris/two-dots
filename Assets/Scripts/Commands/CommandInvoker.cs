@@ -2,17 +2,118 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using static Type;
+public static class CommandComparer
+{
+    public static int Compare(Command a, Command b)
+    {
+        // Define the specific priority rules
+        if (a.CommandType == CommandType.MoveClockDots && b.CommandType == CommandType.Board)
+        {
+            return -1; // MoveClockDotCommand comes before BoardCommand
+        }
+        if (a.CommandType == CommandType.Board && b.CommandType == CommandType.MoveClockDots)
+        {
+            return 1; // BoardCommand comes after MoveClockDotCommand
+        }
+        if (a.CommandType == CommandType.MoveClockDots && b.CommandType == CommandType.Hit)
+        {
+            return -1; // BoardCommand comes before ClearCommand
+        }
+        if (a.CommandType == CommandType.Hit && b.CommandType == CommandType.Board)
+        {
+            return 1; // ClearCommand comes after BoardCommand
+        }
+
+
+        // If none of the specific rules apply, use natural order
+        return a.CommandType.CompareTo(b.CommandType);
+    }
+}
+
 
 public class CommandInvoker
 {
-    private readonly Queue<Command> commands = new();
+
+    public class PriorityQueue<T>
+    {
+        private readonly SortedDictionary<int, Queue<T>> priorityQueue;
+        private readonly Func<T, T, int> comparer;
+
+        public PriorityQueue(Func<T, T, int> comparer)
+        {
+            priorityQueue = new SortedDictionary<int, Queue<T>>();
+            this.comparer = comparer;
+        }
+
+        public void Enqueue(T item)
+        {
+            int priority = GetPriority(item);
+
+            if (!priorityQueue.ContainsKey(priority))
+            {
+                priorityQueue[priority] = new Queue<T>();
+            }
+
+            priorityQueue[priority].Enqueue(item);
+        }
+
+        public T Dequeue()
+        {
+            if (priorityQueue.Count == 0) throw new InvalidOperationException("The queue is empty.");
+
+            foreach (var key in priorityQueue.Keys)
+            {
+                var queue = priorityQueue[key];
+                if (queue.Count > 0)
+                {
+                    var item = queue.Dequeue();
+                    if (queue.Count == 0)
+                    {
+                        priorityQueue.Remove(key);
+                    }
+                    return item;
+                }
+            }
+
+            throw new InvalidOperationException("The queue is empty.");
+        }
+
+        private int GetPriority(T item)
+        {
+            // Using the comparer to determine priority
+            foreach (var key in priorityQueue.Keys)
+            {
+                var sampleItem = priorityQueue[key].Peek();
+                if (comparer(item, sampleItem) < 0)
+                {
+                    return key - 1;
+                }
+                if (comparer(item, sampleItem) == 0)
+                {
+                    return key;
+                }
+            }
+            return priorityQueue.Count == 0 ? 0 : priorityQueue.Keys.Max() + 1;
+        }
+
+        public bool IsEmpty => priorityQueue.Count == 0;
+
+        public int Count
+        {
+            get { return priorityQueue.Values.Sum(queue => queue.Count); }
+        }
+    }
+    
+    private readonly PriorityQueue<Command> commands = new(CommandComparer.Compare);
     private readonly Board board;
     public static CommandInvoker Instance;
     public static int commandCount;
     public static bool CommandsEnded { get; private set; } = true;
     private Coroutine checkCommandsEndedCoroutine;
     public static event Action onCommandsEnded;
-
+    private bool isExecuting;
     public CommandInvoker(Board board)
     {
         Instance = this;
@@ -32,15 +133,21 @@ public class CommandInvoker
 
     public void ExecuteNextCommand()
     {
-        if (commands.Count > 0)
+        if (!commands.IsEmpty)
         {
             Command command = commands.Dequeue();
             CoroutineHandler.StartStaticCoroutine(ExecuteCommandCo(command));
+        }
+        else
+        {
+            isExecuting = false;
+
         }
     }
 
     private IEnumerator ExecuteCommandCo(Command command)
     {
+        isExecuting = true;
         yield return command.Execute(board); 
         ExecuteNextCommand();
     }
@@ -63,9 +170,9 @@ public class CommandInvoker
     private IEnumerator CheckCommandsEnded()
     {
        
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(1.5f); 
 
-        if (commands.Count == 0  && !CommandsEnded)
+        if (commands.IsEmpty  && !CommandsEnded && !isExecuting)
         {
             
                 CommandsEnded = true;

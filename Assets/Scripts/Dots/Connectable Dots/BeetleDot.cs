@@ -9,6 +9,10 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
     public override DotType DotType => DotType.BeetleDot;
     public override DotColor Color { get => colors[HitCount]; }
     public override int HitsToClear => 3;
+
+    public PreviewHitType PreviewHitType { get; private set; }
+    PreviewHitType IPreviewable.PreviewHitType => PreviewHitType;
+
     private int directionX;
     private int directionY;
     public int DirectionX { get => directionX; set => directionX = value; }
@@ -29,18 +33,8 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
         }
     }
 
-    public BeetleDotVisualController VisualController
-    {
-        get
-        {
-            if (visualController is BeetleDotVisualController beetleDotVisualController)
-            {
-                return beetleDotVisualController;
-            }
-            throw new InvalidCastException("Unable to cast base visualController to BeetleDotVisualController");
-
-        }
-    }
+    public BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
+   
 
 
     public override IEnumerator Clear()
@@ -52,9 +46,12 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
     public IEnumerator DoSwap(Dot dotToSwap, Action callback)
     {
+        
+
         if (!WasHit)
         {
             yield return VisualController.DoSwap(dotToSwap);
+           
             WasHit = false;
             callback?.Invoke();
         }     
@@ -71,8 +68,8 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
     public override void InitDisplayController()
     {
-        visualController = new BeetleDotVisualController();
-        visualController.Init(this);
+        base.visualController = new BeetleDotVisualController();
+        base.visualController.Init(this);
     }
 
     public IEnumerator ChangeDirection(int directionX, int directionY)
@@ -83,10 +80,11 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
         yield return VisualController.RotateCo();
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+    public IEnumerator PreviewHit(PreviewHitType hitType)
     {
-        HitType = hitType;
-        yield return VisualController.PreviewHit(hitType);   
+        PreviewHitType = hitType;
+        yield return visualController.PreviewHit(hitType);   
     }
 
+    
 }

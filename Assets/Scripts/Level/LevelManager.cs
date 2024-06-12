@@ -70,7 +70,6 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onDotDisconnected -= OnDotDisconnected;
         Command.onCommandExecuted -= OnCommandExecuted;
         CommandInvoker.onCommandsEnded -= OnCommnadsEnded;
-        Board.onDotsDropped -= OnDotsDropped;
     }
 
     private void SubscribeToEvents()
@@ -80,7 +79,6 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
         Command.onCommandExecuted += OnCommandExecuted;
         CommandInvoker.onCommandsEnded += OnCommnadsEnded;
-        Board.onDotsDropped += OnDotsDropped;
     }
 
 
@@ -90,7 +88,7 @@ public class LevelManager : MonoBehaviour
     {
         if (dot is IPreviewable previewable)
         {
-            StartCoroutine(previewable.PreviewHit(HitType.None));
+            StartCoroutine(previewable.PreviewHit(PreviewHitType.None));
         }
     }
 
@@ -102,43 +100,31 @@ public class LevelManager : MonoBehaviour
         {
             if (hittable is IPreviewable previewable)
             {
-                StartCoroutine(previewable.PreviewHit(HitType.Connection));
+                StartCoroutine(previewable.PreviewHit(PreviewHitType.Connection));
             }
         }
     }
-
-
-
 
     private void OnCommandExecuted(Command command)
     {
         switch (command.CommandType)
         {
-            
-            case CommandType.Hit:
-                
-                CommandInvoker.Instance.Enqueue(new BoardCommand());
+
+            case CommandType.Board:
+                CommandInvoker.Instance.Enqueue(new HitCommand());
                 CommandInvoker.Instance.Enqueue(new ExplosionCommand());
-
-
+                break;
+           
+            case CommandType.Hit:
+                CommandInvoker.Instance.Enqueue(new BoardCommand());
                 break;
             case CommandType.Explosion:
-                CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new BoardCommand());
-
-
-
-
-
-
+                DoCommand(new HitCommand());
                 break;
+
         }
     }
-    private void OnDotsDropped()
-    {
-
-    }
-
+   
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
         didMove = true;
@@ -151,6 +137,7 @@ public class LevelManager : MonoBehaviour
     {
         if (didMove)
         {
+
             DoCommand(new MoveClockDotsCommand());
             DoCommand(new MoveBeetleDotsCommand());
             didMove = false;

@@ -21,9 +21,22 @@
 
         },
 
+        //{
+        //    "type": "beetle",
+        //    "colors": [ "blue", "purple", "blue" ],
+          
+        //    "directionX": -1,
+        //    "directionY": 0
+        //},
 
 
-       
+        //{
+        //    "type": "beetle",
+        //    "colors": [ "blue", "purple", "blue" ],
+
+        //    "directionX": 0,
+        //    "directionY": 1
+        //}
 
 
 

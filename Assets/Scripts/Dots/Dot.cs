@@ -20,7 +20,16 @@ public abstract class Dot : MonoBehaviour, IHittable
     private int column;
     public int Column { get => column; set => column = value; }
     public int Row { get => row; set => row = value; }
-    
+
+    public T GetVisualController<T>() where T : class
+    {
+        if (visualController is T controller)
+        {
+            return controller;
+        }
+        throw new InvalidCastException($"Unable to cast base visualController to {typeof(T).Name}");
+    }
+
 
     public abstract DotType DotType { get; }
     public bool IsBomb { get; protected set; }
