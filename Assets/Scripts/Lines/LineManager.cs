@@ -21,7 +21,7 @@ public class LineManager
     
     private void SubscribeToEvents()
     {
-        ConnectionManager.onDotConnected += OnDotConnection;
+        ConnectionManager.onDotConnected += OnDotConnected;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
         ConnectionManager.onDotSelected += OnDotSelected;
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
@@ -53,13 +53,14 @@ public class LineManager
     }
 
     
-    private void OnDotConnection(Dot dot)
+    private void OnDotConnected(Dot dot)
     {
-        //set the end position of the current line 
         currentLine.endPos = dot.transform.position;
 
-        //add another line and set it as the current line
         currentLine = DrawLine(dot.transform);
+
+        lines.Add(currentLine);
+
     }
 
     /// <summary>
@@ -91,7 +92,7 @@ public class LineManager
     /// </summary>
     public void UnsubscribeFromEvents()
     {
-        ConnectionManager.onDotConnected -= OnDotConnection;
+        ConnectionManager.onDotConnected -= OnDotConnected;
         ConnectionManager.onDotDisconnected -= OnDotDisconnected;
         ConnectionManager.onDotSelected -= OnDotSelected;
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
@@ -105,6 +106,7 @@ public class LineManager
     {
         //draw line when we select a dot
         currentLine = DrawLine(dot.transform);
+        lines.Add(currentLine);
 
     }
 
@@ -144,10 +146,9 @@ public class LineManager
         line.color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
         line.startPos = start.position;
         line.initialScale = new Vector2(1f, 0.3f);
-        lines.Add(line);
 
         //we dont want the line to be active when we have a square
-        line.gameObject.SetActive(!IsSquare());
+        line.sprite.enabled = !IsSquare();
         return line;
     }
 }

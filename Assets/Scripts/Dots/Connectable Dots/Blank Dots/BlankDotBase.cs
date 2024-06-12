@@ -45,15 +45,14 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
     {
         UnsubscribeToEvents();
     }
+
     /// <summary>
     /// when dot is disconnected, it starts the deselction animation
     /// </summary>
     /// <param name="dot">The dot that was disconnected</param>
-
     protected virtual void OnDotDisconnected(ConnectableDot dot)
     {
 
-      
         //if any of the blank dots are not set to be hit by the connection then visually disconnect it
         if (!ConnectionManager.ToHit.Contains(this))
         {
