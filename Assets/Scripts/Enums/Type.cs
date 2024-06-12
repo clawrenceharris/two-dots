@@ -74,6 +74,7 @@ public static class Type
         BombExplosion,
         AnchorDot,
         BlockTile,
+        Explosion,
         GemExplosion,
         Square,
         ClockDot,
@@ -82,18 +83,31 @@ public static class Type
         BeetleDot,
     }
 
-
+    public enum PreviewHitType
+    {
+        None,
+        Connection,
+        BombExplosion,
+        AnchorDot,
+        BlockTile,
+        Explosion,
+        GemExplosion,
+        Square,
+        ClockDot,
+        OneSidedBlock,
+        NestingDot,
+        BeetleDot,
+    }
 
     public enum CommandType
     {
 
         Board,
-        Bomb,
         Hit,
-        Clear,
-        MoveClockDots,
         Explosion,
         MoveBeetleDots,
+        MoveClockDots,
+
     }
     public enum ExplosionType
     {

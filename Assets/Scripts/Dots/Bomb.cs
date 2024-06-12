@@ -11,7 +11,6 @@ public class Bomb : Dot, IExplodable
     public override DotType DotType => DotType.Bomb;
 
     public Dictionary<HitType, IExplosionRule> ExplosionRules => new() { { HitType.BombExplosion, new BombExplosionRule() } };
-
     public override int HitsToClear => 0;
 
     public override Dictionary<HitType, IHitRule> HitRules => new();
@@ -60,7 +59,7 @@ public class Bomb : Dot, IExplodable
         }
         Destroy(line.gameObject);
 
-        StartCoroutine(hittable.Hit(HitType.BombExplosion));
+        yield return hittable.Hit(HitType.BombExplosion);
         
         
 
@@ -96,14 +95,11 @@ public class Bomb : Dot, IExplodable
         {
             yield return coroutine;
         }
-
+        yield return Clear();
     }
+    
 
-    public override IEnumerator Clear()
-    {
-        HitCount++;
-        return base.Clear();
-    }
+    
 
 }
    

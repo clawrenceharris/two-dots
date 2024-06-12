@@ -27,15 +27,14 @@ public class BoardCommand : Command
         } while (dotsDropped);
         dotsDropped = board.FillBoard();
         DidExecute = dotsDropped || DidExecute;
-        yield return new WaitForSeconds(DidExecute ? Board.DotDropSpeed : 0f);
 
+        yield return new WaitForSeconds(0.8f);
 
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(BoardCommand));
 
         }
-        
         yield return base.Execute(board);
 
 

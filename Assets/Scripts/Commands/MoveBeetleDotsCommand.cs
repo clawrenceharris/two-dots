@@ -90,7 +90,7 @@ public class MoveBeetleDotsCommand : Command
     public override IEnumerator Execute(Board board)
     {
 
-        for(int i = 0; i < board.Width; i++)
+        for (int i = 0; i < board.Width; i++)
 
         {
             for(int j = 0; j < board.Height; j++)
@@ -145,6 +145,11 @@ public class MoveBeetleDotsCommand : Command
 
                             board.MoveDot(dotToSwap, beetleDotCol, beetleDotRow);
                             board.MoveDot(beetleDot, dotToSwapCol, dotToSwapRow);
+
+                            dotToSwap.Column = beetleDotCol;
+                            dotToSwap.Row = beetleDotRow;
+                            beetleDot.Column = dotToSwapCol;
+                            beetleDot.Row = dotToSwapRow;
 
                             Dot nextDotToSwap = board.GetDotAt(dotToSwapCol + beetleDot.DirectionX, dotToSwapRow + beetleDot.DirectionY);
 

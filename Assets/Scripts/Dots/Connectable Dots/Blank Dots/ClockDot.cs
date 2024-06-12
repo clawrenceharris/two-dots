@@ -11,6 +11,8 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     private int initialNumber;
     private int tempNumber;
     private int currentNumber;
+    public PreviewHitType PreviewHitType { get; private set; }
+    PreviewHitType IPreviewable.PreviewHitType => PreviewHitType;
 
     public int InitialNumber { set => initialNumber = value; }
     public int TempNumber { get => tempNumber; }
@@ -145,7 +147,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     }
 
 
-        public IEnumerator PreviewHit(HitType hitType)
+        public IEnumerator PreviewHit(PreviewHitType hitType)
     {
 
         yield return base.visualController.PreviewHit(hitType);

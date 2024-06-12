@@ -30,28 +30,21 @@ public class ExplosionCommand : Command
         for(int i =0; i < explodables.Count; i++)
         {
             IExplodable explodable = explodables[i];
-            
-            foreach (HitType hitType in explodable.ExplosionRules.Keys)
+            if (explodable.HitCount >= explodable.HitsToClear)
             {
-                if (explodable.ExplosionRules.TryGetValue(hitType, out IExplosionRule rule))
+                foreach (HitType hitType in explodable.ExplosionRules.Keys)
                 {
-                    List<IHittable> toHit = rule.Validate(explodable, board);
-
-                    if(explodable.HitCount >= explodable.HitsToClear)
+                    if (explodable.ExplosionRules.TryGetValue(hitType, out IExplosionRule rule))
                     {
-                        DidExecute =true;
+                        List<IHittable> toHit = rule.Validate(explodable, board);
 
-                        CoroutineHandler.StartStaticCoroutine(explodable.Explode(toHit));
+                    
+                            DidExecute = true;
+
+                            yield return explodable.Explode(toHit);
 
                     }
-
-
-
-
-
                 }
-
-
 
             }
 

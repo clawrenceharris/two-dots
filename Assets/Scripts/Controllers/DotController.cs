@@ -101,11 +101,6 @@ public class DotController
         start.Row = endRow;
     }
 
-    public static void ClearDot(Dot dot)
-    {
-        CoroutineHandler.StartStaticCoroutine(dot.Clear());
-
-    }
-
+    
 
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using static Type;
+using UnityEngine;
 
 public class BlankDot : BlankDotBase
 {

@@ -5,7 +5,6 @@ using DG.Tweening;
 using static Type;
 using System;
 using Object = UnityEngine.Object;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class BeetleDotVisualController : ColorDotVisualController
 {
@@ -125,49 +124,58 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     }
 
-    public override IEnumerator Clear()
+
+    private IEnumerator DoCurvedTranslate(GameObject target, Vector3 direction, float duration)
     {
-        float duration = 6f;
         float elapsedTime = 0f;
         float amplitude = Visuals.clearAmplitude;
         float frequency = Visuals.clearFrequeuncy;
-        float speed = Visuals.clearSpeed;      // Speed of movement
+        float speed = 20f;  // Adjust this as needed for your speed
 
-        Vector3 startPosition = Dot.transform.position;
-        Vector3 direction = new(Dot.DirectionX, Dot.DirectionY);
+        Vector3 startPosition = target.transform.position;
+        Vector3 unitDirection = direction.normalized;
 
         while (elapsedTime < duration)
         {
-            // Calculate the linear displacement along the direction vector
-            Vector3 linearDisplacement = elapsedTime * speed * direction;
+            elapsedTime += Time.deltaTime;
+
+            // Calculate the progress based on elapsed time and duration
+            float progress = elapsedTime / duration;
+
+            // Calculate the linear displacement along the direction vector with respect to speed and progress
+            Vector3 linearDisplacement = progress * speed * unitDirection;
 
             // Calculate the perpendicular displacement using the sine function
-            Vector3 perpendicularDisplacement = amplitude * Mathf.Sin(elapsedTime * frequency) * Vector3.Cross(direction, Vector3.forward).normalized;
+            Vector3 perpendicularDisplacement = amplitude * Mathf.Sin(progress * frequency * Mathf.PI * 2) * Vector3.Cross(unitDirection, Vector3.forward).normalized;
 
             // Update the position of the GameObject
             Vector3 newPosition = startPosition + linearDisplacement + perpendicularDisplacement;
 
             // Calculate the direction of the movement
-            Vector3 movementDirection = (newPosition - Dot.transform.position).normalized;
+            Vector3 movementDirection = (newPosition - target.transform.position).normalized;
 
             // Update the rotation of the GameObject to face the movement direction
             if (movementDirection != Vector3.zero)
             {
-                Dot.transform.rotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
+                target.transform.rotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
             }
 
-            // Update the position
-            Dot.transform.position = newPosition;
+            target.transform.position = newPosition;
 
-            // Increment elapsed time
-            elapsedTime += Time.deltaTime;
 
-            // Wait for the next frame
             yield return null;
         }
     }
 
-    public override IEnumerator PreviewHit(HitType hitType)
+
+    public override IEnumerator Clear()
+    {
+        Vector3 direction = new(Dot.DirectionX, Dot.DirectionY);
+
+        yield return DoCurvedTranslate(Dot.gameObject, direction, 6f);
+    }
+
+    public override IEnumerator PreviewHit(PreviewHitType hitType)
     {
         float flapDuration = 0.15f;
         float flapAngle = 45f;
@@ -246,11 +254,20 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     private IEnumerator RemoveWings(GameObject leftWing, GameObject rightWing)
     {
+        Vector3 leftWingAngle = new(0, 0, 90);
+        Vector3 rightWingAngle = new(0, 0, -90);
 
         rightWing.transform.SetParent(null);
         leftWing.transform.SetParent(null);
-        rightWing.transform.DOScale(Vector2.zero, 0.7f);
-        leftWing.transform.DOScale(Vector2.zero, 0.7f);
+        leftWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + leftWingAngle, 0.8f);
+        rightWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + rightWingAngle, 0.8f);
+        
+
+        rightWing.transform.DOMove(Dot.transform.position + new Vector3(-Dot.DirectionY, Dot.DirectionX) * 2, 0.8f);
+        leftWing.transform.DOMove(Dot.transform.position + new Vector3(Dot.DirectionY, -Dot.DirectionX) * 2, 0.8f);
+
+        rightWing.GetComponent<SpriteRenderer>().DOFade(0, 0.8f);
+        leftWing.GetComponent<SpriteRenderer>().DOFade(0, 0.8f);
         yield return new WaitForSeconds(0.7f);
         Object.Destroy(leftWing);
         Object.Destroy(rightWing);
@@ -276,21 +293,12 @@ public class BeetleDotVisualController : ColorDotVisualController
         int dotToSwapRow = dotToSwap.Row;
         int beetleDotCol = Dot.Column;
         int beetleDotRow = Dot.Row;
-        dotToSwap.transform.DOLocalMove(new Vector2(beetleDotCol, beetleDotRow) * Board.offset, moveSpeed)
-            .OnComplete(() =>
-            {
-                dotToSwap.Column = beetleDotCol;
-                dotToSwap.Row = beetleDotRow;
-
-            });
+        dotToSwap.transform.DOLocalMove(new Vector2(beetleDotCol, beetleDotRow) * Board.offset, moveSpeed);
 
 
-         Dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveSpeed)
-        .OnComplete(() =>
-        {
-            Dot.Column = dotToSwapCol;
-            Dot.Row = dotToSwapRow;
-        });
+
+         Dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveSpeed);
+        
 
         yield return new WaitForSeconds(moveSpeed);
 
