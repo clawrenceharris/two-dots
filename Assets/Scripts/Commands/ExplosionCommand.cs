@@ -23,9 +23,6 @@ public class ExplosionCommand : Command
             yield break;
         }
         
-
-        yield return new WaitForSeconds(0.4f);
-
         
         for(int i =0; i < explodables.Count; i++)
         {
@@ -38,16 +35,12 @@ public class ExplosionCommand : Command
                     {
                         List<IHittable> toHit = rule.Validate(explodable, board);
 
-                    
-                            DidExecute = true;
-
-                            yield return explodable.Explode(toHit);
-
+                        DidExecute = true;
+                        yield return explodable.Explode(toHit);
+                            
                     }
                 }
-
             }
-
         }
         
 

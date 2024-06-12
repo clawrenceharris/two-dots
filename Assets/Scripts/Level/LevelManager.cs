@@ -119,7 +119,7 @@ public class LevelManager : MonoBehaviour
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
                 break;
             case CommandType.Explosion:
-                DoCommand(new HitCommand());
+                CommandInvoker.Instance.Enqueue(new HitCommand());
                 break;
 
         }
