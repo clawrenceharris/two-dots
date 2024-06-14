@@ -10,11 +10,19 @@ public class MoveClockDotsCommand : Command
     public override CommandType CommandType => CommandType.MoveClockDots;
     public override IEnumerator Execute(Board board)
     {
+
         LinkedList<ConnectableDot> connectedDots = new(ConnectionManager.ConnectedDots);
         LinkedListNode<ConnectableDot> currentNode = connectedDots.Last;
 
         Dictionary<ConnectableDot, Vector2Int> originalPositions = new();
-        foreach (ConnectableDot dot in connectedDots)
+
+        if (!connectedDots.Any((dot) => dot is ClockDot))
+        {
+            yield break;
+        }
+
+
+            foreach (ConnectableDot dot in connectedDots)
         {
             originalPositions.Add(dot, new Vector2Int(dot.Column, dot.Row));
         }

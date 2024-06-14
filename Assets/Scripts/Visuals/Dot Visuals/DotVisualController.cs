@@ -57,7 +57,7 @@ public class DotVisualController : IDotVisualController
 
     }
 
-    public void SetColor(Color color)
+    public virtual void SetColor(Color color)
     {
         SpriteRenderer.color = color;
 

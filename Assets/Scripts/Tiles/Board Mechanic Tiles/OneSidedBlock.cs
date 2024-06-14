@@ -20,8 +20,9 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
         }
     }
 
-       
-    public int HitCount { get; private set; }
+
+    private int hitCount;
+    public int HitCount { get => hitCount; set => hitCount = value; }
 
     public int HitsToClear => 1;
 

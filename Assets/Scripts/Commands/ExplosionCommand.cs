@@ -22,13 +22,15 @@ public class ExplosionCommand : Command
         {
             yield break;
         }
-        
-        
-        for(int i =0; i < explodables.Count; i++)
+
+        Debug.Log(nameof(ExplosionCommand));
+
+        for (int i =0; i < explodables.Count; i++)
         {
             IExplodable explodable = explodables[i];
             if (explodable.HitCount >= explodable.HitsToClear)
             {
+
                 foreach (HitType hitType in explodable.ExplosionRules.Keys)
                 {
                     if (explodable.ExplosionRules.TryGetValue(hitType, out IExplosionRule rule))

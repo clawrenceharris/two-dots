@@ -2,6 +2,7 @@ using UnityEngine;
 using static Type;
 using System;
 using Object = UnityEngine.Object;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class DotFactory
 {
@@ -9,8 +10,11 @@ public class DotFactory
 
     public static Dot CreateDot(DotsObjectData data)
     {
+        
         DotType dotType = JSONLevelLoader.FromJsonDotType(data.type);
         Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
+
+        dot.HitCount = data.hitCount;
 
         if (dot is IColorable colorableDot)
         {
@@ -51,5 +55,11 @@ public class DotFactory
         return dot;
     }
 
-   
+    public static Dot CreateBomb(int col, int row)
+    {
+        Bomb bomb = Object.Instantiate(GameAssets.Instance.Bomb);
+        bomb.Init(col, row);
+        return bomb;
+
+    }
 }

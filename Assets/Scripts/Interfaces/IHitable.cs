@@ -12,7 +12,7 @@ public interface IHittable : IBoardElement
     /// <summary>
     /// Number of hits made on the dot
     /// </summary>
-    public int HitCount { get; }
+    public int HitCount { get; set; }
 
     /// <summary>
     /// Number of hits required to clear the dot
