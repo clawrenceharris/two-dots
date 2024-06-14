@@ -143,31 +143,13 @@ public class BeetleDotVisualController : ColorDotVisualController
         }
     }
 
-
-
-    //private bool TryGetWingLayer(int layer, out List<GameObject> item)
-    //{
-    //    if (wingLayers[layer] != null && wingLayers[layer][1] != null)
-    //    {
-    //        item = wingLayers[layer];
-    //        return true;
-    //    }
-
-    //    else
-    //    {
-    //        item = null; 
-    //        return false; 
-    //    }
-
-    //}
-
     public override IEnumerator Clear()
     {
-        float duration = Visuals.clearTime;
+        float duration = Visuals.clearDuration;
         float elapsedTime = 0f;
         float amplitude = 1f;
         float frequency = 0.2f;
-        float speed = 30f;
+        float speed = 38f;
         Vector3 direction = new(Dot.DirectionX, Dot.DirectionY);
 
         Vector3 startPosition = Dot.transform.position;
@@ -311,7 +293,7 @@ public class BeetleDotVisualController : ColorDotVisualController
     public override IEnumerator BombHit()
     {
         SetColor(currentLayerIndex, Color.white);
-        yield return new WaitForSeconds(Visuals.clearTime);
+        yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
         SetColor(currentLayerIndex, Color);
     }
 
