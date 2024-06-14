@@ -86,5 +86,18 @@ public class JSONLevelLoader
         }
     }
 
-    
+    public static string ToJsonDotType(DotType dotType)
+    {
+        return dotType switch
+        {
+            DotType.NormalDot => "normal",
+            DotType.ClockDot => "clock",
+            DotType.Bomb => "bomb",
+            DotType.BlankDot => "blank",
+            DotType.AnchorDot => "anchor",
+            DotType.NestingDot => "nesting",
+            DotType.BeetleDot => "beetle",
+            _ => "bombb",
+        };
+    }
 }

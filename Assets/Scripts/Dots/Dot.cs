@@ -15,7 +15,7 @@ public abstract class Dot : MonoBehaviour, IHittable
     public static event Action<Dot> onDotCleared;
     public static event Action<Dot> onDotHit;
     public static event Action<Dot> onBombActivate;
-
+    public virtual DotsObjectData ReplacementDot => null;
     private int row;
     private int column;
     public int Column { get => column; set => column = value; }
@@ -34,20 +34,23 @@ public abstract class Dot : MonoBehaviour, IHittable
     public abstract DotType DotType { get; }
     public bool IsBomb { get; protected set; }
     public IDotVisualController visualController;
-    public int HitCount { get; protected set; }
+
+    protected int hitCount;
+    public int HitCount { get => hitCount; set => hitCount = value; }
+
     public abstract int HitsToClear { get; }
     public abstract Dictionary<HitType, IHitRule> HitRules { get; }
 
 
     public HitType HitType { get; protected set; }
-    HitType IHittable.HitType => HitType;
 
 
     public virtual IEnumerator Clear()
     {
-        yield return visualController.Clear();
-        
         NotifyDotCleared();
+
+        yield return visualController.Clear();
+
     }
 
 
@@ -71,7 +74,7 @@ public abstract class Dot : MonoBehaviour, IHittable
 
     public virtual IEnumerator DoVisualHit(HitType hitType)
     {
-        if(HitCount > HitsToClear)
+        if(hitCount > HitsToClear)
         {
             yield break;
         }

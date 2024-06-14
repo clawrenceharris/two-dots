@@ -8,7 +8,8 @@ public class BlockTile : Tile, IHittable
 
     public override TileType TileType => TileType.BlockTile;
     public HitType HitType { get; private set; }
-    public int HitCount { get; private set; }
+    private int hitCount;
+    public int HitCount { get => hitCount; set => hitCount = value; }
 
     public int HitsToClear => 1;
     public Dictionary<HitType, IHitRule> HitRules

@@ -19,12 +19,37 @@
         {
             "type": "blank"
 
+        },
+        {
+            "type": "beetle",
+            "colors": [ "blue", "purple", "blue" ],
+            "row": 3,
+            "col": 3,
+            "directionX": -1,
+            "directionY": 0
+        },
+        {
+            "type": "beetle",
+            "colors": [ "blue", "purple", "blue" ],
+            "row": 3,
+            "col": 3,
+            "directionX": 0,
+            "directionY": -1
+        },
+        {
+            "type": "beetle",
+            "colors": [ "blue", "purple", "blue" ],
+            "row": 3,
+            "col": 3,
+            "directionX": 0,
+            "directionY": 1
+
         }
 
         //{
         //    "type": "beetle",
         //    "colors": [ "blue", "purple", "blue" ],
-          
+
         //    "directionX": -1,
         //    "directionY": 0
         //},
@@ -53,6 +78,7 @@
             "colors": [ "blue", "purple", "blue" ],
             "row": 3,
             "col": 3,
+            "hitCount": 2,
             "directionX": -1,
             "directionY": 0
         }

@@ -46,7 +46,7 @@ public class BlankDot : BlankDotBase
     
     public override IEnumerator Hit(HitType hitType)
     {
-        HitCount++;
+        hitCount++;
         return base.Hit(hitType);
     }
 

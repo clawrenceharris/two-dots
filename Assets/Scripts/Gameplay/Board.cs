@@ -69,7 +69,6 @@ public class Board : MonoBehaviour
     {
         Dot.onDotCleared += OnDotCleared;
         Tile.onTileCleared += OnTileCleared;
-        CommandInvoker.onCommandsEnded += OnCommandsEnded;
         Dot.onBombActivate += OnBombActive;
     }
 
@@ -80,17 +79,18 @@ public class Board : MonoBehaviour
 
     private void OnDotCleared(Dot dot)
     {
-        Dots[dot.Column, dot.Row] = null;
-        dot.gameObject.SetActive(false);
+        
+        //replace the dot that is being cleared with its replacement dot
+        Dot replacement = InitDotOnBoard(dot.ReplacementDot);
+        Dots[dot.Column, dot.Row] = replacement;
+
         StartCoroutine(DestroyDot(dot));
 
         if (!Cleared.Contains(dot))
             Cleared.Add(dot);
 
-    }
+        
 
-    private void OnCommandsEnded()
-    {
     }
 
 
@@ -158,6 +158,7 @@ public class Board : MonoBehaviour
 
     public List<IExplodable> GetExplodables()
     {
+
         List<IExplodable> explodables = new();
         for (int i = 0; i < Width; i++)
         {
@@ -170,6 +171,7 @@ public class Board : MonoBehaviour
                 }
             }
         }
+
         return explodables;
     }
 
@@ -189,7 +191,6 @@ public class Board : MonoBehaviour
     }
     public void CreateBomb(int col, int row)
     {
-
         Bomb bomb = Instantiate(GameAssets.Instance.Bomb);
         bomb.transform.position = new Vector2(col, row) * offset;
         bomb.transform.parent = transform;
@@ -209,6 +210,7 @@ public class Board : MonoBehaviour
     }
     public IExplodable GetExplodableAt(int col, int row)
     {
+
         if (col >= 0 && col < Width && row >= 0 && row < Height)
         {
             if (Dots[col, row] is IExplodable dot)
@@ -225,13 +227,20 @@ public class Board : MonoBehaviour
     private Dot InitDotOnBoard(DotsObjectData dotData)
     {
 
-        Dot dot = DotFactory.CreateDot(dotData);
-        dot.Init(dotData.col, dotData.row);
-        dot.transform.parent = transform;
-        dot.name = dot.DotType.ToString() + " (" + dotData.col + ", " + dotData.col + ")";
-        dot.transform.position = new Vector2(dot.Column, dot.Row) * offset;
+        Dot dot = null;
 
-        Dots[dot.Column, dot.Row] = dot;
+        if(dotData != null)
+        {
+            dot = DotFactory.CreateDot(dotData);
+
+            dot.Init(dotData.col, dotData.row);
+            dot.transform.parent = transform;
+            dot.name = dot.DotType.ToString() + " (" + dotData.col + ", " + dotData.col + ")";
+            dot.transform.position = new Vector2(dot.Column, dot.Row) * offset;
+            Dots[dot.Column, dot.Row] = dot;
+
+        }
+
         return dot;
 
     }

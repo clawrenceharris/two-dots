@@ -5,6 +5,9 @@ using DG.Tweening;
 using static Type;
 using System;
 using Object = UnityEngine.Object;
+using static UnityEngine.RuleTile.TilingRuleOutput;
+using System.Linq;
+using static UnityEngine.GraphicsBuffer;
 
 public class BeetleDotVisualController : ColorDotVisualController
 {
@@ -13,8 +16,9 @@ public class BeetleDotVisualController : ColorDotVisualController
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
     private List<GameObject> wingsLayer3;
-    private List<GameObject>[] wingLayers;
+    private List<List<GameObject>> wingLayers;
     private int currentLayerIndex;
+    private int wingsRemovedCount; //the amount of wings that were removed after set up
     public override void Init(Dot dot)
     {
         Visuals = dot.GetComponent<BeetleDotVisuals>();
@@ -36,10 +40,16 @@ public class BeetleDotVisualController : ColorDotVisualController
             Visuals.leftWingLayer3,
             Visuals.rightWingLayer3,
         };
-        wingLayers = new[] { wingsLayer1, wingsLayer2, wingsLayer3 };
-        currentLayerIndex = 0;
+        wingLayers = new()
+        {
+            wingsLayer1, wingsLayer2, wingsLayer3
+        };
+        currentLayerIndex = Dot.HitCount;
+        wingsRemovedCount = 0;
 
         Rotate();
+        CoroutineHandler.StartStaticCoroutine(RemoveWings(0f));
+
         base.SetUp();
     }
 
@@ -55,6 +65,10 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     }
 
+    public override void SetColor(Color color)
+    {
+        SetColor(currentLayerIndex, color);
+    }
 
 
     private void SetColor(int layer, Color color)
@@ -70,7 +84,7 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     public override void DisableSprites()
     {
-        for (int i =0; i < wingLayers.Length; i++)
+        for (int i =0; i < wingLayers.Count; i++)
         {
             for(int j = 0; j < wingLayers[i].Count; j++)
             {
@@ -86,7 +100,7 @@ public class BeetleDotVisualController : ColorDotVisualController
     }
     public override void EnableSprites()
     {
-        for (int i = 0; i < wingLayers.Length; i++)
+        for (int i = 0; i < wingLayers.Count; i++)
         {
             for (int j = 0; j < wingLayers[i].Count; j++)
             {
@@ -98,81 +112,96 @@ public class BeetleDotVisualController : ColorDotVisualController
 
         }
 
-
         base.EnableSprites();
     }
 
-    private IEnumerator DoHitAnimation()
+
+    /// <summary>
+    /// Based on the current layer, removes previous layers of wings off of the beetle dot
+    /// </summary>
+    /// <param name="duration">The duration of the animation</param>
+    private IEnumerator RemoveWings(float duration = 0.8f)
     {
-        Visuals.leftWings.DOLocalRotate(Vector3.zero, 0.1f);
-        Visuals.rightWings.DOLocalRotate(Vector3.zero, 0.1f);
-        if (Dot.HitCount == 1)
+
+        currentLayerIndex = Mathf.Clamp(Dot.HitCount, 0, Dot.HitsToClear -1);
+        for (int i = wingsRemovedCount; i < currentLayerIndex; i++)
         {
-            yield return RemoveWings(Visuals.rightWingLayer1, Visuals.leftWingLayer1);
-            Visuals.rightWingLayer2.transform.parent = Visuals.rightWings;
-            Visuals.leftWingLayer2.transform.parent = Visuals.leftWings;
-
+            if (i < wingLayers.Count)
+            {
+                
+                // Remove the wings in the current layer
+                yield return RemoveWingsCo(wingLayers[i][0], wingLayers[i][1], duration);
+              
+                
+                // If there are more layers to process, set the next layer's wings as children
+                if (i + 1 < wingLayers.Count)
+                {
+                    wingLayers[i + 1][1].transform.parent = Visuals.rightWings;
+                    wingLayers[i + 1][0].transform.parent = Visuals.leftWings;
+                }
+            }
         }
-        if (Dot.HitCount == 2)
-        {
-            yield return RemoveWings(Visuals.rightWingLayer2, Visuals.leftWingLayer2);
-            Visuals.rightWingLayer3.transform.parent = Visuals.rightWings;
-            Visuals.leftWingLayer3.transform.parent = Visuals.leftWings;
-
-        }
-        
-
     }
 
 
-    private IEnumerator DoCurvedTranslate(GameObject target, Vector3 direction, float duration)
-    {
-        float elapsedTime = 0f;
-        float amplitude = Visuals.clearAmplitude;
-        float frequency = Visuals.clearFrequeuncy;
-        float speed = 20f;  // Adjust this as needed for your speed
 
-        Vector3 startPosition = target.transform.position;
+    //private bool TryGetWingLayer(int layer, out List<GameObject> item)
+    //{
+    //    if (wingLayers[layer] != null && wingLayers[layer][1] != null)
+    //    {
+    //        item = wingLayers[layer];
+    //        return true;
+    //    }
+
+    //    else
+    //    {
+    //        item = null; 
+    //        return false; 
+    //    }
+
+    //}
+
+    public override IEnumerator Clear()
+    {
+        float duration = Visuals.clearTime;
+        float elapsedTime = 0f;
+        float amplitude = 1f;
+        float frequency = 0.2f;
+        float speed = 30f;
+        Vector3 direction = new(Dot.DirectionX, Dot.DirectionY);
+
+        Vector3 startPosition = Dot.transform.position;
         Vector3 unitDirection = direction.normalized;
 
-        while (elapsedTime < duration)
+        while (elapsedTime < duration * speed)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * speed;
 
             // Calculate the progress based on elapsed time and duration
             float progress = elapsedTime / duration;
 
             // Calculate the linear displacement along the direction vector with respect to speed and progress
-            Vector3 linearDisplacement = progress * speed * unitDirection;
+            Vector3 linearDisplacement = progress * unitDirection;
 
             // Calculate the perpendicular displacement using the sine function
             Vector3 perpendicularDisplacement = amplitude * Mathf.Sin(progress * frequency * Mathf.PI * 2) * Vector3.Cross(unitDirection, Vector3.forward).normalized;
 
-            // Update the position of the GameObject
             Vector3 newPosition = startPosition + linearDisplacement + perpendicularDisplacement;
 
             // Calculate the direction of the movement
-            Vector3 movementDirection = (newPosition - target.transform.position).normalized;
+            Vector3 movementDirection = (newPosition - Dot.transform.position).normalized;
 
-            // Update the rotation of the GameObject to face the movement direction
+            // Update the rotation of the dot to face the movement direction
             if (movementDirection != Vector3.zero)
             {
-                target.transform.rotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
+                Dot.transform.rotation = Quaternion.LookRotation(Vector3.forward, movementDirection);
             }
 
-            target.transform.position = newPosition;
+            Dot.transform.position = newPosition;
 
 
             yield return null;
         }
-    }
-
-
-    public override IEnumerator Clear()
-    {
-        Vector3 direction = new(Dot.DirectionX, Dot.DirectionY);
-
-        yield return DoCurvedTranslate(Dot.gameObject, direction, 6f);
     }
 
     public override IEnumerator PreviewHit(PreviewHitType hitType)
@@ -184,7 +213,7 @@ public class BeetleDotVisualController : ColorDotVisualController
         Vector3 rightWingAngle = new(0, 0, flapAngle);
 
 
-        while (ConnectionManager.ToHit.Contains(Dot) || Dot.HitCount >= Dot.HitsToClear)
+        while (DotTouchIO.IsInputActive && ConnectionManager.ToHit.Contains(Dot) || Dot.HitCount >= Dot.HitsToClear)
         {
             // Flap up
             Visuals.leftWings.DOLocalRotate(leftWingAngle, flapDuration);
@@ -247,35 +276,35 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     public override IEnumerator Hit(HitType hitType)
     {
-        yield return DoHitAnimation();
+        Visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+        yield return RemoveWings();
+        wingsRemovedCount++;
+
         yield return base.Hit(hitType);
     }
 
 
-    private IEnumerator RemoveWings(GameObject leftWing, GameObject rightWing)
+    private IEnumerator RemoveWingsCo(GameObject leftWing, GameObject rightWing, float duration)
     {
         Vector3 leftWingAngle = new(0, 0, 90);
         Vector3 rightWingAngle = new(0, 0, -90);
 
         rightWing.transform.SetParent(null);
         leftWing.transform.SetParent(null);
-        leftWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + leftWingAngle, 0.8f);
-        rightWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + rightWingAngle, 0.8f);
+        leftWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + leftWingAngle, duration);
+        rightWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + rightWingAngle, duration);
         
 
-        rightWing.transform.DOMove(Dot.transform.position + new Vector3(-Dot.DirectionY, Dot.DirectionX) * 2, 0.8f);
-        leftWing.transform.DOMove(Dot.transform.position + new Vector3(Dot.DirectionY, -Dot.DirectionX) * 2, 0.8f);
-
-        rightWing.GetComponent<SpriteRenderer>().DOFade(0, 0.8f);
-        leftWing.GetComponent<SpriteRenderer>().DOFade(0, 0.8f);
-        yield return new WaitForSeconds(0.7f);
-        Object.Destroy(leftWing);
-        Object.Destroy(rightWing);
-        wingLayers[currentLayerIndex].Remove(leftWing);
-        wingLayers[currentLayerIndex].Remove(rightWing);
-
-
-
+        rightWing.transform.DOMove(Dot.transform.position + new Vector3(-Dot.DirectionY, Dot.DirectionX) * 2, duration);
+        leftWing.transform.DOMove(Dot.transform.position + new Vector3(Dot.DirectionY, -Dot.DirectionX) * 2, duration);
+        
+        rightWing.GetComponent<SpriteRenderer>().DOFade(0, duration);
+        leftWing.GetComponent<SpriteRenderer>().DOFade(0, duration);
+        yield return new WaitForSeconds(duration);
+        leftWing.SetActive(false);
+        rightWing.SetActive(false);
 
     }
 
@@ -288,7 +317,7 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     public IEnumerator DoSwap(Dot dotToSwap)
     {
-        float moveSpeed = Visuals.moveSpeed;
+        float moveSpeed = 0.4f;
         int dotToSwapCol = dotToSwap.Column;
         int dotToSwapRow = dotToSwap.Row;
         int beetleDotCol = Dot.Column;

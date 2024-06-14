@@ -189,14 +189,13 @@ public class ConnectionManager
         {
             onConnectionEnded?.Invoke(ConnectedDots);
         }
-
     }
 
-    private void OnCommandExecuted(Command command)
+   private void OnCommandExecuted(Command command)
     {
         if(command is HitCommand)
-            Connection?.ResetConnection();    
-    }
+            Connection?.ResetConnection();
 
+    }
 }
 

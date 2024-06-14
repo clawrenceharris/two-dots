@@ -34,7 +34,7 @@ public class NestingDot : Dot
 
     public override IEnumerator Hit(HitType hitType)
     {
-        HitCount++;
+        hitCount++;
         yield return DoVisualHit(hitType);
         yield return base.Hit(hitType);
     }
