@@ -7,9 +7,20 @@ using static Type;
 public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 {
     public override DotType DotType => DotType.BeetleDot;
-    public override DotColor Color { get => colors[HitCount]; }
+    public override DotColor Color { get => colors[hitCount]; }
     public override int HitsToClear => 3;
+    public override DotsObjectData ReplacementDot
+    {
+        get
+        {
+            return new(JSONLevelLoader.ToJsonDotType(DotType.Bomb))
+            {
+                col = Column,
+                row = Row
+            };
 
+        }
+    }
     public PreviewHitType PreviewHitType { get; private set; }
     PreviewHitType IPreviewable.PreviewHitType => PreviewHitType;
 
@@ -37,12 +48,12 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
    
 
 
-    public override IEnumerator Clear()
-    {
-        StartCoroutine(base.Clear());
-        NotifyBombActive();
-        yield return null;
-    }
+    //public override IEnumerator Clear()
+    //{
+    //    StartCoroutine(base.Clear());
+    //    NotifyBombActive();
+    //    yield return null;
+    //}
 
     public IEnumerator DoSwap(Dot dotToSwap, Action callback)
     {
@@ -59,7 +70,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
     public override IEnumerator Hit(HitType hitType)
     {
-        HitCount++;
+        hitCount++;
         WasHit = true;
         yield return DoVisualHit(hitType);
 
@@ -68,8 +79,8 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
     public override void InitDisplayController()
     {
-        base.visualController = new BeetleDotVisualController();
-        base.visualController.Init(this);
+        visualController = new BeetleDotVisualController();
+        visualController.Init(this);
     }
 
     public IEnumerator ChangeDirection(int directionX, int directionY)
