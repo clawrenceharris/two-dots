@@ -850,7 +850,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outerDot: {fileID: 8576582511116832377}
   bombHitSprite: {fileID: 0}
-  clearTime: 6
+  clearDuration: 5
   leftWingLayer1: {fileID: 1835650987876660849}
   leftWingLayer2: {fileID: 6784024091193511163}
   leftWingLayer3: {fileID: 5206370952881365465}
@@ -859,8 +859,6 @@ MonoBehaviour:
   rightWingLayer3: {fileID: 2969042392531368742}
   rightWings: {fileID: 8187732682292148997}
   leftWings: {fileID: 1787027141210881331}
-  leftPivot: {fileID: 0}
-  rightPivot: {fileID: 0}
   rotationEase: 9
   rotationSpeed: 0.2
 --- !u!212 &8576582511116832377 stripped

@@ -53,7 +53,7 @@ public class ClockDotVisualController : BlankDotVisualController
             }
         }
 
-        yield return new WaitForSeconds(DotVisuals.defaultClearTime);
+        yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
 
         SetColor();
 

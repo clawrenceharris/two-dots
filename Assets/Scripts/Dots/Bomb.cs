@@ -59,7 +59,7 @@ public class Bomb : Dot, IExplodable
         }
         Destroy(line.gameObject);
 
-        yield return hittable.Hit(HitType.BombExplosion);
+       StartCoroutine(hittable.Hit(HitType.BombExplosion));
         
         
 
@@ -95,11 +95,14 @@ public class Bomb : Dot, IExplodable
         {
             yield return coroutine;
         }
+        Debug(Color.blue);
         yield return Clear();
-    }
-    
+        Debug(Color.red);
 
-    
+    }
+
+
+
 
 }
    

@@ -41,13 +41,13 @@ public class HitCommand : Command
 
                 else if (new HitByExplosionRule().Validate(hittable, board))
                 {
-                        DidExecute = true;
+                    DidExecute = true;
                     CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
-                        if (hittable.HitCount >= hittable.HitsToClear)
-                        {
-                            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
-                        }
+                    if (hittable.HitCount >= hittable.HitsToClear)
+                    {
+                        CoroutineHandler.StartStaticCoroutine(hittable.Clear());
                     }
+                }
 
 
             }
@@ -57,7 +57,7 @@ public class HitCommand : Command
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
 
         }
-        yield return new WaitForSeconds(DotVisuals.defaultClearTime);
+        yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
 
         yield return base.Execute(board);
 

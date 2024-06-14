@@ -96,7 +96,7 @@ public class Board : MonoBehaviour
 
     private IEnumerator DestroyDot(Dot dot)
     {
-        yield return new WaitForSeconds(dot.visualController.Visuals.clearTime);
+        yield return new WaitForSeconds(dot.visualController.Visuals.clearDuration);
 
         Destroy(dot.gameObject);
 
