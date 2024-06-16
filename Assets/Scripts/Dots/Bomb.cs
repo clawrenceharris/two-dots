@@ -4,18 +4,27 @@ using System.Collections.Generic;
 using System.Collections;
 using static Type;
 
+
+public class HitByBombExplosion : IHitRule
+{
+    public bool Validate(IHittable hittable, Board board)
+    {
+        return true;
+    }
+}
+
 public class Bomb : Dot, IExplodable
 {
-
+    
 
     public override DotType DotType => DotType.Bomb;
 
     public Dictionary<HitType, IExplosionRule> ExplosionRules => new() { { HitType.BombExplosion, new BombExplosionRule() } };
-    public override int HitsToClear => 0;
+    public override int HitsToClear => 1;
 
-    public override Dictionary<HitType, IHitRule> HitRules => new();
+    public override Dictionary<HitType, IHitRule> HitRules => new() { { HitType.BombExplosion, new HitByBombExplosion() } };
 
-    public static List<IHittable> Hits { get; } = new();
+    public static List<IHittable> AllHits { get; } = new();
 
     public ExplosionType ExplosionType => ExplosionType.BombExplosion;
 
@@ -32,13 +41,23 @@ public class Bomb : Dot, IExplodable
 
     private void OnDisable()
     {
-        Hits.Clear();
+        AllHits.Clear();
     }
 
 
     public IEnumerator Explode(List<IHittable> hittables, Action<IHittable> callback)
     {
-        List<Coroutine> lineCoroutines = new(); // Store coroutines for each line
+        List<Coroutine> lineCoroutines = new();
+        List<IHittable> hits = new();
+        hittables.Sort((a, b) =>
+        {
+            int result = a.Column.CompareTo(b.Column);
+            if (result == 0)
+            {
+                result = a.Row.CompareTo(b.Row);
+            }
+            return result;
+        });
 
         foreach (IHittable hittable in hittables)
         {
@@ -46,26 +65,28 @@ public class Bomb : Dot, IExplodable
             {
                 continue;
             }
-            
-            Coroutine lineCoroutine = StartCoroutine(VisualController.AnimateLine(hittable, () =>
-            {
-                callback?.Invoke(hittable);
-            }));
-            lineCoroutines.Add(lineCoroutine);
-            Hits.Add(hittable);
 
+            StartCoroutine(VisualController.AnimateLine(hittable));
+            AllHits.Add(hittable);
+            hits.Add(hittable);
+            yield return new WaitForSeconds(0.01f);
 
         }
 
-        // Wait for all line animations to finish
-        foreach (Coroutine coroutine in lineCoroutines)
+
+        foreach (IHittable hittable in hits)
         {
-            yield return coroutine;
+            yield return new WaitForSeconds(0.05f);
+            callback?.Invoke(hittable);
         }
 
     }
 
-
+    public override IEnumerator Hit(HitType hitType)
+    {
+        hitCount++;
+        return base.Hit(hitType);
+    }
 
 
 }
