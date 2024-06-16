@@ -39,11 +39,10 @@ public class SoundManager : MonoBehaviour
     private void PlayDotHitSound(Dot dot)
     {
         AudioClip sound = GetDotHitSound(dot);
-        if (!playedSounds.Contains(sound))
-        {
-            audioSource.PlayOneShot(sound);
-            playedSounds.Add(sound); // Add the sound to the HashSet to indicate that it has been played
-        }
+        
+        audioSource.PlayOneShot(sound);
+        playedSounds.Add(sound);
+        
         
 
     }

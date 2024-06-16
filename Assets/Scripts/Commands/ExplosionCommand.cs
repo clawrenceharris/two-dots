@@ -26,19 +26,26 @@ public class ExplosionCommand : Command
         for (int i =0; i < explodables.Count; i++)
         {
             IExplodable explodable = explodables[i];
-            if (explodable.HitCount >= explodable.HitsToClear)
+            foreach (HitType hitType in explodable.HitRules.Keys)
             {
-                if (!explodableMap.ContainsKey(explodable.ExplosionType))
+                if (explodable.HitRules.TryGetValue(hitType, out var rule))
                 {
-                    explodableMap.Add(explodable.ExplosionType, new() {explodable});
+                    if (rule.Validate(explodable, board))
+                    {
+                        if (!explodableMap.ContainsKey(explodable.ExplosionType))
+                        {
+                            explodableMap.Add(explodable.ExplosionType, new() { explodable });
+                        }
+                        else
+                        {
+                            explodableMap[explodable.ExplosionType].Add(explodable);
+                        }
+                    }
                 }
-                else
-                {
-                    explodableMap[explodable.ExplosionType].Add(explodable);
-                }
+                
             }
         }
-
+        List<Coroutine> hitCoroutines = new();
         foreach(ExplosionType explosionType in explodableMap.Keys)
         {
             if(explodableMap.TryGetValue(explosionType, out var e))
@@ -57,14 +64,15 @@ public class ExplosionCommand : Command
                             List<IHittable> toHit = rule.Validate(explodable, board);
                             CoroutineHandler.StartStaticCoroutine(explodable.Explode(toHit, (hittable) =>
                             {
-                                CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
+                               hitCoroutines.Add(CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType)));
                                 
                             }));
                             
                         }
                     }
                     
-                    CoroutineHandler.StartStaticCoroutine(explodable.Clear());
+                    
+                    CoroutineHandler.StartStaticCoroutine(explodable.Hit(explodable.HitType));
                     
                 }
             }

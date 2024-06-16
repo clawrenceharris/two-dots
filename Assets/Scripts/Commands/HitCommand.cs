@@ -19,7 +19,7 @@ public class HitCommand : Command
         List<IHittable> hittables = board.GetHittables();
         foreach (IHittable hittable in hittables)
         {
-            if (hittable == null || hittable is IExplodable)
+            if (hittable == null )
             {
                 continue;
             }
@@ -28,7 +28,7 @@ public class HitCommand : Command
             {
                 if (hittable.HitRules.TryGetValue(hitType, out var rule))
                 {
-                    if (rule.Validate(hittable, board))
+                    if (rule.Validate(hittable, board) && hittable is not IExplodable)
                     {
                         DidExecute = true;
                         CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));

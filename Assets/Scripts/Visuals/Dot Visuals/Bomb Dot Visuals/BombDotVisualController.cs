@@ -25,8 +25,9 @@ public class BombDotVisualController : DotVisualController
 
         }
     }
-    public IEnumerator AnimateLine(IHittable hittable, Action onHittableReached)
+    public IEnumerator AnimateLine(IHittable hittable)
     {
+
         float elapsedTime = 0f;
         float duration = 0.3f;
 
@@ -38,8 +39,8 @@ public class BombDotVisualController : DotVisualController
         ConnectorLine line = Object.Instantiate(GameAssets.Instance.Line);
 
         line.transform.parent = Dot.transform;
-        line.transform.localScale = new Vector2(2f, 0.1f);
-        line.sprite.color = Bomb.Hits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
+        line.transform.localScale = new Vector2(1f, 0.1f);
+        line.sprite.color = Bomb.AllHits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
         line.transform.rotation = Quaternion.Euler(0, 0, angle);
         line.disabled = true;
 
@@ -58,9 +59,6 @@ public class BombDotVisualController : DotVisualController
             yield return null;
         }
         Object.Destroy(line.gameObject);
-        onHittableReached?.Invoke();
-
-
 
 
     }
