@@ -3,7 +3,6 @@ using UnityEngine;
 using static Type;
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class ClockDot : BlankDotBase, INumerable, IPreviewable
 {
@@ -11,8 +10,8 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     private int initialNumber;
     private int tempNumber;
     private int currentNumber;
-    public PreviewHitType PreviewHitType { get; private set; }
-    PreviewHitType IPreviewable.PreviewHitType => PreviewHitType;
+    public HitType PreviewHitType { get; private set; }
+    HitType IPreviewable.PreviewHitType => PreviewHitType;
 
     public int InitialNumber { set => initialNumber = value; }
     public int TempNumber { get => tempNumber; }
@@ -31,18 +30,10 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
         }
     }
 
-    private ClockDotVisualController VisualController
-    {
-        get
-        {
-            if (visualController is ClockDotVisualController clockDotVisualController)
-            {
-                return clockDotVisualController; 
-            }
-            throw new InvalidCastException("Unable to cast base visualController to ClockDotVisualController");
-
-        }
-    }
+    public new ClockDotVisualController VisualController => GetVisualController<ClockDotVisualController>();
+    
+        
+    
 
     public override int HitsToClear => initialNumber;
 
@@ -76,14 +67,6 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
         UpdateNumberVisuals(number);
     }
     
-    public override IEnumerator Clear()
-    {
-        NotifyDotCleared();
-
-        NotifyBombActive();
-        yield return null;
-    }
-
     public override void Disconnect()
     {
         base.Disconnect();
@@ -147,7 +130,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     }
 
 
-        public IEnumerator PreviewHit(PreviewHitType hitType)
+    public IEnumerator PreviewHit(HitType hitType)
     {
 
         yield return base.visualController.PreviewHit(hitType);

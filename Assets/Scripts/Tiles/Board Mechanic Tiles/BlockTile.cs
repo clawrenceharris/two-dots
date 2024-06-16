@@ -43,5 +43,8 @@ public class BlockTile : Tile, IHittable
         StartCoroutine(visualController.BombHit());
     }
 
-   
+    public IEnumerator DoVisualHit(HitType hitType)
+    {
+        throw new System.NotImplementedException();
+    }
 }

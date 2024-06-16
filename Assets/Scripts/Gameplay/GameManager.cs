@@ -38,6 +38,8 @@ public class Game : MonoBehaviour
         }
         SetTotalAmountOfLevels();
         levelManager = FindObjectOfType<LevelManager>();
+
+        levelManager.StartLevel(1);
     }
 
     private void SetTotalAmountOfLevels()
@@ -50,10 +52,7 @@ public class Game : MonoBehaviour
         TotalAmountOfLevels = total;
     }
 
-    private void Start()
-    {
-        levelManager.StartLevel(1);
-    }
+   
 
 
 

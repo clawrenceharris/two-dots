@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using static Type;
 public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 {
     public override DotType DotType => DotType.BeetleDot;
-    public override DotColor Color { get => colors[hitCount]; }
     public override int HitsToClear => 3;
+    public override DotColor Color { get => colors[Mathf.Clamp(hitCount, 0, HitsToClear - 1)]; }
+
     public override DotsObjectData ReplacementDot
     {
         get
@@ -21,8 +21,8 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
         }
     }
-    public PreviewHitType PreviewHitType { get; private set; }
-    PreviewHitType IPreviewable.PreviewHitType => PreviewHitType;
+    public HitType PreviewHitType { get; private set; }
+    HitType IPreviewable.PreviewHitType => PreviewHitType;
 
     private int directionX;
     private int directionY;
@@ -47,14 +47,6 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
     public BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
    
 
-
-    //public override IEnumerator Clear()
-    //{
-    //    StartCoroutine(base.Clear());
-    //    NotifyBombActive();
-    //    yield return null;
-    //}
-
     public IEnumerator DoSwap(Dot dotToSwap, Action callback)
     {
         
@@ -70,11 +62,12 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
     public override IEnumerator Hit(HitType hitType)
     {
+
         hitCount++;
         WasHit = true;
-        yield return DoVisualHit(hitType);
-
+        
         yield return base.Hit(hitType);
+
     }
 
     public override void InitDisplayController()
@@ -91,7 +84,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
         yield return VisualController.RotateCo();
     }
 
-    public IEnumerator PreviewHit(PreviewHitType hitType)
+    public IEnumerator PreviewHit(HitType hitType)
     {
         PreviewHitType = hitType;
         yield return visualController.PreviewHit(hitType);   

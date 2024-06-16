@@ -69,7 +69,6 @@ public class Board : MonoBehaviour
     {
         Dot.onDotCleared += OnDotCleared;
         Tile.onTileCleared += OnTileCleared;
-        Dot.onBombActivate += OnBombActive;
     }
 
     private void Update()
@@ -199,11 +198,6 @@ public class Board : MonoBehaviour
         
     }
 
-    private void OnBombActive(Dot dot)
-    {
-        CreateBomb(dot.Column, dot.Row);
-    }
-
     public void PutDot(Dot dot)
     {
         Dots[dot.Column, dot.Row] = dot;
@@ -232,11 +226,12 @@ public class Board : MonoBehaviour
         if(dotData != null)
         {
             dot = DotFactory.CreateDot(dotData);
+            dot.transform.position = new Vector2(dotData.col, dotData.row) * offset;
 
-            dot.Init(dotData.col, dotData.row);
             dot.transform.parent = transform;
             dot.name = dot.DotType.ToString() + " (" + dotData.col + ", " + dotData.col + ")";
-            dot.transform.position = new Vector2(dot.Column, dot.Row) * offset;
+            dot.Init(dotData.col, dotData.row);
+
             Dots[dot.Column, dot.Row] = dot;
 
         }

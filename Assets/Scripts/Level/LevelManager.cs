@@ -88,7 +88,7 @@ public class LevelManager : MonoBehaviour
     {
         if (dot is IPreviewable previewable)
         {
-            StartCoroutine(previewable.PreviewHit(PreviewHitType.None));
+            StartCoroutine(previewable.PreviewHit(HitType.None));
         }
     }
 
@@ -100,7 +100,7 @@ public class LevelManager : MonoBehaviour
         {
             if (hittable is IPreviewable previewable)
             {
-                StartCoroutine(previewable.PreviewHit(PreviewHitType.Connection));
+                StartCoroutine(previewable.PreviewHit(HitType.Connection));
             }
         }
     }
@@ -112,14 +112,17 @@ public class LevelManager : MonoBehaviour
 
             case CommandType.Board:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
                 break;
            
             case CommandType.Hit:
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
+                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+
                 break;
             case CommandType.Explosion:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
+                CommandInvoker.Instance.Enqueue(new BoardCommand());
+
                 break;
 
         }

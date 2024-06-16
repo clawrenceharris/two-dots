@@ -13,7 +13,8 @@ public class ColorScheme : ScriptableObject
     public Color red;
     public Color blank;
     public Color clockDot;
-
+    public Color bombLight;
+    public Color bombDark;
     public Color backgroundColor;
 
 

@@ -9,12 +9,9 @@ using System.Collections.Generic;
 public abstract class Dot : MonoBehaviour, IHittable
 {
 
-
-
-
     public static event Action<Dot> onDotCleared;
     public static event Action<Dot> onDotHit;
-    public static event Action<Dot> onBombActivate;
+    //public static event Action<Dot> onBombActivate;
     public virtual DotsObjectData ReplacementDot => null;
     private int row;
     private int column;
@@ -30,28 +27,24 @@ public abstract class Dot : MonoBehaviour, IHittable
         throw new InvalidCastException($"Unable to cast base visualController to {typeof(T).Name}");
     }
 
+    public abstract Dictionary<HitType, IHitRule> HitRules { get; }
+
+    public IDotVisualController visualController;
 
     public abstract DotType DotType { get; }
     public bool IsBomb { get; protected set; }
-    public IDotVisualController visualController;
+
+
 
     protected int hitCount;
     public int HitCount { get => hitCount; set => hitCount = value; }
 
     public abstract int HitsToClear { get; }
-    public abstract Dictionary<HitType, IHitRule> HitRules { get; }
 
 
     public HitType HitType { get; protected set; }
 
 
-    public virtual IEnumerator Clear()
-    {
-        NotifyDotCleared();
-
-        yield return visualController.Clear();
-
-    }
 
 
     public virtual void Init(int column, int row)
@@ -63,30 +56,42 @@ public abstract class Dot : MonoBehaviour, IHittable
 
     public abstract void InitDisplayController();
 
+
+
+    protected virtual void NotifyDotCleared()
+    {
+        onDotCleared?.Invoke(this);
+    }
+
+
+    public virtual IEnumerator Clear()
+    {
+        NotifyDotCleared();
+
+        yield return visualController.Clear();
+
+    }
     public virtual IEnumerator Hit(HitType hitType)
     {
         HitType = hitType;
         onDotHit?.Invoke(this);
-        yield return null;
+        yield return DoVisualHit(hitType);
 
-        
+
     }
-
+    protected void NotifyDotHit()
+    {
+        onDotHit?.Invoke(this);
+    }
     public virtual IEnumerator DoVisualHit(HitType hitType)
     {
-        if(hitCount > HitsToClear)
-        {
-            yield break;
-        }
-
-        if (hitType == HitType.BombExplosion)
-        {
-            yield return visualController.BombHit();
-
-        }
-
         yield return visualController.Hit(hitType);
+        if (this is IPreviewable previewable)
+        {
+            CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(hitType));
+        }
     }
+
 
     public void Debug()
     {
@@ -102,15 +107,10 @@ public abstract class Dot : MonoBehaviour, IHittable
 
     
 
-    protected virtual void NotifyDotCleared()
-    {
-        onDotCleared?.Invoke(this);
-    }
-
-    protected void NotifyBombActive()
-    {
-        onBombActivate?.Invoke(this);
-    }
+    //protected void NotifyBombActive()
+    //{
+    //    onBombActivate?.Invoke(this);
+    //}
 
     public virtual void Pulse()
     {

@@ -40,8 +40,9 @@ public class DotVisualController : IDotVisualController
    
 
     public virtual IEnumerator BombHit()
-    {   
-        SpriteRenderer.sprite = Visuals.bombHitSprite;
+    {
+        Visuals.bombHitSprite.color = ColorSchemeManager.CurrentColorScheme.bombLight;
+        SpriteRenderer.sprite =  Visuals.bombHitSprite.sprite;
 
         yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
 
@@ -53,7 +54,11 @@ public class DotVisualController : IDotVisualController
 
     public virtual IEnumerator Hit(HitType hitType)
     {
-        yield return null;
+        if(hitType == HitType.BombExplosion)
+        {
+            yield return BombHit();
+        }
+
 
     }
 
@@ -77,7 +82,7 @@ public class DotVisualController : IDotVisualController
         yield return new WaitForSeconds(Visuals.clearDuration);
     }
 
-    public virtual IEnumerator PreviewHit(PreviewHitType hitType)
+    public virtual IEnumerator PreviewHit(HitType hitType)
     {
         yield return null;
     }

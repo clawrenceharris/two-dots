@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using System;
+using static Type;
 
 public class BlankDotVisualController : ConnectableDotVisualController
 {
@@ -16,6 +16,12 @@ public class BlankDotVisualController : ConnectableDotVisualController
         
     }
 
+    public override IEnumerator Hit(HitType hitType)
+    {
+        yield return base.Hit(hitType);
+        Dot.transform.DOScale(Vector2.zero, Visuals.clearDuration);
+
+    }
     protected override void SetColor()
     {
         base.SetColor();
@@ -48,6 +54,7 @@ public class BlankDotVisualController : ConnectableDotVisualController
 
     }
 
+    
 
 
 

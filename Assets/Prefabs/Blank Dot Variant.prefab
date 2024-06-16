@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7ef069ccf03fd4c089b48d011cf3eefe, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -146,7 +146,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2818817833734586123, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
-      insertIndex: 1
+      insertIndex: -1
       addedObject: {fileID: 348246315561311956}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -161,14 +161,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2818817833734586123, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 3062972721813983432}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3302772381405047447 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 528065255024196191, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
-  m_PrefabInstance: {fileID: 3062972721813983432}
-  m_PrefabAsset: {fileID: 0}
 --- !u!212 &5094386036265484340 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+  m_PrefabInstance: {fileID: 3062972721813983432}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &7062059107003244507 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 3062972721813983432}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8539122926316644213 stripped
@@ -201,6 +201,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outerDot: {fileID: 5094386036265484340}
-  bomb: {fileID: 3302772381405047447}
-  bombHitSprite: {fileID: 21300000, guid: c0fe66590a2aa4c5fbaf7f6be6ee2911, type: 3}
+  bombHitSprite: {fileID: 7062059107003244507}
+  clearDuration: 0.4
   innerDot: {fileID: 2479920984904146987}

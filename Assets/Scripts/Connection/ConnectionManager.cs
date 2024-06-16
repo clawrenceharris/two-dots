@@ -63,7 +63,6 @@ public class ConnectionManager
         {
             if (IsSquare)
             {
-                Debug.Log("IS SQUARE");
 
                 return squareManager.Square.ToHit;
             }

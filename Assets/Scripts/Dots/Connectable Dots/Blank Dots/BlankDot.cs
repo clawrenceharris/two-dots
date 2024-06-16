@@ -14,7 +14,7 @@ public class BlankDot : BlankDotBase
     {
         get
         {
-            return new()
+            return new(base.HitRules)
             {
 
                 {
@@ -25,11 +25,6 @@ public class BlankDot : BlankDotBase
         }
     }
 
-
-    public override void Init(int column, int row)
-    {
-        base.Init(column, row);
-    }
 
 
     public override void Disconnect()
@@ -47,7 +42,7 @@ public class BlankDot : BlankDotBase
     public override IEnumerator Hit(HitType hitType)
     {
         hitCount++;
-        return base.Hit(hitType);
+        yield return base.Hit(hitType);
     }
 
 
