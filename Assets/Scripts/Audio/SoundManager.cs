@@ -98,22 +98,19 @@ public class SoundManager : MonoBehaviour
     private void PlayDotCleardSound(Dot dot)
     {
         AudioClip sound = GetDotClearedSound(dot);
-        if (!playedSounds.Contains(sound))
-        {
-            audioSource.PlayOneShot(sound);
-            playedSounds.Add(sound); // Add the sound to the HashSet to indicate that it has been played
-        }
+        
+        audioSource.PlayOneShot(sound);
+        
     }
 
 
     private void PlayTileCleardSound(Tile tile)
     {
         AudioClip sound = GetTileClearedSound(tile);
-        if (!playedSounds.Contains(sound))
-        {
-            audioSource.PlayOneShot(sound);
-            playedSounds.Add(sound); // Add the sound to the HashSet to indicate that it has been played
-        }
+        
+        audioSource.PlayOneShot(sound);
+        playedSounds.Add(sound); // Add the sound to the HashSet to indicate that it has been played
+        
     }
 
 
