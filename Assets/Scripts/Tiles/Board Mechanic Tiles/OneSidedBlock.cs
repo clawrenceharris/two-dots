@@ -45,4 +45,9 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
 
        StartCoroutine(visualController.BombHit());
     }
+
+    public IEnumerator DoVisualHit(HitType hitType)
+    {
+        throw new System.NotImplementedException();
+    }
 }

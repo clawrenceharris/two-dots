@@ -15,55 +15,20 @@ public class Bomb : Dot, IExplodable
 
     public override Dictionary<HitType, IHitRule> HitRules => new();
 
-    private static List<IHittable> Hits { get; } = new();
-    public static event Action<IHittable> onBombExploded;
+    public static List<IHittable> Hits { get; } = new();
 
+    public ExplosionType ExplosionType => ExplosionType.BombExplosion;
+
+    public static event Action<IHittable> onBombExploded;
+    public BombDotVisualController VisualController => GetVisualController<BombDotVisualController>();
     public override void InitDisplayController()
     {
-        visualController = new DotVisualController();
+        visualController = new BombDotVisualController();
         visualController.Init(this);
     }
 
 
-    private IEnumerator AnimateLine(IHittable hittable)
-    {
-        float elapsedTime = 0f;
-        float duration = 0.3f;
-
-        Vector2 startPos = transform.position;
-        Vector2 endPos = new Vector2(hittable.Column, hittable.Row) * Board.offset;
-
-        float angle = Vector2.SignedAngle(Vector2.right, endPos - startPos);
-
-        ConnectorLine line = Instantiate(GameAssets.Instance.Line);
-
-        line.transform.parent = transform;
-        line.transform.localScale = new Vector2(1f, 0.1f);
-        line.sprite.color = Hits.Contains(hittable) ?  Color.clear : ColorSchemeManager.CurrentColorScheme.blank;
-        line.transform.rotation = Quaternion.Euler(0, 0, angle);
-        line.disabled = true;
-
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration; // Normalized time
-
-            // Perform linear interpolation between start and end positions
-            Vector3 newPos = Vector3.Lerp(startPos, endPos, t);
-
-            // Update line position
-            line.transform.position = newPos;
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-        Destroy(line.gameObject);
-
-       StartCoroutine(hittable.Hit(HitType.BombExplosion));
-        
-        
-
-    }
+    
 
     private void OnDisable()
     {
@@ -71,9 +36,8 @@ public class Bomb : Dot, IExplodable
     }
 
 
-    public IEnumerator Explode(List<IHittable> hittables)
+    public IEnumerator Explode(List<IHittable> hittables, Action<IHittable> callback)
     {
-
         List<Coroutine> lineCoroutines = new(); // Store coroutines for each line
 
         foreach (IHittable hittable in hittables)
@@ -83,7 +47,10 @@ public class Bomb : Dot, IExplodable
                 continue;
             }
             
-            Coroutine lineCoroutine = StartCoroutine(AnimateLine(hittable));
+            Coroutine lineCoroutine = StartCoroutine(VisualController.AnimateLine(hittable, () =>
+            {
+                callback?.Invoke(hittable);
+            }));
             lineCoroutines.Add(lineCoroutine);
             Hits.Add(hittable);
 
@@ -95,9 +62,6 @@ public class Bomb : Dot, IExplodable
         {
             yield return coroutine;
         }
-        Debug(Color.blue);
-        yield return Clear();
-        Debug(Color.red);
 
     }
 

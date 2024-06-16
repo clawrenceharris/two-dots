@@ -9,7 +9,7 @@ public interface IDotVisualController
     public DotVisuals Visuals { get; }
     public SpriteRenderer SpriteRenderer { get; }
     public void Init(Dot dot);
-    public IEnumerator PreviewHit(PreviewHitType hitType);
+    public IEnumerator PreviewHit(HitType hitType);
     public void SetColor(Color color);
     public void DisableSprites();
     public void ActivateBomb();

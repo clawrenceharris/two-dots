@@ -9,25 +9,14 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
 
 
     public override DotType DotType { get; }
-    private BlankDotVisualController VisualController
-    {
-        get
-        {
-            if (base.visualController is BlankDotVisualController blankDotVisualController)
-            {
-                return blankDotVisualController;
-            }
-            throw new InvalidCastException("Unable to cast base visualController to ClockDotVisualController");
-
-        }
-    }
-
+    private new BlankDotVisualController VisualController => GetVisualController<BlankDotVisualController>();
+    
     public override void Init(int column, int row)
     {
         base.Init(column, row);
         SubscribeToEvents();
     }
-
+   
     private void SubscribeToEvents()
     {
         ConnectionManager.onDotConnected += OnDotConnected;

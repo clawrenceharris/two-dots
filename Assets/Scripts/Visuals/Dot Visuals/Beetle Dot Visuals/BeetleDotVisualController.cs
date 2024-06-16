@@ -4,10 +4,6 @@ using UnityEngine;
 using DG.Tweening;
 using static Type;
 using System;
-using Object = UnityEngine.Object;
-using static UnityEngine.RuleTile.TilingRuleOutput;
-using System.Linq;
-using static UnityEngine.GraphicsBuffer;
 
 public class BeetleDotVisualController : ColorDotVisualController
 {
@@ -44,11 +40,10 @@ public class BeetleDotVisualController : ColorDotVisualController
         {
             wingsLayer1, wingsLayer2, wingsLayer3
         };
-        currentLayerIndex = Dot.HitCount;
-        wingsRemovedCount = 0;
+        currentLayerIndex = Mathf.Clamp(Dot.HitCount, 0, Dot.HitsToClear-1);
 
         Rotate();
-        CoroutineHandler.StartStaticCoroutine(RemoveWings(0f));
+        RemoveWings();
 
         base.SetUp();
     }
@@ -84,20 +79,21 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     public override void DisableSprites()
     {
-        for (int i =0; i < wingLayers.Count; i++)
+        for (int i = 0; i < wingLayers.Count; i++)
         {
-            for(int j = 0; j < wingLayers[i].Count; j++)
+            for (int j = 0; j < wingLayers[i].Count; j++)
             {
                 if (wingLayers[i][j].TryGetComponent<SpriteRenderer>(out var spriteRenderer))
                 {
                     spriteRenderer.enabled = false;
                 }
             }
-            
+
         }
 
         base.DisableSprites();
     }
+
     public override void EnableSprites()
     {
         for (int i = 0; i < wingLayers.Count; i++)
@@ -120,27 +116,22 @@ public class BeetleDotVisualController : ColorDotVisualController
     /// Based on the current layer, removes previous layers of wings off of the beetle dot
     /// </summary>
     /// <param name="duration">The duration of the animation</param>
-    private IEnumerator RemoveWings(float duration = 0.8f)
+    private void RemoveWings()
     {
-
-        currentLayerIndex = Mathf.Clamp(Dot.HitCount, 0, Dot.HitsToClear -1);
-        for (int i = wingsRemovedCount; i < currentLayerIndex; i++)
+        float removeDuration = 0.8f;
+        for(int i = 0; i < currentLayerIndex; i++)
         {
-            if (i < wingLayers.Count)
+            
+            CoroutineHandler.StartStaticCoroutine(RemoveWingsCo(wingLayers[i][0], wingLayers[i][1], removeDuration));
+            if (i + 1 < wingLayers.Count)
             {
-                
-                // Remove the wings in the current layer
-                yield return RemoveWingsCo(wingLayers[i][0], wingLayers[i][1], duration);
-              
-                
-                // If there are more layers to process, set the next layer's wings as children
-                if (i + 1 < wingLayers.Count)
-                {
-                    wingLayers[i + 1][1].transform.parent = Visuals.rightWings;
-                    wingLayers[i + 1][0].transform.parent = Visuals.leftWings;
-                }
+                wingLayers[i + 1][1].transform.parent = Visuals.rightWings;
+                wingLayers[i + 1][0].transform.parent = Visuals.leftWings;
             }
         }
+
+
+
     }
 
     public override IEnumerator Clear()
@@ -148,8 +139,8 @@ public class BeetleDotVisualController : ColorDotVisualController
         float duration = Visuals.clearDuration;
         float elapsedTime = 0f;
         float amplitude = 1f;
-        float frequency = 0.2f;
-        float speed = 38f;
+        float frequency = 0.1f;
+        float speed = 37f;
         Vector3 direction = new(Dot.DirectionX, Dot.DirectionY);
 
         Vector3 startPosition = Dot.transform.position;
@@ -186,26 +177,29 @@ public class BeetleDotVisualController : ColorDotVisualController
         }
     }
 
-    public override IEnumerator PreviewHit(PreviewHitType hitType)
+    public override IEnumerator PreviewHit(HitType hitType)
     {
+        bool isBombHit = hitType == HitType.BombExplosion;
         float flapDuration = 0.15f;
-        float flapAngle = 45f;
+        float startFlapAngle = isBombHit ? 15f : 45f;
+        float endFlapAngle = isBombHit ? 10f : 0;
+        Vector3 leftWingStartAngle = new(0, 0, -startFlapAngle);
+        Vector3 rightWingStartAngle = new(0, 0, startFlapAngle);
 
-        Vector3 leftWingAngle = new(0, 0, -flapAngle);
-        Vector3 rightWingAngle = new(0, 0, flapAngle);
-
+        Vector3 leftWingEndAngle = new(0, 0,-endFlapAngle);
+        Vector3 rightWingEndAngle = new(0, 0, endFlapAngle);
 
         while (DotTouchIO.IsInputActive && ConnectionManager.ToHit.Contains(Dot) || Dot.HitCount >= Dot.HitsToClear)
         {
             // Flap up
-            Visuals.leftWings.DOLocalRotate(leftWingAngle, flapDuration);
-            Visuals.rightWings.DOLocalRotate(rightWingAngle, flapDuration);
+            Visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
+            Visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
 
             yield return new WaitForSeconds(flapDuration);
 
             // Flap down
-            Visuals.leftWings.DOLocalRotate(Vector3.zero, flapDuration);
-            Visuals.rightWings.DOLocalRotate(Vector3.zero, flapDuration);
+            Visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
+            Visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
             yield return new WaitForSeconds(flapDuration);
 
         }
@@ -215,7 +209,18 @@ public class BeetleDotVisualController : ColorDotVisualController
         yield return base.PreviewHit(hitType);
     }
 
-    
+
+    public override IEnumerator Hit(HitType hitType)
+    {
+        yield return base.Hit(hitType);
+
+        currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, Dot.HitsToClear - 1);
+
+        Visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+        RemoveWings();
+    }
 
     public IEnumerator RotateCo()
     {
@@ -250,41 +255,29 @@ public class BeetleDotVisualController : ColorDotVisualController
     private void Rotate()
     {
         Vector3 rotation = GetRotation();
-
-        
-
         Dot.transform.localRotation = Quaternion.Euler(rotation);
     }
 
-    public override IEnumerator Hit(HitType hitType)
-    {
-        Visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        Visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-
-        yield return RemoveWings();
-        wingsRemovedCount++;
-
-        yield return base.Hit(hitType);
-    }
 
 
     private IEnumerator RemoveWingsCo(GameObject leftWing, GameObject rightWing, float duration)
     {
-        Vector3 leftWingAngle = new(0, 0, 90);
-        Vector3 rightWingAngle = new(0, 0, -90);
+        Vector3 leftWingAngle = new(0, 0, -90);
+        Vector3 rightWingAngle = new(0, 0, 90);
 
         rightWing.transform.SetParent(null);
         leftWing.transform.SetParent(null);
         leftWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + leftWingAngle, duration);
         rightWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + rightWingAngle, duration);
         
-
-        rightWing.transform.DOMove(Dot.transform.position + new Vector3(-Dot.DirectionY, Dot.DirectionX) * 2, duration);
-        leftWing.transform.DOMove(Dot.transform.position + new Vector3(Dot.DirectionY, -Dot.DirectionX) * 2, duration);
+        rightWing.transform.DOMove(Dot.transform.position + new Vector3(Dot.DirectionY, -Dot.DirectionX) * 2, duration);
+        leftWing.transform.DOMove(Dot.transform.position + new Vector3(-Dot.DirectionY, Dot.DirectionX) * 2, duration);
         
         rightWing.GetComponent<SpriteRenderer>().DOFade(0, duration);
         leftWing.GetComponent<SpriteRenderer>().DOFade(0, duration);
+
         yield return new WaitForSeconds(duration);
+
         leftWing.SetActive(false);
         rightWing.SetActive(false);
 
@@ -292,9 +285,9 @@ public class BeetleDotVisualController : ColorDotVisualController
 
     public override IEnumerator BombHit()
     {
-        SetColor(currentLayerIndex, Color.white);
+        SetColor(currentLayerIndex, ColorSchemeManager.CurrentColorScheme.bombLight);
         yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
-        SetColor(currentLayerIndex, Color);
+        SetColor(currentLayerIndex, ColorSchemeManager.FromDotColor(Dot.Color));
     }
 
     public IEnumerator DoSwap(Dot dotToSwap)

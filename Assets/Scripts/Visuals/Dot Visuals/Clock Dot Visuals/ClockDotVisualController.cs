@@ -137,7 +137,7 @@ public class ClockDotVisualController : BlankDotVisualController
         yield return base.Hit(hitType);
     }
 
-    public override IEnumerator PreviewHit(PreviewHitType hitType)
+    public override IEnumerator PreviewHit(HitType hitType)
     {
         while (Dot.HitCount >= Dot.HitsToClear)
         {

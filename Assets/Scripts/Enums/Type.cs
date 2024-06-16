@@ -102,8 +102,9 @@ public static class Type
     public enum CommandType
     {
 
-        Board,
         Hit,
+        Board,
+
         Explosion,
         MoveBeetleDots,
         MoveClockDots,

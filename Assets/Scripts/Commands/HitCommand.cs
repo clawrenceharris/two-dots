@@ -19,38 +19,36 @@ public class HitCommand : Command
         List<IHittable> hittables = board.GetHittables();
         foreach (IHittable hittable in hittables)
         {
-            if (hittable == null)
+            if (hittable == null || hittable is IExplodable)
             {
                 continue;
             }
-
-
+          
             foreach (HitType hitType in hittable.HitRules.Keys)
             {
                 if (hittable.HitRules.TryGetValue(hitType, out var rule))
+                {
                     if (rule.Validate(hittable, board))
                     {
                         DidExecute = true;
                         CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
-                        if (hittable.HitCount >= hittable.HitsToClear)
+
+                        if (hittable is IPreviewable previewable)
                         {
-                            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+                            CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(hitType));
+                            
                         }
-                    }
-
-
-                else if (new HitByExplosionRule().Validate(hittable, board))
-                {
-                    DidExecute = true;
-                    CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
-                    if (hittable.HitCount >= hittable.HitsToClear)
-                    {
-                        CoroutineHandler.StartStaticCoroutine(hittable.Clear());
                     }
                 }
 
-
             }
+            if (hittable.HitCount >= hittable.HitsToClear)
+            {
+                DidExecute = true;
+
+                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+            }
+
         }
         if (DidExecute)
         {
