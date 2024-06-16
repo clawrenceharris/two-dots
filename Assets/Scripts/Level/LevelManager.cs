@@ -68,6 +68,8 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
         ConnectionManager.onDotConnected -= OnDotConnected;
         ConnectionManager.onDotDisconnected -= OnDotDisconnected;
+        ConnectionManager.onDotSelected -= OnDotSelected;
+
         Command.onCommandExecuted -= OnCommandExecuted;
         CommandInvoker.onCommandsEnded -= OnCommnadsEnded;
     }
@@ -77,12 +79,20 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
         ConnectionManager.onDotConnected += OnDotConnected;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
+        ConnectionManager.onDotSelected += OnDotSelected;
+
         Command.onCommandExecuted += OnCommandExecuted;
         CommandInvoker.onCommandsEnded += OnCommnadsEnded;
     }
 
 
-
+    private void OnDotSelected(Dot dot)
+    {
+        if (dot is IPreviewable previewable)
+        {
+            StartCoroutine(previewable.PreviewHit(HitType.Connection));
+        }
+    }
 
     private void OnDotDisconnected(ConnectableDot dot)
     {
