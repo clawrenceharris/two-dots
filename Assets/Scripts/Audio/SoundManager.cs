@@ -54,7 +54,7 @@ public class SoundManager : MonoBehaviour
         {
             DotType.ClockDot => bombActive,
             DotType.NestingDot => bombActive,
-
+            DotType.BeetleDot => bombActive,
             _ => null,
         };
 
