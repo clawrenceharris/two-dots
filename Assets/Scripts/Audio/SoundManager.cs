@@ -14,7 +14,9 @@ public class SoundManager : MonoBehaviour
 
     private AudioSource audioSource;
     private AudioDistortionFilter audioDistortion;
-    private readonly HashSet<AudioClip> playedSounds = new();
+    private readonly HashSet<AudioClip> hitSounds = new();
+    private readonly HashSet<AudioClip> clearSounds = new();
+
 
     private void Awake()
     {
@@ -31,7 +33,7 @@ public class SoundManager : MonoBehaviour
         Tile.onTileCleared += OnTileCleared;
         Dot.onDotHit += OnDotHit;
         Connection.onSquareMade += OnSquareMade;
-        CommandInvoker.onCommandsEnded += OnCommandsEnded;
+        Command.onCommandExecuted += OnCommandExecuted;
 
     }
 
@@ -39,9 +41,12 @@ public class SoundManager : MonoBehaviour
     private void PlayDotHitSound(Dot dot)
     {
         AudioClip sound = GetDotHitSound(dot);
-        
-        audioSource.PlayOneShot(sound);
-        playedSounds.Add(sound);
+        if (!hitSounds.Contains(sound))
+        {
+            audioSource.PlayOneShot(sound);
+            hitSounds.Add(sound); // Add the sound to the HashSet to indicate that it has been played
+        }
+       
         
         
 
@@ -97,8 +102,11 @@ public class SoundManager : MonoBehaviour
     private void PlayDotCleardSound(Dot dot)
     {
         AudioClip sound = GetDotClearedSound(dot);
-        
-        audioSource.PlayOneShot(sound);
+        if (!clearSounds.Contains(sound))
+        {
+            audioSource.PlayOneShot(sound);
+            clearSounds.Add(sound); 
+        }
         
     }
 
@@ -107,8 +115,12 @@ public class SoundManager : MonoBehaviour
     {
         AudioClip sound = GetTileClearedSound(tile);
         
-        audioSource.PlayOneShot(sound);
-        playedSounds.Add(sound); // Add the sound to the HashSet to indicate that it has been played
+
+        if (!clearSounds.Contains(sound))
+        {
+            audioSource.PlayOneShot(sound);
+            clearSounds.Add(sound); 
+        }
         
     }
 
@@ -130,9 +142,13 @@ public class SoundManager : MonoBehaviour
         PlayTileCleardSound(tile);
 
     }
-    private void OnCommandsEnded()
+    private void OnCommandExecuted(Command command)
     {
-        playedSounds.Clear();
+        if(command is HitCommand)
+        {
+            hitSounds.Clear();
+            clearSounds.Clear();
+        }
     }
 
     private void OnSquareMade(Square square)
