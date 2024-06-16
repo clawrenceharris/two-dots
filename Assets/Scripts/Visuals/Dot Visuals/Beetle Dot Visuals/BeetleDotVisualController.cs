@@ -12,7 +12,12 @@ public class BeetleDotVisualController : ColorDotVisualController
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
     private List<GameObject> wingsLayer3;
+    private List<GameObject> whiteWingsLayer1;
+    private List<GameObject> whiteWingsLayer2;
+    private List<GameObject> whiteWingsLayer3;
     private List<List<GameObject>> wingLayers;
+    private List<List<GameObject>> whiteWingLayers;
+
     private int currentLayerIndex;
     private int wingsRemovedCount; //the amount of wings that were removed after set up
     public override void Init(Dot dot)
@@ -40,10 +45,31 @@ public class BeetleDotVisualController : ColorDotVisualController
         {
             wingsLayer1, wingsLayer2, wingsLayer3
         };
+        whiteWingsLayer1 = new() {
+            Visuals.leftWhiteWingLayer1,
+            Visuals.rightWhiteWingLayer1,
+        };
+        whiteWingsLayer2 = new() {
+            Visuals.leftWhiteWingLayer2,
+            Visuals.rightWhiteWingLayer2,
+        };
+        whiteWingsLayer3 = new() {
+            Visuals.leftWhiteWingLayer3,
+            Visuals.rightWhiteWingLayer3,
+        };
+        wingLayers = new()
+        {
+            wingsLayer1, wingsLayer2, wingsLayer3
+        };
+
+        whiteWingLayers = new()
+        {
+            whiteWingsLayer1, whiteWingsLayer2, whiteWingsLayer3
+        };
         currentLayerIndex = Mathf.Clamp(Dot.HitCount, 0, Dot.HitsToClear-1);
 
         Rotate();
-        RemoveWings();
+        RemoveWings(0f);
 
         base.SetUp();
     }
@@ -116,13 +142,13 @@ public class BeetleDotVisualController : ColorDotVisualController
     /// Based on the current layer, removes previous layers of wings off of the beetle dot
     /// </summary>
     /// <param name="duration">The duration of the animation</param>
-    private void RemoveWings()
+    private void RemoveWings(float duration = 0.8f)
     {
         float removeDuration = 0.8f;
         for(int i = 0; i < currentLayerIndex; i++)
         {
             
-            CoroutineHandler.StartStaticCoroutine(RemoveWingsCo(wingLayers[i][0], wingLayers[i][1], removeDuration));
+            CoroutineHandler.StartStaticCoroutine(RemoveWingsCo(i, duration));
             if (i + 1 < wingLayers.Count)
             {
                 wingLayers[i + 1][1].transform.parent = Visuals.rightWings;
@@ -188,7 +214,7 @@ public class BeetleDotVisualController : ColorDotVisualController
 
         Vector3 leftWingEndAngle = new(0, 0,-endFlapAngle);
         Vector3 rightWingEndAngle = new(0, 0, endFlapAngle);
-
+        Debug.Log(ConnectionManager.ToHit.Contains(Dot));
         while (DotTouchIO.IsInputActive && ConnectionManager.ToHit.Contains(Dot) || Dot.HitCount >= Dot.HitsToClear)
         {
             // Flap up
@@ -260,8 +286,15 @@ public class BeetleDotVisualController : ColorDotVisualController
 
 
 
-    private IEnumerator RemoveWingsCo(GameObject leftWing, GameObject rightWing, float duration)
+    private IEnumerator RemoveWingsCo(int layer, float duration)
     {
+        GameObject leftWing = wingLayers[layer][0];
+        GameObject rightWing = wingLayers[layer][1];
+        GameObject leftWhiteWing = whiteWingLayers[layer][0];
+        GameObject rightWhiteWing = whiteWingLayers[layer][1];
+        rightWhiteWing.SetActive(false);
+        leftWhiteWing.SetActive(false);
+
         Vector3 leftWingAngle = new(0, 0, -90);
         Vector3 rightWingAngle = new(0, 0, 90);
 

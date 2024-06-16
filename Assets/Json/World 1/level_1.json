@@ -21,31 +21,12 @@
 
         },
         {
-            "type": "beetle",
-            "colors": [ "blue", "purple", "blue" ],
-            "row": 3,
-            "col": 3,
-            "directionX": -1,
-            "directionY": 0
+            "type": "nesting"
+            
         },
-        {
-            "type": "beetle",
-            "colors": [ "purple", "blue", "red" ],
-            "row": 3,
-            "col": 3,
-            "hitCount": 2,
-            "directionX": 0,
-            "directionY": -1
-        },
-        {
-            "type": "beetle",
-            "colors": [ "purple", "red", "blue" ],
-            "row": 3,
-            "col": 3,
-            "directionX": 0,
-            "directionY": 1
-
-        },
+        
+        
+        
 
         {
             "type": "beetle",
@@ -82,15 +63,8 @@
             "hitCount": 2,
             "directionX": -1,
             "directionY": 0
-        },
-        {
-            "type": "beetle",
-            "colors": [ "blue", "purple", "blue" ],
-            "row": 3,
-            "col": 2,
-            "directionX": -1,
-            "directionY": 0
         }
+       
 
 
        
