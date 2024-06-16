@@ -39,7 +39,7 @@ public class BombDotVisualController : DotVisualController
 
         line.transform.parent = Dot.transform;
         line.transform.localScale = new Vector2(2f, 0.1f);
-        line.sprite.color = Bomb.Hits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.blank;
+        line.sprite.color = Bomb.Hits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
         line.transform.rotation = Quaternion.Euler(0, 0, angle);
         line.disabled = true;
 
