@@ -283,19 +283,33 @@ public class Board : MonoBehaviour
         }
         return null;
     }
-
-    public List<T> GetNeighbors<T>(int col, int row) where T : IBoardElement
+    /// <summary>
+    ///Adds neighboring board elements based on
+    ///their positions relative to the given row and column
+    /// </summary>
+    /// <typeparam name="T">A Board Element</typeparam>
+    /// <param name="col">The column of the board element whose neighbors are being found</param>
+    /// <param name="row">The row of the board element whose neighbors are being found </param>
+    /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
+    /// <returns>A list of the neighboring board elements </returns>
+    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals) where T : IBoardElement
     {
 
         List<T> neighbors = new()
         {
-            // Add neighboring dots based on their positions relative to the given row and column
             GetBoardElementDotAt<T>(col, row + 1),
             GetBoardElementDotAt<T>(col, row - 1),
             GetBoardElementDotAt<T>(col + 1, row),
             GetBoardElementDotAt<T>(col - 1, row),
         };
 
+        List<T> diagonals = new()
+        {
+            GetBoardElementDotAt<T>(col + 1, row + 1),
+            GetBoardElementDotAt<T>(col + 1, row - 1),
+            GetBoardElementDotAt<T>(col - 1, row + 1),
+            GetBoardElementDotAt<T>(col - 1, row -1),
+        };
         
         return neighbors;
     }
