@@ -28,7 +28,7 @@ public class MoveBeetleDotsCommand : Command
         int leftY = -dot.DirectionX;
 
         //get the dot that is 90 degrees to the left of the beetle dot (y, -x)
-        Dot left = board.GetBoardElementDotAt(leftX + dot.Column, leftY + dot.Row);
+        Dot left = board.GetBoardElementDotAt<Dot>(leftX + dot.Column, leftY + dot.Row);
        
         if (CanMove(left))
         {
@@ -95,11 +95,11 @@ public class MoveBeetleDotsCommand : Command
         {
             for(int j = 0; j < board.Height; j++)
             {
-                Dot dot = board.GetBoardElementDotAt(i, j);
+                Dot dot = board.GetBoardElementDotAt<Dot>(i, j);
                 if (dot is BeetleDot beetleDot)
                 {
                     
-                    Dot dotToSwap = board.GetBoardElementDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
+                    Dot dotToSwap = board.GetBoardElementDotAt<Dot>(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
 
                     //if the dot can move and wants to move 
                     if (CanMove(dotToSwap))
@@ -131,7 +131,7 @@ public class MoveBeetleDotsCommand : Command
         {
             for (int j = 0; j < board.Height; j++)
             {
-                Dot dot = board.GetBoardElementDotAt(i, j);
+                Dot dot = board.GetBoardElementDotAt<Dot>(i, j);
                 if (dot is BeetleDot beetleDot)
                 {
                     if (dotsToSwap.TryGetValue(beetleDot, out var dotToSwap))
@@ -151,7 +151,7 @@ public class MoveBeetleDotsCommand : Command
                             beetleDot.Column = dotToSwapCol;
                             beetleDot.Row = dotToSwapRow;
 
-                            Dot nextDotToSwap = board.GetBoardElementDotAt(dotToSwapCol + beetleDot.DirectionX, dotToSwapRow + beetleDot.DirectionY);
+                            Dot nextDotToSwap = board.GetBoardElementDotAt<Dot>(dotToSwapCol + beetleDot.DirectionX, dotToSwapRow + beetleDot.DirectionY);
 
                             //beetle dot moved so update direction
                             UpdateBeetleDotDirection(beetleDot, nextDotToSwap, board);

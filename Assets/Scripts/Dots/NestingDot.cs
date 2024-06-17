@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-using DG.Tweening;
+
 public class NestingDot : Dot
 {
     public override DotType DotType => DotType.NestingDot;

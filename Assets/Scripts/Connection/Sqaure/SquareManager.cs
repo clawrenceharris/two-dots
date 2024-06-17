@@ -153,7 +153,7 @@ public class Square
 
             //get the bomb that is at this dot's position on the board
             //then destroy it
-            Dot bomb = board.GetBoardElementDotAt(dot.Column, dot.Row);
+            Dot bomb = board.GetBoardElementDotAt<Dot>(dot.Column, dot.Row);
             Object.Destroy(bomb.gameObject);
 
             //put the original dot back
@@ -176,7 +176,7 @@ public class Square
         {
             for (int row = 0; row < board.Height; row++)
             {
-                Dot dot = board.GetBoardElementDotAt(col, row);
+                Dot dot = board.GetBoardElementDotAt<Dot>(col, row);
                 //Make sure dot is not in the square and not on edge of board because there is no need to fill these
                 if (dot && !square.Contains(dot) && !board.IsOnEdgeOfBoard(dot.Column, dot.Row))
                 {
@@ -240,7 +240,7 @@ public class Square
             visitedDots.Add(currentDot);
 
             // Get neighbors of the current dot
-            List<Dot> neighbors = board.GetDotNeighbors(currentDot.Column, currentDot.Row, true);
+            List<Dot> neighbors = board.GetNeighbors<Dot>(currentDot.Column, currentDot.Row, true);
 
             foreach (Dot neighbor in neighbors)
             {
@@ -301,7 +301,7 @@ public class Square
         {
             for (int row = 0; row < board.Height; row++)
             {
-                Dot dot = board.GetBoardElementDotAt(col, row);
+                Dot dot = board.GetBoardElementDotAt<Dot>(col, row);
 
                 if (dot is ConnectableDot connectableDot && ShouldBeHit(connectableDot))
                 {

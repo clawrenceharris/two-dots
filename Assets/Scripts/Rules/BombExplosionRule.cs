@@ -7,7 +7,7 @@ public class BombExplosionRule : IExplosionRule
     public List<IHittable> Validate(IExplodable explodable, Board board)
     {
         List<IHittable> toHit = new();
-        List<IHittable> hittables = board.GetHittableNeighbors(explodable.Column, explodable.Row, true);
+        List<IHittable> hittables = board.GetNeighbors<IHittable>(explodable.Column, explodable.Row, true);
         foreach(IHittable hittable in hittables)
         {
             if(hittable != null)

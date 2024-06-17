@@ -10,5 +10,6 @@ public class DotVisuals : MonoBehaviour
     public SpriteRenderer bombHitSprite;
     public float clearDuration = 0.4f;
     public static float defaultClearDuration = 0.4f;
+    public float hitDuration = 0.4f;
 
 }

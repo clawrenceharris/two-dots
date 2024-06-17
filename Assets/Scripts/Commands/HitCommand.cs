@@ -48,10 +48,14 @@ public class HitCommand : Command
             
 
         }
-        yield return new WaitForSeconds(DotVisuals.hitDuration);
         foreach(IHittable hittable in toClear) {
             if (hittable.HitCount >= hittable.HitsToClear)
             {
+                if(hittable is Dot dot)
+                {
+                    yield return new WaitForSeconds(dot.visualController.Visuals.hitDuration);
+                }
+
                 DidExecute = true;
 
                 CoroutineHandler.StartStaticCoroutine(hittable.Clear());
