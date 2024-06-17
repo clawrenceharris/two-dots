@@ -283,134 +283,41 @@ public class Board : MonoBehaviour
         }
         return null;
     }
-    public List<IHittable> GetHittableNeighbors(int col, int row, bool diagonal = false)
-    {
-        List<IHittable> neighbors = new()
-        {
-            //Add neighboring dots based on their positions relative to the given row and column
-            GetHittableAt(col, row + 1),
-            GetHittableAt(col, row - 1),
-            GetHittableAt(col + 1, row),
-            GetHittableAt(col - 1, row),
 
+    public List<T> GetNeighbors<T>(int col, int row) where T : IBoardElement
+    {
+
+        List<T> neighbors = new()
+        {
+            // Add neighboring dots based on their positions relative to the given row and column
+            GetBoardElementDotAt<T>(col, row + 1),
+            GetBoardElementDotAt<T>(col, row - 1),
+            GetBoardElementDotAt<T>(col + 1, row),
+            GetBoardElementDotAt<T>(col - 1, row),
         };
+
         
-        List<IHittable> diagonals = new()
-        {
-            GetHittableAt(col + 1 , row + 1),
-            GetHittableAt(col - 1, row - 1),
-            GetHittableAt(col + 1, row - 1),
-            GetHittableAt(col -1, row + 1),
-        };
-        if (diagonal)
-        {
-            neighbors.AddRange(diagonals);
-
-        }
         return neighbors;
     }
 
-    public List<Dot> GetDotNeighbors(int col, int row, bool diagonal = false)
-    {
-
-        List<Dot> neighbors = new()
-        {
-            // Add neighboring dots based on their positions relative to the given row and column
-            GetDotAt(col, row + 1),
-            GetDotAt(col, row - 1),
-            GetDotAt(col + 1, row),
-            GetDotAt(col - 1, row),
-        };
-
-        List<Dot> diagonals = new()
-        {
-            GetDotAt(col +1 , row + 1),
-            GetDotAt(col -1, row + 1),
-            GetDotAt(col - 1, row - 1),
-            GetDotAt(col + 1, row - 1),
-        };
-        if (diagonal)
-        {
-            neighbors.AddRange(diagonals);
-
-        }
-        return neighbors;
-    }
-
-    public List<Tile> GetTileNeighbors(int col, int row, bool diagonal = false)
-    {
-
-        List<Tile> neighbors = new()
-        {
-            // Add neighboring dots based on their positions relative to the given row and column
-            GetTileAt(col, row + 1),
-            GetTileAt(col, row - 1),
-            GetTileAt(col + 1, row),
-            GetTileAt(col - 1, row),
-        };
-
-        List<Tile> diagonals = new()
-        {
-            GetTileAt(col +1 , row + 1),
-            GetTileAt(col -1, row + 1),
-            GetTileAt(col - 1, row - 1),
-            GetTileAt(col + 1, row - 1),
-        };
-        if (diagonal)
-        {
-            neighbors.AddRange(diagonals);
-
-        }
-        return neighbors;
-    }
 
 
     
 
-    public Dot GetDotAt(int col, int row)
+    public T GetBoardElementDotAt<T>(int col, int row) where T : IBoardElement
     {
         if (col >= 0 && col < Width && row >= 0 && row < Height)
         {
-            return Dots[col, row];
+            if (Dots[col, row] is T dot)
+                return dot;
+
+            if (Tiles[col, row] is T tile)
+                return tile;
+
         }
-        return null;
-    }
-    public ConnectableDot GetConnectableDotAt(int col, int row)
-    {
-        if (col >= 0 && col < Width && row >= 0 && row < Height)
-        {
-            Dot dot = Dots[col, row];
-            if (dot is ConnectableDot cDot)
-                return cDot;
-        }
-        return null;
+        return default;
     }
 
-    public Tile GetTileAt(int col, int row)
-    {
-        if (col >= 0 && col < Width && row >= 0 && row < Height)
-        {
-            return Tiles[col, row];
-        }
-        return null;
-    }
-
-    public Tile GetTileAt(Vector2Int pos)
-    {
-        if (pos.x >= 0 && pos.x < Width && pos.y >= 0 && pos.y < Height)
-        {
-            return Tiles[pos.x, pos.y];
-        }
-        return null;
-    }
-    public Dot GetDotAt(Vector2Int pos)
-    {
-        if (pos.x >= 0 && pos.x < Width && pos.y >= 0 && pos.y < Height)
-        {
-            return Dots[pos.x, pos.y];
-        }
-        return null;
-    }
 
 
 
@@ -510,7 +417,7 @@ public class Board : MonoBehaviour
 
         for (int i = row - 1; i >= 0; i--)
         {
-            Dot dot = GetDotAt(col, i);
+            Dot dot = GetBoardElementDotAt<Dot>(col, i);
             if (dot != null)
             {
                 return false;
@@ -532,7 +439,7 @@ public class Board : MonoBehaviour
 
         for (int i = col - 1; i >= 0; i--)
         {
-            Dot dot = GetDotAt(i, row);
+            Dot dot = GetBoardElementDotAt<Dot>(i, row);
 
             if (dot != null)
             {
@@ -554,7 +461,7 @@ public class Board : MonoBehaviour
 
         for (int i = col + 1; i < Width; i++)
         {
-            Dot dot = GetDotAt(i, row);
+            Dot dot = GetBoardElementDotAt<Dot>(i, row);
 
             if (dot != null)
             {
@@ -577,7 +484,7 @@ public class Board : MonoBehaviour
 
         for (int i = row + 1; i < Height; i++)
         {
-            Dot dot = GetDotAt(col, i);
+            Dot dot = GetBoardElementDotAt<Dot>(col, i);
 
             if (dot != null)
             {
@@ -592,7 +499,7 @@ public class Board : MonoBehaviour
     {
         for (int row = 0; row < Height; row++)
         {
-            Dot dot = GetDotAt(col, row);
+            Dot dot = GetBoardElementDotAt<Dot>(col, row);
             if (dot)
             {
                 return dot;

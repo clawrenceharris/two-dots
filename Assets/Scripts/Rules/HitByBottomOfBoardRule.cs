@@ -10,10 +10,10 @@ public class HitByBottomOfBoardRule : IHitRule
 {
 
     public bool Validate(IHittable hittable, Board board)
-    {      
-        bool isAtBottom =  board.IsAtBottomOfBoard(hittable.Column, hittable.Row);
-            
+    {
+        bool isAtBottom = board.IsAtBottomOfBoard(hittable.Column, hittable.Row);
+
         return isAtBottom;
-  
+
     }
 }
