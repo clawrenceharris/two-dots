@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using static Type;
-public abstract class Tile : MonoBehaviour
+public abstract class Tile : MonoBehaviour, IBoardElement
 {
     private int row;
     private int column;

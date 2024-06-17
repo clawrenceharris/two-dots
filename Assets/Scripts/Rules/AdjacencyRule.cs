@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdjacencyRule : IComparisonRule<IBoardElement>
+public class AdjacentPositionRule : IComparisonRule<IBoardElement>
 {
     public bool Validate(IBoardElement a, IBoardElement b)
     {
