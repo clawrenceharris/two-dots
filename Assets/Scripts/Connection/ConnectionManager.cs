@@ -15,7 +15,6 @@ public class ConnectionManager
 
     public static event Action<ConnectableDot> onDotSelected;
     public static event Action onSquare;
-    private readonly List<IConnectionRule> connectionRules;
     private static SquareManager squareManager;
     public static event Action<LinkedList<ConnectableDot>> onConnectionEnded;
     public static Connection Connection { get; private set; }
@@ -80,7 +79,6 @@ public class ConnectionManager
     {
         
         squareManager = new SquareManager(board);
-        connectionRules = new() { new ConnectByPositionRule(), new ConnectByColorRule() };
         SubscribeToEvents();
     }
 
@@ -89,7 +87,8 @@ public class ConnectionManager
         DotTouchIO.onDotSelected += OnDotSelected;
         DotTouchIO.onSelectionEnded += HandleSelectionEnded;
         DotTouchIO.onDotConnected += OnDotConnected;
-        Command.onCommandExecuted += OnCommandExecuted;
+        //Command.onCommandExecuted += OnCommandExecuted;
+        CommandInvoker.onCommandsEnded += OnCommandsEnded;
     }
 
 
@@ -113,14 +112,8 @@ public class ConnectionManager
 
     private bool IsValidConnection(ConnectableDot dot)
     {
-        foreach(IConnectionRule rule in connectionRules)
-        {
-            if(!rule.Validate(dot))
-            {
-                return false;
-            }
-        }
-        return true;
+        ConnectionRule connectionRule = new();
+        return connectionRule.Validate(dot, ConnectedDots.Last.Value);
     }
 
     private void OnDotConnected(ConnectableDot dot)
@@ -190,10 +183,15 @@ public class ConnectionManager
         }
     }
 
-   private void OnCommandExecuted(Command command)
+    //private void OnCommandExecuted(Command command)
+    // {
+    //     if(command is HitCommand)
+    //         Connection?.ResetConnection();
+
+    // }
+    private void OnCommandsEnded()
     {
-        if(command is HitCommand)
-            Connection?.ResetConnection();
+        Connection?.ResetConnection();
 
     }
 }

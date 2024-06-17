@@ -17,6 +17,8 @@ public class HitCommand : Command
         Debug.Log(nameof(HitCommand));
 
         List<IHittable> hittables = board.GetHittables();
+        List<IHittable> toClear = new();
+
         foreach (IHittable hittable in hittables)
         {
             if (hittable == null )
@@ -30,9 +32,10 @@ public class HitCommand : Command
                 {
                     if (rule.Validate(hittable, board) && hittable is not IExplodable)
                     {
+                        
                         DidExecute = true;
-                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
-
+                        yield return hittable.Hit(hitType);
+                        toClear.Add(hittable);
                         if (hittable is IPreviewable previewable)
                         {
                             CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(hitType));
@@ -42,6 +45,11 @@ public class HitCommand : Command
                 }
 
             }
+            
+
+        }
+        yield return new WaitForSeconds(DotVisuals.hitDuration);
+        foreach(IHittable hittable in toClear) {
             if (hittable.HitCount >= hittable.HitsToClear)
             {
                 DidExecute = true;
@@ -50,6 +58,7 @@ public class HitCommand : Command
             }
 
         }
+
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
