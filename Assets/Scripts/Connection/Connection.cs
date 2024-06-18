@@ -30,7 +30,7 @@ public class Connection
     {
         foreach (Dot dot in ConnectedDots)
         {
-            if (dot is not IBlankDot)
+            if (dot is not IBlank)
             {
                 return false;
             }

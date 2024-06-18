@@ -292,7 +292,7 @@ public class Board : MonoBehaviour
     /// <param name="row">The row of the board element whose neighbors are being found </param>
     /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
     /// <returns>A list of the neighboring board elements </returns>
-    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals) where T : IBoardElement
+    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals = true) where T : IBoardElement
     {
 
         List<T> neighbors = new()
@@ -310,7 +310,11 @@ public class Board : MonoBehaviour
             GetBoardElementDotAt<T>(col - 1, row + 1),
             GetBoardElementDotAt<T>(col - 1, row -1),
         };
-        
+
+        if (includesDiagonals)
+        {
+            neighbors.AddRange(diagonals);
+        }
         return neighbors;
     }
 

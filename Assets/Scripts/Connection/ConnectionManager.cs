@@ -1,10 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using static Type;
-using System.Data.Common;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class ConnectionManager
 {
@@ -87,7 +83,6 @@ public class ConnectionManager
         DotTouchIO.onDotSelected += OnDotSelected;
         DotTouchIO.onSelectionEnded += HandleSelectionEnded;
         DotTouchIO.onDotConnected += OnDotConnected;
-        //Command.onCommandExecuted += OnCommandExecuted;
         CommandInvoker.onCommandsEnded += OnCommandsEnded;
     }
 
@@ -104,7 +99,7 @@ public class ConnectionManager
 
             // Get the second-to-last node
             var secondToLastNode = ConnectedDots.Last.Previous;
-            // Check if the dot is the second-to-last dot
+            //If the dot is the second-to-last dot it is disconnected
             return secondToLastNode.Value == dot;
         
 
@@ -113,7 +108,7 @@ public class ConnectionManager
     private bool IsValidConnection(ConnectableDot dot)
     {
         ConnectionRule connectionRule = new();
-        return connectionRule.Validate(dot, ConnectedDots.Last.Value);
+        return connectionRule.Validate(ConnectedDots.Last.Value, dot);
     }
 
     private void OnDotConnected(ConnectableDot dot)
@@ -124,21 +119,16 @@ public class ConnectionManager
             return;
         }
 
-
-        // if the dot we drag over is the second to last dot in the connections list
         if (IsDotDisconnected(dot))
         {
 
-            //disconnect it
             ConnectableDot dotToDisconnect = lastDot.Value;
             Connection.DisconnectDot(dotToDisconnect);
-            //ConnectedDots = new(Connection.Dots);
-
             onDotDisconnected?.Invoke(dotToDisconnect);
 
         }
 
-        // otherwise if the connection between the last dot and the dot we drag over is valid
+        // if the connection is valid and it is not currently a square
         else if (IsValidConnection(dot) && !IsSquare)
         {
             Connection.ConnectDot(dot);          
@@ -183,12 +173,7 @@ public class ConnectionManager
         }
     }
 
-    //private void OnCommandExecuted(Command command)
-    // {
-    //     if(command is HitCommand)
-    //         Connection?.ResetConnection();
-
-    // }
+    
     private void OnCommandsEnded()
     {
         Connection?.ResetConnection();

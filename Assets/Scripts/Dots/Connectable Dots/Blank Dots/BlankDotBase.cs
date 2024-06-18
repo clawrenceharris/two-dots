@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-public abstract class BlankDotBase : ConnectableDot, IBlankDot
+public abstract class BlankDotBase : ConnectableDot, IBlank
 {
 
 

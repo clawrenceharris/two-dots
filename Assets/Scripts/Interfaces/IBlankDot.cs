@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBlankDot
+public interface IBlank
 {
     public void Deselect();
 
