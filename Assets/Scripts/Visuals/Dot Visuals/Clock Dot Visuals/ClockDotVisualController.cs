@@ -5,35 +5,40 @@ using System.Linq;
 using System.Collections.Generic;
 using static Type;
 
-public class ClockDotVisualController : BlankDotVisualController
+public class ClockDotVisualController : BlankDotVisualController, IPreviewable
 {
-    private new ClockDotVisuals Visuals;
-    private new ClockDot Dot;
     public static Dictionary<Dot, GameObject> clockDotPreviews { get; private set; } = new();
-
-    public override void Init(Dot dot)
+    private ClockDot dot;
+    private ClockDotVisuals visuals;
+    public override T GetVisuals<T>()
     {
-        Dot = (ClockDot)dot;
-        Visuals = dot.GetComponent<ClockDotVisuals>();
-
-        base.Init(Dot);
-
-
-
-
+        return visuals as T;
     }
+    public override T GetGameObject<T>()
+    {
+        return dot as T;
+    }
+
+    public override void Init(DotsGameObject dotsGameObject)
+    {
+        base.Init(dotsGameObject);
+        dot = (ClockDot)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
+        SetUp();
+    }
+
 
     protected override void SetUp()
     {
         base.SetUp();
-        UpdateNumbers(Dot.CurrentNumber);
+        UpdateNumbers(dot.CurrentNumber);
     }
 
     protected override void SetColor()
     {
-        Visuals.top.color = ColorSchemeManager.CurrentColorScheme.clockDot;
-        Visuals.middle.color = new Color(255, 255, 255, 0.6f);
-        Visuals.shadow.color = new Color(255, 255, 255, 0.6f);
+        visuals.top.color = ColorSchemeManager.CurrentColorScheme.clockDot;
+        visuals.middle.color = new Color(255, 255, 255, 0.6f);
+        visuals.shadow.color = new Color(255, 255, 255, 0.6f);
 
     }
 
@@ -43,9 +48,9 @@ public class ClockDotVisualController : BlankDotVisualController
 
     public override IEnumerator BombHit()
     {
-        SpriteRenderer.color = Color.white;
+        spriteRenderer.color = Color.white;
 
-        foreach (Transform child in Dot.transform)
+        foreach (Transform child in dot.transform)
         {
             if (child.TryGetComponent(out SpriteRenderer sr))
             {
@@ -53,7 +58,7 @@ public class ClockDotVisualController : BlankDotVisualController
             }
         }
 
-        yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
+        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
         SetColor();
 
@@ -66,14 +71,14 @@ public class ClockDotVisualController : BlankDotVisualController
         string numberStr = number.ToString();
         if (numberStr.Length == 1)
         {
-            Visuals.digit1.sprite = Visuals.numbers[0];
-            Visuals.digit2.sprite = Visuals.numbers[int.Parse(numberStr)];
+            visuals.digit1.sprite = visuals.numbers[0];
+            visuals.digit2.sprite = visuals.numbers[int.Parse(numberStr)];
         }
         else
         {
 
-            Visuals.digit1.sprite = Visuals.numbers[int.Parse(numberStr[0].ToString())];
-            Visuals.digit2.sprite = Visuals.numbers[int.Parse(numberStr[1].ToString())];
+            visuals.digit1.sprite = visuals.numbers[int.Parse(numberStr[0].ToString())];
+            visuals.digit2.sprite = visuals.numbers[int.Parse(numberStr[1].ToString())];
 
         }
 
@@ -83,9 +88,9 @@ public class ClockDotVisualController : BlankDotVisualController
     public void Disconnect()
     {
 
-        Visuals.clockDotPreview.SetActive(false);
-        Visuals.clockDotPreview.transform.SetParent(Dot.transform);
-        Visuals.clockDotPreview.transform.position = Dot.transform.position;
+        visuals.clockDotPreview.SetActive(false);
+        visuals.clockDotPreview.transform.SetParent(dot.transform);
+        visuals.clockDotPreview.transform.position = dot.transform.position;
 
     }
 
@@ -98,11 +103,11 @@ public class ClockDotVisualController : BlankDotVisualController
         {
             yield break;
         }
-        Visuals.clockDotPreview.SetActive(true);
-        Visuals.clockDotPreview.transform.SetParent(null);
-        Color color = Visuals.clockDotPreview.GetComponent<SpriteRenderer>().color;
+        visuals.clockDotPreview.SetActive(true);
+        visuals.clockDotPreview.transform.SetParent(null);
+        Color color = visuals.clockDotPreview.GetComponent<SpriteRenderer>().color;
         color.a = 0.6f;
-        clockDotPreviews.TryAdd(Dot, Visuals.clockDotPreview);
+        clockDotPreviews.TryAdd(dot, visuals.clockDotPreview);
         for(int i = connectedDots.Count -1 ; i >= 0 ; i--)
         {
             if (connectedDots[i] is ClockDot clockDot)
@@ -137,13 +142,13 @@ public class ClockDotVisualController : BlankDotVisualController
         yield return base.Hit(hitType);
     }
 
-    public override IEnumerator PreviewHit(HitType hitType)
+    public IEnumerator PreviewHit(HitType hitType)
     {
-        while (Dot.HitCount >= Dot.HitsToClear)
+        while (dot.HitCount >= dot.HitsToClear)
         {
 
             float elapsedTime = 0f;
-            Vector3 originalRotation = Dot.transform.eulerAngles;
+            Vector3 originalRotation = dot.transform.eulerAngles;
             // Adjust these variables to control the shaking animation
             float shakeDuration = 0.6f;
             float shakeIntensity = 15f;
@@ -154,7 +159,7 @@ public class ClockDotVisualController : BlankDotVisualController
                 float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
 
                 // Apply the rotation
-                Dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
+                dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
 
                 // Increment the elapsed time
                 elapsedTime += Time.deltaTime;
@@ -163,16 +168,15 @@ public class ClockDotVisualController : BlankDotVisualController
             }
 
             // Reset rotation to original position after the shaking animation is finished
-            Dot.transform.eulerAngles = Vector2.zero;
+            dot.transform.eulerAngles = Vector2.zero;
 
         }
-        yield return base.PreviewHit(hitType);
     }
 
     private void MoveClockDotPreview( ClockDot clockDot, Dot destination)
     {
-        ClockDotVisualController clockDotVisualController = (ClockDotVisualController)clockDot.visualController;
-        GameObject clockDotPreview = clockDotVisualController.Visuals.clockDotPreview;
+        ClockDotVisualController clockDotVisualController = clockDot.VisualController;
+        GameObject clockDotPreview = clockDotVisualController.visuals.clockDotPreview;
         Vector2 pos = new Vector2(destination.Column, destination.Row) * Board.offset;
 
         clockDotPreview.transform.DOMove(pos, 0.6f);

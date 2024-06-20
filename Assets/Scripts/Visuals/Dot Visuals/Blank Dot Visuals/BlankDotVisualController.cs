@@ -6,14 +6,27 @@ using static Type;
 
 public class BlankDotVisualController : ConnectableDotVisualController
 {
-
-    public new BlankDotVisuals Visuals;
-    public override void Init(Dot dot)
+    private BlankDot Dot;
+    private BlankDotVisuals Visuals;
+    public override T GetVisuals<T>()
     {
-        Visuals = dot.GetComponent<BlankDotVisuals>();
+        return Visuals as T;
+    }
 
-        base.Init(dot);
-        
+    public override T GetGameObject<T>()
+    {
+        return Dot as T;
+    }
+
+    
+    public override void Init(DotsGameObject dotsGameObject)
+    {
+        Dot = (BlankDot)dotsGameObject;
+        Visuals = dotsGameObject.GetComponent<BlankDotVisuals>();
+
+        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
+        sprite = spriteRenderer.sprite;
+        SetUp();
     }
 
     public override IEnumerator Hit(HitType hitType)
@@ -24,28 +37,27 @@ public class BlankDotVisualController : ConnectableDotVisualController
     }
     protected override void SetColor()
     {
-        base.SetColor();
-        SpriteRenderer.color = ColorSchemeManager.CurrentColorScheme.blank;
+        spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.blank;
     }
-    
+
     public void SetInnerColor(Color color)
     {
-       Visuals.innerDot.color = color;
+        Visuals.innerDot.color = color;
     }
 
     public override void AnimateSelectionEffect()
     {
-        
+
         base.AnimateSelectionEffect();
 
 
         Color color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
-        
+
         Visuals.innerDot.color = color;
         Visuals.outerDot.color = color;
 
         Visuals.innerDot.transform.DOScale(Vector2.one, BlankDotVisuals.innerDotScaleTime);
-       
+
     }
 
     public void AnimateDeselectionEffect()
@@ -53,9 +65,5 @@ public class BlankDotVisualController : ConnectableDotVisualController
         Visuals.innerDot.transform.DOScale(Vector2.zero, BlankDotVisuals.innerDotScaleTime);
 
     }
-
-    
-
-
 
 }
