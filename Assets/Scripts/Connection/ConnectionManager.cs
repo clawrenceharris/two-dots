@@ -83,7 +83,7 @@ public class ConnectionManager
         DotTouchIO.onDotSelected += OnDotSelected;
         DotTouchIO.onSelectionEnded += HandleSelectionEnded;
         DotTouchIO.onDotConnected += OnDotConnected;
-        CommandInvoker.onCommandsEnded += OnCommandsEnded;
+        Command.onCommandExecuted += OnCommandExecuted;
     }
 
 
@@ -174,9 +174,10 @@ public class ConnectionManager
     }
 
     
-    private void OnCommandsEnded()
+    private void OnCommandExecuted(Command command)
     {
-        Connection?.ResetConnection();
+        if(command is HitCommand)
+            Connection?.ResetConnection();
 
     }
 }
