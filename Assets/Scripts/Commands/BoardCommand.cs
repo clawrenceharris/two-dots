@@ -28,7 +28,7 @@ public class BoardCommand : Command
         dotsDropped = board.FillBoard();
         DidExecute = dotsDropped || DidExecute;
 
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(Board.DotDropSpeed);
 
         if (DidExecute)
         {

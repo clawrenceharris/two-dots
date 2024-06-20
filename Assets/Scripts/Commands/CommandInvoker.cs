@@ -170,7 +170,7 @@ public class CommandInvoker
     private IEnumerator CheckCommandsEnded()
     {
        
-        yield return new WaitForSeconds(1.5f); 
+        yield return new WaitForSeconds(1f); 
 
         if (commands.IsEmpty  && !CommandsEnded && !isExecuting)
         {

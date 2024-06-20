@@ -52,7 +52,7 @@ public class MoveClockDotsCommand : Command
                     pathNode = pathNode.Next;
                 }
 
-                CoroutineHandler.StartStaticCoroutine(DotController.MoveDotThroughConnection(currentNode.Value, path, 0.2f));
+                CoroutineHandler.StartStaticCoroutine(DotsGameObjectController.MoveDotThroughConnection(currentNode.Value, path, 0.2f));
             }
 
             currentNode = currentNode.Previous;

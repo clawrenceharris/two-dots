@@ -122,19 +122,23 @@ public class LevelManager : MonoBehaviour
 
             case CommandType.Board:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
+                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
                 break;
            
             case CommandType.Hit:
-                CommandInvoker.Instance.Enqueue(new BoardCommand());
+                CommandInvoker.Instance.Enqueue(new ClearCommand());
                 CommandInvoker.Instance.Enqueue(new ExplosionCommand());
 
                 break;
             case CommandType.Explosion:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new BoardCommand());
+                CommandInvoker.Instance.Enqueue(new ClearCommand());
+
 
                 break;
-
+            case CommandType.Clear:
+                CommandInvoker.Instance.Enqueue(new BoardCommand());
+                break;
         }
     }
    
@@ -170,7 +174,7 @@ public class LevelManager : MonoBehaviour
     {
         new CommandInvoker(board);
         new ConnectionManager(board);
-        new DotController(board);
+        new DotsGameObjectController(board);
         Level = JSONLevelLoader.ReadJsonFile(levelNum);
         LinePool.Instance.FillPool(Level.width * Level.height);
 
