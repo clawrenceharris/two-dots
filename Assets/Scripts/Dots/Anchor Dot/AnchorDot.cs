@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using static Type;
-using Color = UnityEngine.Color;
 
 public class AnchorDot : Dot
 {
@@ -25,7 +23,7 @@ public class AnchorDot : Dot
 
     public override void InitDisplayController()
     {
-        visualController = new DotVisualController();
+        visualController = new AnchorDotVisualController();
         visualController.Init(this);
     }
 

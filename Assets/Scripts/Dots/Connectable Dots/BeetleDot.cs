@@ -9,7 +9,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
     public override int HitsToClear => 3;
     public override DotColor Color { get => colors[Mathf.Clamp(hitCount, 0, HitsToClear - 1)]; }
 
-    public override DotsObjectData ReplacementDot
+    public override DotsGameObjectData ReplacementDot
     {
         get
         {
@@ -21,8 +21,6 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
         }
     }
-    public HitType PreviewHitType { get; private set; }
-    HitType IPreviewable.PreviewHitType => PreviewHitType;
 
     private int directionX;
     private int directionY;
@@ -44,7 +42,7 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
         }
     }
 
-    public BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
+    public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
    
 
     public IEnumerator DoSwap(Dot dotToSwap, Action callback)
@@ -86,8 +84,8 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
     public IEnumerator PreviewHit(HitType hitType)
     {
-        PreviewHitType = hitType;
-        yield return visualController.PreviewHit(hitType);   
+        HitType = hitType;
+        yield return VisualController.PreviewHit(hitType);   
     }
 
     

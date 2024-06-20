@@ -2,44 +2,46 @@ using UnityEngine;
 using static Type;
 using System;
 using Object = UnityEngine.Object;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class DotFactory
 {
-   
-
-    public static Dot CreateDot(DotsObjectData data)
+    public static T CreateDotsGameObject<T>(DotsGameObjectData data)
+        where T : DotsGameObject
     {
         
-        DotType dotType = JSONLevelLoader.FromJsonDotType(data.type);
-        Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
+        DotsGameObject dotsObject = Object.Instantiate(JSONLevelLoader.FromJsonType(data.type));
 
-        dot.HitCount = data.hitCount;
 
-        if (dot is IColorable colorableDot)
+        if(dotsObject is IHittable hittable)
         {
-            string color = data.GetProperty<string>("Color");
-            colorableDot.Color = JSONLevelLoader.FromJSONColor(color);
+            hittable.HitCount = data.hitCount;
+
         }
 
-        if (dot is INumerable numberableDot)
+        if (dotsObject is IColorable colorable)
+        {
+            string color = data.GetProperty<string>("Color");
+            colorable.Color = JSONLevelLoader.FromJSONColor(color);
+        }
+
+        if (dotsObject is INumerable numberable)
         {
             int number = data.GetProperty<int>("Number");
 
-            numberableDot.InitialNumber = number;
+            numberable.InitialNumber = number;
         }
 
-        if (dot is IDirectional directionalDot)
+        if (dotsObject is IDirectional directional)
         {
             int directionX = data.GetProperty<int>("DirectionX");
             int directionY = data.GetProperty<int>("DirectionY");
 
-            directionalDot.DirectionX = directionX;
-            directionalDot.DirectionY = directionY;
+            directional.DirectionX = directionX;
+            directional.DirectionY = directionY;
 
         }
 
-        if(dot is IMulticolored multicolored)
+        if(dotsObject is IMulticolored multicolored)
         {
             string[] colors = data.GetProperty<string[]>("Colors");
             multicolored.Colors = new DotColor[colors.Length];
@@ -52,14 +54,7 @@ public class DotFactory
 
         
 
-        return dot;
+        return (T)dotsObject;
     }
 
-    public static Dot CreateBomb(int col, int row)
-    {
-        Bomb bomb = Object.Instantiate(GameAssets.Instance.Bomb);
-        bomb.Init(col, row);
-        return bomb;
-
-    }
 }

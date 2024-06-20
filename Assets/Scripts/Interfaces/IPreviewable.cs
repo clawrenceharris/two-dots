@@ -5,5 +5,4 @@ using static Type;
 public interface IPreviewable
 {
     public IEnumerator PreviewHit(HitType hitType);
-    public HitType PreviewHitType { get; }
 }

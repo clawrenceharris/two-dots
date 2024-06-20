@@ -43,18 +43,5 @@ public class ColorSchemeManager
         };
     }
 
-    public static Color FromTileType(TileType tileType)
-    {
-        Color bgColor = CurrentColorScheme.backgroundColor;
-        return tileType switch
-        {
-            TileType.EmptyTile => new Color(bgColor.r, bgColor.g, bgColor.b, 0.5f),
-            TileType.BlockTile => bgColor,
-            TileType.OneSidedBlock => bgColor,
-
-
-            _ => Color.white
-        };
-    }
 }
 

@@ -7,7 +7,7 @@ using static Type;
 
 public abstract class ConnectableDot : Dot, IConnectable,  IHittable
 {
-    public ConnectableDotVisualController VisualController => GetVisualController<ConnectableDotVisualController>();
+    public new ConnectableDotVisualController VisualController => GetVisualController<ConnectableDotVisualController>();
 
     public override Dictionary<HitType, IHitRule> HitRules
     {

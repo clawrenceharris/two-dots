@@ -10,8 +10,6 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     private int initialNumber;
     private int tempNumber;
     private int currentNumber;
-    public HitType PreviewHitType { get; private set; }
-    HitType IPreviewable.PreviewHitType => PreviewHitType;
 
     public int InitialNumber { set => initialNumber = value; }
     public int TempNumber { get => tempNumber; }
@@ -92,7 +90,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
             tempNumber = Mathf.Clamp(currentNumber - connectionCount, 0, int.MaxValue);
 
             UpdateNumberVisuals(tempNumber);
-            StartCoroutine(base.visualController.Hit(hitType));
+            StartCoroutine(VisualController.Hit(hitType));
             HitCount = initialNumber - tempNumber;
 
         }
@@ -117,23 +115,11 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
 
     }
 
-    public override IEnumerator DoVisualHit(HitType hitType)
-    {
-       
-        if (hitType == HitType.BombExplosion)
-        {
-            yield return base.visualController.BombHit();
-
-        }
-
-        yield return base.visualController.Hit(hitType);
-    }
-
 
     public IEnumerator PreviewHit(HitType hitType)
     {
 
-        yield return base.visualController.PreviewHit(hitType);
+        yield return VisualController.PreviewHit(hitType);
         
 
     }

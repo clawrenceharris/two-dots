@@ -7,8 +7,19 @@ using static Type;
 public class NestingDot : Dot
 {
     public override DotType DotType => DotType.NestingDot;
-    private NestingDotVisualController VisualController => GetVisualController<NestingDotVisualController>();
-   
+
+    public override DotsGameObjectData ReplacementDot
+    {
+        get
+        {
+            return new(JSONLevelLoader.ToJsonDotType(DotType.Bomb))
+            {
+                col = Column,
+                row = Row
+            };
+
+        }
+    }
     public override int HitsToClear => 3;
 
     public override Dictionary<HitType, IHitRule> HitRules =>
@@ -19,7 +30,6 @@ public class NestingDot : Dot
     public override IEnumerator Hit(HitType hitType)
     {
         hitCount++;
-        yield return DoVisualHit(hitType);
         yield return base.Hit(hitType);
     }
     public override void InitDisplayController()

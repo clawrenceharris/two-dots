@@ -5,15 +5,7 @@ using System.Collections;
 using static Type;
 
 
-public class HitByBombExplosion : IHitRule
-{
-    public bool Validate(IHittable hittable, Board board)
-    {
-        return true;
-    }
-}
-
-public class Bomb : Dot, IExplodable
+public class BombDot : Dot, IExplodable
 {
     
 
@@ -22,14 +14,14 @@ public class Bomb : Dot, IExplodable
     public Dictionary<HitType, IExplosionRule> ExplosionRules => new() { { HitType.BombExplosion, new BombExplosionRule() } };
     public override int HitsToClear => 1;
 
-    public override Dictionary<HitType, IHitRule> HitRules => new() { { HitType.BombExplosion, new HitByBombExplosion() } };
+    public override Dictionary<HitType, IHitRule> HitRules => new() { { HitType.BombExplosion, new BombExplosionHitRule() } };
 
     public static List<IHittable> AllHits { get; } = new();
 
     public ExplosionType ExplosionType => ExplosionType.BombExplosion;
 
     public static event Action<IHittable> onBombExploded;
-    public BombDotVisualController VisualController => GetVisualController<BombDotVisualController>();
+    public new BombDotVisualController VisualController => GetVisualController<BombDotVisualController>();
     public override void InitDisplayController()
     {
         visualController = new BombDotVisualController();
@@ -61,7 +53,7 @@ public class Bomb : Dot, IExplodable
 
         foreach (IHittable hittable in hittables)
         {
-            if (hittable is Bomb)
+            if (hittable is BombDot)
             {
                 continue;
             }

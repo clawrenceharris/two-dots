@@ -12,19 +12,8 @@ public class NormalDot : ColorableDot
 
     public override int HitsToClear => 1;
 
-    private ColorDotVisualController VisualController
-    {
-        get
-        {
-            if (visualController is ColorDotVisualController colorDotVisualController)
-            {
-                return colorDotVisualController;
-            }
-            throw new InvalidCastException("Unable to cast base visualController to ClockDotVisualController");
-
-        }
-    }
-
+    private new ColorableDotVisualController VisualController => GetVisualController<NormalDotVisualController>();
+    
     public override Dictionary<HitType, IHitRule> HitRules
     {
         get
@@ -50,7 +39,7 @@ public class NormalDot : ColorableDot
 
    public override void InitDisplayController()
     {
-        visualController = new ColorDotVisualController();
+        visualController = new NormalDotVisualController();
         visualController.Init(this);
     }
 
