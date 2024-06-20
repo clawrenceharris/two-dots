@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EmptyTileVisualController : TileVisualController
+public class EmptyTileVisualController : VisualController, ITileVisualController
 {
     private bool hasLeft;
     private bool hasRight;
@@ -12,22 +12,16 @@ public class EmptyTileVisualController : TileVisualController
     private bool isRight;
     private bool flipY;
     private bool flipX;
-    
-    private new EmptyTileVisuals Visuals;
+
+    private EmptyTile Tile;
+
+    private EmptyTileVisuals Visuals;
     private Board board;
     public EmptyTileVisualController()
     {
         Board.onBoardCreated += OnBoardCreated;
     }
 
-    public override void Init(Tile tile)
-    {
-        base.Init(tile);
-        Visuals = tile.GetComponent<EmptyTileVisuals>();
-        
-
-
-    }
     private void OnBoardCreated(Board board)
     {
         this.board = board;
@@ -35,31 +29,55 @@ public class EmptyTileVisualController : TileVisualController
         InitSprite();
 
     }
-    
+
+    public override T GetVisuals<T>()
+    {
+        return Visuals as T;
+    }
+
+    public override T GetGameObject<T>()
+    {
+       return Tile as T;
+    }
+
+    public override void Init(DotsGameObject dotsGameObject)
+    {
+        Tile = (EmptyTile)dotsGameObject;
+        Visuals = dotsGameObject.GetComponent<EmptyTileVisuals>();
+        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
+        sprite = spriteRenderer.sprite;
+        SetUp();
+    }
+
+    protected override void SetColor()
+    {
+        Color bgColor = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        spriteRenderer.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.5f);
+    }
     private void SetUp(Board board)
     {
         
             
-        if (board.GetBoardElementDotAt<Tile>(Tile.Column, Tile.Row + 1))
+        if (board.Get<Tile>(Tile.Column, Tile.Row + 1))
         {
 
             hasTop = true;
         }
 
-        if (board.GetBoardElementDotAt<Tile>(Tile.Column, Tile.Row - 1))
+        if (board.Get<Tile>(Tile.Column, Tile.Row - 1))
         {
 
             hasBottom = true;
         }
 
 
-        if (board.GetBoardElementDotAt<Tile>(Tile.Column + 1, Tile.Row ))
+        if (board.Get<Tile>(Tile.Column + 1, Tile.Row ))
                 
         {
 
             hasRight = true;
         }
-        if (board.GetBoardElementDotAt<Tile>(Tile.Column - 1, Tile.Row))
+        if (board.Get<Tile>(Tile.Column - 1, Tile.Row))
 
         {
             hasLeft = true;
@@ -279,7 +297,7 @@ public class EmptyTileVisualController : TileVisualController
 
         //SpriteRenderer.flipY = ShouldFlipY();
 
-        SpriteRenderer.sprite = GetSprite();
+        spriteRenderer.sprite = GetSprite();
             
 
         
@@ -287,4 +305,5 @@ public class EmptyTileVisualController : TileVisualController
 
 
     }
+
 }

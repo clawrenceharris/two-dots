@@ -6,41 +6,56 @@ using Object = UnityEngine.Object;
 
 public class BombDotVisualController : DotVisualController
 {
+    private BombDot dot;
+    private BombDotVisuals visuals;
 
-    public new BombDotVisuals Visuals;
-
-    public override void Init(Dot dot)
+    public override T GetVisuals<T>()
     {
-        Visuals = dot.GetComponent<BombDotVisuals>();
-        base.Init(dot);
+        return visuals as T;
     }
+
+    public override T GetGameObject<T>()
+    {
+        return dot as T;
+    }
+
+    public override void Init(DotsGameObject dotsGameObject)
+    {
+        dot = (BombDot)dotsGameObject;
+        visuals = dot.GetComponent<BombDotVisuals>();
+        SetUp();
+
+    }
+
     protected override void SetColor()
     {
-        for (int i = 0; i  < Visuals.bombSprites.Length; i++)
+        for (int i = 0; i  < visuals.bombSprites.Length; i++)
         {
             if(i % 2 == 0)
-                Visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
+                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
             else
-                Visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
+                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
 
         }
     }
+
+
     public IEnumerator AnimateLine(IHittable hittable)
     {
 
         float elapsedTime = 0f;
         float duration = 0.3f;
 
-        Vector2 startPos = Dot.transform.position;
+        Vector2 startPos = dot.transform.position;
         Vector2 endPos = new Vector2(hittable.Column, hittable.Row) * Board.offset;
 
         float angle = Vector2.SignedAngle(Vector2.right, endPos - startPos);
 
         ConnectorLine line = Object.Instantiate(GameAssets.Instance.Line);
 
-        line.transform.parent = Dot.transform;
+        line.transform.parent = dot.transform;
         line.transform.localScale = new Vector2(1f, 0.1f);
-        line.sprite.color = Bomb.AllHits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
+        line.sprite.color = BombDot.AllHits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
         line.transform.rotation = Quaternion.Euler(0, 0, angle);
         line.disabled = true;
 
@@ -68,4 +83,5 @@ public class BombDotVisualController : DotVisualController
         yield break;
     }
 
+   
 }
