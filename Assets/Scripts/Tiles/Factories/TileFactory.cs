@@ -4,7 +4,7 @@ using static Type;
 public class TileFactory
 {
 
-    public static Tile CreateTile(DotsObjectData data)
+    public static Tile CreateTile(DotsGameObjectData data)
     {
         TileType tileType = JSONLevelLoader.FromJsonTileType(data.type);
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,6 @@ public class BlockTile : Tile, IHittable
     public HitType HitType { get; private set; }
     private int hitCount;
     public int HitCount { get => hitCount; set => hitCount = value; }
-
     public int HitsToClear => 1;
     public Dictionary<HitType, IHitRule> HitRules
     {
@@ -18,33 +18,31 @@ public class BlockTile : Tile, IHittable
         {
            return new() { {  HitType.BlockTile, new HitByNeighborsRule()} };
         }
-    }
+    } 
 
-    public bool IsBomb => false;
+    public new BlockTileVisualController VisualController => GetVisualController<BlockTileVisualController>();
 
-    public override void Debug(Color color)
+    public override void InitDisplayController()
     {
-
-        visualController.SpriteRenderer.color = color;
-
+        visualController = new BlockTileVisualController();
+        visualController.Init(this);
     }
-    
+
     public IEnumerator Hit(HitType hitType)
     {
         HitType = hitType;
-        HitCount++;        
-        yield return null;
+        hitCount++;
+        DotsObjectEvents.NotifyHit(this);
+        yield return VisualController.Hit(hitType);
+
 
     }
 
-    public void BombHit()
+
+    public IEnumerator Clear()
     {
-
-        StartCoroutine(visualController.BombHit());
+        DotsObjectEvents.NotifyCleared(this);
+        yield return VisualController.Clear();
     }
-
-    public IEnumerator DoVisualHit(HitType hitType)
-    {
-        throw new System.NotImplementedException();
-    }
+   
 }

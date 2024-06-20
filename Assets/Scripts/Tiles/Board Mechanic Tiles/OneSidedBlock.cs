@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 public class OneSidedBlock : Tile, IDirectional, IHittable
 {
+    
     public override TileType TileType => TileType.OneSidedBlock;
     private int directionX;
     private int directionY;
@@ -11,7 +13,7 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     public int DirectionX { get => directionX; set => directionX = value; }
 
     public int DirectionY { get => directionY; set => directionY = value; }
-
+    public new OneSidedBlockVisualController VisualController => GetVisualController<OneSidedBlockVisualController>();
     public Dictionary<HitType, IHitRule> HitRules
     {
         get
@@ -32,22 +34,20 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
         visualController.Init(this);
     }
 
-    public IEnumerator Hit(HitType hitType)
+    public virtual IEnumerator Hit(HitType hitType)
     {
         HitType = hitType;
+        hitCount++;
+        DotsObjectEvents.NotifyHit(this);
+        yield return VisualController.Hit(hitType);
 
-        HitCount++;    
-        yield return null;
+
     }
 
-    public void BombHit()
-    {
 
-       StartCoroutine(visualController.BombHit());
-    }
-
-    public IEnumerator DoVisualHit(HitType hitType)
+    public IEnumerator Clear()
     {
-        throw new System.NotImplementedException();
+        DotsObjectEvents.NotifyCleared(this);
+        yield return VisualController.Clear();
     }
 }

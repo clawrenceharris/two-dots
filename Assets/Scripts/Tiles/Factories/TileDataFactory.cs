@@ -9,7 +9,7 @@ public class TileDataFactory
 {
     
 
-    public static DotsObjectData CreateTileData(JObject itemObject)
+    public static DotsGameObjectData CreateTileData(JObject itemObject)
     {
         string type = (string)itemObject["type"];
         JToken col = itemObject["col"];
@@ -19,7 +19,7 @@ public class TileDataFactory
         JToken directionX = itemObject["directionX"];
         JToken directionY = itemObject["directionY"];
         JToken number = itemObject["number"];
-        DotsObjectData dotData = new(type)
+        DotsGameObjectData dotData = new(type)
         {
             hitCount = hitCount != null ? (int)hitCount : 0,
             col = col != null ? (int)col : -1,
