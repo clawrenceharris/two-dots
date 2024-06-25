@@ -5,22 +5,28 @@ using System.Linq;
 using System.Collections.Generic;
 using static Type;
 
-public class ClockDotVisualController : BlankDotVisualController, IPreviewable
+public class ClockDotVisualController : BlankDotBaseVisualController, INumerableVisualController, IPreviewable
 {
-    public static Dictionary<Dot, GameObject> clockDotPreviews { get; private set; } = new();
+    public static Dictionary<Dot, GameObject> ClockDotPreviews { get; private set; } = new();
     private ClockDot dot;
     private ClockDotVisuals visuals;
-    
+    private readonly NumerableVisualControllerBase numerableVisualController = new();
+
     public override T GetGameObject<T>()
     {
         return dot as T;
     }
 
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
+    }
     public override void Init(DotsGameObject dotsGameObject)
     {
-        base.Init(dotsGameObject);
         dot = (ClockDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
+        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
+        numerableVisualController.Init(visuals);
         SetUp();
     }
 
@@ -36,7 +42,7 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
         visuals.top.color = ColorSchemeManager.CurrentColorScheme.clockDot;
         visuals.middle.color = new Color(255, 255, 255, 0.6f);
         visuals.shadow.color = new Color(255, 255, 255, 0.6f);
-
+        base.SetColor();
     }
 
 
@@ -65,19 +71,7 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
 
     public void UpdateNumbers(int number)
     {
-        string numberStr = number.ToString();
-        if (numberStr.Length == 1)
-        {
-            visuals.digit1.sprite = visuals.numbers[0];
-            visuals.digit2.sprite = visuals.numbers[int.Parse(numberStr)];
-        }
-        else
-        {
-
-            visuals.digit1.sprite = visuals.numbers[int.Parse(numberStr[0].ToString())];
-            visuals.digit2.sprite = visuals.numbers[int.Parse(numberStr[1].ToString())];
-
-        }
+        numerableVisualController.UpdateNumbers(number);
 
     }
 
@@ -95,8 +89,15 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
     public override IEnumerator Hit(HitType hitType)
     {
 
+        
+        yield return base.Hit(hitType);
+    }
+
+    public IEnumerator PreviewHit(HitType hitType)
+    {
+
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
-        if(connectedDots.Count == 0)
+        if (connectedDots.Count == 0)
         {
             yield break;
         }
@@ -104,22 +105,22 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
         visuals.clockDotPreview.transform.SetParent(null);
         Color color = visuals.clockDotPreview.GetComponent<SpriteRenderer>().color;
         color.a = 0.6f;
-        clockDotPreviews.TryAdd(dot, visuals.clockDotPreview);
-        for(int i = connectedDots.Count -1 ; i >= 0 ; i--)
+        ClockDotPreviews.TryAdd(dot, visuals.clockDotPreview);
+        for (int i = connectedDots.Count - 1; i >= 0; i--)
         {
             Dot currentDot = connectedDots[i];
             if (currentDot is ClockDot clockDot)
             {
                 Dot lastEmptyDot = clockDot;
-                for(int k = i; k < connectedDots.Count; k++)
+                for (int k = i; k < connectedDots.Count; k++)
                 {
                     Dot nextDot = connectedDots[k];
 
-                    if (clockDotPreviews.TryGetValue(nextDot, out var _))
+                    if (ClockDotPreviews.TryGetValue(nextDot, out var _))
                     {
                         continue;
                     }
-                    
+
                     if (nextDot is ClockDot)
                     {
                         continue;
@@ -127,22 +128,34 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
                     lastEmptyDot = nextDot;
                 }
 
-                    
-                    MoveClockDotPreview(clockDot, lastEmptyDot);
-                    clockDotPreviews.Remove(currentDot);
-                
 
-                
+                MoveClockDotPreview(clockDot, lastEmptyDot);
+                ClockDotPreviews.Remove(currentDot);
+
+
+
             }
-           
-        }
-       
-        clockDotPreviews.Clear();
 
-        yield return base.Hit(hitType);
+        }
+
+        ClockDotPreviews.Clear();
+
+        UpdateNumbers(dot.TempNumber);
+        
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+    private void MoveClockDotPreview( ClockDot clockDot, Dot destination)
+    {
+        ClockDotVisualController clockDotVisualController = clockDot.VisualController;
+        GameObject clockDotPreview = clockDotVisualController.visuals.clockDotPreview;
+        Vector2 pos = new Vector2(destination.Column, destination.Row) * Board.offset;
+
+        clockDotPreview.transform.DOMove(pos, 0.6f);
+        ClockDotPreviews.TryAdd(destination, clockDotPreview);
+
+    }
+
+    public IEnumerator PreviewClear()
     {
         while (dot.HitCount >= dot.HitsToClear)
         {
@@ -173,19 +186,4 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
         }
     }
 
-    private void MoveClockDotPreview( ClockDot clockDot, Dot destination)
-    {
-        ClockDotVisualController clockDotVisualController = clockDot.VisualController;
-        GameObject clockDotPreview = clockDotVisualController.visuals.clockDotPreview;
-        Vector2 pos = new Vector2(destination.Column, destination.Row) * Board.offset;
-
-        clockDotPreview.transform.DOMove(pos, 0.6f);
-        clockDotPreviews.TryAdd(destination, clockDotPreview);
-
-    }
-
-    public IEnumerator PreviewClear()
-    {
-       yield break;
-    }
 }

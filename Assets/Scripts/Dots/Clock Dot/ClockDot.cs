@@ -7,38 +7,34 @@ using System.Collections.Generic;
 public class ClockDot : BlankDotBase, INumerable, IPreviewable
 {
     public override DotType DotType => DotType.ClockDot;
-    private int tempNumber;
-    private NumerableBase numerable;
+    public int TempNumber { get => numerable.TempNumber; set => numerable.TempNumber = value; }
+    private readonly NumerableBase numerable = new();
     public int InitialNumber { get => numerable.InitialNumber; set => numerable.InitialNumber = value; }
     public int CurrentNumber { get => numerable.CurrentNumber;}
+    public new ClockDotVisualController VisualController => GetVisualController<ClockDotVisualController>();
 
-    public override Dictionary<HitType, IHitRule> HitRules
+    public override DotsGameObjectData ReplacementDot
     {
         get
         {
-            return new()
+            return new(JSONLevelLoader.ToJsonDotType(DotType.Bomb))
             {
-                {
-
-                    HitType.ClockDot, new HitByConnectionRule()
-                },
-                
+                col = Column,
+                row = Row
             };
+
         }
     }
-
-    public new ClockDotVisualController VisualController => GetVisualController<ClockDotVisualController>();
 
     public override int HitsToClear => numerable.InitialNumber;
 
     public override void Init(int column, int row)
-    {
-        numerable.UpdateCurrentNumber(InitialNumber);
-        tempNumber = CurrentNumber;
-
+    { 
         base.Init(column, row);
+        numerable.Init(this);
+
     }
-    
+
     public void UpdateNumberVisuals(int number)
     {
        
@@ -63,53 +59,29 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     public override void Disconnect()
     {
         base.Disconnect();
-        numerable.UpdateNumberVisuals(CurrentNumber);
-        HitCount = CurrentNumber;
+        VisualController.UpdateNumbers(CurrentNumber);
         VisualController.Disconnect();
     }
 
 
     public override IEnumerator Hit(HitType hitType)
     {
-        if (hitType == HitType.Connection)
-        {
-            int connectionCount = ConnectionManager.ToHit.Count;
 
-            //allow the current number to decrease by number of connected dots
-            tempNumber = Mathf.Clamp(CurrentNumber - connectionCount, 0, int.MaxValue);
+        numerable.Hit(hitType);
+        HitCount = InitialNumber - TempNumber;
 
-            UpdateNumberVisuals(tempNumber);
-            StartCoroutine(VisualController.Hit(hitType));
-            HitCount = InitialNumber - tempNumber;
-
-        }
-
-        //this happens when the connection has concluded  
-        else if (hitType == HitType.ClockDot)
-        {
-            UpdateCurrentNumber(tempNumber);
-            HitCount = InitialNumber - tempNumber;
-
-        }
-        else if (hitType == HitType.BombExplosion)
-        {
-            //set current number to be one less than the current number
-            numerable.UpdateCurrentNumber(Mathf.Clamp(CurrentNumber - 1, 0, int.MaxValue));
-            HitCount++;
-
-        }
         yield return VisualController.Hit(hitType);
-
 
     }
 
-
     public IEnumerator PreviewHit(HitType hitType)
     {
+        int connectionCount = ConnectionManager.ToHit.Count;
+
+        TempNumber = Mathf.Clamp(CurrentNumber - connectionCount, 0, int.MaxValue);
 
         yield return VisualController.PreviewHit(hitType);
-        
-
+     
     }
 
     public IEnumerator PreviewClear()

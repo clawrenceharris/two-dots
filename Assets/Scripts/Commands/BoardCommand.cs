@@ -7,11 +7,6 @@ using static Type;
 public class BoardCommand : Command
 {
     public override CommandType CommandType => CommandType.Board;
-
-    
-   
-    
-
     public override IEnumerator Execute(Board board)
     {
 

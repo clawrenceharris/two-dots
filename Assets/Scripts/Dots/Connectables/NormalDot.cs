@@ -7,7 +7,6 @@ using System;
 
 public class NormalDot : ConnectableDot, IColorable, IConnectable
 {
-    //private readonly ColorableBase colorable = new();
 
     public override DotType DotType => DotType.NormalDot;
 
@@ -19,7 +18,6 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
     public override void Init(int column, int row)
     {
         base.Init(column, row);
-        //colorable.Init();
     }
 
     public DotColor Color { get; set; }

@@ -97,7 +97,6 @@ public class Board : MonoBehaviour
             //replace the dot that is being cleared with its replacement dot
             Dot replacement = InitDotOnBoard(dot.ReplacementDot);
             Dots[dot.Column, dot.Row] = replacement;
-            Debug.Log("DOT BEING CLEARED");
         }
         if(dotsObject is Tile tile)
         {
@@ -241,9 +240,32 @@ public class Board : MonoBehaviour
         return dot;
     }
 
-    public void RemoveDot(Dot dot)
+    public void Remove<T>(T dotsGameObject)
+        where T : DotsGameObject
     {
-        Dots[dot.Column, dot.Row] = null;
+
+        if (dotsGameObject is Dot dot)
+            Dots[dot.Column, dot.Row] = null;
+
+        if (dotsGameObject is Tile tile)
+        {
+            Tiles[tile.Column, tile.Row] = null;
+        }
+
+    }
+
+    public void Remove<T>(T dotsGameObject, int col, int row)
+        where T : DotsGameObject
+    {
+
+        if (dotsGameObject is Dot)
+            Dots[col, row] = null;
+
+        if (dotsGameObject is Tile)
+        {
+            Tiles[col, row] = null;
+        }
+
     }
     public IHittable GetHittableAt(int col, int row)
     {

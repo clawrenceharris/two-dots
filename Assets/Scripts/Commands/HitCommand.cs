@@ -35,11 +35,7 @@ public class HitCommand : Command
                         DidExecute = true;
                         CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
                         
-                        if (hittable is IPreviewable previewable)
-                        {
-                            CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(hitType));
-                            
-                        }
+                       
                     }
                 }
 

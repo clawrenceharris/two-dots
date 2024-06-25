@@ -32,10 +32,17 @@
 
         },
         {
-            "type": "nesting"
-           
+            "type": "monster",
+            "color": "red",
+            "number": 6
+
 
         },
+
+        {
+            "type": "clock",
+            "number": 7
+        }
 
         //{
         //    "type": "anchor"
@@ -43,23 +50,23 @@
         //},
 
 
-        {
-            "type": "beetle",
-            "colors": [ "red", "purple", "blue" ],
-            "color": "blue",
+        //{
+        //    "type": "beetle",
+        //    "colors": [ "red", "purple", "blue" ],
+        //    "color": "blue",
 
-            "directionX": -1,
-            "directionY": 0
-        },
+        //    "directionX": -1,
+        //    "directionY": 0
+        //},
 
 
-        {
-            "type": "beetle",
-            "colors": [ "blue", "purple", "blue" ],
-            "color": "blue",
-            "directionX": 0,
-            "directionY": 1
-        }
+        //{
+        //    "type": "beetle",
+        //    "colors": [ "blue", "purple", "blue" ],
+        //    "color": "blue",
+        //    "directionX": 0,
+        //    "directionY": 1
+        //}
 
 
 

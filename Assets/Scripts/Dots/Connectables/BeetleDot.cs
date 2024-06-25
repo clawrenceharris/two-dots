@@ -99,7 +99,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
        yield return VisualController.PreviewClear();
     }
 
-    internal IEnumerator TrySwap(Action onComplete)
+    public IEnumerator TrySwap(Action onComplete)
     {
         if (wasHit)
         {
@@ -109,5 +109,11 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         
 
         yield return VisualController.TrySwap(onComplete);
+    }
+
+    public override void Select()
+    {
+        base.Select();
+        StartCoroutine(VisualController.PreviewHit(HitType.Connection));
     }
 }

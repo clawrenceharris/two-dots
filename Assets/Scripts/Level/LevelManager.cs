@@ -68,7 +68,6 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
         ConnectionManager.onDotConnected -= OnDotConnected;
         ConnectionManager.onDotDisconnected -= OnDotDisconnected;
-        ConnectionManager.onDotSelected -= OnDotSelected;
 
         Command.onCommandExecuted -= OnCommandExecuted;
         CommandInvoker.onCommandsEnded -= OnCommnadsEnded;
@@ -79,20 +78,13 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
         ConnectionManager.onDotConnected += OnDotConnected;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
-        ConnectionManager.onDotSelected += OnDotSelected;
 
         Command.onCommandExecuted += OnCommandExecuted;
         CommandInvoker.onCommandsEnded += OnCommnadsEnded;
     }
 
 
-    private void OnDotSelected(Dot dot)
-    {
-        if (dot is IPreviewable previewable)
-        {
-            StartCoroutine(previewable.PreviewHit(HitType.Connection));
-        }
-    }
+   
 
     private void OnDotDisconnected(ConnectableDot dot)
     {
@@ -150,16 +142,11 @@ public class LevelManager : MonoBehaviour
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
         didMove = true;
-        DoCommand(new HitCommand());
-        List<IHittable> toHit = ConnectionManager.ToHit;
+        DoCommand(new MoveClockDotsCommand(dots));
 
-        foreach (IHittable hittable in toHit)
-        {
-            if (hittable is IPreviewable previewable)
-            {
-                StartCoroutine(previewable.PreviewHit(HitType.None));
-            }
-        }
+        DoCommand(new HitCommand());
+        Debug.Log("COUNT::" + dots.Count);
+
 
     }
 
@@ -168,7 +155,6 @@ public class LevelManager : MonoBehaviour
         if (didMove)
         {
 
-            DoCommand(new MoveClockDotsCommand());
             DoCommand(new MoveBeetleDotsCommand());
             didMove = false;
 

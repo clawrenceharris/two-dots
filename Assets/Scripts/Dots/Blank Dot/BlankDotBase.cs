@@ -9,7 +9,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IColo
 
 
     public override DotType DotType { get; }
-    private new BlankDotVisualController VisualController => GetVisualController<BlankDotVisualController>();
+    private new BlankDotBaseVisualController VisualController => GetVisualController<BlankDotBaseVisualController>();
 
     public DotColor Color { get; set; }
 
