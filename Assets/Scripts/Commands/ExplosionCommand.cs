@@ -65,7 +65,7 @@ public class ExplosionCommand : Command
                             CoroutineHandler.StartStaticCoroutine(explodable.Explode(toHit, (hittable) =>
                             {
                                hitCoroutines.Add(CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType)));
-                                
+                               
                             }));
                             
                         }
@@ -77,12 +77,12 @@ public class ExplosionCommand : Command
                 }
             }
 
-            yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
+            yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
 
 
         }
-        yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
+        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
         if (DidExecute)
         {

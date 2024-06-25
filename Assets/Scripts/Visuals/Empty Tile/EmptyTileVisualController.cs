@@ -12,8 +12,15 @@ public class EmptyTileVisualController : TileVisualController
     private bool isRight;
     private bool flipY;
     private bool flipX;
+<<<<<<< Updated upstream
     
     private new EmptyTileVisuals Visuals;
+=======
+
+    private EmptyTile tile;
+
+    private EmptyTileVisuals visuals;
+>>>>>>> Stashed changes
     private Board board;
     public EmptyTileVisualController()
     {
@@ -35,51 +42,94 @@ public class EmptyTileVisualController : TileVisualController
         InitSprite();
 
     }
+<<<<<<< Updated upstream
     
+=======
+
+    public override T GetGameObject<T>()
+    {
+       return tile as T;
+    }
+
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
+    }
+    public override void Init(DotsGameObject dotsGameObject)
+    {
+        tile = (EmptyTile)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<EmptyTileVisuals>();
+        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
+        sprite = spriteRenderer.sprite;
+        SetUp(board);
+    }
+
+    protected override void SetColor()
+    {
+        Color bgColor = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        spriteRenderer.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.5f);
+    }
+>>>>>>> Stashed changes
     private void SetUp(Board board)
     {
         
             
+<<<<<<< Updated upstream
         if (board.GetBoardElementDotAt<Tile>(Tile.Column, Tile.Row + 1))
+=======
+        if (board.Get<Tile>(tile.Column, tile.Row + 1))
+>>>>>>> Stashed changes
         {
 
             hasTop = true;
         }
 
+<<<<<<< Updated upstream
         if (board.GetBoardElementDotAt<Tile>(Tile.Column, Tile.Row - 1))
+=======
+        if (board.Get<Tile>(tile.Column, tile.Row - 1))
+>>>>>>> Stashed changes
         {
 
             hasBottom = true;
         }
 
 
+<<<<<<< Updated upstream
         if (board.GetBoardElementDotAt<Tile>(Tile.Column + 1, Tile.Row ))
+=======
+        if (board.Get<Tile>(tile.Column + 1, tile.Row ))
+>>>>>>> Stashed changes
                 
         {
 
             hasRight = true;
         }
+<<<<<<< Updated upstream
         if (board.GetBoardElementDotAt<Tile>(Tile.Column - 1, Tile.Row))
+=======
+        if (board.Get<Tile>(tile.Column - 1, tile.Row))
+>>>>>>> Stashed changes
 
         {
             hasLeft = true;
         }
 
-        if (board.IsAtLeftOfBoard(Tile.Column, Tile.Row))
+        if (board.IsAtLeftOfBoard(tile.Column, tile.Row))
         {
             isLeft = true;
         }
 
-        if(board.IsAtTopOfBoard(Tile.Column, Tile.Row))
+        if(board.IsAtTopOfBoard(tile.Column, tile.Row))
         {
             isTop = true;
         }
 
-        if(board.IsAtBottomOfBoard(Tile.Column, Tile.Row))
+        if(board.IsAtBottomOfBoard(tile.Column, tile.Row))
         {
             isBottom = true;
         }
-        if(board.IsAtRightOfBoard(Tile.Column, Tile.Row))
+        if(board.IsAtRightOfBoard(tile.Column, tile.Row))
         {
             isRight = true;
         }
@@ -173,41 +223,41 @@ public class EmptyTileVisualController : TileVisualController
         if (IsLeftBottom())
         {
 
-            return Visuals.LeftBottom;
+            return visuals.LeftBottom;
 
         }
         if (IsBottom())
         {
 
-            return Visuals.Bottom;
+            return visuals.Bottom;
 
         }
         if (IsTop())
         {
-            return Visuals.Top;
+            return visuals.Top;
         }
         if (IsLeft())
         {
-            return Visuals.Left;
+            return visuals.Left;
 
         }
         if (IsRight())
         {
-            return Visuals.Right;
+            return visuals.Right;
         }
         if (IsRightBottom())
         {
-            return Visuals.RightBottom;
+            return visuals.RightBottom;
 
         }
         if (IsRightTop())
         {
-            return Visuals.RightTop;
+            return visuals.RightTop;
 
         }
         if (IsLeftTop())
         {
-            return Visuals.LeftTop;
+            return visuals.LeftTop;
 
         }
 

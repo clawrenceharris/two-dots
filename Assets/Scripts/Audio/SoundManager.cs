@@ -29,23 +29,21 @@ public class SoundManager : MonoBehaviour
         ConnectionManager.onDotConnected += OnDotConnected;
         ConnectionManager.onDotSelected += OnDotSelected;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
-        Dot.onDotCleared += OnDotCleared;
-        Tile.onTileCleared += OnTileCleared;
-        Dot.onDotHit += OnDotHit;
+        DotsObjectEvents.onCleared += OnCleared;
+        DotsObjectEvents.onHit += OnDotHit;
         Connection.onSquareMade += OnSquareMade;
         Command.onCommandExecuted += OnCommandExecuted;
-
     }
 
-    
+
     private void PlayDotHitSound(Dot dot)
     {
         AudioClip sound = GetDotHitSound(dot);
-        if (!hitSounds.Contains(sound))
-        {
+        //if (!hitSounds.Contains(sound))
+        //{
             audioSource.PlayOneShot(sound);
-            hitSounds.Add(sound); // Add the sound to the HashSet to indicate that it has been played
-        }
+            hitSounds.Add(sound); 
+        //}
        
         
         
@@ -66,11 +64,11 @@ public class SoundManager : MonoBehaviour
     }
     private AudioClip GetDotHitSound(Dot dot)
     {
-        return dot.HitType switch
+        return dot.DotType switch
         {
-            HitType.ClockDot => clockHit,
-            HitType.BombExplosion => bombExplode,
-            HitType.AnchorDot => anchorDotSink,
+            DotType.ClockDot => clockHit,
+            DotType.Bomb => bombExplode,
+            DotType.AnchorDot => anchorDotSink,
 
             _ => null,
         };
@@ -102,11 +100,11 @@ public class SoundManager : MonoBehaviour
     private void PlayDotCleardSound(Dot dot)
     {
         AudioClip sound = GetDotClearedSound(dot);
-        if (!clearSounds.Contains(sound))
-        {
+        //if (!clearSounds.Contains(sound))
+        //{
             audioSource.PlayOneShot(sound);
             clearSounds.Add(sound); 
-        }
+        //}
         
     }
 
@@ -116,11 +114,11 @@ public class SoundManager : MonoBehaviour
         AudioClip sound = GetTileClearedSound(tile);
         
 
-        if (!clearSounds.Contains(sound))
-        {
+        //if (!clearSounds.Contains(sound))
+        //{
             audioSource.PlayOneShot(sound);
             clearSounds.Add(sound); 
-        }
+        //}
         
     }
 
@@ -132,24 +130,39 @@ public class SoundManager : MonoBehaviour
 
     }
 
-    private void OnDotHit(Dot dot)
+    private void OnDotHit(DotsGameObject dotsObject)
     {
-        PlayDotHitSound(dot);
+        if (dotsObject is Tile tile)
+            PlayTileHitSound(tile);
+        if (dotsObject is Dot dot)
+            PlayDotHitSound(dot);
     }
 
-    private void OnTileCleared(Tile tile)
+    private void PlayTileHitSound(Tile tile)
     {
-        PlayTileCleardSound(tile);
+        
+    }
 
+    private void OnCleared(DotsGameObject dotsObject)
+    {
+        if(dotsObject is Tile tile)
+            PlayTileCleardSound(tile);
+        if (dotsObject is Dot dot)
+            PlayDotCleardSound(dot);
     }
     private void OnCommandExecuted(Command command)
     {
-        if(command is HitCommand)
-        {
-            hitSounds.Clear();
-            clearSounds.Clear();
-        }
+        //if (command is HitCommand)
+        //{
+        //    hitSounds.Clear();
+        //    clearSounds.Clear();
+        //}
     }
+    //private void OnCommandsEnded()
+    //{
+    //    hitSounds.Clear();
+    //    clearSounds.Clear();
+    //}
 
     private void OnSquareMade(Square square)
     {
@@ -174,7 +187,7 @@ public class SoundManager : MonoBehaviour
     {
         audioDistortion.enabled = false;
     }
-    private void OnDotSelected(Dot dot)
+    private void OnDotSelected(ConnectableDot dot)
     {
         int index = GetIndex();
 
@@ -194,7 +207,7 @@ public class SoundManager : MonoBehaviour
         int index = Mathf.Clamp(connectionCount, 0, connectionSounds.Length - 1);
         return index;
     }
-    private void OnDotDisconnected(Dot dot)
+    private void OnDotDisconnected(ConnectableDot dot)
     {
         if (ConnectionManager.ConnectedDots.Count == 0)
         {

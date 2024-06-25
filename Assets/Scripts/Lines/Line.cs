@@ -19,31 +19,32 @@ public class ConnectorLine : MonoBehaviour
     
     
     
-    void SetUp()
+    private void SetUp()
     {
         initialScale = transform.localScale;
     }
-    void Update()
+
+
+    private void Update()
     {
-        if(!disabled)
+        if (!disabled)
             UpdateLine();
-       
-        
     }
-    void UpdateLine()
+
+    private  void UpdateLine()
     {
         sprite.color = color;
         float distance = Vector2.Distance(startPos, endPos);
         
 
         // Calculate the new scale value based on the distance
-        float newXScale = initialScale.x + distance; // Adjust this value as per your requirement
+        float newXScale = initialScale.x + distance;
 
 
         // Calculate the new position based on the angle between the start position and the end position
         float angle = Vector2.SignedAngle(Vector2.right, endPos - startPos);
-        float newPositionX = startPos.x + Mathf.Cos(angle * Mathf.Deg2Rad) * distance * 0.5f; // Adjust this if your pivot point is different
-        float newPositionY = startPos.y + Mathf.Sin(angle * Mathf.Deg2Rad) * distance * 0.5f; // Adjust this if your pivot point is different
+        float newPositionX = startPos.x + Mathf.Cos(angle * Mathf.Deg2Rad) * distance * 0.5f; 
+        float newPositionY = startPos.y + Mathf.Sin(angle * Mathf.Deg2Rad) * distance * 0.5f; 
 
        
         
@@ -51,7 +52,7 @@ public class ConnectorLine : MonoBehaviour
 
         
 
-        // Apply the new scale and position to the object
+        // Apply the new scale and position
         transform.localScale = new Vector3(newXScale, initialScale.y);
         transform.position = new Vector3(newPositionX, newPositionY);
     

@@ -10,6 +10,16 @@ public class ClockDotVisualController : BlankDotVisualController
     private new ClockDotVisuals Visuals;
     private new ClockDot Dot;
     public static Dictionary<Dot, GameObject> clockDotPreviews { get; private set; } = new();
+<<<<<<< Updated upstream
+=======
+    private ClockDot dot;
+    private ClockDotVisuals visuals;
+    
+    public override T GetGameObject<T>()
+    {
+        return dot as T;
+    }
+>>>>>>> Stashed changes
 
     public override void Init(Dot dot)
     {
@@ -105,26 +115,29 @@ public class ClockDotVisualController : BlankDotVisualController
         clockDotPreviews.TryAdd(Dot, Visuals.clockDotPreview);
         for(int i = connectedDots.Count -1 ; i >= 0 ; i--)
         {
-            if (connectedDots[i] is ClockDot clockDot)
+            Dot currentDot = connectedDots[i];
+            if (currentDot is ClockDot clockDot)
             {
                 Dot lastEmptyDot = clockDot;
                 for(int k = i; k < connectedDots.Count; k++)
                 {
-                    if(clockDotPreviews.TryGetValue(connectedDots[k], out var _))
+                    Dot nextDot = connectedDots[k];
+
+                    if (clockDotPreviews.TryGetValue(nextDot, out var _))
                     {
                         continue;
                     }
                     
-                    if (connectedDots[k] is ClockDot)
+                    if (nextDot is ClockDot)
                     {
                         continue;
                     }
-                    lastEmptyDot = connectedDots[k];
+                    lastEmptyDot = nextDot;
                 }
 
                     
                     MoveClockDotPreview(clockDot, lastEmptyDot);
-                    clockDotPreviews.Remove(connectedDots[i]);
+                    clockDotPreviews.Remove(currentDot);
                 
 
                 
@@ -180,6 +193,8 @@ public class ClockDotVisualController : BlankDotVisualController
 
     }
 
-
-
+    public IEnumerator PreviewClear()
+    {
+       yield break;
+    }
 }

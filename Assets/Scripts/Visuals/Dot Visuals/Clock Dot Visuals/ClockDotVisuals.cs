@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class ClockDotVisuals : BlankDotVisuals
 {
+
+
+    public SpriteRenderer top;
     public SpriteRenderer digit1;
     public SpriteRenderer digit2;
-    public SpriteRenderer top;
     public Sprite[] numbers;
     public SpriteRenderer middle;
     public SpriteRenderer shadow;

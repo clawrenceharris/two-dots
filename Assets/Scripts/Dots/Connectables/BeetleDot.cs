@@ -3,11 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
+public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolorable
 {
     public override DotType DotType => DotType.BeetleDot;
     public override int HitsToClear => 3;
-    public override DotColor Color { get => colors[Mathf.Clamp(hitCount, 0, HitsToClear - 1)]; }
+    private DotColor color;
+    public DotColor Color
+    {
+        get
+        {
+            if (HitCount > 0)
+                return colors[Mathf.Clamp(HitCount, 0, HitsToClear - 1)];
+            else
+                return color;
+        }
+        set
+        {
+            color = value;
+        }
+    }
 
     public override DotsObjectData ReplacementDot
     {
@@ -30,44 +44,37 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
     public int DirectionY { get => directionY; set => directionY = value; }
     private DotColor[] colors;
     public DotColor[] Colors { get => colors; set => colors = value; }
-    public bool WasHit { get; private set; }
-    public override Dictionary<HitType, IHitRule> HitRules
-    {
-        get
-        {
-            return new(base.HitRules)
-            {
-                {
-                    HitType.BeetleDot, new HitByConnectionRule()
-                },
-            };
-        }
-    }
+    private bool wasHit;
+    
 
+<<<<<<< Updated upstream:Assets/Scripts/Dots/Connectable Dots/BeetleDot.cs
     public BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
    
+=======
+    public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
+
+
+>>>>>>> Stashed changes:Assets/Scripts/Dots/Connectables/BeetleDot.cs
 
     public IEnumerator DoSwap(Dot dotToSwap, Action callback)
     {
-        
-
-        if (!WasHit)
+        if (wasHit)
         {
-            yield return VisualController.DoSwap(dotToSwap);
-           
-            WasHit = false;
-            callback?.Invoke();
-        }     
+            wasHit = false;
+
+            yield break;
+        }
+
+        yield return VisualController.DoSwap(dotToSwap);
+
+        callback?.Invoke();
     }
 
     public override IEnumerator Hit(HitType hitType)
     {
-
-        hitCount++;
-        WasHit = true;
-        
+        HitCount++;
+        wasHit = true;
         yield return base.Hit(hitType);
-
     }
 
     public override void InitDisplayController()
@@ -86,9 +93,33 @@ public class BeetleDot : ColorableDot, IDirectional, IPreviewable, IMulticolored
 
     public IEnumerator PreviewHit(HitType hitType)
     {
+<<<<<<< Updated upstream:Assets/Scripts/Dots/Connectable Dots/BeetleDot.cs
         PreviewHitType = hitType;
         yield return visualController.PreviewHit(hitType);   
+=======
+        
+        yield return VisualController.PreviewHit(hitType);
+        if(HitCount == 2)
+        {
+            StartCoroutine(PreviewClear());
+        }
+>>>>>>> Stashed changes:Assets/Scripts/Dots/Connectables/BeetleDot.cs
     }
 
-    
+    public IEnumerator PreviewClear()
+    {
+       yield return VisualController.PreviewClear();
+    }
+
+    internal IEnumerator TrySwap(Action onComplete)
+    {
+        if (wasHit)
+        {
+            wasHit = false;
+            yield break;
+        }
+        
+
+        yield return VisualController.TrySwap(onComplete);
+    }
 }

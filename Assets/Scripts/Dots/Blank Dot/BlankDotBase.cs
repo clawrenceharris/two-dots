@@ -4,13 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
+<<<<<<< Updated upstream:Assets/Scripts/Dots/Connectable Dots/Blank Dots/BlankDotBase.cs
 public abstract class BlankDotBase : ConnectableDot, IBlankDot
+=======
+public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IColorable
+>>>>>>> Stashed changes:Assets/Scripts/Dots/Blank Dot/BlankDotBase.cs
 {
 
 
     public override DotType DotType { get; }
     private new BlankDotVisualController VisualController => GetVisualController<BlankDotVisualController>();
-    
+
+    public DotColor Color { get; set; }
+
     public override void Init(int column, int row)
     {
         base.Init(column, row);
@@ -23,6 +29,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
     }
+
     private void UnsubscribeToEvents()
     {
         ConnectionManager.onDotConnected -= OnDotConnected;
@@ -35,10 +42,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
         UnsubscribeToEvents();
     }
 
-    /// <summary>
-    /// when dot is disconnected, it starts the deselction animation
-    /// </summary>
-    /// <param name="dot">The dot that was disconnected</param>
+    
     protected virtual void OnDotDisconnected(ConnectableDot dot)
     {
 
@@ -61,7 +65,6 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
     }
     public override void Disconnect()
     {
-        base.Disconnect();
         Deselect();
 
     }
@@ -74,16 +77,21 @@ public abstract class BlankDotBase : ConnectableDot, IBlankDot
         }
     }
 
-    
-    
-
-    public void Deselect()
+    public virtual void Deselect()
     {
         
         VisualController.AnimateDeselectionEffect();
         
 
     }
-   
+
+    public override void Connect(ConnectableDot dot)
+    {
+        base.Connect(dot);
+        if (dot is IColorable colorable)
+            Color = colorable.Color;
+    }
+
+
 }
 

@@ -5,5 +5,6 @@ using static Type;
 public interface IConnectable
 {
     public void Disconnect();
-    public void Connect();
+    public void Connect(ConnectableDot dot);
+    public void Select();
 }

@@ -14,7 +14,6 @@ public class SquareManager
     public SquareManager(Board board)
     {
         this.board = board;
-
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
 
         Command.onCommandExecuted += OnCommandExecuted;
@@ -131,7 +130,7 @@ public class Square
     public Square(Board board)
     {
         this.board = board;
-        ToHit = new(ConnectionManager.ConnectedDots);
+        ToHit = new(ConnectionManager.ConnectedDots );
     }
     public void ActivateBombsInsideSquare()
     {
@@ -157,7 +156,7 @@ public class Square
             Object.Destroy(bomb.gameObject);
 
             //put the original dot back
-            board.PutDot(dot);
+            board.Put(dot, dot.Column, dot.Row);
 
         }
 

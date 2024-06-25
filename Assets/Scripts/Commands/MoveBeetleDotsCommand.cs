@@ -101,7 +101,7 @@ public class MoveBeetleDotsCommand : Command
                     
                     Dot dotToSwap = board.GetBoardElementDotAt<Dot>(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
 
-                    //if the dot can move and wants to move 
+                    //if the beetle dot can move
                     if (CanMove(dotToSwap))
                     {
                         //then add it to the dictionary
@@ -110,8 +110,8 @@ public class MoveBeetleDotsCommand : Command
                     }
                     else
                     {
-                        //visually try to make the swap
-                        CoroutineHandler.StartStaticCoroutine(beetleDot.VisualController.TrySwap(() =>
+                        //change the facing direction of the beetle
+                        CoroutineHandler.StartStaticCoroutine(beetleDot.TrySwap(() =>
                         {
                             UpdateBeetleDotDirection(beetleDot, dotToSwap, board);
 

@@ -26,6 +26,7 @@ public class JSONLevelLoader
     {
         return dotType switch
         {
+<<<<<<< Updated upstream
             "normal" => DotType.NormalDot,
             "clock" => DotType.ClockDot,
             "bomb" => DotType.Bomb,
@@ -36,6 +37,21 @@ public class JSONLevelLoader
 
 
             _ => DotType.None,
+=======
+            "normal" => GameAssets.Instance.NormalDot,
+            "clock" => GameAssets.Instance.ClockDot,
+            "bomb" => GameAssets.Instance.Bomb,
+            "blank" => GameAssets.Instance.BlankDot,
+            "anchor" => GameAssets.Instance.AnchorDot,
+            "nesting" => GameAssets.Instance.NestingDot,
+            "beetle" => GameAssets.Instance.BeetleDot,
+            "monster" => GameAssets.Instance.MonsterDot,
+            "one sided block" => GameAssets.Instance.OneSidedBlock,
+            "empty" => GameAssets.Instance.EmptyTile,
+
+
+            _ => throw new ArgumentException("'" + dotType +  "' is not a valid game object type"),
+>>>>>>> Stashed changes
         };
     }
 

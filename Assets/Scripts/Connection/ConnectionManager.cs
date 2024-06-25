@@ -1,11 +1,15 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+<<<<<<< Updated upstream
 using static Type;
 using System.Data.Common;
 using System.Linq;
 using Unity.VisualScripting;
 
+=======
+using System.Linq;
+>>>>>>> Stashed changes
 public class ConnectionManager
 {
 
@@ -42,17 +46,28 @@ public class ConnectionManager
             
         }
     }
-    public static List<IHittable> ToHit {
 
-        get
+
+    public static List<IHittable> ToHit {get
         {
-            if(IsSquare)
+            if (IsSquare)
             {
                 return squareManager.Square.ToHit;
             }
             return new(ConnectedDots);
-
         }
+    }
+
+    public static List<T> GetElementsToHit<T>()
+    {
+        List<T> toHit = new();
+
+ 
+        ToHit.ForEach((hittable) => {
+            if (hittable is T t)
+                toHit.Add(t);
+        });
+        return toHit;
     }
 
     public static List<IHittable> ToHitBySquare
@@ -171,10 +186,10 @@ public class ConnectionManager
         if (ConnectedDots.Count == 1)
         {
 
-            ConnectableDot lastDot = ConnectedDots.Last.Value;
-            Connection.DisconnectDot(lastDot);
+            ConnectableDot last = ConnectedDots.Last.Value;
+            Connection.DisconnectDot(last);
 
-            onDotDisconnected?.Invoke(lastDot);
+            onDotDisconnected?.Invoke(last);
             return;
         }
         else

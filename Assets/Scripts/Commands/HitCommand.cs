@@ -16,8 +16,12 @@ public class HitCommand : Command
     {
         Debug.Log(nameof(HitCommand));
 
+<<<<<<< Updated upstream
         List<IHittable> hittables = board.GetHittables();
         List<IHittable> toClear = new();
+=======
+        List<IHittable> hittables = board.Get<IHittable>();
+>>>>>>> Stashed changes
 
         foreach (IHittable hittable in hittables)
         {
@@ -68,7 +72,6 @@ public class HitCommand : Command
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
 
         }
-        yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
 
         yield return base.Execute(board);
 

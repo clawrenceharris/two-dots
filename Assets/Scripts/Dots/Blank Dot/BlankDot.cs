@@ -10,20 +10,7 @@ public class BlankDot : BlankDotBase
 
     public override int HitsToClear => 1;
 
-    public override Dictionary<HitType, IHitRule> HitRules
-    {
-        get
-        {
-            return new(base.HitRules)
-            {
-
-                {
-                    HitType.Connection, new HitByConnectionRule()
-                }
-
-            };
-        }
-    }
+   
 
 
 
@@ -41,7 +28,7 @@ public class BlankDot : BlankDotBase
     
     public override IEnumerator Hit(HitType hitType)
     {
-        hitCount++;
+        HitCount++;
         yield return base.Hit(hitType);
     }
 

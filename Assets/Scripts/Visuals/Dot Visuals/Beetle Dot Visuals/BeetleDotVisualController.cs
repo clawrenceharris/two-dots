@@ -19,12 +19,33 @@ public class BeetleDotVisualController : ColorDotVisualController
     private List<List<GameObject>> whiteWingLayers;
 
     private int currentLayerIndex;
+<<<<<<< Updated upstream
     private int wingsRemovedCount; //the amount of wings that were removed after set up
     public override void Init(Dot dot)
     {
         Visuals = dot.GetComponent<BeetleDotVisuals>();
         Dot = dot.GetComponent<BeetleDot>();
         base.Init(Dot);
+=======
+
+    public override T GetGameObject<T>()
+    {
+        return dot as T;
+    }
+
+
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
+    }
+
+    public override void Init(DotsGameObject dotsGameObject)
+    {
+        dot = (BeetleDot)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<BeetleDotVisuals>();
+        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
+        SetUp();
+>>>>>>> Stashed changes
     }
 
     protected override void SetUp()
@@ -69,19 +90,30 @@ public class BeetleDotVisualController : ColorDotVisualController
         currentLayerIndex = Mathf.Clamp(Dot.HitCount, 0, Dot.HitsToClear-1);
 
         Rotate();
+<<<<<<< Updated upstream
         RemoveWings(0f);
 
+=======
+        RemoveWings();
+>>>>>>> Stashed changes
         base.SetUp();
     }
 
     protected override void SetColor()
     {
+<<<<<<< Updated upstream
         for(int i =0; i < Dot.Colors.Length; i++)
         {
             Color color = ColorSchemeManager.FromDotColor(Dot.Colors[i]);
             SetColor(i, color);
+=======
+        for (int i = 1; i < dot.Colors.Length; i++)
+        {     
+            SetColor(i, ColorSchemeManager.FromDotColor(dot.Colors[i]));    
+>>>>>>> Stashed changes
         }
-        
+        Color color = ColorSchemeManager.FromDotColor(dot.Color);
+        SetColor(currentLayerIndex, color);
 
 
     }
@@ -155,14 +187,19 @@ public class BeetleDotVisualController : ColorDotVisualController
                 wingLayers[i + 1][0].transform.parent = Visuals.leftWings;
             }
         }
-
-
-
     }
 
     public override IEnumerator Clear()
     {
+<<<<<<< Updated upstream
         float duration = Visuals.clearDuration;
+=======
+        bool isBombHit = dot.HitType == HitType.BombExplosion;
+        float startFlapAngle = isBombHit ? 20f : 45f;
+        float endFlapAngle = isBombHit ? 15f : 0;
+
+        float duration = visuals.clearDuration;
+>>>>>>> Stashed changes
         float elapsedTime = 0f;
         float amplitude = 1f;
         float frequency = 0.1f;
@@ -174,6 +211,7 @@ public class BeetleDotVisualController : ColorDotVisualController
 
         while (elapsedTime < duration * speed)
         {
+            
             elapsedTime += Time.deltaTime * speed;
 
             // Calculate the progress based on elapsed time and duration
@@ -199,34 +237,70 @@ public class BeetleDotVisualController : ColorDotVisualController
             Dot.transform.position = newPosition;
 
 
+            CoroutineHandler.StartStaticCoroutine(FlapWings(startFlapAngle, endFlapAngle));
             yield return null;
         }
     }
 
+<<<<<<< Updated upstream
     public override IEnumerator PreviewHit(HitType hitType)
     {
         bool isBombHit = hitType == HitType.BombExplosion;
         float flapDuration = 0.15f;
         float startFlapAngle = isBombHit ? 15f : 45f;
         float endFlapAngle = isBombHit ? 10f : 0;
+=======
+
+    private IEnumerator FlapWings(float startFlapAngle, float endFlapAngle)
+    {
+        float flapDuration = 0.16f;
+        
+>>>>>>> Stashed changes
         Vector3 leftWingStartAngle = new(0, 0, -startFlapAngle);
         Vector3 rightWingStartAngle = new(0, 0, startFlapAngle);
 
-        Vector3 leftWingEndAngle = new(0, 0,-endFlapAngle);
+        Vector3 leftWingEndAngle = new(0, 0, -endFlapAngle);
         Vector3 rightWingEndAngle = new(0, 0, endFlapAngle);
+<<<<<<< Updated upstream
         Debug.Log(ConnectionManager.ToHit.Contains(Dot));
         while (DotTouchIO.IsInputActive && ConnectionManager.ToHit.Contains(Dot) || Dot.HitCount >= Dot.HitsToClear)
         {
             // Flap up
             Visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
             Visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
+=======
+        
+        // Flap up
+        visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
+        visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
+>>>>>>> Stashed changes
 
-            yield return new WaitForSeconds(flapDuration);
+        yield return new WaitForSeconds(flapDuration);
 
+<<<<<<< Updated upstream
             // Flap down
             Visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
             Visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
             yield return new WaitForSeconds(flapDuration);
+=======
+        // Flap down
+        visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
+        visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
+        yield return new WaitForSeconds(flapDuration);
+
+        
+       
+    }
+
+
+    public IEnumerator PreviewHit(HitType hitType)
+    {
+        float startFlapAngle = 45f;
+        float endFlapAngle = 0f;
+        while (DotTouchIO.IsInputActive && ConnectionManager.ToHit.Contains(dot) || dot.HitCount >= dot.HitsToClear) {
+
+            yield return FlapWings(startFlapAngle, endFlapAngle);
+>>>>>>> Stashed changes
 
         }
         Visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -235,7 +309,13 @@ public class BeetleDotVisualController : ColorDotVisualController
         yield return base.PreviewHit(hitType);
     }
 
+    public IEnumerator PreviewClear()
+    {
+        yield break;
+    }
 
+
+    
     public override IEnumerator Hit(HitType hitType)
     {
         yield return base.Hit(hitType);
@@ -319,8 +399,13 @@ public class BeetleDotVisualController : ColorDotVisualController
     public override IEnumerator BombHit()
     {
         SetColor(currentLayerIndex, ColorSchemeManager.CurrentColorScheme.bombLight);
+<<<<<<< Updated upstream
         yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
         SetColor(currentLayerIndex, ColorSchemeManager.FromDotColor(Dot.Color));
+=======
+        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+        SetColor(currentLayerIndex, ColorSchemeManager.FromDotColor(dot.Color));
+>>>>>>> Stashed changes
     }
 
     public IEnumerator DoSwap(Dot dotToSwap)

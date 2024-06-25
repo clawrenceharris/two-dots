@@ -8,10 +8,31 @@ public class NestingDotVisualController : DotVisualController
 {
     private new NestingDotVisuals Visuals;
 
+<<<<<<< Updated upstream
     public override void Init(Dot dot)
     {
         Visuals = dot.GetComponent<NestingDotVisuals>();
         base.Init(dot);
+=======
+  
+    public override T GetGameObject<T>()
+    {
+        return dot as T;
+    }
+
+
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
+    }
+
+    public override void Init(DotsGameObject dotsGameObject)
+    {
+        dot = (NestingDot)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
+        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
+        SetUp();
+>>>>>>> Stashed changes
     }
 
     protected override void SetColor()
@@ -31,6 +52,7 @@ public class NestingDotVisualController : DotVisualController
 
     public override IEnumerator PreviewHit(HitType hitType)
     {
+<<<<<<< Updated upstream
         while (Dot.HitCount == 2)
         {
             yield return DoShakeAnimation();
@@ -39,6 +61,9 @@ public class NestingDotVisualController : DotVisualController
 
         }
         yield return base.PreviewHit(hitType);
+=======
+        yield break;
+>>>>>>> Stashed changes
     }
 
     public override IEnumerator Hit(HitType hitType)
@@ -113,6 +138,19 @@ public class NestingDotVisualController : DotVisualController
         yield return SpriteRenderer.DOColor(Color.black, duration);
     }
 
+<<<<<<< Updated upstream
     
 
+=======
+    public IEnumerator PreviewClear()
+    {
+        while (dot.HitCount == 2)
+        {
+            yield return DoShakeAnimation();
+            dot.transform.position = new Vector2(dot.Column, dot.Row) * Board.offset;
+            yield return new WaitForSeconds(1.5f);
+
+        }
+    }
+>>>>>>> Stashed changes
 }

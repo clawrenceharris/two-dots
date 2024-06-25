@@ -50,4 +50,9 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     {
         throw new System.NotImplementedException();
     }
+
+    public void UndoHit()
+    {
+        HitType = HitType.None;
+    }
 }

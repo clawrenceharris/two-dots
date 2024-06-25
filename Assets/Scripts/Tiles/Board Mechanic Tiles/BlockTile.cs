@@ -47,4 +47,12 @@ public class BlockTile : Tile, IHittable
     {
         throw new System.NotImplementedException();
     }
+<<<<<<< Updated upstream
+=======
+
+    public void UndoHit()
+    {
+        HitType = HitType.None;
+    }
+>>>>>>> Stashed changes
 }

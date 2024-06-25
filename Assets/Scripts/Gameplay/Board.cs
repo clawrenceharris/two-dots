@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using static Type;
+using System.Data;
 
 
 public class Board : MonoBehaviour
@@ -78,10 +79,21 @@ public class Board : MonoBehaviour
 
     private void OnDotCleared(Dot dot)
     {
+<<<<<<< Updated upstream
         
         //replace the dot that is being cleared with its replacement dot
         Dot replacement = InitDotOnBoard(dot.ReplacementDot);
         Dots[dot.Column, dot.Row] = replacement;
+=======
+        if(dotsObject is IHittable)
+        {
+            if (dotsObject is Dot dot)
+                yield return new WaitForSeconds(dot.VisualController.GetVisuals<HittableVisuals>().clearDuration);
+            if (dotsObject is Tile tile)
+                yield return new WaitForSeconds(tile.VisualController.GetVisuals<HittableVisuals>().clearDuration);
+
+        }
+>>>>>>> Stashed changes
 
         StartCoroutine(DestroyDot(dot));
 
@@ -127,32 +139,37 @@ public class Board : MonoBehaviour
         }
     }
 
+<<<<<<< Updated upstream
     private void InitTile(DotsObjectData tileData)
+=======
+    private void InitTile(DotsGameObjectData data)
+>>>>>>> Stashed changes
     {
-        Tile tile = TileFactory.CreateTile(tileData);
-        tile.Init(tileData.col, tileData.row);
-        tile.transform.position = new Vector2(tileData.col, tileData.row) * offset;
+        Tile tile = DotFactory.CreateDotsGameObject<Tile>(data);
+        tile.transform.position = new Vector2(data.col, data.row) * offset;
         tile.transform.parent = transform;
         tile.name = "(" + tile.Column + ", " + tile.Row + ")";
 
-        Tiles[tile.Column, tile.Row] = tile;
+        Tiles[data.col, data.row] = tile;
+        tile.Init(data.col, data.row);
     }
 
-    public List<IHittable> GetHittables()
+    public List<T> Get<T>()
+        where T: IBoardElement
     {
-        List<IHittable> hittables = new();
+        List<T> boardElements = new();
         for (int i = 0; i < Width; i++)
         {
             for(int j = 0; j < Height; j++)
             {
-                IHittable hittable = GetHittableAt(i, j);
-                if (hittable != null)
+                T element = Get<T>(i, j);
+                if (element != null)
                 {
-                    hittables.Add(hittable);
+                    boardElements.Add(element);
                 }
             }
         }
-        return hittables;
+        return boardElements;
     }
 
     public List<IExplodable> GetExplodables()
@@ -198,10 +215,7 @@ public class Board : MonoBehaviour
         
     }
 
-    public void PutDot(Dot dot)
-    {
-        Dots[dot.Column, dot.Row] = dot;
-    }
+    
     public IExplodable GetExplodableAt(int col, int row)
     {
 
@@ -218,30 +232,34 @@ public class Board : MonoBehaviour
         }
         return null;
     }
+<<<<<<< Updated upstream
     private Dot InitDotOnBoard(DotsObjectData dotData)
+=======
+    private Dot InitDotOnBoard(DotsGameObjectData data)
+>>>>>>> Stashed changes
     {
 
         Dot dot = null;
 
-        if(dotData != null)
+        if(data != null)
         {
+<<<<<<< Updated upstream
             dot = DotFactory.CreateDot(dotData);
             dot.transform.position = new Vector2(dotData.col, dotData.row) * offset;
 
+=======
+            dot = DotFactory.CreateDotsGameObject<Dot>(data);
+            dot.transform.position = new Vector2(data.col, data.row) * offset;
+>>>>>>> Stashed changes
             dot.transform.parent = transform;
-            dot.name = dot.DotType.ToString() + " (" + dotData.col + ", " + dotData.col + ")";
-            dot.Init(dotData.col, dotData.row);
-
-            Dots[dot.Column, dot.Row] = dot;
-
+            dot.name = dot.DotType.ToString() + " (" + data.col + ", " + data.col + ")";
+            dot.Init(data.col, data.row);
+            Dots[data.col, data.row] = dot;
         }
 
         return dot;
 
     }
-
-
-
 
 
     private Dot InitRandomDot(int col, int row)
@@ -251,17 +269,20 @@ public class Board : MonoBehaviour
 
         DotsObjectData dotData = dotsToSpawn[randDot];
 
+<<<<<<< Updated upstream
         Dot dot = DotFactory.CreateDot(dotData);
         dot.Init(col, row);
+=======
+        Dot dot = DotFactory.CreateDotsGameObject<Dot>(dotData);
+
+>>>>>>> Stashed changes
         dot.transform.parent = transform;
         dot.name = dot.DotType.ToString() + " (" + col + ", " + row + ")";
         dot.transform.position = new Vector2(col, row + 100) * offset;
-
+        dot.Init(col, row);
         Dots[col, row] = dot;
+
         return dot;
-
-
-
     }
 
     public void RemoveDot(Dot dot)

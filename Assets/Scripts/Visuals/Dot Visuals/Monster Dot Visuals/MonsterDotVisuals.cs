@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IConnectionRule
+public class MonsterDotVisuals : NumerableDotVisuals
 {
-    public bool Validate(ConnectableDot dot);
+    
 }
