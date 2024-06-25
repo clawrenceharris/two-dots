@@ -1,22 +1,21 @@
 ﻿public class AnchorDotVisualController : DotVisualController
 {
-    private AnchorDot Dot;
-    private DotVisuals Visuals;
+    private AnchorDot dot;
+    private DotVisuals visuals;
 
     public override T GetGameObject<T>()
     {
-        return Dot as T;
+        return dot as T;
     }
 
     public override T GetVisuals<T>()
     {
-        return Visuals as T;
+        return visuals as T;
     }
-
     public override void Init(DotsGameObject dotsGameObject)
     {
-        Dot = (AnchorDot)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<DotVisuals>();
+        dot = (AnchorDot)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<DotVisuals>();
     }
 
     protected override void SetColor()

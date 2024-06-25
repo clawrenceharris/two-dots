@@ -16,7 +16,7 @@ public class BombDot : Dot, IExplodable
 
     public override Dictionary<HitType, IHitRule> HitRules => new() { { HitType.BombExplosion, new BombExplosionHitRule() } };
 
-    public static List<IHittable> AllHits { get; } = new();
+    public static List<IHittable> Hits { get; } = new();// the list of hittables all Bomb objects have hit
 
     public ExplosionType ExplosionType => ExplosionType.BombExplosion;
 
@@ -33,23 +33,14 @@ public class BombDot : Dot, IExplodable
 
     private void OnDisable()
     {
-        AllHits.Clear();
+        Hits.Clear();
     }
 
 
     public IEnumerator Explode(List<IHittable> hittables, Action<IHittable> callback)
     {
-        List<Coroutine> lineCoroutines = new();
-        List<IHittable> hits = new();
-        hittables.Sort((a, b) =>
-        {
-            int result = a.Column.CompareTo(b.Column);
-            if (result == 0)
-            {
-                result = a.Row.CompareTo(b.Row);
-            }
-            return result;
-        });
+        List<IHittable> hits = new(); // the list of hittables this current Bomb object has hit
+        
 
         foreach (IHittable hittable in hittables)
         {
@@ -59,16 +50,16 @@ public class BombDot : Dot, IExplodable
             }
 
             StartCoroutine(VisualController.AnimateLine(hittable));
-            AllHits.Add(hittable);
+            Hits.Add(hittable);
             hits.Add(hittable);
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.05f); // wait before animating next line
 
         }
 
 
         foreach (IHittable hittable in hits)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f); // wait before invoking completion
             callback?.Invoke(hittable);
         }
 
@@ -76,7 +67,7 @@ public class BombDot : Dot, IExplodable
 
     public override IEnumerator Hit(HitType hitType)
     {
-        hitCount++;
+        HitCount++;
         return base.Hit(hitType);
     }
 

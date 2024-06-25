@@ -15,6 +15,8 @@ public class GameAssets : MonoBehaviour
     public BlankDot BlankDot;
     public ConnectorLine Line;
     public BeetleDot BeetleDot;
+    public MonsterDot MonsterDot;
+    public Sprite[] Numbers;
     public static GameAssets Instance { get; private set; }
 
     private void Awake()

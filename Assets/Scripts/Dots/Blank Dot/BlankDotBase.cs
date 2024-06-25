@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-public abstract class BlankDotBase : ConnectableDot, IBlank
+public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IColorable
 {
 
 
     public override DotType DotType { get; }
     private new BlankDotVisualController VisualController => GetVisualController<BlankDotVisualController>();
-    
+
+    public DotColor Color { get; set; }
+
     public override void Init(int column, int row)
     {
         base.Init(column, row);
@@ -23,6 +25,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlank
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
     }
+
     private void UnsubscribeToEvents()
     {
         ConnectionManager.onDotConnected -= OnDotConnected;
@@ -35,10 +38,7 @@ public abstract class BlankDotBase : ConnectableDot, IBlank
         UnsubscribeToEvents();
     }
 
-    /// <summary>
-    /// when dot is disconnected, it starts the deselction animation
-    /// </summary>
-    /// <param name="dot">The dot that was disconnected</param>
+    
     protected virtual void OnDotDisconnected(ConnectableDot dot)
     {
 
@@ -61,7 +61,6 @@ public abstract class BlankDotBase : ConnectableDot, IBlank
     }
     public override void Disconnect()
     {
-        base.Disconnect();
         Deselect();
 
     }
@@ -74,16 +73,21 @@ public abstract class BlankDotBase : ConnectableDot, IBlank
         }
     }
 
-    
-    
-
-    public void Deselect()
+    public virtual void Deselect()
     {
         
         VisualController.AnimateDeselectionEffect();
         
 
     }
-   
+
+    public override void Connect(ConnectableDot dot)
+    {
+        base.Connect(dot);
+        if (dot is IColorable colorable)
+            Color = colorable.Color;
+    }
+
+
 }
 

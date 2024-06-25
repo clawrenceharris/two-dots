@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-
+using static Type;
 public class DotDataFactory
 {
     public static DotsGameObjectData CreateDotData(JObject itemObject)
@@ -32,12 +32,22 @@ public class DotDataFactory
                 break;
             case "beetle":
                 dotData.SetProperty("Colors", colors.ToObject<string[]>());
+                dotData.SetProperty("Color", (string)color);
 
                 dotData.SetProperty("DirectionX", (int)directionX);
                 dotData.SetProperty("DirectionY", (int)directionY);
                 break;
             case "clock":
                 dotData.SetProperty("Number", (int)number);
+                break;
+            case "monster":
+                dotData.SetProperty("Color", (string)color);
+                dotData.SetProperty("Number", (int)number);
+
+                break;
+            case "blank":
+                dotData.SetProperty("Color", JSONLevelLoader.ToJsonDotType(DotType.BlankDot));
+
                 break;
 
         };

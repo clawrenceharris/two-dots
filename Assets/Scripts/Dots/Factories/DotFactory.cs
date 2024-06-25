@@ -9,29 +9,28 @@ public class DotFactory
         where T : DotsGameObject
     {
         
-        DotsGameObject dotsObject = Object.Instantiate(JSONLevelLoader.FromJsonType(data.type));
+        DotsGameObject dotsGameObject = Object.Instantiate(JSONLevelLoader.FromJsonType(data.type));
 
-
-        if(dotsObject is IHittable hittable)
+        if (dotsGameObject is IHittable hittable)
         {
             hittable.HitCount = data.hitCount;
 
         }
 
-        if (dotsObject is IColorable colorable)
+        if (dotsGameObject is IColorable colorable)
         {
             string color = data.GetProperty<string>("Color");
             colorable.Color = JSONLevelLoader.FromJSONColor(color);
         }
 
-        if (dotsObject is INumerable numberable)
+        if (dotsGameObject is INumerable numberable)
         {
             int number = data.GetProperty<int>("Number");
 
             numberable.InitialNumber = number;
         }
 
-        if (dotsObject is IDirectional directional)
+        if (dotsGameObject is IDirectional directional)
         {
             int directionX = data.GetProperty<int>("DirectionX");
             int directionY = data.GetProperty<int>("DirectionY");
@@ -41,7 +40,7 @@ public class DotFactory
 
         }
 
-        if(dotsObject is IMulticolored multicolored)
+        if(dotsGameObject is IMulticolorable multicolored)
         {
             string[] colors = data.GetProperty<string[]>("Colors");
             multicolored.Colors = new DotColor[colors.Length];
@@ -54,7 +53,7 @@ public class DotFactory
 
         
 
-        return (T)dotsObject;
+        return (T)dotsGameObject;
     }
 
 }

@@ -7,6 +7,6 @@ public class HitByConnectionRule : IHitRule
 {
     public bool Validate(IHittable hittable, Board board)
     {
-        return ConnectionManager.ConnectedDots.Contains(hittable);
+        return ConnectionManager.ToHit.Contains(hittable);
     }
 }

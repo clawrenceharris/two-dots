@@ -28,7 +28,7 @@ public class Connection
 
     private bool IsBlankConnection()
     {
-        foreach (Dot dot in ConnectedDots)
+        foreach (ConnectableDot dot in ConnectedDots)
         {
             if (dot is not IBlank)
             {
@@ -41,11 +41,11 @@ public class Connection
     public void ConnectDot(ConnectableDot dot)
     {
         
-        dot.Connect();
+        dot.Connect(dot);
         ConnectedDots.AddLast(dot);
 
-        //if we connected to a dot that is a color dot (not a blank dot), change the connection's color to that color 
-        if(dot is IColorable colorDot)
+        //if we connected to a dot that is a color dot and not a blank dot, change the connection's color to match
+        if(dot is IColorable colorDot && dot is not IBlank)
             Color = colorDot.Color;
 
         IsSquare = squareManager.ProcessSquare();

@@ -9,14 +9,16 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
     private NestingDotVisuals visuals;
     private NestingDot dot;
 
-    public override T GetVisuals<T>()
-    {
-        return visuals as T;
-    }
-
+  
     public override T GetGameObject<T>()
     {
         return dot as T;
+    }
+
+
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
@@ -43,13 +45,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
 
     public IEnumerator PreviewHit(HitType hitType)
     {
-        while (dot.HitCount == 2)
-        {
-            yield return DoShakeAnimation();
-            dot.transform.position = new Vector2(dot.Column, dot.Row) * Board.offset;
-            yield return new WaitForSeconds(1.5f);
-
-        }
+        yield break;
     }
 
     public override IEnumerator Hit(HitType hitType)
@@ -124,4 +120,14 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
         yield return spriteRenderer.DOColor(Color.black, duration);
     }
 
+    public IEnumerator PreviewClear()
+    {
+        while (dot.HitCount == 2)
+        {
+            yield return DoShakeAnimation();
+            dot.transform.position = new Vector2(dot.Column, dot.Row) * Board.offset;
+            yield return new WaitForSeconds(1.5f);
+
+        }
+    }
 }

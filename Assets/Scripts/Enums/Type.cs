@@ -26,6 +26,7 @@ public static class Type
         SunDot,
         SeedDot,
         GeoidDot,
+        MonsterDot,
     }
     public enum SquareType
     {
@@ -81,6 +82,7 @@ public static class Type
         OneSidedBlock,
         NestingDot,
         BeetleDot,
+        MonsterDot,
     }
 
     public enum PreviewHitType

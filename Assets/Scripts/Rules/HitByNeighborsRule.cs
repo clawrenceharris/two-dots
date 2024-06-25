@@ -17,7 +17,7 @@ public class HitByNeighborsRule : IHitRule
                 continue;
 
             }
-            if (!ConnectionManager.ToHit.Contains(connectableDot))
+            if (!ConnectionManager.GetElementsToHit<ConnectableDot>().Contains(connectableDot))
 
                 continue;
 

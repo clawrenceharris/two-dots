@@ -50,4 +50,9 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
         DotsObjectEvents.NotifyCleared(this);
         yield return VisualController.Clear();
     }
+
+    public void UndoHit()
+    {
+        HitType = HitType.None;
+    }
 }

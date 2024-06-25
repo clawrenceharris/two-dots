@@ -12,7 +12,7 @@ public abstract class DotsGameObject : MonoBehaviour, IBoardElement
     public int Column { get => column; set => column = value; }
     public int Row { get => row; set => row = value; }
 
-    public T GetVisualController<T>()  where T : IVisualController
+    public T GetVisualController<T>()  where T : class
     {
         if (visualController is T controller)
         {
@@ -22,19 +22,17 @@ public abstract class DotsGameObject : MonoBehaviour, IBoardElement
     }
 
     protected IVisualController visualController;
-
    
-    public virtual void Init(int column, int row)
-    {
-        this.column = column;
-        this.row = row;
-        InitDisplayController();
-    }
-
-
+   
     public abstract void InitDisplayController();
 
 
+    public virtual void Init(int column, int row)
+    {
+        Column = column;
+        Row = row;
+        InitDisplayController();
+    }
 
 
     public void Debug()
@@ -47,4 +45,5 @@ public abstract class DotsGameObject : MonoBehaviour, IBoardElement
     {
         visualController.SetColor(color);
     }
+
 }

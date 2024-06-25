@@ -3,26 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using static Type;
+using System;
 
 public class BlankDotVisualController : ConnectableDotVisualController
 {
-    private BlankDot Dot;
-    private BlankDotVisuals Visuals;
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
+    private BlankDot dot;
+    
 
     public override T GetGameObject<T>()
     {
-        return Dot as T;
+        return dot as T;
     }
 
-    
+
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
+    }
+
+    private BlankDotVisuals visuals;
     public override void Init(DotsGameObject dotsGameObject)
     {
-        Dot = (BlankDot)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<BlankDotVisuals>();
+        dot = (BlankDot)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<BlankDotVisuals>();
 
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         sprite = spriteRenderer.sprite;
@@ -32,7 +35,7 @@ public class BlankDotVisualController : ConnectableDotVisualController
     public override IEnumerator Hit(HitType hitType)
     {
         yield return base.Hit(hitType);
-        Dot.transform.DOScale(Vector2.zero, Visuals.clearDuration);
+        //dot.transform.DOScale(Vector2.zero, GetVisuals<HittableVisuals>().clearDuration);
 
     }
     protected override void SetColor()
@@ -42,7 +45,7 @@ public class BlankDotVisualController : ConnectableDotVisualController
 
     public void SetInnerColor(Color color)
     {
-        Visuals.innerDot.color = color;
+        visuals.innerDot.color = color;
     }
 
     public override void AnimateSelectionEffect()
@@ -53,16 +56,16 @@ public class BlankDotVisualController : ConnectableDotVisualController
 
         Color color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
 
-        Visuals.innerDot.color = color;
-        Visuals.outerDot.color = color;
+        visuals.innerDot.color = color;
+        GetVisuals<DotVisuals>().outerDot.color = color;
 
-        Visuals.innerDot.transform.DOScale(Vector2.one, BlankDotVisuals.innerDotScaleTime);
+        visuals.innerDot.transform.DOScale(Vector2.one,visuals.innerDotScaleDuration);
 
     }
 
     public void AnimateDeselectionEffect()
     {
-        Visuals.innerDot.transform.DOScale(Vector2.zero, BlankDotVisuals.innerDotScaleTime);
+        visuals.innerDot.transform.DOScale(Vector2.zero, visuals.innerDotScaleDuration);
 
     }
 

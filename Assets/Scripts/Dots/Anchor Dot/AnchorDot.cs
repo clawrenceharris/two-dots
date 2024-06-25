@@ -31,7 +31,7 @@ public class AnchorDot : Dot
     public override IEnumerator Hit(HitType hitType)
     {
         
-        hitCount++;
+        HitCount++;
         yield return base.Hit(hitType);
     }
     

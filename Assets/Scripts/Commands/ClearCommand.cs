@@ -19,11 +19,11 @@ public class ClearCommand : Command
             {
                 IHittable hittable = board.Get<IHittable>(col, row);
                 
-
                 if(hittable.HitCount >= hittable.HitsToClear)
                 {
                     DidExecute = true;
                     CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+
                 }
             }
         }

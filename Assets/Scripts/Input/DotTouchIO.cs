@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 public class DotTouchIO : MonoBehaviour
 {
-    private ConnectableDot dot;
+    private ConnectableDot connectable;
     
 
     public static event Action<ConnectableDot> onDotSelected;
@@ -14,14 +14,18 @@ public class DotTouchIO : MonoBehaviour
     private static bool selectionEnded;
     public static bool IsInputActive { get; set; }
 
-    private void Awake() => dot = GetComponent<ConnectableDot>();
+    private void Awake() => connectable = GetComponent<ConnectableDot>();
 
     private bool IsDotAt(Vector3 worldPosition)
     {
+        if(connectable is not IBoardElement boardElement)
+        {
+            return false;
+        }
         int column = (int)worldPosition.x;
         int row = (int)worldPosition.y;
 
-        return column == dot.Column && row == dot.Row;
+        return column == boardElement.Column && row == boardElement.Row;
         
     }
    
@@ -33,13 +37,13 @@ public class DotTouchIO : MonoBehaviour
         {
             IsInputActive = true;
             selectionEnded = false;
-            onDotSelected?.Invoke(dot);
+            onDotSelected?.Invoke(connectable);
         }
 
         else if (Input.GetMouseButton(0) && IsDotAt(worldPos))
         {
            
-            onDotConnected?.Invoke(dot);
+            onDotConnected?.Invoke(connectable);
         }
 
         else if (Input.GetMouseButtonUp(0) && !selectionEnded)

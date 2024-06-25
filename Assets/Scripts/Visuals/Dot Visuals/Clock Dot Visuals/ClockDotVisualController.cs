@@ -10,10 +10,7 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
     public static Dictionary<Dot, GameObject> clockDotPreviews { get; private set; } = new();
     private ClockDot dot;
     private ClockDotVisuals visuals;
-    public override T GetVisuals<T>()
-    {
-        return visuals as T;
-    }
+    
     public override T GetGameObject<T>()
     {
         return dot as T;
@@ -110,26 +107,29 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
         clockDotPreviews.TryAdd(dot, visuals.clockDotPreview);
         for(int i = connectedDots.Count -1 ; i >= 0 ; i--)
         {
-            if (connectedDots[i] is ClockDot clockDot)
+            Dot currentDot = connectedDots[i];
+            if (currentDot is ClockDot clockDot)
             {
                 Dot lastEmptyDot = clockDot;
                 for(int k = i; k < connectedDots.Count; k++)
                 {
-                    if(clockDotPreviews.TryGetValue(connectedDots[k], out var _))
+                    Dot nextDot = connectedDots[k];
+
+                    if (clockDotPreviews.TryGetValue(nextDot, out var _))
                     {
                         continue;
                     }
                     
-                    if (connectedDots[k] is ClockDot)
+                    if (nextDot is ClockDot)
                     {
                         continue;
                     }
-                    lastEmptyDot = connectedDots[k];
+                    lastEmptyDot = nextDot;
                 }
 
                     
                     MoveClockDotPreview(clockDot, lastEmptyDot);
-                    clockDotPreviews.Remove(connectedDots[i]);
+                    clockDotPreviews.Remove(currentDot);
                 
 
                 
@@ -184,6 +184,8 @@ public class ClockDotVisualController : BlankDotVisualController, IPreviewable
 
     }
 
-
-
+    public IEnumerator PreviewClear()
+    {
+       yield break;
+    }
 }

@@ -1,6 +1,7 @@
-﻿public interface INumerable
+﻿using UnityEngine;
+public interface INumerable 
 {
     int CurrentNumber { get; }
-    int InitialNumber { set; }
-    int TempNumber { get; }
+    int InitialNumber { get;  set; }
+   
 }

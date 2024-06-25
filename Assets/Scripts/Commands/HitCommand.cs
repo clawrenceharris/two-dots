@@ -16,7 +16,7 @@ public class HitCommand : Command
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(HitCommand));
 
-        List<IHittable> hittables = board.GetHittables();
+        List<IHittable> hittables = board.Get<IHittable>();
 
         foreach (IHittable hittable in hittables)
         {
@@ -53,7 +53,6 @@ public class HitCommand : Command
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
 
         }
-        yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
 
         yield return base.Execute(board);
 

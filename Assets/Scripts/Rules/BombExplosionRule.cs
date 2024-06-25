@@ -1,22 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class BombExplosionRule : IExplosionRule
 {
     public List<IHittable> Validate(IExplodable explodable, Board board)
     {
+        
         List<IHittable> toHit = new();
-        List<IHittable> hittables = board.GetNeighbors<IHittable>(explodable.Column, explodable.Row, true);
-        foreach(IHittable hittable in hittables)
+        List<IHittable> neighbors = board.GetNeighbors<IHittable>(explodable.Column, explodable.Row, true);
+
+
+        foreach (IHittable neighbor in neighbors)
         {
-            if(hittable != null)
+            if(neighbor is IHittable hittable)
             {
                 toHit.Add(hittable);
             }
         }
 
-        return toHit;
+        return  toHit.OrderBy(dot => dot.Column).ThenByDescending(dot => dot.Row).ToList();
+        
 
     }
 

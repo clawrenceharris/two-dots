@@ -96,9 +96,14 @@ public class LevelManager : MonoBehaviour
 
     private void OnDotDisconnected(ConnectableDot dot)
     {
-        if (dot is IPreviewable previewable)
+        List<IHittable> toHit = ConnectionManager.ToHit;
+
+        foreach (IHittable hittable in toHit)
         {
-            StartCoroutine(previewable.PreviewHit(HitType.None));
+            if (hittable is IPreviewable previewable)
+            {
+                StartCoroutine(previewable.PreviewHit(HitType.None));
+            }
         }
     }
 
@@ -146,7 +151,15 @@ public class LevelManager : MonoBehaviour
     {
         didMove = true;
         DoCommand(new HitCommand());
+        List<IHittable> toHit = ConnectionManager.ToHit;
 
+        foreach (IHittable hittable in toHit)
+        {
+            if (hittable is IPreviewable previewable)
+            {
+                StartCoroutine(previewable.PreviewHit(HitType.None));
+            }
+        }
 
     }
 

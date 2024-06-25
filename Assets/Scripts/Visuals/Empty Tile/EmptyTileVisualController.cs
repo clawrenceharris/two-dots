@@ -13,9 +13,9 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
     private bool flipY;
     private bool flipX;
 
-    private EmptyTile Tile;
+    private EmptyTile tile;
 
-    private EmptyTileVisuals Visuals;
+    private EmptyTileVisuals visuals;
     private Board board;
     public EmptyTileVisualController()
     {
@@ -30,23 +30,22 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
 
     }
 
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
-
     public override T GetGameObject<T>()
     {
-       return Tile as T;
+       return tile as T;
     }
 
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
+    }
     public override void Init(DotsGameObject dotsGameObject)
     {
-        Tile = (EmptyTile)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<EmptyTileVisuals>();
+        tile = (EmptyTile)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<EmptyTileVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         sprite = spriteRenderer.sprite;
-        SetUp();
+        SetUp(board);
     }
 
     protected override void SetColor()
@@ -58,46 +57,46 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
     {
         
             
-        if (board.Get<Tile>(Tile.Column, Tile.Row + 1))
+        if (board.Get<Tile>(tile.Column, tile.Row + 1))
         {
 
             hasTop = true;
         }
 
-        if (board.Get<Tile>(Tile.Column, Tile.Row - 1))
+        if (board.Get<Tile>(tile.Column, tile.Row - 1))
         {
 
             hasBottom = true;
         }
 
 
-        if (board.Get<Tile>(Tile.Column + 1, Tile.Row ))
+        if (board.Get<Tile>(tile.Column + 1, tile.Row ))
                 
         {
 
             hasRight = true;
         }
-        if (board.Get<Tile>(Tile.Column - 1, Tile.Row))
+        if (board.Get<Tile>(tile.Column - 1, tile.Row))
 
         {
             hasLeft = true;
         }
 
-        if (board.IsAtLeftOfBoard(Tile.Column, Tile.Row))
+        if (board.IsAtLeftOfBoard(tile.Column, tile.Row))
         {
             isLeft = true;
         }
 
-        if(board.IsAtTopOfBoard(Tile.Column, Tile.Row))
+        if(board.IsAtTopOfBoard(tile.Column, tile.Row))
         {
             isTop = true;
         }
 
-        if(board.IsAtBottomOfBoard(Tile.Column, Tile.Row))
+        if(board.IsAtBottomOfBoard(tile.Column, tile.Row))
         {
             isBottom = true;
         }
-        if(board.IsAtRightOfBoard(Tile.Column, Tile.Row))
+        if(board.IsAtRightOfBoard(tile.Column, tile.Row))
         {
             isRight = true;
         }
@@ -191,41 +190,41 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
         if (IsLeftBottom())
         {
 
-            return Visuals.LeftBottom;
+            return visuals.LeftBottom;
 
         }
         if (IsBottom())
         {
 
-            return Visuals.Bottom;
+            return visuals.Bottom;
 
         }
         if (IsTop())
         {
-            return Visuals.Top;
+            return visuals.Top;
         }
         if (IsLeft())
         {
-            return Visuals.Left;
+            return visuals.Left;
 
         }
         if (IsRight())
         {
-            return Visuals.Right;
+            return visuals.Right;
         }
         if (IsRightBottom())
         {
-            return Visuals.RightBottom;
+            return visuals.RightBottom;
 
         }
         if (IsRightTop())
         {
-            return Visuals.RightTop;
+            return visuals.RightTop;
 
         }
         if (IsLeftTop())
         {
-            return Visuals.LeftTop;
+            return visuals.LeftTop;
 
         }
 

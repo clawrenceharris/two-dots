@@ -15,15 +15,16 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
     private BeetleDotVisuals visuals;
     private int currentLayerIndex;
 
-    public override T GetVisuals<T>()
-    {
-        return visuals as T;
-    }
     public override T GetGameObject<T>()
     {
         return dot as T;
     }
 
+
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
+    }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
@@ -57,18 +58,17 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
         Rotate();
         RemoveWings();
-
         base.SetUp();
     }
 
     protected override void SetColor()
     {
-        for(int i =0; i < dot.Colors.Length; i++)
-        {
-            Color color = ColorSchemeManager.FromDotColor(dot.Colors[i]);
-            SetColor(i, color);
+        for (int i = 1; i < dot.Colors.Length; i++)
+        {     
+            SetColor(i, ColorSchemeManager.FromDotColor(dot.Colors[i]));    
         }
-        
+        Color color = ColorSchemeManager.FromDotColor(dot.Color);
+        SetColor(currentLayerIndex, color);
 
 
     }
@@ -141,13 +141,14 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
                 wingLayers[i + 1][0].transform.parent = visuals.leftWings;
             }
         }
-
-
-
     }
 
     public override IEnumerator Clear()
     {
+        bool isBombHit = dot.HitType == HitType.BombExplosion;
+        float startFlapAngle = isBombHit ? 20f : 45f;
+        float endFlapAngle = isBombHit ? 15f : 0;
+
         float duration = visuals.clearDuration;
         float elapsedTime = 0f;
         float amplitude = 1f;
@@ -160,6 +161,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
         while (elapsedTime < duration * speed)
         {
+            
             elapsedTime += Time.deltaTime * speed;
 
             // Calculate the progress based on elapsed time and duration
@@ -185,34 +187,45 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
             dot.transform.position = newPosition;
 
 
+            CoroutineHandler.StartStaticCoroutine(FlapWings(startFlapAngle, endFlapAngle));
             yield return null;
         }
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+
+    private IEnumerator FlapWings(float startFlapAngle, float endFlapAngle)
     {
-        bool isBombHit = hitType == HitType.BombExplosion;
-        float flapDuration = 0.15f;
-        float startFlapAngle = isBombHit ? 20f : 45f;
-        float endFlapAngle = isBombHit ? 15f : 0;
+        float flapDuration = 0.16f;
+        
         Vector3 leftWingStartAngle = new(0, 0, -startFlapAngle);
         Vector3 rightWingStartAngle = new(0, 0, startFlapAngle);
 
-        Vector3 leftWingEndAngle = new(0, 0,-endFlapAngle);
+        Vector3 leftWingEndAngle = new(0, 0, -endFlapAngle);
         Vector3 rightWingEndAngle = new(0, 0, endFlapAngle);
-        Debug.Log(ConnectionManager.ToHit.Contains(dot));
-        while (DotTouchIO.IsInputActive && ConnectionManager.ToHit.Contains(dot) || dot.HitCount >= dot.HitsToClear)
-        {
-            // Flap up
-            visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
-            visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
+        
+        // Flap up
+        visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
+        visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
 
-            yield return new WaitForSeconds(flapDuration);
+        yield return new WaitForSeconds(flapDuration);
 
-            // Flap down
-            visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
-            visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
-            yield return new WaitForSeconds(flapDuration);
+        // Flap down
+        visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
+        visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
+        yield return new WaitForSeconds(flapDuration);
+
+        
+       
+    }
+
+
+    public IEnumerator PreviewHit(HitType hitType)
+    {
+        float startFlapAngle = 45f;
+        float endFlapAngle = 0f;
+        while (DotTouchIO.IsInputActive && ConnectionManager.ToHit.Contains(dot) || dot.HitCount >= dot.HitsToClear) {
+
+            yield return FlapWings(startFlapAngle, endFlapAngle);
 
         }
         visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -220,7 +233,13 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
     }
 
+    public IEnumerator PreviewClear()
+    {
+        yield break;
+    }
 
+
+    
     public override IEnumerator Hit(HitType hitType)
     {
 
@@ -316,7 +335,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
     public override IEnumerator BombHit()
     {
         SetColor(currentLayerIndex, ColorSchemeManager.CurrentColorScheme.bombLight);
-        yield return new WaitForSeconds(DotVisuals.defaultClearDuration);
+        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
         SetColor(currentLayerIndex, ColorSchemeManager.FromDotColor(dot.Color));
     }
 

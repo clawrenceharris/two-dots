@@ -18,7 +18,7 @@ public class HitByNeighborRule : IHitRule
         ConnectableDot adjacentDot = board.Get<ConnectableDot>(targetCol, targetRow);
         
          
-        return ConnectionManager.ConnectedDots.Contains(adjacentDot);
+        return ConnectionManager.GetElementsToHit<ConnectableDot>().Contains(adjacentDot);
         
 
     }

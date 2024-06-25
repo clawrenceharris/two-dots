@@ -33,9 +33,12 @@ public class JSONLevelLoader
             "anchor" => GameAssets.Instance.AnchorDot,
             "nesting" => GameAssets.Instance.NestingDot,
             "beetle" => GameAssets.Instance.BeetleDot,
+            "monster" => GameAssets.Instance.MonsterDot,
+            "one sided block" => GameAssets.Instance.OneSidedBlock,
+            "empty" => GameAssets.Instance.EmptyTile,
 
 
-            _ => throw new ArgumentException("Invalid Dots game object type was passed"),
+            _ => throw new ArgumentException("'" + dotType +  "' is not a valid game object type"),
         };
     }
 

@@ -13,6 +13,7 @@ public class OneSidedBlockVisualController : HittableVisualController
         return tile as T ;
     }
 
+
     public override T GetVisuals<T>()
     {
         return visuals as T;
@@ -21,7 +22,7 @@ public class OneSidedBlockVisualController : HittableVisualController
     public override void Init(DotsGameObject dotsGameObject)
     {
         tile = (OneSidedBlock)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<HittableVisuals>();
+        visuals = tile.GetComponent<HittableVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
     }
@@ -31,10 +32,6 @@ public class OneSidedBlockVisualController : HittableVisualController
         spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
     }
 
-    public override IEnumerator Hit(Type.HitType hitType)
-    {
-        yield return Clear();
-    }
 
     protected override void SetUp()
     {
@@ -65,4 +62,6 @@ public class OneSidedBlockVisualController : HittableVisualController
 
         tile.transform.rotation = rotation;
     }
+
+   
 }

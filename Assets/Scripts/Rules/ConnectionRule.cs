@@ -17,18 +17,16 @@ public class ConnectionRule : IComparisonRule<ConnectableDot>
         Connection connection = ConnectionManager.Connection;
         MatchingColorRule colorRule = new();
         AdjacentPositionRule adjacentRule = new();
-        if (connection.Color == DotColor.Blank ||
-            b is IBlank)
+        
+        if ( b is IColorable d )
         {
-            return true;
-        }
-        if (a is IColorable c && b is IColorable d)
-        {
-            if(!colorRule.Validate(c, d, board))
+            if (!colorRule.Validate(connection.Color, d.Color, board))
             {
-                return false; 
+                return false;
             }
         }
+        
+        
 
         if(!adjacentRule.Validate(a, b))
         {

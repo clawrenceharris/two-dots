@@ -14,6 +14,7 @@ public abstract class ColorableDotVisualController : ConnectableDotVisualControl
         //set the color to the blank color
         SetColor(ColorSchemeManager.CurrentColorScheme.bombLight);
 
+        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
         //set the color back to the default color
         SetColor();
@@ -23,20 +24,20 @@ public abstract class ColorableDotVisualController : ConnectableDotVisualControl
 
     protected override void SetColor()
     {
-        spriteRenderer.color = ColorSchemeManager.FromDotColor(GetGameObject<ColorableDot>().Color);
+        spriteRenderer.color = ColorSchemeManager.FromDotColor(GetGameObject<IColorable>().Color);
 
     }
+
+
     public override void AnimateSelectionEffect()
     {
         DotVisuals visuals = GetVisuals<DotVisuals>();
-        visuals.outerDot.color = ColorSchemeManager.FromDotColor(GetGameObject<ColorableDot>().Color);
+        visuals.outerDot.color = ColorSchemeManager.FromDotColor(GetGameObject<IColorable>().Color);
 
-        // Scale animation using DOTween
-        visuals.outerDot.transform.DOScale(Vector3.one * 3, DotVisuals.outerDotScaleTime)
+        visuals.outerDot.transform.DOScale(Vector3.one * 3, DotVisuals.outerDotScaleDuration)
             .SetEase(Ease.OutQuad);
 
-        // Alpha animation using DOTween
-        visuals.outerDot.DOFade(0, DotVisuals.outerDotAlphaTime)
+        visuals.outerDot.DOFade(0, DotVisuals.outerDotFadeDuration)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {

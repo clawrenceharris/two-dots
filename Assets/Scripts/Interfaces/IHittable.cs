@@ -11,11 +11,12 @@ public interface IHittable : IBoardElement
     /// Number of hits made on the dot
     /// </summary>
     public int HitCount { get; set; }
-    public IEnumerator Clear();
     /// <summary>
     /// Number of hits required to clear the dot
     /// </summary>
-    public int HitsToClear { get; }
+    public int HitsToClear { get;  }
     public Dictionary<HitType, IHitRule> HitRules { get; }
-     
+    public void UndoHit();
+    public IEnumerator Clear();
+
 }

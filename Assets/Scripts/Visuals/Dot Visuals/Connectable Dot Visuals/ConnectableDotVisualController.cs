@@ -16,11 +16,11 @@ public abstract class ConnectableDotVisualController : DotVisualController
         visuals.outerDot.color = color;
 
         // Scale animation using DOTween
-        visuals.outerDot.transform.DOScale(Vector3.one * 3, DotVisuals.outerDotScaleTime)
+        visuals.outerDot.transform.DOScale(Vector3.one * 3, DotVisuals.outerDotScaleDuration)
             .SetEase(Ease.OutQuad);
 
         //Animate alpha 
-        visuals.outerDot.DOFade(0, DotVisuals.outerDotAlphaTime)
+        visuals.outerDot.DOFade(0, DotVisuals.outerDotFadeDuration)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {

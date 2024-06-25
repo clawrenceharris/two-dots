@@ -357,6 +357,18 @@ MonoBehaviour:
   BlankDot: {fileID: 5651903629060155388, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
   Line: {fileID: 7744309208762822857, guid: 734d110512c864f619561b39d3e05c05, type: 3}
   BeetleDot: {fileID: 5951655027707420521, guid: 7fd628870f4924990a58fb3a11d55cfd, type: 3}
+  MonsterDot: {fileID: 921457685839405913, guid: 726a7c6bd326a47a38d8eccbcbb8e410, type: 3}
+  Numbers:
+  - {fileID: 21300000, guid: 4e90cf8faa34743d4be779c763ef5881, type: 3}
+  - {fileID: 21300000, guid: 2fe71c858d7454697b7999b2074f7722, type: 3}
+  - {fileID: 21300000, guid: 21cc989c0df2941359d147ffce6ee620, type: 3}
+  - {fileID: 21300000, guid: 16ba29147081c414dafe613ca84cb6fd, type: 3}
+  - {fileID: 21300000, guid: cda79c4d849cf4fd3b569156ee8cab5d, type: 3}
+  - {fileID: 21300000, guid: 6c776f768988f43eca40aadc8cffae16, type: 3}
+  - {fileID: 21300000, guid: 0087ae519423541acbbf5b05406cdc42, type: 3}
+  - {fileID: 21300000, guid: b6aa8ad2e83024f65af7652cc7cc9521, type: 3}
+  - {fileID: 21300000, guid: cbe1cfe2e31ba459584fe50c6798c2f1, type: 3}
+  - {fileID: 21300000, guid: cf95035a8a52c49c499aeb2f5ef68796, type: 3}
 --- !u!4 &499670593
 Transform:
   m_ObjectHideFlags: 0

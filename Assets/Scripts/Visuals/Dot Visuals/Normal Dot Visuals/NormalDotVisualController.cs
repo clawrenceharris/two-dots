@@ -9,14 +9,16 @@ public class NormalDotVisualController : ColorableDotVisualController
     private NormalDot dot;
     private DotVisuals visuals;
 
-    public override T GetVisuals<T>()
-    {
-        return visuals as T;
-    }
 
     public override T GetGameObject<T>()
     {
         return dot as T;
+    }
+
+
+    public override T GetVisuals<T>()
+    {
+        return visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
