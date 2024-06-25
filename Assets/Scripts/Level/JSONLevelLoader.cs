@@ -3,7 +3,7 @@ using UnityEngine;
 using System.IO;
 using static Type;
 using Newtonsoft.Json;
-using UnityEngine.UI;
+using System;
 
 public class JSONLevelLoader
 {
@@ -22,22 +22,10 @@ public class JSONLevelLoader
         return level;
     }
 
-    public static DotType FromJsonDotType(string dotType)
+    public static DotsGameObject FromJsonType(string dotType)
     {
         return dotType switch
         {
-<<<<<<< Updated upstream
-            "normal" => DotType.NormalDot,
-            "clock" => DotType.ClockDot,
-            "bomb" => DotType.Bomb,
-            "blank" => DotType.BlankDot,
-            "anchor" => DotType.AnchorDot,
-            "nesting" => DotType.NestingDot,
-            "beetle" => DotType.BeetleDot,
-
-
-            _ => DotType.None,
-=======
             "normal" => GameAssets.Instance.NormalDot,
             "clock" => GameAssets.Instance.ClockDot,
             "bomb" => GameAssets.Instance.Bomb,
@@ -51,18 +39,10 @@ public class JSONLevelLoader
 
 
             _ => throw new ArgumentException("'" + dotType +  "' is not a valid game object type"),
->>>>>>> Stashed changes
         };
     }
 
 
-
-    public static Dot FromJsonDot(DotsObjectData dotData)
-    {
-        DotType dotType = FromJsonDotType(dotData.type);
-        Dot dot = Object.Instantiate(GameAssets.Instance.FromDotType(dotType));
-        return dot;
-    }
 
    
     

@@ -9,7 +9,7 @@ public class GameAssets : MonoBehaviour
     public Tile BlockTile;
     public Tile OneSidedBlock;
     public NestingDot NestingDot;
-    public Bomb Bomb;
+    public BombDot Bomb;
     public ClockDot ClockDot;
     public AnchorDot AnchorDot;
     public BlankDot BlankDot;

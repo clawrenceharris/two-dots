@@ -6,16 +6,9 @@ using Object = UnityEngine.Object;
 
 public class BombDotVisualController : DotVisualController
 {
+    private BombDot dot;
+    private BombDotVisuals visuals;
 
-<<<<<<< Updated upstream
-    public new BombDotVisuals Visuals;
-
-    public override void Init(Dot dot)
-    {
-        Visuals = dot.GetComponent<BombDotVisuals>();
-        base.Init(dot);
-    }
-=======
    
     public override T GetGameObject<T>()
     {
@@ -35,25 +28,26 @@ public class BombDotVisualController : DotVisualController
 
     }
 
->>>>>>> Stashed changes
     protected override void SetColor()
     {
-        for (int i = 0; i  < Visuals.bombSprites.Length; i++)
+        for (int i = 0; i  < visuals.bombSprites.Length; i++)
         {
             if(i % 2 == 0)
-                Visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
+                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
             else
-                Visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
+                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
 
         }
     }
+
+
     public IEnumerator AnimateLine(IHittable hittable)
     {
 
         float elapsedTime = 0f;
         float duration = 0.3f;
 
-        Vector2 startPos = Dot.transform.position;
+        Vector2 startPos = dot.transform.position;
         Vector2 endPos = new Vector2(hittable.Column, hittable.Row) * Board.offset;
         Vector2 startScale = new(1f, 0.2f);
         Vector2 endScale = new(0.7f, 0.03f);
@@ -62,17 +56,10 @@ public class BombDotVisualController : DotVisualController
 
         ConnectorLine line = Object.Instantiate(GameAssets.Instance.Line);
 
-<<<<<<< Updated upstream
-        line.transform.parent = Dot.transform;
-        line.transform.localScale = new Vector2(1f, 0.1f);
-        line.sprite.color = Bomb.AllHits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
-        line.transform.rotation = Quaternion.Euler(0, 0, angle);
-=======
         line.transform.parent = dot.transform;
         line.transform.localScale = startScale;
         line.sprite.color = BombDot.Hits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
         line.transform.rotation = Quaternion.Euler(1f, 0, angle);
->>>>>>> Stashed changes
         line.disabled = true;
 
         
@@ -101,4 +88,5 @@ public class BombDotVisualController : DotVisualController
         yield break;
     }
 
+   
 }

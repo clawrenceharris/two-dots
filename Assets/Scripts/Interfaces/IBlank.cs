@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class DotBase<T> : MonoBehaviour
+public interface IBlank
 {
+    public void Deselect();
 
-
-   
 }

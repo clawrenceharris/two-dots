@@ -23,7 +23,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         }
     }
 
-    public override DotsObjectData ReplacementDot
+    public override DotsGameObjectData ReplacementDot
     {
         get
         {
@@ -35,8 +35,6 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
 
         }
     }
-    public HitType PreviewHitType { get; private set; }
-    HitType IPreviewable.PreviewHitType => PreviewHitType;
 
     private int directionX;
     private int directionY;
@@ -47,14 +45,9 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
     private bool wasHit;
     
 
-<<<<<<< Updated upstream:Assets/Scripts/Dots/Connectable Dots/BeetleDot.cs
-    public BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
-   
-=======
     public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
 
 
->>>>>>> Stashed changes:Assets/Scripts/Dots/Connectables/BeetleDot.cs
 
     public IEnumerator DoSwap(Dot dotToSwap, Action callback)
     {
@@ -93,17 +86,12 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
 
     public IEnumerator PreviewHit(HitType hitType)
     {
-<<<<<<< Updated upstream:Assets/Scripts/Dots/Connectable Dots/BeetleDot.cs
-        PreviewHitType = hitType;
-        yield return visualController.PreviewHit(hitType);   
-=======
         
         yield return VisualController.PreviewHit(hitType);
         if(HitCount == 2)
         {
             StartCoroutine(PreviewClear());
         }
->>>>>>> Stashed changes:Assets/Scripts/Dots/Connectables/BeetleDot.cs
     }
 
     public IEnumerator PreviewClear()
@@ -111,7 +99,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
        yield return VisualController.PreviewClear();
     }
 
-    internal IEnumerator TrySwap(Action onComplete)
+    public IEnumerator TrySwap(Action onComplete)
     {
         if (wasHit)
         {
@@ -121,5 +109,11 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         
 
         yield return VisualController.TrySwap(onComplete);
+    }
+
+    public override void Select()
+    {
+        base.Select();
+        StartCoroutine(VisualController.PreviewHit(HitType.Connection));
     }
 }

@@ -11,15 +11,8 @@ public class HitByBottomOfBoardRule : IHitRule
 
     public bool Validate(IHittable hittable, Board board)
     {
-<<<<<<< Updated upstream
-        bool isAtBottom = board.IsAtBottomOfBoard(hittable.Column, hittable.Row);
-
-        return isAtBottom;
-
-=======
         if(hittable is IBoardElement boardElement)
             return board.IsAtBottomOfBoard(boardElement.Column, boardElement.Row);
         return false;
->>>>>>> Stashed changes
     }
 }

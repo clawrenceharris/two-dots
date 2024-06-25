@@ -138,7 +138,7 @@ public class Square
         FindDotsInsideSquare();
         foreach (Dot dot in DotsInSquare)
         {
-            dot.visualController.DisableSprites();
+            dot.VisualController.DisableSprites();
             board.CreateBomb(dot.Column, dot.Row);
         }
     }
@@ -148,11 +148,11 @@ public class Square
 
         foreach (Dot dot in DotsInSquare)
         {
-            dot.visualController.EnableSprites();
+            dot.VisualController.EnableSprites();
 
             //get the bomb that is at this dot's position on the board
             //then destroy it
-            Dot bomb = board.GetBoardElementDotAt<Dot>(dot.Column, dot.Row);
+            Dot bomb = board.Get<Dot>(dot.Column, dot.Row);
             Object.Destroy(bomb.gameObject);
 
             //put the original dot back
@@ -175,7 +175,7 @@ public class Square
         {
             for (int row = 0; row < board.Height; row++)
             {
-                Dot dot = board.GetBoardElementDotAt<Dot>(col, row);
+                Dot dot = board.Get<Dot>(col, row);
                 //Make sure dot is not in the square and not on edge of board because there is no need to fill these
                 if (dot && !square.Contains(dot) && !board.IsOnEdgeOfBoard(dot.Column, dot.Row))
                 {
@@ -300,7 +300,7 @@ public class Square
         {
             for (int row = 0; row < board.Height; row++)
             {
-                Dot dot = board.GetBoardElementDotAt<Dot>(col, row);
+                Dot dot = board.Get<Dot>(col, row);
 
                 if (dot is ConnectableDot connectableDot && ShouldBeHit(connectableDot))
                 {

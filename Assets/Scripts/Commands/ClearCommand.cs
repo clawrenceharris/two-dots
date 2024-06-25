@@ -1,8 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using static Type;
-<<<<<<< Updated upstream
-=======
 
 
 public class ClearCommand : Command
@@ -40,4 +38,3 @@ public class ClearCommand : Command
 
     }
 }
->>>>>>> Stashed changes

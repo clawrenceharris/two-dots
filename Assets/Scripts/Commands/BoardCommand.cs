@@ -7,11 +7,6 @@ using static Type;
 public class BoardCommand : Command
 {
     public override CommandType CommandType => CommandType.Board;
-
-    
-   
-    
-
     public override IEnumerator Execute(Board board)
     {
 
@@ -28,7 +23,7 @@ public class BoardCommand : Command
         dotsDropped = board.FillBoard();
         DidExecute = dotsDropped || DidExecute;
 
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(Board.DotDropSpeed);
 
         if (DidExecute)
         {

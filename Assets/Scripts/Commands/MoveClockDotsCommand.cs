@@ -7,22 +7,25 @@ using UnityEngine;
 using static Type;
 public class MoveClockDotsCommand : Command
 {
+    private readonly LinkedList<ConnectableDot> connectedDots;
+
     public override CommandType CommandType => CommandType.MoveClockDots;
+
+    public MoveClockDotsCommand(LinkedList<ConnectableDot> connectedDots)
+    {
+        this.connectedDots = connectedDots;
+    }
     public override IEnumerator Execute(Board board)
     {
 
-        LinkedList<ConnectableDot> connectedDots = new(ConnectionManager.ConnectedDots);
         LinkedListNode<ConnectableDot> currentNode = connectedDots.Last;
 
         Dictionary<ConnectableDot, Vector2Int> originalPositions = new();
 
-        if (!connectedDots.Any((dot) => dot is ClockDot))
-        {
-            yield break;
-        }
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveClockDotsCommand));
 
 
-            foreach (ConnectableDot dot in connectedDots)
+        foreach (ConnectableDot dot in connectedDots)
         {
             originalPositions.Add(dot, new Vector2Int(dot.Column, dot.Row));
         }
@@ -32,7 +35,7 @@ public class MoveClockDotsCommand : Command
 
         while (currentNode != null)
         {
-            if (currentNode.Value is ClockDot)
+            if (currentNode.Value is ClockDot clockDot)
             {
                 count++;
                 for (int i = 0; i < count - 1; i++)
@@ -51,8 +54,11 @@ public class MoveClockDotsCommand : Command
                     }
                     pathNode = pathNode.Next;
                 }
+                int col = clockDot.Column;
+                int row = clockDot.Row;
+                yield return CoroutineHandler.StartStaticCoroutine(DotsGameObjectController.MoveDotThroughConnection(clockDot, path, 0.2f));
+                board.Remove(clockDot, col, row);
 
-                CoroutineHandler.StartStaticCoroutine(DotController.MoveDotThroughConnection(currentNode.Value, path, 0.2f));
             }
 
             currentNode = currentNode.Previous;

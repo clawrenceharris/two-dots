@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EmptyTileVisualController : TileVisualController
+public class EmptyTileVisualController : VisualController, ITileVisualController
 {
     private bool hasLeft;
     private bool hasRight;
@@ -12,29 +12,16 @@ public class EmptyTileVisualController : TileVisualController
     private bool isRight;
     private bool flipY;
     private bool flipX;
-<<<<<<< Updated upstream
-    
-    private new EmptyTileVisuals Visuals;
-=======
 
     private EmptyTile tile;
 
     private EmptyTileVisuals visuals;
->>>>>>> Stashed changes
     private Board board;
     public EmptyTileVisualController()
     {
         Board.onBoardCreated += OnBoardCreated;
     }
 
-    public override void Init(Tile tile)
-    {
-        base.Init(tile);
-        Visuals = tile.GetComponent<EmptyTileVisuals>();
-        
-
-
-    }
     private void OnBoardCreated(Board board)
     {
         this.board = board;
@@ -42,9 +29,6 @@ public class EmptyTileVisualController : TileVisualController
         InitSprite();
 
     }
-<<<<<<< Updated upstream
-    
-=======
 
     public override T GetGameObject<T>()
     {
@@ -69,47 +53,30 @@ public class EmptyTileVisualController : TileVisualController
         Color bgColor = ColorSchemeManager.CurrentColorScheme.backgroundColor;
         spriteRenderer.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.5f);
     }
->>>>>>> Stashed changes
     private void SetUp(Board board)
     {
         
             
-<<<<<<< Updated upstream
-        if (board.GetBoardElementDotAt<Tile>(Tile.Column, Tile.Row + 1))
-=======
         if (board.Get<Tile>(tile.Column, tile.Row + 1))
->>>>>>> Stashed changes
         {
 
             hasTop = true;
         }
 
-<<<<<<< Updated upstream
-        if (board.GetBoardElementDotAt<Tile>(Tile.Column, Tile.Row - 1))
-=======
         if (board.Get<Tile>(tile.Column, tile.Row - 1))
->>>>>>> Stashed changes
         {
 
             hasBottom = true;
         }
 
 
-<<<<<<< Updated upstream
-        if (board.GetBoardElementDotAt<Tile>(Tile.Column + 1, Tile.Row ))
-=======
         if (board.Get<Tile>(tile.Column + 1, tile.Row ))
->>>>>>> Stashed changes
                 
         {
 
             hasRight = true;
         }
-<<<<<<< Updated upstream
-        if (board.GetBoardElementDotAt<Tile>(Tile.Column - 1, Tile.Row))
-=======
         if (board.Get<Tile>(tile.Column - 1, tile.Row))
->>>>>>> Stashed changes
 
         {
             hasLeft = true;
@@ -329,7 +296,7 @@ public class EmptyTileVisualController : TileVisualController
 
         //SpriteRenderer.flipY = ShouldFlipY();
 
-        SpriteRenderer.sprite = GetSprite();
+        spriteRenderer.sprite = GetSprite();
             
 
         
@@ -337,4 +304,5 @@ public class EmptyTileVisualController : TileVisualController
 
 
     }
+
 }

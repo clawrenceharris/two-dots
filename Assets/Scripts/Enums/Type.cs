@@ -105,12 +105,12 @@ public static class Type
     {
 
         Hit,
-        Board,
-
-        Explosion,
-        MoveBeetleDots,
+        Clear,
         MoveClockDots,
 
+        Board,
+        Explosion,
+        MoveBeetleDots,
     }
     public enum ExplosionType
     {

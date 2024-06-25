@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 
-public class ConnectionRule : MonoBehaviour
+public class ConnectionRule : IComparisonRule<ConnectableDot>
 {
-    // Start is called before the first frame update
-    void Start()
+
+    /// <summary>
+    /// Checks whether the connection of two dots is valid
+    /// </summary>
+    /// <param name="a">The dot in the connection</param>
+    /// <param name="b">The dot that is not in the connection yet</param>
+    /// <returns></returns>
+    public bool Validate(ConnectableDot a, ConnectableDot b, Board board = null)
     {
-<<<<<<< Updated upstream
-        
-    }
-=======
         Connection connection = ConnectionManager.Connection;
         MatchingColorRule colorRule = new();
         AdjacentPositionRule adjacentRule = new();
@@ -24,11 +27,12 @@ public class ConnectionRule : MonoBehaviour
         }
         
         
->>>>>>> Stashed changes
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if(!adjacentRule.Validate(a, b))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

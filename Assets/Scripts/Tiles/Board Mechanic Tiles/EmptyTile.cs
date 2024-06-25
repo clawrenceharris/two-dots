@@ -13,11 +13,5 @@ public class EmptyTile : Tile
         visualController.Init(this);
     }
 
-    public override void Debug(Color color)
-    {
-
-        visualController.SpriteRenderer.color = color;
-
-    }
 
 }

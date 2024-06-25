@@ -4,16 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-<<<<<<< Updated upstream:Assets/Scripts/Dots/Connectable Dots/Blank Dots/BlankDotBase.cs
-public abstract class BlankDotBase : ConnectableDot, IBlankDot
-=======
 public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IColorable
->>>>>>> Stashed changes:Assets/Scripts/Dots/Blank Dot/BlankDotBase.cs
 {
 
 
     public override DotType DotType { get; }
-    private new BlankDotVisualController VisualController => GetVisualController<BlankDotVisualController>();
+    private new BlankDotBaseVisualController VisualController => GetVisualController<BlankDotBaseVisualController>();
 
     public DotColor Color { get; set; }
 

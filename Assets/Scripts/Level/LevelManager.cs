@@ -68,7 +68,6 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
         ConnectionManager.onDotConnected -= OnDotConnected;
         ConnectionManager.onDotDisconnected -= OnDotDisconnected;
-        ConnectionManager.onDotSelected -= OnDotSelected;
 
         Command.onCommandExecuted -= OnCommandExecuted;
         CommandInvoker.onCommandsEnded -= OnCommnadsEnded;
@@ -79,20 +78,13 @@ public class LevelManager : MonoBehaviour
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
         ConnectionManager.onDotConnected += OnDotConnected;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
-        ConnectionManager.onDotSelected += OnDotSelected;
 
         Command.onCommandExecuted += OnCommandExecuted;
         CommandInvoker.onCommandsEnded += OnCommnadsEnded;
     }
 
 
-    private void OnDotSelected(Dot dot)
-    {
-        if (dot is IPreviewable previewable)
-        {
-            StartCoroutine(previewable.PreviewHit(HitType.Connection));
-        }
-    }
+   
 
     private void OnDotDisconnected(ConnectableDot dot)
     {
@@ -127,35 +119,34 @@ public class LevelManager : MonoBehaviour
 
             case CommandType.Board:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
+                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
                 break;
            
             case CommandType.Hit:
-                CommandInvoker.Instance.Enqueue(new BoardCommand());
+                CommandInvoker.Instance.Enqueue(new ClearCommand());
                 CommandInvoker.Instance.Enqueue(new ExplosionCommand());
 
                 break;
             case CommandType.Explosion:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new BoardCommand());
+                CommandInvoker.Instance.Enqueue(new ClearCommand());
+
 
                 break;
-
+            case CommandType.Clear:
+                CommandInvoker.Instance.Enqueue(new BoardCommand());
+                break;
         }
     }
    
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
         didMove = true;
-        DoCommand(new HitCommand());
-        List<IHittable> toHit = ConnectionManager.ToHit;
+        DoCommand(new MoveClockDotsCommand(dots));
 
-        foreach (IHittable hittable in toHit)
-        {
-            if (hittable is IPreviewable previewable)
-            {
-                StartCoroutine(previewable.PreviewHit(HitType.None));
-            }
-        }
+        DoCommand(new HitCommand());
+        Debug.Log("COUNT::" + dots.Count);
+
 
     }
 
@@ -164,7 +155,6 @@ public class LevelManager : MonoBehaviour
         if (didMove)
         {
 
-            DoCommand(new MoveClockDotsCommand());
             DoCommand(new MoveBeetleDotsCommand());
             didMove = false;
 
@@ -183,7 +173,7 @@ public class LevelManager : MonoBehaviour
     {
         new CommandInvoker(board);
         new ConnectionManager(board);
-        new DotController(board);
+        new DotsGameObjectController(board);
         Level = JSONLevelLoader.ReadJsonFile(levelNum);
         LinePool.Instance.FillPool(Level.width * Level.height);
 

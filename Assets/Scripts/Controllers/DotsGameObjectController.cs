@@ -8,26 +8,16 @@ using static Type;
 using Object = UnityEngine.Object;
 using Unity.VisualScripting;
 
-public class DotController
+public class DotsGameObjectController
 {
     private static Board board;
 
 
-    public DotController(Board board)
+    public DotsGameObjectController(Board board)
     {
-        DotController.board = board;
+        DotsGameObjectController.board = board;
 
 
-    }
-
-    public static void PutDot(Dot dot)
-    {
-        board.PutDot(dot);
-    }
-
-    public static void RemoveDot(Dot dot)
-    {
-        board.RemoveDot(dot);
     }
 
     public static Tween DropDot(Dot dot, int row, float duration = 0.6f)
@@ -38,15 +28,16 @@ public class DotController
     }
 
 
-    public static Tween MoveDot(Dot dot, int col, int row, float duration = 0.5f)
+    public static Tween Move<T>(T dotsObject, int col, int row, float duration = 0.5f)
+        where T : DotsGameObject
     {
 
-        return dot.transform.DOMove(new Vector2(col, row) * Board.offset, duration).OnComplete(() =>
+        return dotsObject.transform.DOMove(new Vector2(col, row) * Board.offset, duration).OnComplete(() =>
         {
 
-            board.MoveDot(dot, col, row);
-            dot.Column = col;
-            dot.Row = row;
+            board.Put(dotsObject, col, row);
+            dotsObject.Column = col;
+            dotsObject.Row = row;
         });
         
        
@@ -79,7 +70,7 @@ public class DotController
         start.transform.DOMove(new Vector2(end.Column, end.Row) * Board.offset, speed);
 
 
-        board.MoveDot(start, end.Column, end.Row);
+        board.Put(start, end.Column, end.Row);
         start.Column = end.Column;
         start.Row = end.Row;
 
@@ -96,7 +87,7 @@ public class DotController
         int endCol = path[^1].x;
         int endRow = path[^1].y;
 
-        board.MoveDot(start, endCol, endRow);
+        board.Put(start, endCol, endRow);
         start.Column = endCol;
         start.Row = endRow;
     }

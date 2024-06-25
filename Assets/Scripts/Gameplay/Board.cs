@@ -14,15 +14,14 @@ public class Board : MonoBehaviour
     private Dot[,] Dots;
 
     public Tile[,] Tiles { get; private set; }
-    public HashSet<IHittable> Cleared { get; private set; }
-    private DotsObjectData[] tilesOnBoard;
+    private DotsGameObjectData[] tilesOnBoard;
     public static event Action OnWin;
-    private DotsObjectData[] dotsToSpawn;
-    private DotsObjectData[] dotsOnBoard;
+    private DotsGameObjectData[] dotsToSpawn;
+    private DotsGameObjectData[] dotsOnBoard;
     private LineManager lineManager;
 
     public static float offset = 2.2f;
-    public static float DotDropSpeed { get; private set; } = 0.5f;
+    public static float DotDropSpeed { get; private set; } = 0.4f;
 
     public static event Action<Board> onBoardCreated;
     public static event Action onDotsDropped;
@@ -39,7 +38,6 @@ public class Board : MonoBehaviour
         Tiles = new Tile[level.width, level.height];
         lineManager = new LineManager(this);
         tilesOnBoard = level.tilesOnBoard;
-        Cleared = new();
         SetUpBoard();
 
 
@@ -68,23 +66,17 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        Dot.onDotCleared += OnDotCleared;
-        Tile.onTileCleared += OnTileCleared;
-    }
+        DotsObjectEvents.onCleared += OnCleared;
+     }
 
     private void Update()
     {
         lineManager.UpdateLines();
     }
 
-    private void OnDotCleared(Dot dot)
+
+    private IEnumerator DestroyDotsObject(DotsGameObject dotsObject)
     {
-<<<<<<< Updated upstream
-        
-        //replace the dot that is being cleared with its replacement dot
-        Dot replacement = InitDotOnBoard(dot.ReplacementDot);
-        Dots[dot.Column, dot.Row] = replacement;
-=======
         if(dotsObject is IHittable)
         {
             if (dotsObject is Dot dot)
@@ -93,30 +85,25 @@ public class Board : MonoBehaviour
                 yield return new WaitForSeconds(tile.VisualController.GetVisuals<HittableVisuals>().clearDuration);
 
         }
->>>>>>> Stashed changes
 
-        StartCoroutine(DestroyDot(dot));
-
-        if (!Cleared.Contains(dot))
-            Cleared.Add(dot);
-
-        
+        Destroy(dotsObject.gameObject);
 
     }
 
-
-    private IEnumerator DestroyDot(Dot dot)
+    private void OnCleared(DotsGameObject dotsObject)
     {
-        yield return new WaitForSeconds(dot.visualController.Visuals.clearDuration);
+        if(dotsObject is Dot dot)
+        {
+            //replace the dot that is being cleared with its replacement dot
+            Dot replacement = InitDotOnBoard(dot.ReplacementDot);
+            Dots[dot.Column, dot.Row] = replacement;
+        }
+        if(dotsObject is Tile tile)
+        {
+            Tiles[tile.Column, tile.Row] = null;
+        }
+        StartCoroutine(DestroyDotsObject(dotsObject));
 
-        Destroy(dot.gameObject);
-
-    }
-
-    private void OnTileCleared(Tile tile)
-    {
-        Tiles[tile.Column, tile.Row] = null;
-        TileController.DestroyTile(tile);
     }
 
     private void InitDots()
@@ -124,7 +111,7 @@ public class Board : MonoBehaviour
         for (int i = 0; i < dotsOnBoard.Length; i++)
         {
             Dot dot = InitDotOnBoard(dotsOnBoard[i]);
-            DotController.DropDot(dot, dot.Row, DotDropSpeed);
+            DotsGameObjectController.DropDot(dot, dot.Row, DotDropSpeed);
 
 
         }
@@ -139,11 +126,7 @@ public class Board : MonoBehaviour
         }
     }
 
-<<<<<<< Updated upstream
-    private void InitTile(DotsObjectData tileData)
-=======
     private void InitTile(DotsGameObjectData data)
->>>>>>> Stashed changes
     {
         Tile tile = DotFactory.CreateDotsGameObject<Tile>(data);
         tile.transform.position = new Vector2(data.col, data.row) * offset;
@@ -192,22 +175,9 @@ public class Board : MonoBehaviour
     }
 
 
-    public List<Dot> GetBombDots()
-    {
-        List<Dot> bombDots = new();
-        foreach (Dot dot in Dots)
-        {
-            if(dot && dot.IsBomb)
-            {
-                bombDots.Add(dot);
-            }
-        }
-
-        return bombDots;
-    }
     public void CreateBomb(int col, int row)
     {
-        Bomb bomb = Instantiate(GameAssets.Instance.Bomb);
+        BombDot bomb = Instantiate(GameAssets.Instance.Bomb);
         bomb.transform.position = new Vector2(col, row) * offset;
         bomb.transform.parent = transform;
         Dots[col, row] = bomb;
@@ -232,25 +202,15 @@ public class Board : MonoBehaviour
         }
         return null;
     }
-<<<<<<< Updated upstream
-    private Dot InitDotOnBoard(DotsObjectData dotData)
-=======
     private Dot InitDotOnBoard(DotsGameObjectData data)
->>>>>>> Stashed changes
     {
 
         Dot dot = null;
 
         if(data != null)
         {
-<<<<<<< Updated upstream
-            dot = DotFactory.CreateDot(dotData);
-            dot.transform.position = new Vector2(dotData.col, dotData.row) * offset;
-
-=======
             dot = DotFactory.CreateDotsGameObject<Dot>(data);
             dot.transform.position = new Vector2(data.col, data.row) * offset;
->>>>>>> Stashed changes
             dot.transform.parent = transform;
             dot.name = dot.DotType.ToString() + " (" + data.col + ", " + data.col + ")";
             dot.Init(data.col, data.row);
@@ -267,15 +227,10 @@ public class Board : MonoBehaviour
 
         int randDot = UnityEngine.Random.Range(0, dotsToSpawn.Length);
 
-        DotsObjectData dotData = dotsToSpawn[randDot];
+        DotsGameObjectData dotData = dotsToSpawn[randDot];
 
-<<<<<<< Updated upstream
-        Dot dot = DotFactory.CreateDot(dotData);
-        dot.Init(col, row);
-=======
         Dot dot = DotFactory.CreateDotsGameObject<Dot>(dotData);
 
->>>>>>> Stashed changes
         dot.transform.parent = transform;
         dot.name = dot.DotType.ToString() + " (" + col + ", " + row + ")";
         dot.transform.position = new Vector2(col, row + 100) * offset;
@@ -285,9 +240,32 @@ public class Board : MonoBehaviour
         return dot;
     }
 
-    public void RemoveDot(Dot dot)
+    public void Remove<T>(T dotsGameObject)
+        where T : DotsGameObject
     {
-        Dots[dot.Column, dot.Row] = null;
+
+        if (dotsGameObject is Dot dot)
+            Dots[dot.Column, dot.Row] = null;
+
+        if (dotsGameObject is Tile tile)
+        {
+            Tiles[tile.Column, tile.Row] = null;
+        }
+
+    }
+
+    public void Remove<T>(T dotsGameObject, int col, int row)
+        where T : DotsGameObject
+    {
+
+        if (dotsGameObject is Dot)
+            Dots[col, row] = null;
+
+        if (dotsGameObject is Tile)
+        {
+            Tiles[col, row] = null;
+        }
+
     }
     public IHittable GetHittableAt(int col, int row)
     {
@@ -313,33 +291,43 @@ public class Board : MonoBehaviour
     /// <param name="row">The row of the board element whose neighbors are being found </param>
     /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
     /// <returns>A list of the neighboring board elements </returns>
-    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals) where T : IBoardElement
+    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals = true) where T : IBoardElement
     {
 
         List<T> neighbors = new()
         {
-            GetBoardElementDotAt<T>(col, row + 1),
-            GetBoardElementDotAt<T>(col, row - 1),
-            GetBoardElementDotAt<T>(col + 1, row),
-            GetBoardElementDotAt<T>(col - 1, row),
+            Get<T>(col, row + 1),
+            Get<T>(col, row - 1),
+            Get<T>(col + 1, row),
+            Get<T>(col - 1, row),
         };
 
         List<T> diagonals = new()
         {
-            GetBoardElementDotAt<T>(col + 1, row + 1),
-            GetBoardElementDotAt<T>(col + 1, row - 1),
-            GetBoardElementDotAt<T>(col - 1, row + 1),
-            GetBoardElementDotAt<T>(col - 1, row -1),
+            Get<T>(col + 1, row + 1),
+            Get<T>(col + 1, row - 1),
+            Get<T>(col - 1, row + 1),
+            Get<T>(col - 1, row -1),
         };
-        
+
+        if (includesDiagonals)
+        {
+            neighbors.AddRange(diagonals);
+        }
         return neighbors;
     }
 
 
 
     
-
-    public T GetBoardElementDotAt<T>(int col, int row) where T : IBoardElement
+    /// <summary>
+    /// Returns a board element at the given column and row
+    /// </summary>
+    /// <typeparam name="T">A Board Element</typeparam>
+    /// <param name="col">The colummn of the board element</param>
+    /// <param name="row">The row of the desired board element</param>
+    /// <returns>The board element at the specified position</returns>
+    public T Get<T>(int col, int row) where T : IBoardElement
     {
         if (col >= 0 && col < Width && row >= 0 && row < Height)
         {
@@ -356,12 +344,16 @@ public class Board : MonoBehaviour
 
 
 
-    public void MoveDot(Dot dotToMove, int desinationCol, int destinationRow)
+    public void Put<T>(T dotsObject, int col, int row)
+        where T : DotsGameObject
     {
-        
-        Dots[desinationCol, destinationRow] = dotToMove;
+        if(dotsObject is Dot dot)
+            Dots[col, row] = dot;
 
-       
+        if(dotsObject is Tile tile)
+        {
+            Tiles[col, row] = tile;
+        }
        
 
     }
@@ -385,7 +377,7 @@ public class Board : MonoBehaviour
                     dotsDropped = true;
 
                     Dot dot = InitRandomDot(col, row);
-                    DotController.DropDot(dot, row, DotDropSpeed);
+                    DotsGameObjectController.DropDot(dot, row, DotDropSpeed);
 
                 }
 
@@ -419,7 +411,7 @@ public class Board : MonoBehaviour
 
                             Dots[col, row] = dot;
                             Dots[col, k] = null;
-                            DotController.DropDot(dot, row, DotDropSpeed);
+                            DotsGameObjectController.DropDot(dot, row, DotDropSpeed);
                             dotsDropped = true;
                             // Update keepGoing based on the result of IsAtBottomOfBoard
                             break;
@@ -452,7 +444,7 @@ public class Board : MonoBehaviour
 
         for (int i = row - 1; i >= 0; i--)
         {
-            Dot dot = GetBoardElementDotAt<Dot>(col, i);
+            Dot dot = Get<Dot>(col, i);
             if (dot != null)
             {
                 return false;
@@ -474,7 +466,7 @@ public class Board : MonoBehaviour
 
         for (int i = col - 1; i >= 0; i--)
         {
-            Dot dot = GetBoardElementDotAt<Dot>(i, row);
+            Dot dot = Get<Dot>(i, row);
 
             if (dot != null)
             {
@@ -496,7 +488,7 @@ public class Board : MonoBehaviour
 
         for (int i = col + 1; i < Width; i++)
         {
-            Dot dot = GetBoardElementDotAt<Dot>(i, row);
+            Dot dot = Get<Dot>(i, row);
 
             if (dot != null)
             {
@@ -519,7 +511,7 @@ public class Board : MonoBehaviour
 
         for (int i = row + 1; i < Height; i++)
         {
-            Dot dot = GetBoardElementDotAt<Dot>(col, i);
+            Dot dot = Get<Dot>(col, i);
 
             if (dot != null)
             {
@@ -534,7 +526,7 @@ public class Board : MonoBehaviour
     {
         for (int row = 0; row < Height; row++)
         {
-            Dot dot = GetBoardElementDotAt<Dot>(col, row);
+            Dot dot = Get<Dot>(col, row);
             if (dot)
             {
                 return dot;

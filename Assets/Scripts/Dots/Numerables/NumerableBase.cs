@@ -6,7 +6,7 @@ public class NumerableBase : INumerable
 {
 
     public int CurrentNumber { get; private set; }
-
+    public int TempNumber { get; set; }
     public int InitialNumber { get; set; }
     private INumerable numerable;
     public DotsGameObject GetGameObject() => (DotsGameObject)numerable;
@@ -35,14 +35,22 @@ public class NumerableBase : INumerable
         VisualController.UpdateNumbers(number);
     }
 
-    public void SetNumber(int amount)
-    {
-        CurrentNumber = amount;
-    }
 
 
-    public void UpdateNumberVisuals(int amount)
+    public void Hit(HitType hitType)
     {
-        VisualController.UpdateNumbers(amount);
+        //this happens when the connection has concluded  
+        if (hitType == HitType.Connection)
+        {
+            UpdateCurrentNumber(TempNumber);
+
+        }
+        else if (hitType == HitType.BombExplosion)
+        {
+            //set current number to be one less than the current number
+            TempNumber = Mathf.Clamp(CurrentNumber - 1, 0, int.MaxValue);
+            UpdateCurrentNumber(TempNumber);
+
+        };
     }
 }

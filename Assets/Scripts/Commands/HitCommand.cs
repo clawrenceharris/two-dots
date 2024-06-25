@@ -14,14 +14,9 @@ public class HitCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
-        Debug.Log(nameof(HitCommand));
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(HitCommand));
 
-<<<<<<< Updated upstream
-        List<IHittable> hittables = board.GetHittables();
-        List<IHittable> toClear = new();
-=======
         List<IHittable> hittables = board.Get<IHittable>();
->>>>>>> Stashed changes
 
         foreach (IHittable hittable in hittables)
         {
@@ -38,13 +33,9 @@ public class HitCommand : Command
                     {
                         
                         DidExecute = true;
-                        yield return hittable.Hit(hitType);
-                        toClear.Add(hittable);
-                        if (hittable is IPreviewable previewable)
-                        {
-                            CoroutineHandler.StartStaticCoroutine(previewable.PreviewHit(hitType));
-                            
-                        }
+                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
+                        
+                       
                     }
                 }
 
@@ -52,21 +43,7 @@ public class HitCommand : Command
             
 
         }
-        foreach(IHittable hittable in toClear) {
-            if (hittable.HitCount >= hittable.HitsToClear)
-            {
-                if(hittable is Dot dot)
-                {
-                    yield return new WaitForSeconds(dot.visualController.Visuals.hitDuration);
-                }
-
-                DidExecute = true;
-
-                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
-            }
-
-        }
-
+       
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
