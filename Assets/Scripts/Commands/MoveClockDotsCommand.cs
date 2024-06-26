@@ -59,9 +59,6 @@ public class MoveClockDotsCommand : Command
                 }
                 int col = clockDot.Column;
                 int row = clockDot.Row;
-<<<<<<< HEAD
-                yield return CoroutineHandler.StartStaticCoroutine(DotsGameObjectController.MoveDotThroughConnection(clockDot, path, 0.2f));
-=======
 
                 yield return CoroutineHandler.StartStaticCoroutine(clockDot.DoMove(path, () =>
                 {
@@ -71,7 +68,6 @@ public class MoveClockDotsCommand : Command
                     clockDot.Column = endCol;
                     clockDot.Row = endRow;
                 }));
->>>>>>> misc/fixes-and-refactoring
                 board.Remove(clockDot, col, row);
 
             }

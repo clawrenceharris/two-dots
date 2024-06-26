@@ -103,18 +103,12 @@ public static class Type
 
     public enum CommandType
     {
-
         Hit,
         Clear,
         MoveClockDots,
-
         Board,
         Explosion,
-<<<<<<< HEAD
-=======
         HitClockDots,
-
->>>>>>> misc/fixes-and-refactoring
         MoveBeetleDots,
     }
     public enum ExplosionType

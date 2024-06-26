@@ -117,28 +117,6 @@ public class LevelManager : MonoBehaviour
         //switch (command.CommandType)
         //{
 
-<<<<<<< HEAD
-            case CommandType.Board:
-                CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
-                break;
-           
-            case CommandType.Hit:
-                CommandInvoker.Instance.Enqueue(new ClearCommand());
-                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
-
-                break;
-            case CommandType.Explosion:
-                CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new ClearCommand());
-
-
-                break;
-            case CommandType.Clear:
-                CommandInvoker.Instance.Enqueue(new BoardCommand());
-                break;
-        }
-=======
         //    case CommandType.Board:
         //        CommandInvoker.Instance.Enqueue(new HitCommand());
         //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
@@ -169,19 +147,12 @@ public class LevelManager : MonoBehaviour
 
         //        break;
         //}
->>>>>>> misc/fixes-and-refactoring
     }
    
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
         didMove = true;
-<<<<<<< HEAD
-        DoCommand(new MoveClockDotsCommand(dots));
 
-        DoCommand(new HitCommand());
-        Debug.Log("COUNT::" + dots.Count);
-=======
->>>>>>> misc/fixes-and-refactoring
 
         CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand(new(dots)));
         CommandInvoker.Instance.Enqueue(new HitClockDotsCommand(new(dots)));

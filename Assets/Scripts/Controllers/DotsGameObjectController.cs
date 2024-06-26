@@ -45,57 +45,5 @@ public class DotsGameObjectController
 
        
     }
-<<<<<<< HEAD
-    public static IEnumerator MoveDotThroughConnection(ConnectableDot start, ConnectableDot end, float speed = 0.5f)
-    {
-
-        LinkedList<ConnectableDot> dots = ConnectionManager.ConnectedDots;
-        
-        if (!dots.Contains(start) || !dots.Contains(end))
-        {
-            throw new ArgumentException("Both dots must be within the connection.");
-        }
-
-        LinkedListNode<ConnectableDot> startNode = dots.Find(start);
-        LinkedListNode<ConnectableDot> endNode = dots.Find(end);
-
-        while (startNode != endNode)
-        {
-            startNode = startNode.Next;
-
-            start.transform.DOMove(new Vector2(startNode.Value.Column, startNode.Value.Row) * Board.offset, speed);
-            yield return new WaitForSeconds(speed - speed/2);
-
-        }
-
-        start.transform.DOMove(new Vector2(end.Column, end.Row) * Board.offset, speed);
-
-
-        board.Put(start, end.Column, end.Row);
-        start.Column = end.Column;
-        start.Row = end.Row;
-
-    }
-    public static IEnumerator MoveDotThroughConnection(ConnectableDot start, List<Vector2Int> path, float speed = 0.5f)
-    {
-        foreach (var pos in path)
-        {
-            start.transform.DOMove(new Vector2(pos.x, pos.y) * Board.offset, speed);
-            yield return new WaitForSeconds(speed - speed / 2);
-        }
-
-        // Update the final position
-        int endCol = path[^1].x;
-        int endRow = path[^1].y;
-
-        board.Put(start, endCol, endRow);
-        start.Column = endCol;
-        start.Row = endRow;
-    }
-=======
-    
->>>>>>> misc/fixes-and-refactoring
-
-    
 
 }
