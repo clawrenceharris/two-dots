@@ -17,27 +17,16 @@
 
         },
         {
-            "type": "normal",
-            "color": "blue"
+            "type": "blank"
 
         },
-        {
-            "type": "normal",
-            "color": "yellow"
-
-        },
-        {
-            "type": "normal",
-            "color": "red"
-
-        },
-        {
-            "type": "monster",
-            "color": "red",
-            "number": 6
+        //{
+        //    "type": "monster",
+        //    "color": "red",
+        //    "number": 6
 
 
-        },
+        //},
 
         {
             "type": "clock",

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -37,6 +38,8 @@ public class MoveClockDotsCommand : Command
         {
             if (currentNode.Value is ClockDot clockDot)
             {
+                DidExecute = true;
+
                 count++;
                 for (int i = 0; i < count - 1; i++)
                 {
@@ -56,7 +59,15 @@ public class MoveClockDotsCommand : Command
                 }
                 int col = clockDot.Column;
                 int row = clockDot.Row;
-                yield return CoroutineHandler.StartStaticCoroutine(DotsGameObjectController.MoveDotThroughConnection(clockDot, path, 0.2f));
+
+                yield return CoroutineHandler.StartStaticCoroutine(clockDot.DoMove(path, () =>
+                {
+                    int endCol = path[^1].x;
+                    int endRow = path[^1].y;
+                    board.Put(clockDot, endCol, endRow);
+                    clockDot.Column = endCol;
+                    clockDot.Row = endRow;
+                }));
                 board.Remove(clockDot, col, row);
 
             }
@@ -67,7 +78,7 @@ public class MoveClockDotsCommand : Command
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(MoveClockDotsCommand));
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.7f);
 
         }
 

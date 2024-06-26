@@ -8,24 +8,7 @@ public static class CommandComparer
 {
     public static int Compare(Command a, Command b)
     {
-        // Define the specific priority rules
-        if (a.CommandType == CommandType.MoveClockDots && b.CommandType == CommandType.Board)
-        {
-            return -1; // MoveClockDotCommand comes before BoardCommand
-        }
-        if (a.CommandType == CommandType.Board && b.CommandType == CommandType.MoveClockDots)
-        {
-            return 1; // BoardCommand comes after MoveClockDotCommand
-        }
-        if (a.CommandType == CommandType.MoveClockDots && b.CommandType == CommandType.Hit)
-        {
-            return -1; // BoardCommand comes before ClearCommand
-        }
-        if (a.CommandType == CommandType.Hit && b.CommandType == CommandType.Board)
-        {
-            return 1; // ClearCommand comes after BoardCommand
-        }
-
+       
 
         // If none of the specific rules apply, use natural order
         return a.CommandType.CompareTo(b.CommandType);

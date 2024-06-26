@@ -4,7 +4,7 @@ using System;
 using static Type;
 
 
-public abstract class Command : ICommand
+public abstract class Command : MonoBehaviour, ICommand
 {
     public bool DidExecute { get; protected set; }
     public abstract CommandType CommandType { get; }

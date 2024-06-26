@@ -3,6 +3,7 @@ using UnityEngine;
 using static Type;
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class ClockDot : BlankDotBase, INumerable, IPreviewable
 {
@@ -63,12 +64,17 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
         VisualController.Disconnect();
     }
 
+    public IEnumerator DoMove(List<Vector2Int> path, Action onComplete)
+    {
+        yield return VisualController.DoMove(path, onComplete);
+        HitCount = InitialNumber - TempNumber;
+
+    }
 
     public override IEnumerator Hit(HitType hitType)
     {
 
         numerable.Hit(hitType);
-        HitCount = InitialNumber - TempNumber;
 
         yield return VisualController.Hit(hitType);
 
@@ -79,7 +85,10 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
         int connectionCount = ConnectionManager.ToHit.Count;
 
         TempNumber = Mathf.Clamp(CurrentNumber - connectionCount, 0, int.MaxValue);
-
+        if(InitialNumber - TempNumber == HitsToClear)
+        {
+            StartCoroutine(PreviewClear());
+        }
         yield return VisualController.PreviewHit(hitType);
      
     }

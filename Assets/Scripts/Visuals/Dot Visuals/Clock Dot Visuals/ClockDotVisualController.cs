@@ -4,6 +4,8 @@ using DG.Tweening;
 using System.Linq;
 using System.Collections.Generic;
 using static Type;
+using System;
+
 
 public class ClockDotVisualController : BlankDotBaseVisualController, INumerableVisualController, IPreviewable
 {
@@ -186,4 +188,21 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         }
     }
 
+    public IEnumerator DoMove(List<Vector2Int> path, Action onComplete)
+    {
+        float duration = 0.7f;
+        float moveDuration = duration / path.Count;
+
+        foreach (var pos in path)
+        {
+            dot.transform.DOMove(new Vector2(pos.x, pos.y) * Board.offset, moveDuration);
+            yield return new WaitForSeconds(moveDuration - moveDuration / 2);
+        }
+
+        // Update the final position
+        int endCol = path[^1].x;
+        int endRow = path[^1].y;
+        onComplete?.Invoke();
+        
+    }
 }

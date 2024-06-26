@@ -114,39 +114,50 @@ public class LevelManager : MonoBehaviour
 
     private void OnCommandExecuted(Command command)
     {
-        switch (command.CommandType)
-        {
+        //switch (command.CommandType)
+        //{
 
-            case CommandType.Board:
-                CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
-                break;
+        //    case CommandType.Board:
+        //        CommandInvoker.Instance.Enqueue(new HitCommand());
+        //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+        //        break;
            
-            case CommandType.Hit:
-                CommandInvoker.Instance.Enqueue(new ClearCommand());
-                CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+        //    case CommandType.Hit:
+        //        CommandInvoker.Instance.Enqueue(new ClearCommand());
+        //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+        //        break;
 
-                break;
-            case CommandType.Explosion:
-                CommandInvoker.Instance.Enqueue(new HitCommand());
-                CommandInvoker.Instance.Enqueue(new ClearCommand());
+        //    case CommandType.Explosion:
+        //        CommandInvoker.Instance.Enqueue(new HitCommand());
+        //        CommandInvoker.Instance.Enqueue(new ClearCommand());
+        //        break;
 
+        //    case CommandType.Clear:
+        //        CommandInvoker.Instance.Enqueue(new BoardCommand());
+        //        break;
 
-                break;
-            case CommandType.Clear:
-                CommandInvoker.Instance.Enqueue(new BoardCommand());
-                break;
-        }
+        //    case CommandType.MoveClockDots:
+        //        CommandInvoker.Instance.Enqueue(new BoardCommand());
+ 
+        //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+        //        break;
+
+        //    case CommandType.HitClockDots:
+        //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+
+        //        break;
+        //}
     }
    
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
         didMove = true;
-        DoCommand(new MoveClockDotsCommand(dots));
 
-        DoCommand(new HitCommand());
-        Debug.Log("COUNT::" + dots.Count);
+        CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand(new(dots)));
+        CommandInvoker.Instance.Enqueue(new HitClockDotsCommand(new(dots)));
+        CommandInvoker.Instance.Enqueue(new HitCommand());
 
+        CommandInvoker.Instance.ExecuteNextCommand();
 
     }
 
