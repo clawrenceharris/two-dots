@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Gameplay/DotsObjectEvents.cs.meta
 guid: 2d8a7d335aab4494a96378f17b8275a5
+========
+guid: 888c00815a9d8479ebd38d0ff9e16f41
+>>>>>>>> misc/fixes-and-refactoring:Assets/Scripts/Dots/Numerables/NumerableBase.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

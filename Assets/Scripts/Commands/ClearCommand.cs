@@ -18,8 +18,13 @@ public class ClearCommand : Command
             for(int row = 0; row < board.Height; row++)
             {
                 IHittable hittable = board.Get<IHittable>(col, row);
+<<<<<<< HEAD
                 
                 if(hittable.HitCount >= hittable.HitsToClear)
+=======
+
+                if (hittable != null &&  hittable.HitCount >= hittable.HitsToClear)
+>>>>>>> misc/fixes-and-refactoring
                 {
                     DidExecute = true;
                     CoroutineHandler.StartStaticCoroutine(hittable.Clear());

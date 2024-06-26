@@ -110,6 +110,11 @@ public static class Type
 
         Board,
         Explosion,
+<<<<<<< HEAD
+=======
+        HitClockDots,
+
+>>>>>>> misc/fixes-and-refactoring
         MoveBeetleDots,
     }
     public enum ExplosionType

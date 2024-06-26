@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Rules/BombExplosionHitRule.cs.meta
 guid: 726b2443cb2d043bfaf9b00550451233
+========
+guid: 2d8a7d335aab4494a96378f17b8275a5
+>>>>>>>> misc/fixes-and-refactoring:Assets/Scripts/Gameplay/DotsObjectEvents.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

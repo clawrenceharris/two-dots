@@ -45,6 +45,7 @@ public class DotsGameObjectController
 
        
     }
+<<<<<<< HEAD
     public static IEnumerator MoveDotThroughConnection(ConnectableDot start, ConnectableDot end, float speed = 0.5f)
     {
 
@@ -91,6 +92,9 @@ public class DotsGameObjectController
         start.Column = endCol;
         start.Row = endRow;
     }
+=======
+    
+>>>>>>> misc/fixes-and-refactoring
 
     
 

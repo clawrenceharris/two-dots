@@ -21,6 +21,7 @@
             "color": "blue"
 
         },
+<<<<<<< HEAD
         {
             "type": "normal",
             "color": "yellow"
@@ -40,6 +41,17 @@
         },
 
         {
+=======
+        //{
+        //    "type": "monster",
+        //    "color": "red",
+        //    "number": 6
+
+
+        //},
+
+        {
+>>>>>>> misc/fixes-and-refactoring
             "type": "clock",
             "number": 7
         }

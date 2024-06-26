@@ -33,7 +33,12 @@ public class HitCommand : Command
                     {
                         
                         DidExecute = true;
+<<<<<<< HEAD
                         CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
+=======
+                        if(hittable is Command command)
+                            CommandInvoker.Instance.Enqueue(command);
+>>>>>>> misc/fixes-and-refactoring
                         
                        
                     }

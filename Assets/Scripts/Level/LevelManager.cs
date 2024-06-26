@@ -114,9 +114,10 @@ public class LevelManager : MonoBehaviour
 
     private void OnCommandExecuted(Command command)
     {
-        switch (command.CommandType)
-        {
+        //switch (command.CommandType)
+        //{
 
+<<<<<<< HEAD
             case CommandType.Board:
                 CommandInvoker.Instance.Enqueue(new HitCommand());
                 CommandInvoker.Instance.Enqueue(new ExplosionCommand());
@@ -137,16 +138,56 @@ public class LevelManager : MonoBehaviour
                 CommandInvoker.Instance.Enqueue(new BoardCommand());
                 break;
         }
+=======
+        //    case CommandType.Board:
+        //        CommandInvoker.Instance.Enqueue(new HitCommand());
+        //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+        //        break;
+           
+        //    case CommandType.Hit:
+        //        CommandInvoker.Instance.Enqueue(new ClearCommand());
+        //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+        //        break;
+
+        //    case CommandType.Explosion:
+        //        CommandInvoker.Instance.Enqueue(new HitCommand());
+        //        CommandInvoker.Instance.Enqueue(new ClearCommand());
+        //        break;
+
+        //    case CommandType.Clear:
+        //        CommandInvoker.Instance.Enqueue(new BoardCommand());
+        //        break;
+
+        //    case CommandType.MoveClockDots:
+        //        CommandInvoker.Instance.Enqueue(new BoardCommand());
+ 
+        //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+        //        break;
+
+        //    case CommandType.HitClockDots:
+        //        CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+
+        //        break;
+        //}
+>>>>>>> misc/fixes-and-refactoring
     }
    
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
         didMove = true;
+<<<<<<< HEAD
         DoCommand(new MoveClockDotsCommand(dots));
 
         DoCommand(new HitCommand());
         Debug.Log("COUNT::" + dots.Count);
+=======
+>>>>>>> misc/fixes-and-refactoring
 
+        CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand(new(dots)));
+        CommandInvoker.Instance.Enqueue(new HitClockDotsCommand(new(dots)));
+        CommandInvoker.Instance.Enqueue(new HitCommand());
+
+        CommandInvoker.Instance.ExecuteNextCommand();
 
     }
 
