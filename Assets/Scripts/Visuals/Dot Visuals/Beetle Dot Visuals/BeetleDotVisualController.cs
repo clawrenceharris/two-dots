@@ -341,19 +341,19 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
     public IEnumerator DoSwap(Dot dotToSwap)
     {
-        float moveSpeed = 0.4f;
+        float moveDuration = BeetleDotVisuals.moveDuration;
         int dotToSwapCol = dotToSwap.Column;
         int dotToSwapRow = dotToSwap.Row;
         int beetleDotCol = dot.Column;
         int beetleDotRow = dot.Row;
-        dotToSwap.transform.DOLocalMove(new Vector2(beetleDotCol, beetleDotRow) * Board.offset, moveSpeed);
+        dotToSwap.transform.DOLocalMove(new Vector2(beetleDotCol, beetleDotRow) * Board.offset, moveDuration);
 
 
 
-         dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveSpeed);
+         dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveDuration);
         
 
-        yield return new WaitForSeconds(moveSpeed);
+        yield return new WaitForSeconds(moveDuration);
 
     }
 

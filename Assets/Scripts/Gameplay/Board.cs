@@ -138,7 +138,7 @@ public class Board : MonoBehaviour
         tile.Init(data.col, data.row);
     }
 
-    public List<T> Get<T>()
+    public List<T> GetElements<T>()
         where T: IBoardElement
     {
         List<T> boardElements = new();
