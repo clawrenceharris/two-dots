@@ -34,7 +34,7 @@ public class HitCommand : Command
                         
                         DidExecute = true;
 
-                        if(hittable is Command command)
+                        if(hittable is ICommand command)
                             CommandInvoker.Instance.Enqueue(command);
                         
                        

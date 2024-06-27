@@ -7,6 +7,7 @@ using static Type;
 public class NestingDot : Dot, IPreviewable
 {
     public override DotType DotType => DotType.NestingDot;
+    public override CommandType CommandType => CommandType.NestingDot;
 
     public override DotsGameObjectData ReplacementDot
     {
@@ -27,7 +28,10 @@ public class NestingDot : Dot, IPreviewable
     public override Dictionary<HitType, IHitRule> HitRules =>
         new(){{HitType.NestingDot, new HitByNeighborsRule()}};
 
-
+    public override IEnumerator Execute(Board board)
+    {
+        throw new NotImplementedException();
+    }
 
     public override IEnumerator Hit(HitType hitType)
     {

@@ -22,6 +22,8 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
 
     public DotColor Color { get; set; }
 
+    public override CommandType CommandType => CommandType.NormalDot;
+
     public override void InitDisplayController()
     {
         visualController = new NormalDotVisualController();
@@ -40,4 +42,8 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
         yield return base.Hit(hitType);
     }
 
+    public override IEnumerator Execute(Board board)
+    {
+        yield return Clear();
+    }
 }

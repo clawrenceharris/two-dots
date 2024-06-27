@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using static Type;
-using System.Data;
 
 
 public class Board : MonoBehaviour
@@ -12,7 +11,9 @@ public class Board : MonoBehaviour
     public int Height;
 
     private Dot[,] Dots;
+    public CommandType CommandType => CommandType.Board;
 
+    public bool DidExecute { get; private set; }
     public Tile[,] Tiles { get; private set; }
     private DotsGameObjectData[] tilesOnBoard;
     public static event Action OnWin;

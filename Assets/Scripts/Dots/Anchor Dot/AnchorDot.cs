@@ -18,8 +18,7 @@ public class AnchorDot : Dot
     }
     public override int HitsToClear => 1;
 
-
-
+    public override CommandType CommandType => CommandType.AnchorDot;
 
     public override void InitDisplayController()
     {
@@ -34,11 +33,9 @@ public class AnchorDot : Dot
         HitCount++;
         yield return base.Hit(hitType);
     }
-    
-    
 
-    
-    
-
-    
+    public override IEnumerator Execute(Board board)
+    {
+        throw new System.NotImplementedException();
+    }
 }

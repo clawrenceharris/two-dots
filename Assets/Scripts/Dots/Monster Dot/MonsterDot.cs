@@ -22,6 +22,8 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     public override int HitsToClear => numerable.InitialNumber;
 
+    public override CommandType CommandType => CommandType.MonsterDot;
+
     public override void Init(int column, int row)
     {
         base.Init(column, row);
@@ -63,5 +65,10 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     public IEnumerator PreviewClear()
     {
         yield break ;
+    }
+
+    public override IEnumerator Execute(Board board)
+    {
+        throw new System.NotImplementedException();
     }
 }

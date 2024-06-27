@@ -6,7 +6,7 @@ using System.Linq;
 using static Type;
 public static class CommandComparer
 {
-    public static int Compare(Command a, Command b)
+    public static int Compare(ICommand a, ICommand b)
     {
        
 
@@ -89,7 +89,7 @@ public class CommandInvoker
         }
     }
     
-    private readonly PriorityQueue<Command> commands = new(CommandComparer.Compare);
+    private readonly PriorityQueue<ICommand> commands = new(CommandComparer.Compare);
     private readonly Board board;
     public static CommandInvoker Instance;
     public static int commandCount;
@@ -104,7 +104,7 @@ public class CommandInvoker
         this.board = board;
     }
 
-    public void Enqueue(Command command)
+    public void Enqueue(ICommand command)
     {
         CommandsEnded = false;
         commands.Enqueue(command);
@@ -118,7 +118,7 @@ public class CommandInvoker
     {
         if (!commands.IsEmpty)
         {
-            Command command = commands.Dequeue();
+            ICommand command = commands.Dequeue();
             CoroutineHandler.StartStaticCoroutine(ExecuteCommandCo(command));
         }
         else
@@ -128,7 +128,7 @@ public class CommandInvoker
         }
     }
 
-    private IEnumerator ExecuteCommandCo(Command command)
+    private IEnumerator ExecuteCommandCo(ICommand command)
     {
         isExecuting = true;
         yield return command.Execute(board); 

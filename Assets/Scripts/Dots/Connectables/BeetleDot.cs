@@ -47,7 +47,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
 
     public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
 
-
+    public override CommandType CommandType => CommandType.BeetleDot;
 
     public IEnumerator DoSwap(Dot dotToSwap, Action callback)
     {
@@ -115,5 +115,10 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
     {
         base.Select();
         StartCoroutine(VisualController.PreviewHit(HitType.Connection));
+    }
+
+    public override IEnumerator Execute(Board board)
+    {
+        throw new NotImplementedException();
     }
 }

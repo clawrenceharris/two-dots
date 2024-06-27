@@ -22,6 +22,9 @@ public class BombDot : Dot, IExplodable
 
     public static event Action<IHittable> onBombExploded;
     public new BombDotVisualController VisualController => GetVisualController<BombDotVisualController>();
+
+    public override CommandType CommandType => CommandType.Bomb;
+
     public override void InitDisplayController()
     {
         visualController = new BombDotVisualController();
@@ -71,7 +74,10 @@ public class BombDot : Dot, IExplodable
         return base.Hit(hitType);
     }
 
-
+    public override IEnumerator Execute(Board board)
+    {
+        throw new NotImplementedException();
+    }
 }
    
 

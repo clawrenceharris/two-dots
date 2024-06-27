@@ -6,22 +6,21 @@
     "dotsToSpawn": [
 
 
-        {
-            "type": "blank"
+        //{
+        //    "type": "blank"
 
-        },
+        //},
 
 
-        {
-            "type": "blank"
+        //{
+        //    "type": "blank"
 
-        },
+        //},
         {
             "type": "normal",
             "color": "blue"
 
         },
-<<<<<<< HEAD
         {
             "type": "normal",
             "color": "yellow"
@@ -31,17 +30,15 @@
             "type": "normal",
             "color": "red"
 
-        },
-        {
-            "type": "monster",
-            "color": "red",
-            "number": 6
+        }
+        //{
+        //    "type": "monster",
+        //    "color": "red",
+        //    "number": 6
 
 
-        },
-
-        {
-=======
+        //}
+        
         //{
         //    "type": "monster",
         //    "color": "red",
@@ -50,11 +47,7 @@
 
         //},
 
-        {
->>>>>>> misc/fixes-and-refactoring
-            "type": "clock",
-            "number": 7
-        }
+       
 
         //{
         //    "type": "anchor"
@@ -90,25 +83,25 @@
     "dotsOnBoard": [
 
 
-        {
-            "type": "beetle",
-            "colors": [ "blue", "purple", "blue" ],
-            "row": 3,
-            "col": 3,
-            "hitCount": 2,
-            "directionX": -1,
-            "directionY": 0
-        },
+        //{
+        //    "type": "beetle",
+        //    "colors": [ "blue", "purple", "blue" ],
+        //    "row": 3,
+        //    "col": 3,
+        //    "hitCount": 2,
+        //    "directionX": -1,
+        //    "directionY": 0
+        //},
 
-        {
-            "type": "beetle",
-            "colors": [ "blue", "purple", "blue" ],
-            "row": 3,
-            "col": 2,
-            "hitCount": 2,
-            "directionX": -1,
-            "directionY": 0
-        }
+        //{
+        //    "type": "beetle",
+        //    "colors": [ "blue", "purple", "blue" ],
+        //    "row": 3,
+        //    "col": 2,
+        //    "hitCount": 2,
+        //    "directionX": -1,
+        //    "directionY": 0
+        //}
 
        
 

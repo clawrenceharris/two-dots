@@ -28,6 +28,8 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
 
     public override int HitsToClear => numerable.InitialNumber;
 
+    public override CommandType CommandType => CommandType.ClockDot;
+
     public override void Init(int column, int row)
     { 
         base.Init(column, row);
@@ -96,5 +98,10 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     public IEnumerator PreviewClear()
     {
         yield return VisualController.PreviewClear();
+    }
+
+    public override IEnumerator Execute(Board board)
+    {
+        throw new NotImplementedException();
     }
 }

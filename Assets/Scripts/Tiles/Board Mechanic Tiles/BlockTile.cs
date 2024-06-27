@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-public class BlockTile : Tile, IHittable
+public class BlockTile : Tile, IHittable, ICommand
 {
 
     public override TileType TileType => TileType.BlockTile;
@@ -21,6 +21,10 @@ public class BlockTile : Tile, IHittable
     } 
 
     public new BlockTileVisualController VisualController => GetVisualController<BlockTileVisualController>();
+
+    public CommandType CommandType => CommandType.BlockTile;
+
+    public bool DidExecute { get; private set; }
 
     public override void InitDisplayController()
     {
@@ -48,5 +52,10 @@ public class BlockTile : Tile, IHittable
     public void UndoHit()
     {
         HitType = HitType.None;
+    }
+
+    public IEnumerator Execute(Board board)
+    {
+        throw new NotImplementedException();
     }
 }

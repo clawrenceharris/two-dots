@@ -110,6 +110,15 @@ public static class Type
         Explosion,
         HitClockDots,
         MoveBeetleDots,
+        BlockTile,
+        NestingDot,
+        MonsterDot,
+        BeetleDot,
+        Bomb,
+        ClockDot,
+        BlankDot,
+        NormalDot,
+        AnchorDot,
     }
     public enum ExplosionType
     {
