@@ -165,19 +165,17 @@ public class LevelManager : MonoBehaviour
     {
         if (didMove)
         {
+            CommandInvoker.Instance.Enqueue(new MoveBeetleDotsCommand());
 
-            DoCommand(new MoveBeetleDotsCommand());
+            CommandInvoker.Instance.Enqueue(new HitCommand());
+            CommandInvoker.Instance.ExecuteNextCommand();
+
             didMove = false;
 
         }
     }
 
-    private void DoCommand(Command command)
-    {
-        CommandInvoker.Instance.Enqueue(command);
-        CommandInvoker.Instance.ExecuteNextCommand();
-
-    }
+ 
 
    
     public void StartLevel(int levelNum)

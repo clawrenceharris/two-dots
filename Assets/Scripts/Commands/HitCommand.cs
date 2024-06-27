@@ -6,17 +6,18 @@ using static Type;
 
 
 
-   
+
 
 public class HitCommand : Command
 {
     public override CommandType CommandType => CommandType.Hit;
 
+
     public override IEnumerator Execute(Board board)
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(HitCommand));
 
-        List<IHittable> hittables = board.Get<IHittable>();
+        List<IHittable> hittables = board.GetElements<IHittable>();
 
         foreach (IHittable hittable in hittables)
         {
@@ -34,9 +35,7 @@ public class HitCommand : Command
                         
                         DidExecute = true;
 
-                        if(hittable is ICommand command)
-                            CommandInvoker.Instance.Enqueue(command);
-                        
+                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));                        
                        
                     }
                 }
@@ -49,8 +48,15 @@ public class HitCommand : Command
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
+            CommandInvoker.Instance.Enqueue(new ClearCommand());
 
         }
+        else
+        {
+            CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+
+        }
+
 
         yield return base.Execute(board);
 

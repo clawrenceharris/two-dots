@@ -30,11 +30,15 @@ public class ClearCommand : Command
         }
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
+       
+
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ClearCommand));
+            CommandInvoker.Instance.Enqueue(new BoardCommand());
 
         }
+       
         yield return base.Execute(board);
 
     }

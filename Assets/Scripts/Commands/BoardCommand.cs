@@ -28,8 +28,10 @@ public class BoardCommand : Command
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(BoardCommand));
+            CommandInvoker.Instance.Enqueue(new HitCommand());
 
         }
+        
         yield return base.Execute(board);
 
 

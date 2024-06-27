@@ -84,13 +84,14 @@ public class ExplosionCommand : Command
         }
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
+        
         if (DidExecute)
         {
-
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ExplosionCommand));
+            CommandInvoker.Instance.Enqueue(new ClearCommand());
 
         }
-
+       
         yield return base.Execute(board);
 
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using static Type;
+
 public static class CommandComparer
 {
     public static int Compare(ICommand a, ICommand b)
@@ -89,8 +90,10 @@ public class CommandInvoker
         }
     }
     
-    private readonly PriorityQueue<ICommand> commands = new(CommandComparer.Compare);
+    //private readonly PriorityQueue<ICommand> commands = new(CommandComparer.Compare);
     private readonly Board board;
+    private readonly Queue<ICommand> commands = new();
+
     public static CommandInvoker Instance;
     public static int commandCount;
     public static bool CommandsEnded { get; private set; } = true;
@@ -116,7 +119,7 @@ public class CommandInvoker
 
     public void ExecuteNextCommand()
     {
-        if (!commands.IsEmpty)
+        if (commands.Count != 0)
         {
             ICommand command = commands.Dequeue();
             CoroutineHandler.StartStaticCoroutine(ExecuteCommandCo(command));
@@ -151,11 +154,10 @@ public class CommandInvoker
     }
 
     private IEnumerator CheckCommandsEnded()
-    {
-       
+    { 
         yield return new WaitForSeconds(1f); 
 
-        if (commands.IsEmpty  && !CommandsEnded && !isExecuting)
+        if (commands.Count == 0  && !CommandsEnded && !isExecuting)
         {
             
                 CommandsEnded = true;

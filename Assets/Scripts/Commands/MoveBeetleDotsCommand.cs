@@ -89,6 +89,7 @@ public class MoveBeetleDotsCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
 
         for (int i = 0; i < board.Width; i++)
 
@@ -164,14 +165,10 @@ public class MoveBeetleDotsCommand : Command
             }
             
         }
-
-
-        if (DidExecute)
-        {
-            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(MoveBeetleDotsCommand));
-
-        }
+        yield return new WaitForSeconds(BeetleDotVisuals.moveDuration);
+        Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(MoveBeetleDotsCommand));
 
         yield return base.Execute(board);
+
     }
 }

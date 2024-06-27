@@ -7,7 +7,7 @@ public interface ICommand
 {
 
     bool DidExecute { get; }
-    public CommandType CommandType { get; }
+    CommandType CommandType { get; }
     IEnumerator Execute(Board board);
 
 

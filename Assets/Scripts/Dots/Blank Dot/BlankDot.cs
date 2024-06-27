@@ -10,7 +10,6 @@ public class BlankDot : BlankDotBase
 
     public override int HitsToClear => 1;
 
-    public override CommandType CommandType => CommandType.BlankDot;
 
     public override void Disconnect()
     {
@@ -30,8 +29,4 @@ public class BlankDot : BlankDotBase
         yield return base.Hit(hitType);
     }
 
-    public override IEnumerator Execute(Board board)
-    {
-        throw new System.NotImplementedException();
-    }
 }

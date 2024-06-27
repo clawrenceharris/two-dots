@@ -6,11 +6,10 @@ using DG.Tweening;
 using Color = UnityEngine.Color;
 using System.Collections.Generic;
 
-public abstract class Dot : DotsGameObject, IHittable, ICommand
+public abstract class Dot : DotsGameObject, IHittable
 {
 
     public abstract Dictionary<HitType, IHitRule> HitRules { get; }
-    public abstract CommandType CommandType { get; }
 
     public bool DidExecute { get; protected set; }
     public static event Action<Dot> onDotCleared;
@@ -54,6 +53,5 @@ public abstract class Dot : DotsGameObject, IHittable, ICommand
         yield return VisualController.Clear();
     }
 
-    public abstract IEnumerator Execute(Board board);
    
 }

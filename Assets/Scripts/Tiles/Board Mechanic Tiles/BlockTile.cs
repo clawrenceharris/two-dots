@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-public class BlockTile : Tile, IHittable, ICommand
+public class BlockTile : Tile, IHittable
 {
 
     public override TileType TileType => TileType.BlockTile;
@@ -22,7 +22,6 @@ public class BlockTile : Tile, IHittable, ICommand
 
     public new BlockTileVisualController VisualController => GetVisualController<BlockTileVisualController>();
 
-    public CommandType CommandType => CommandType.BlockTile;
 
     public bool DidExecute { get; private set; }
 
@@ -54,8 +53,5 @@ public class BlockTile : Tile, IHittable, ICommand
         HitType = HitType.None;
     }
 
-    public IEnumerator Execute(Board board)
-    {
-        throw new NotImplementedException();
-    }
+   
 }
