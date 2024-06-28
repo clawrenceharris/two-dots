@@ -6,31 +6,27 @@
     "dotsToSpawn": [
 
 
-        //{
-        //    "type": "blank"
-
-        //},
-
-
-        //{
-        //    "type": "blank"
-
-        //},
         {
-            "type": "normal",
-            "color": "blue"
+            "type": "blank"
 
         },
+
+
+        {
+            "type": "blank"
+
+        },
+       
         {
             "type": "normal",
             "color": "yellow"
 
         },
-        {
-            "type": "normal",
-            "color": "red"
+        //{
+        //    "type": "normal",
+        //    "color": "red"
 
-        },
+        //},
         //{
         //    "type": "monster",
         //    "color": "red",
@@ -39,20 +35,14 @@
 
         //}
         
-        //{
-        //    "type": "monster",
-        //    "color": "red",
-        //    "number": 6
-
-
-        //},
-
-       
-
         {
-            "type": "anchor"
+            "type": "clock",
+            "number": 10
+
 
         },
+
+       
 
 
         {
@@ -62,16 +52,16 @@
 
             "directionX": -1,
             "directionY": 0
+        },
+
+
+        {
+            "type": "beetle",
+            "colors": [ "blue", "purple", "blue" ],
+            "color": "blue",
+            "directionX": 0,
+            "directionY": 1
         }
-
-
-        //{
-        //    "type": "beetle",
-        //    "colors": [ "blue", "purple", "blue" ],
-        //    "color": "blue",
-        //    "directionX": 0,
-        //    "directionY": 1
-        //}
 
 
 
@@ -93,20 +83,7 @@
         //    "directionY": 0
         //},
 
-        {
-            "type": "beetle",
-            "colors": [ "blue", "purple", "blue" ],
-            "row": 0,
-            "col": 3,
-            "hitCount": 2,
-            "directionX": 0,
-            "directionY": 1
-        },
-        {
-            "type": "anchor",
-            "row": 1,
-            "col": 3
-        }
+       
 
 
     ],

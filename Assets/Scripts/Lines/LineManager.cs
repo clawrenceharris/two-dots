@@ -58,7 +58,6 @@ public class LineManager
         currentLine.endPos = dot.transform.position;
 
         currentLine = DrawLine(dot.transform);
-
         lines.Add(currentLine);
 
     }
@@ -104,6 +103,8 @@ public class LineManager
     /// <param name="dot">The dot that is selected.</param>
     private void OnDotSelected(Dot dot)
     {
+        Debug.Log(dot.Column + ", " + dot.Row);
+        Debug.Log(dot.name);
         //draw line when we select a dot
         currentLine = DrawLine(dot.transform);
         lines.Add(currentLine);

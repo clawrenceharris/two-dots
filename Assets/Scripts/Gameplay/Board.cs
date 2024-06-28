@@ -22,6 +22,8 @@ public class Board : MonoBehaviour
     private LineManager lineManager;
 
     public static float offset = 2.2f;
+    private List<DotsGameObject> cleared;
+
     public static float DotDropSpeed { get; private set; } = 0.4f;
 
     public static event Action<Board> onBoardCreated;
@@ -39,6 +41,7 @@ public class Board : MonoBehaviour
         Tiles = new Tile[level.width, level.height];
         lineManager = new LineManager(this);
         tilesOnBoard = level.tilesOnBoard;
+        cleared = new();
         SetUpBoard();
 
 
@@ -54,9 +57,9 @@ public class Board : MonoBehaviour
 
     public bool HasDot(DotType dotType)
     {
-        foreach(Dot dot in Dots)
+        foreach (Dot dot in Dots)
         {
-            if(dot && dot.DotType == dotType)
+            if (dot && dot.DotType == dotType)
             {
                 return true;
             }
@@ -68,7 +71,9 @@ public class Board : MonoBehaviour
     private void Start()
     {
         DotsObjectEvents.onCleared += OnCleared;
-     }
+        CommandInvoker.onCommandsEnded += OnCommandsEnded;
+
+    }
 
     private void Update()
     {
@@ -76,37 +81,69 @@ public class Board : MonoBehaviour
     }
 
 
-    private IEnumerator DestroyDotsObject(DotsGameObject dotsObject)
+    //private IEnumerator DestroyDotsObject(DotsGameObject dotsObject)
+    //{
+    //    if(dotsObject is IHittable)
+    //    {
+    //        if (dotsObject is Dot dot)
+    //            yield return new WaitForSeconds(dot.VisualController.GetVisuals<HittableVisuals>().clearDuration);
+    //        if (dotsObject is Tile tile)
+    //            yield return new WaitForSeconds(tile.VisualController.GetVisuals<HittableVisuals>().clearDuration);
+
+    //    }
+
+    //    Destroy(dotsObject.gameObject);
+
+    //}
+
+    private void OnCleared(DotsGameObject dotsGameObject)
     {
-        if(dotsObject is IHittable)
-        {
-            if (dotsObject is Dot dot)
-                yield return new WaitForSeconds(dot.VisualController.GetVisuals<HittableVisuals>().clearDuration);
-            if (dotsObject is Tile tile)
-                yield return new WaitForSeconds(tile.VisualController.GetVisuals<HittableVisuals>().clearDuration);
 
-        }
-
-        Destroy(dotsObject.gameObject);
-
-    }
-
-    private void OnCleared(DotsGameObject dotsObject)
-    {
-        if(dotsObject is Dot dot)
+        if (dotsGameObject is Dot dot)
         {
             //replace the dot that is being cleared with its replacement dot
             Dot replacement = InitDotOnBoard(dot.ReplacementDot);
+            
             Dots[dot.Column, dot.Row] = replacement;
+            
         }
-        if(dotsObject is Tile tile)
+        if (dotsGameObject is Tile tile)
         {
             Tiles[tile.Column, tile.Row] = null;
         }
-        StartCoroutine(DestroyDotsObject(dotsObject));
+
+       StartCoroutine(ClearCo(dotsGameObject));
 
     }
 
+    private IEnumerator ClearCo(DotsGameObject dotsGameObject)
+    {
+        
+        yield return new WaitForSeconds(dotsGameObject.VisualController.GetVisuals<HittableVisuals>().clearDuration);
+        
+
+        DestroyDotsGameObject(dotsGameObject);
+
+    }
+
+    public void DestroyDotsGameObject(DotsGameObject dotsGameObject)
+    {
+        Destroy(dotsGameObject.gameObject);
+    }
+
+    private void OnCommandsEnded()
+    {
+        foreach (DotsGameObject dotsGameObject in cleared)
+        {
+            if (dotsGameObject is BlankDot)
+            {
+                Debug.Log("BLANK Dot : " + dotsGameObject);
+            }
+            DestroyDotsGameObject(dotsGameObject);
+        }
+        cleared.Clear();
+
+    }
     private void InitDots()
     {
         for (int i = 0; i < dotsOnBoard.Length; i++)
@@ -132,19 +169,19 @@ public class Board : MonoBehaviour
         Tile tile = DotFactory.CreateDotsGameObject<Tile>(data);
         tile.transform.position = new Vector2(data.col, data.row) * offset;
         tile.transform.parent = transform;
-        tile.name = "(" + tile.Column + ", " + tile.Row + ")";
+        tile.name = "(" + data.col +  ", " + data.row  + ")";
 
         Tiles[data.col, data.row] = tile;
         tile.Init(data.col, data.row);
     }
 
     public List<T> GetElements<T>()
-        where T: IBoardElement
+        where T : IBoardElement
     {
         List<T> boardElements = new();
         for (int i = 0; i < Width; i++)
         {
-            for(int j = 0; j < Height; j++)
+            for (int j = 0; j < Height; j++)
             {
                 T element = Get<T>(i, j);
                 if (element != null)
@@ -183,10 +220,10 @@ public class Board : MonoBehaviour
         bomb.transform.parent = transform;
         Dots[col, row] = bomb;
         bomb.Init(col, row);
-        
+
     }
 
-    
+
     public IExplodable GetExplodableAt(int col, int row)
     {
 
@@ -208,7 +245,7 @@ public class Board : MonoBehaviour
 
         Dot dot = null;
 
-        if(data != null)
+        if (data != null)
         {
             dot = DotFactory.CreateDotsGameObject<Dot>(data);
             dot.transform.position = new Vector2(data.col, data.row) * offset;
@@ -320,7 +357,7 @@ public class Board : MonoBehaviour
 
 
 
-    
+
     /// <summary>
     /// Returns a board element at the given column and row
     /// </summary>
@@ -348,14 +385,14 @@ public class Board : MonoBehaviour
     public void Put<T>(T dotsObject, int col, int row)
         where T : DotsGameObject
     {
-        if(dotsObject is Dot dot)
+        if (dotsObject is Dot dot)
             Dots[col, row] = dot;
 
-        if(dotsObject is Tile tile)
+        if (dotsObject is Tile tile)
         {
             Tiles[col, row] = tile;
         }
-       
+
 
     }
 
@@ -542,7 +579,7 @@ public class Board : MonoBehaviour
 
         string str = "";
 
-        foreach(Dot dot in Dots)
+        foreach (Dot dot in Dots)
         {
             if (dot)
             {
@@ -557,13 +594,39 @@ public class Board : MonoBehaviour
         return str;
     }
 
-    internal void MoveTile(int column, int row1, int col, int row2)
+    public void MoveTile(int column, int row1, int col, int row2)
     {
         throw new NotImplementedException();
     }
 
-    internal void MoveTile(Tile tile, int col, int row)
+    public void MoveTile(Tile tile, int col, int row)
     {
         throw new NotImplementedException();
+    }
+    public bool HasAny<T>() where T : class
+    {
+        if (typeof(T) == typeof(Dot))
+        {
+            foreach (Dot dot in Dots)
+            {
+                if (dot is T)
+                {
+                    return true;
+                }
+            }
+        }
+        else if (typeof(T) == typeof(Tile))
+        {
+            foreach (Tile tile in Tiles)
+            {
+                if (tile is T)
+                {
+                    return true;
+                }
+            }
+        }
+
+
+        return false;
     }
 }
