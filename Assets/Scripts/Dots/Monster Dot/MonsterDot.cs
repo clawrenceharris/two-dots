@@ -42,7 +42,7 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
         numerable.Hit(hitType);
         HitCount = InitialNumber - TempNumber;
 
-        yield return VisualController.Hit(hitType);
+        yield return base.Hit(hitType);
 
     }
     public override void Disconnect()

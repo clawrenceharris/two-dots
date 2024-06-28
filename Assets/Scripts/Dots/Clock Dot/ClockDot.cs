@@ -68,7 +68,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     {
         yield return VisualController.DoMove(path, onComplete);
         HitCount = InitialNumber - TempNumber;
-
+        name = "(" + Column + ", " + Row; 
     }
 
     public override IEnumerator Hit(HitType hitType)
@@ -76,7 +76,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
 
         numerable.Hit(hitType);
 
-        yield return VisualController.Hit(hitType);
+        yield return base.Hit(hitType);
 
     }
 
