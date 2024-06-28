@@ -156,6 +156,7 @@ public class LevelManager : MonoBehaviour
 
        
         CommandInvoker.Instance.Enqueue(new HitCommand());
+        CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
 
         CommandInvoker.Instance.ExecuteNextCommand();
 

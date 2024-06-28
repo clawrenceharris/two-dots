@@ -10,8 +10,10 @@ using static Type;
 
 public class HitCommand : Command
 {
+
     public override CommandType CommandType => CommandType.Hit;
 
+   
 
     public override IEnumerator Execute(Board board)
     {
@@ -44,10 +46,12 @@ public class HitCommand : Command
             
 
         }
-       
+
+
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
+
             CommandInvoker.Instance.Enqueue(new ClearCommand());
 
         }

@@ -55,6 +55,7 @@ public class Connection
 
         }
 
+
     }
 
    
@@ -80,14 +81,21 @@ public class Connection
 
     }
 
-    
-    public void ResetConnection()
+    public bool Any<T>() where T : ConnectableDot
     {
-        ConnectedDots.Clear();
-        IsSquare = false;
-    }
+        
+        foreach (ConnectableDot dot in ConnectedDots)
+        {
+            if (dot is T)
+            {
+                return true;
+            }
+        }
+        
+        
 
-   
+        return false;
+    }
 
 
 

@@ -89,7 +89,14 @@ public class MoveBeetleDotsCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
+
+        if (!board.HasAny<BeetleDot>())
+        {
+            yield break;
+        }
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
+
+
 
         for (int i = 0; i < board.Width; i++)
 

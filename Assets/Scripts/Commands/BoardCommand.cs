@@ -23,15 +23,16 @@ public class BoardCommand : Command
         dotsDropped = board.FillBoard();
         DidExecute = dotsDropped || DidExecute;
 
-        yield return new WaitForSeconds(Board.DotDropSpeed);
-
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(BoardCommand));
+
+            yield return new WaitForSeconds(Board.DotDropSpeed);
+
             CommandInvoker.Instance.Enqueue(new HitCommand());
 
         }
-        
+
         yield return base.Execute(board);
 
 

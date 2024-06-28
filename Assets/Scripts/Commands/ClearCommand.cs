@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using static Type;
+using System.Collections.Generic;
 
 
 public class ClearCommand : Command
@@ -13,32 +14,39 @@ public class ClearCommand : Command
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ClearCommand));
 
 
-        for (int col = 0; col < board.Width; col++)
-        {
-            for(int row = 0; row < board.Height; row++)
+
+        List<IHittable> hittables = board.GetElements<IHittable>();
+
+        foreach (IHittable hittable in hittables) {
+            if (hittable != null && hittable.HitCount >= hittable.HitsToClear)
             {
-                IHittable hittable = board.Get<IHittable>(col, row);
+                DidExecute = true;
+                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
 
-
-                if (hittable != null &&  hittable.HitCount >= hittable.HitsToClear)
-                {
-                    DidExecute = true;
-                    CoroutineHandler.StartStaticCoroutine(hittable.Clear());
-
-                }
             }
         }
-        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
-
-       
 
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ClearCommand));
             CommandInvoker.Instance.Enqueue(new BoardCommand());
 
+            yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+
         }
-       
+
+        else
+        {
+            CommandInvoker.Instance.Enqueue(new ExplosionCommand());
+
+        }
+
+
+
+
+
+
+
         yield return base.Execute(board);
 
     }

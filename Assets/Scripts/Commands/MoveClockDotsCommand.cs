@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -8,77 +9,84 @@ using UnityEngine;
 using static Type;
 public class MoveClockDotsCommand : Command
 {
-    private readonly LinkedList<ConnectableDot> connectedDots;
 
     public override CommandType CommandType => CommandType.MoveClockDots;
-
-    public MoveClockDotsCommand(LinkedList<ConnectableDot> connectedDots)
-    {
-        this.connectedDots = connectedDots;
-    }
     public override IEnumerator Execute(Board board)
     {
+        
 
-        LinkedListNode<ConnectableDot> currentNode = connectedDots.Last;
+        if (!ConnectionManager.Connection.Any<ClockDot>())
+        {
+
+            yield break;
+        }
+        List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
+        //LinkedListNode<ConnectableDot> currentNode = connectedDots.Last;
 
         Dictionary<ConnectableDot, Vector2Int> originalPositions = new();
 
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveClockDotsCommand));
-
-
         foreach (ConnectableDot dot in connectedDots)
         {
-            originalPositions.Add(dot, new Vector2Int(dot.Column, dot.Row));
+           
+            originalPositions.TryAdd(dot, new Vector2Int(dot.Column, dot.Row));
         }
+        DidExecute = true;
 
         int count = 0;
-        LinkedListNode<ConnectableDot> lastAvailableNode = connectedDots.Last;
+        ConnectableDot lastAvailableDot = connectedDots[^1];
 
-        while (currentNode != null)
+        for (int i = connectedDots.Count-1; i >= 0; i--)
         {
-            if (currentNode.Value is ClockDot clockDot)
+            if (connectedDots[i] is ClockDot clockDot)
             {
-                DidExecute = true;
 
                 count++;
-                for (int i = 0; i < count - 1; i++)
-                {
-                    lastAvailableNode = lastAvailableNode.Previous;
-                }
+                
+                lastAvailableDot = connectedDots[^count];
 
-                // Build the path for the current ClockDot to move through
+                
+
+                // Build the path for the current Clock Dot to move through
                 List<Vector2Int> path = new();
-                LinkedListNode<ConnectableDot> pathNode = currentNode;
-                while (pathNode != lastAvailableNode.Next)
+                for(int k = i; k <= connectedDots.IndexOf(lastAvailableDot); k++)
                 {
-                    if (originalPositions.TryGetValue(pathNode.Value, out Vector2Int originalPosition))
+                    if (originalPositions.TryGetValue(connectedDots[k], out Vector2Int originalPosition))
                     {
                         path.Add(originalPosition);
                     }
-                    pathNode = pathNode.Next;
                 }
-                int col = clockDot.Column;
-                int row = clockDot.Row;
+               
+               
 
-                yield return CoroutineHandler.StartStaticCoroutine(clockDot.DoMove(path, () =>
+                CoroutineHandler.StartStaticCoroutine(clockDot.DoMove(path, () =>
                 {
+                    int startCol = path[0].x;
+                    int startRow = path[0].y;
                     int endCol = path[^1].x;
                     int endRow = path[^1].y;
-                    board.Put(clockDot, endCol, endRow);
                     clockDot.Column = endCol;
                     clockDot.Row = endRow;
+                    
+                    Dot dot = board.Get<Dot>(endCol, endRow);
+                    if(dot != null)
+                    board.DestroyDotsGameObject(dot);
+                    board.Put(clockDot, endCol, endRow);
+                    board.Remove(clockDot, startCol, startRow);
+
+
                 }));
-                board.Remove(clockDot, col, row);
 
             }
+            
 
-            currentNode = currentNode.Previous;
         }
+
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(MoveClockDotsCommand));
-
             yield return new WaitForSeconds(0.7f);
+
 
         }
 

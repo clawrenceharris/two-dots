@@ -155,7 +155,7 @@ public class CommandInvoker
 
     private IEnumerator CheckCommandsEnded()
     { 
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(0.5f); 
 
         if (commands.Count == 0  && !CommandsEnded && !isExecuting)
         {
