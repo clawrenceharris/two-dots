@@ -200,7 +200,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2881741ec06684cf08a91e6580c1196d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outerDot: {fileID: 5094386036265484340}
   bombHitSprite: {fileID: 7062059107003244507}
-  clearDuration: 0.4
+  clearDuration: 0.5
+  outerDot: {fileID: 5094386036265484340}
   innerDot: {fileID: 2479920984904146987}
+  innerDotScaleDuration: 0

@@ -208,6 +208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad149a792f33488794d32369eeff68a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outerDot: {fileID: 7796637422996918524}
   bombHitSprite: {fileID: 5224356030327197459}
-  clearDuration: 0.4
+  clearDuration: 0.5
+  outerDot: {fileID: 7796637422996918524}
