@@ -46,7 +46,8 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
-
+/Assets/Scriptable Objects/ColorScheme.asset
+/Assets/Json/World 1/level_1.json
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
