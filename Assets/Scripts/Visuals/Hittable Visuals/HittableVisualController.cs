@@ -21,20 +21,32 @@ public abstract class HittableVisualController : VisualController, IHittableVisu
         spriteRenderer.sprite = sprite;
     }
 
-    public virtual IEnumerator Hit(HitType hitType)
+
+    /// <summary>
+    /// Starts the hit animation for the
+    /// Dots game object associated with this visual controller.
+    /// The default hit animation looks the the default clear animation,
+    /// which scales out the game object
+    /// </summary>
+    /// <returns>IEnumerator</returns>
+    public virtual IEnumerator HitAnimation(HitType hitType)
     {
-        if (hitType == HitType.BombExplosion)
+        if (GetGameObject<IHittable>().HitCount >= GetGameObject<IHittable>().HitsToClear)
         {
-            yield return BombHit();
+            yield return GetGameObject<DotsGameObject>().transform.DOScale(Vector2.zero,
+        GetVisuals<HittableVisuals>().clearDuration);
         }
+        
     }
 
-    public virtual IEnumerator Clear()
+
+    public virtual IEnumerator ClearAnimation()
     {
-       yield return  GetGameObject<DotsGameObject>().transform.DOScale(Vector2.zero,
-            GetVisuals<HittableVisuals>().clearDuration);
+        yield return GetGameObject<DotsGameObject>().transform.DOScale(Vector2.zero,
+             GetVisuals<HittableVisuals>().clearDuration);
        
     }
 
-
+    
+    
 }

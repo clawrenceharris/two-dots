@@ -8,8 +8,8 @@ public interface IHittableVisualController
     public IEnumerator BombHit();
 
 
-    public IEnumerator Hit(HitType hitType);
+    public IEnumerator HitAnimation(HitType hitType);
 
-    public IEnumerator Clear();
+    public IEnumerator ClearAnimation();
    
 }

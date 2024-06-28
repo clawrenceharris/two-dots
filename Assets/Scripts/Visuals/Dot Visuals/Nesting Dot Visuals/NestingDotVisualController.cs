@@ -48,7 +48,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
         yield break;
     }
 
-    public override IEnumerator Hit(HitType hitType)
+    public override IEnumerator HitAnimation(HitType hitType)
     {
         
         if(dot.HitCount < dot.HitsToClear)
@@ -58,7 +58,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
 
         }
 
-        yield return base.Hit(hitType);
+        yield return base.HitAnimation(hitType);
 
         
     }

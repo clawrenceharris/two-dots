@@ -36,6 +36,20 @@ public abstract class VisualController : IVisualController
         return GetGameObject<DotsGameObject>();
     }
 
+    public bool TryGetGameObject<T>(out T dotsGameObject)
+        where T : class
+    {
+        dotsGameObject = GetGameObject<T>();
+        if (dotsGameObject != null)
+        {
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 
     protected Sprite sprite;

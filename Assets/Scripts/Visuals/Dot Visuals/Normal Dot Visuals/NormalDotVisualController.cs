@@ -30,9 +30,9 @@ public class NormalDotVisualController : ColorableDotVisualController
         SetUp();
     }
 
-    public override IEnumerator Hit(Type.HitType hitType)
+    public override IEnumerator HitAnimation(Type.HitType hitType)
     {
-        yield return base.Hit(hitType);
+        yield return base.HitAnimation(hitType);
         dot.transform.DOScale(Vector2.zero, visuals.clearDuration);
 
     }

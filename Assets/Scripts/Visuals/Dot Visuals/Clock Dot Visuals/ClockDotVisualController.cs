@@ -52,13 +52,14 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
     public override IEnumerator BombHit()
     {
-        spriteRenderer.color = Color.white;
+        Color bombColor = ColorSchemeManager.CurrentColorScheme.bombLight;
+        SetColor(bombColor);
 
         foreach (Transform child in dot.transform)
         {
             if (child.TryGetComponent(out SpriteRenderer sr))
             {
-                sr.color = Color.white;
+                sr.color = bombColor;
             }
         }
 
@@ -87,11 +88,9 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     }
 
 
-    public override IEnumerator Hit(HitType hitType)
+    public override IEnumerator HitAnimation(HitType hitType)
     {
-
-        
-        yield return base.Hit(hitType);
+        yield break;
     }
 
     public IEnumerator PreviewHit(HitType hitType)

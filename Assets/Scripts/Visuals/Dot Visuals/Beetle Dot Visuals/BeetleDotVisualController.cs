@@ -143,7 +143,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
         }
     }
 
-    public override IEnumerator Clear()
+    public override IEnumerator ClearAnimation()
     {
         bool isBombHit = dot.HitType == HitType.BombExplosion;
         float startFlapAngle = isBombHit ? 20f : 45f;
@@ -240,10 +240,10 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
 
     
-    public override IEnumerator Hit(HitType hitType)
+    public override IEnumerator HitAnimation(HitType hitType)
     {
 
-        yield return base.Hit(hitType);
+        yield return base.HitAnimation(hitType);
 
         float hitDuration = 1.7f;
         currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, dot.HitsToClear - 1);
