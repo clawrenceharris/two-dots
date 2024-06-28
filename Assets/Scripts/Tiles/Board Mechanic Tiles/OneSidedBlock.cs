@@ -39,7 +39,7 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
         HitType = hitType;
         hitCount++;
         DotsObjectEvents.NotifyHit(this);
-        yield return VisualController.Hit(hitType);
+        yield return VisualController.HitAnimation(hitType);
 
 
     }
@@ -48,7 +48,7 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     public IEnumerator Clear()
     {
         DotsObjectEvents.NotifyCleared(this);
-        yield return VisualController.Clear();
+        yield return VisualController.ClearAnimation();
     }
 
     public void UndoHit()
