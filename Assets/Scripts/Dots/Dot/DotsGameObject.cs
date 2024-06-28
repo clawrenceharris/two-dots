@@ -22,8 +22,9 @@ public abstract class DotsGameObject : MonoBehaviour, IBoardElement
     }
 
     protected IVisualController visualController;
-   
-   
+
+    public VisualController VisualController => GetVisualController<VisualController>();
+
     public abstract void InitDisplayController();
 
 
@@ -37,7 +38,7 @@ public abstract class DotsGameObject : MonoBehaviour, IBoardElement
 
     public void Debug()
     {
-        UnityEngine.Debug.Log("Dot: " + name);
+        UnityEngine.Debug.Log(name);
         Debug(Color.black);
     }
 

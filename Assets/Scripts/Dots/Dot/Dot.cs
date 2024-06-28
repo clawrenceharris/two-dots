@@ -15,7 +15,7 @@ public abstract class Dot : DotsGameObject, IHittable
     public static event Action<Dot> onDotCleared;
     public static event Action<Dot> onDotHit;
     
-    public DotVisualController VisualController => GetVisualController<DotVisualController>();
+    public new DotVisualController VisualController => GetVisualController<DotVisualController>();
    
     public abstract DotType DotType { get; }
 
@@ -37,7 +37,12 @@ public abstract class Dot : DotsGameObject, IHittable
     {
         HitType = hitType;
         DotsObjectEvents.NotifyHit(this);
-        yield return VisualController.Hit(hitType) ;
+
+        if (hitType == HitType.BombExplosion)
+        {
+            yield return VisualController.BombHit();
+        }
+        yield return VisualController.HitAnimation(hitType);
     }
 
 
@@ -50,8 +55,10 @@ public abstract class Dot : DotsGameObject, IHittable
     public virtual IEnumerator Clear()
     {
         DotsObjectEvents.NotifyCleared(this);
-        yield return VisualController.Clear();
+        yield return VisualController.ClearAnimation();
     }
+
+
 
    
 }
