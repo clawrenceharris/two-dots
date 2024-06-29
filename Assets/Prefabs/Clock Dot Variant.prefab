@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a1c8883e872b645c2b4e163cda69cde1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5176471}
@@ -155,7 +155,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0102b196a3847420f8e518ec7e121c91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.42745098}
@@ -272,7 +272,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: aa0c58c3b31134d7e8d0895bde6403d8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -524,7 +524,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07f6f4c375114fd9b26a934e80d79d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitType: 0
 --- !u!114 &1339387377695013001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,24 +536,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2fa48e4fda4439b902be6b94f0dd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outerDot: {fileID: 5506220760836670588}
-  clearTime: 0.4
   bombHitSprite: {fileID: 0}
+  clearDuration: 0
+  outerDot: {fileID: 5506220760836670588}
   innerDot: {fileID: 2932566282570179683}
+  innerDotScaleDuration: 0
+  top: {fileID: 5679960757758592677}
   digit1: {fileID: 5482940535151725559}
   digit2: {fileID: 2033111714938831576}
-  top: {fileID: 5679960757758592677}
-  numbers:
-  - {fileID: 21300000, guid: 4e90cf8faa34743d4be779c763ef5881, type: 3}
-  - {fileID: 21300000, guid: 2fe71c858d7454697b7999b2074f7722, type: 3}
-  - {fileID: 21300000, guid: 21cc989c0df2941359d147ffce6ee620, type: 3}
-  - {fileID: 21300000, guid: 16ba29147081c414dafe613ca84cb6fd, type: 3}
-  - {fileID: 21300000, guid: cda79c4d849cf4fd3b569156ee8cab5d, type: 3}
-  - {fileID: 21300000, guid: 6c776f768988f43eca40aadc8cffae16, type: 3}
-  - {fileID: 21300000, guid: 0087ae519423541acbbf5b05406cdc42, type: 3}
-  - {fileID: 21300000, guid: b6aa8ad2e83024f65af7652cc7cc9521, type: 3}
-  - {fileID: 21300000, guid: cbe1cfe2e31ba459584fe50c6798c2f1, type: 3}
-  - {fileID: 21300000, guid: cf95035a8a52c49c499aeb2f5ef68796, type: 3}
   middle: {fileID: 6865684550561447720}
   shadow: {fileID: 7387436768553865744}
   clockDotPreview: {fileID: 439542304532555247}
@@ -568,7 +557,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2569490093185910684, guid: 4de092c3584b73646aa282e06f86e497, type: 3}
       propertyPath: m_SortingLayer
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2569490093185910684, guid: 4de092c3584b73646aa282e06f86e497, type: 3}
       propertyPath: m_SortingOrder
@@ -655,7 +644,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2569490093185910684, guid: 4de092c3584b73646aa282e06f86e497, type: 3}
       propertyPath: m_SortingLayer
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2569490093185910684, guid: 4de092c3584b73646aa282e06f86e497, type: 3}
       propertyPath: m_SortingOrder

@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bombHitSprite: {fileID: 7418231137940222176}
-  clearDuration: 0.4
+  clearDuration: 0.5
   outerDot: {fileID: 4774173659814571791}
   digit1: {fileID: 5698075958798445826}
   digit2: {fileID: 9160932169022976453}

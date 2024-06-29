@@ -135,9 +135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f31a47f2ee64ddca5a54e38dc871f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outerDot: {fileID: 0}
   bombHitSprite: {fileID: 0}
-  clearDuration: 0.4
+  clearDuration: 0.5
+  outerDot: {fileID: 0}
   bombSprites:
   - {fileID: 1716833105892258884}
   - {fileID: 6722489279500980237}

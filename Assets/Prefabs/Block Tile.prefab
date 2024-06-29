@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3045387909203170339}
   - component: {fileID: 6222815249429566875}
   - component: {fileID: 6330128674848982776}
+  - component: {fileID: -5948171166528778001}
   m_Layer: 0
   m_Name: Block Tile
   m_TagString: Untagged
@@ -98,7 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3f726a7f9e9449390d21f01c592744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombHitSprite: {fileID: 21300000, guid: ecabe75bd96c14d099311942ff914de2, type: 3}
 --- !u!114 &6330128674848982776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,3 +111,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04dbf501744849c98814324e45f0fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5948171166528778001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4450158326223322140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f5eda43d9e446edbe04ab221c7e028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombHitSprite: {fileID: 3045387909203170339}
+  clearDuration: 0.5

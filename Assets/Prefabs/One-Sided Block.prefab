@@ -111,4 +111,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bombHitSprite: {fileID: 4073236610067921480}
-  clearDuration: 0.4
+  clearDuration: 0.5
