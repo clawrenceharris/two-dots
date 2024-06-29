@@ -23,7 +23,7 @@ public class SquareManager
 
     private void OnCommandExecuted(Command command)
     {
-        if (command is ExplosionCommand && Square != null)
+        if (command is ExplodeCommand && Square != null)
             Square.DotsInSquare.Clear();
     }
 

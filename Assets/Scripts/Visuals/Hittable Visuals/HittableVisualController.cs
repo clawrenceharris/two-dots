@@ -34,7 +34,7 @@ public abstract class HittableVisualController : VisualController, IHittableVisu
         if (GetGameObject<IHittable>().HitCount >= GetGameObject<IHittable>().HitsToClear)
         {
             yield return GetGameObject<DotsGameObject>().transform.DOScale(Vector2.zero,
-        GetVisuals<HittableVisuals>().clearDuration);
+        HittableVisuals.defaultClearDuration);
         }
         
     }
@@ -43,7 +43,7 @@ public abstract class HittableVisualController : VisualController, IHittableVisu
     public virtual IEnumerator ClearAnimation()
     {
         yield return GetGameObject<DotsGameObject>().transform.DOScale(Vector2.zero,
-             GetVisuals<HittableVisuals>().clearDuration);
+             HittableVisuals.defaultClearDuration);
        
     }
 
