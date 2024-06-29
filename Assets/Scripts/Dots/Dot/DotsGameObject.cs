@@ -18,7 +18,7 @@ public abstract class DotsGameObject : MonoBehaviour, IBoardElement
         {
             return controller;
         }
-        throw new InvalidCastException($"Unable to cast base visualController to {typeof(T).Name}");
+        throw new InvalidCastException($"Unable to cast base visualController of type {visualController.GetType().Name} to {typeof(T).Name}");
     }
 
     protected IVisualController visualController;

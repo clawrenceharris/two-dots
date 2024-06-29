@@ -14,7 +14,7 @@ public class BombDot : Dot, IExplodable
     public Dictionary<HitType, IExplosionRule> ExplosionRules => new() { { HitType.BombExplosion, new BombExplosionRule() } };
     public override int HitsToClear => 1;
 
-    public override Dictionary<HitType, IHitRule> HitRules => new() { { HitType.BombExplosion, new BombExplosionHitRule() } };
+    public override Dictionary<HitType, IHitRule> HitRules => new() { { HitType.BombExplosion, new BombExplosionHitRule()} };
 
     public static List<IHittable> Hits { get; } = new();// the list of hittables all Bomb objects have hit
 
@@ -23,6 +23,7 @@ public class BombDot : Dot, IExplodable
     public static event Action<IHittable> onBombExploded;
     public new BombDotVisualController VisualController => GetVisualController<BombDotVisualController>();
 
+    public int HitsToExplode => 0;
 
     public override void InitDisplayController()
     {
@@ -55,6 +56,7 @@ public class BombDot : Dot, IExplodable
             Hits.Add(hittable);
             hits.Add(hittable);
             yield return new WaitForSeconds(0.05f); // wait before animating next line
+            
 
         }
 
@@ -62,18 +64,19 @@ public class BombDot : Dot, IExplodable
         foreach (IHittable hittable in hits)
         {
             yield return new WaitForSeconds(0.01f); // wait before invoking completion
+
             callback?.Invoke(hittable);
         }
 
     }
-
     public override IEnumerator Hit(HitType hitType)
     {
         HitCount++;
         return base.Hit(hitType);
     }
 
-    
+
+
 }
    
 

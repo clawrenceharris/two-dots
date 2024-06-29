@@ -67,15 +67,15 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     public IEnumerator DoMove(List<Vector2Int> path, Action onComplete)
     {
         yield return VisualController.DoMove(path, onComplete);
-        HitCount = InitialNumber - TempNumber;
-        name = "(" + Column + ", " + Row; 
+        
+        name = "(" + Column + ", " + Row + ")"; 
     }
 
     public override IEnumerator Hit(HitType hitType)
     {
 
         numerable.Hit(hitType);
-
+        HitCount = InitialNumber - TempNumber;
         yield return base.Hit(hitType);
 
     }
@@ -98,5 +98,7 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     {
         yield return VisualController.PreviewClear();
     }
+
+    
 
 }

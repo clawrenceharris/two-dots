@@ -38,13 +38,12 @@ public abstract class Dot : DotsGameObject, IHittable
         HitType = hitType;
         DotsObjectEvents.NotifyHit(this);
 
-        if (hitType == HitType.BombExplosion)
+        if (HitCount > HitsToClear)
         {
-            yield return VisualController.BombHit();
+            yield break;
         }
         yield return VisualController.HitAnimation(hitType);
     }
-
 
 
     public virtual void UndoHit()
@@ -58,7 +57,10 @@ public abstract class Dot : DotsGameObject, IHittable
         yield return VisualController.ClearAnimation();
     }
 
-
-
-   
+    public IEnumerator BombHit()
+    {
+        HitType = HitType.BombExplosion;
+        yield return VisualController.BombHit();
+        
+    }
 }
