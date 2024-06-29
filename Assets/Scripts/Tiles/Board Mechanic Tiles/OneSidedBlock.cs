@@ -37,13 +37,18 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     public virtual IEnumerator Hit(HitType hitType)
     {
         HitType = hitType;
-        hitCount++;
         DotsObjectEvents.NotifyHit(this);
+        HitCount++;
+        
         yield return VisualController.HitAnimation(hitType);
 
+    }
+    public IEnumerator BombHit()
+    {
+
+        yield return VisualController.BombHit();
 
     }
-
 
     public IEnumerator Clear()
     {

@@ -34,10 +34,10 @@ public class BlockTile : Tile, IHittable
     public IEnumerator Hit(HitType hitType)
     {
         HitType = hitType;
-        hitCount++;
         DotsObjectEvents.NotifyHit(this);
+        HitCount++;
+        
         yield return VisualController.HitAnimation(hitType);
-
 
     }
 
@@ -53,5 +53,10 @@ public class BlockTile : Tile, IHittable
         HitType = HitType.None;
     }
 
-   
+    public IEnumerator BombHit()
+    {
+
+        yield return VisualController.BombHit();
+
+    }
 }
