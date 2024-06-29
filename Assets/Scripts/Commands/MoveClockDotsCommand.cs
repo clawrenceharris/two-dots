@@ -69,8 +69,8 @@ public class MoveClockDotsCommand : Command
                     clockDot.Row = endRow;
                     
                     Dot dot = board.Get<Dot>(endCol, endRow);
-                    if(dot != null)
-                    board.DestroyDotsGameObject(dot);
+                    if(dot != null && dot is not ClockDot)
+                        board.DestroyDotsGameObject(dot);
                     board.Put(clockDot, endCol, endRow);
                     board.Remove(clockDot, startCol, startRow);
 

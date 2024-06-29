@@ -5,17 +5,6 @@ using UnityEngine;
 using System.Linq;
 using static Type;
 
-public static class CommandComparer
-{
-    public static int Compare(ICommand a, ICommand b)
-    {
-       
-
-        // If none of the specific rules apply, use natural order
-        return a.CommandType.CompareTo(b.CommandType);
-    }
-}
-
 
 public class CommandInvoker
 {
@@ -23,17 +12,14 @@ public class CommandInvoker
     public class PriorityQueue<T>
     {
         private readonly SortedDictionary<int, Queue<T>> priorityQueue;
-        private readonly Func<T, T, int> comparer;
 
-        public PriorityQueue(Func<T, T, int> comparer)
+        public PriorityQueue()
         {
-            priorityQueue = new SortedDictionary<int, Queue<T>>();
-            this.comparer = comparer;
+            priorityQueue = new();
         }
 
-        public void Enqueue(T item)
+        public void Enqueue(T item, int priority)
         {
-            int priority = GetPriority(item);
 
             if (!priorityQueue.ContainsKey(priority))
             {
@@ -64,24 +50,7 @@ public class CommandInvoker
             throw new InvalidOperationException("The queue is empty.");
         }
 
-        private int GetPriority(T item)
-        {
-            // Using the comparer to determine priority
-            foreach (var key in priorityQueue.Keys)
-            {
-                var sampleItem = priorityQueue[key].Peek();
-                if (comparer(item, sampleItem) < 0)
-                {
-                    return key - 1;
-                }
-                if (comparer(item, sampleItem) == 0)
-                {
-                    return key;
-                }
-            }
-            return priorityQueue.Count == 0 ? 0 : priorityQueue.Keys.Max() + 1;
-        }
-
+       
         public bool IsEmpty => priorityQueue.Count == 0;
 
         public int Count
