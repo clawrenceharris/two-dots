@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
-
+using DG.Tweening;
 public class BombDotVisualController : DotVisualController
 {
     private BombDot dot;
@@ -78,9 +78,18 @@ public class BombDotVisualController : DotVisualController
 
             yield return null;
         }
+
+        yield return line.transform.DOScale(new Vector2(0, line.transform.localScale.y), 0.4f);
         Object.Destroy(line.gameObject);
 
 
+        
+       
+    }
+
+    public override IEnumerator HitAnimation(Type.HitType hitType)
+    {
+        yield break;
     }
 
     public override IEnumerator BombHit()

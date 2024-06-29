@@ -193,6 +193,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
     }
 
 
+
     private IEnumerator FlapWings(float startFlapAngle, float endFlapAngle)
     {
         float flapDuration = 0.16f;
@@ -242,16 +243,14 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
     
     public override IEnumerator HitAnimation(HitType hitType)
     {
-
-        yield return base.HitAnimation(hitType);
-
-        float hitDuration = 1.7f;
+        float hitDuration = 1f;
         currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, dot.HitsToClear - 1);
 
         visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
         visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
         RemoveWings(hitDuration);
+        yield return new WaitForSeconds(hitDuration);
     }
 
     public IEnumerator RotateCo()
@@ -334,9 +333,10 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
     public override IEnumerator BombHit()
     {
+        Color initialColor = ColorSchemeManager.FromDotColor(dot.Color);
         SetColor(currentLayerIndex, ColorSchemeManager.CurrentColorScheme.bombLight);
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
-        SetColor(currentLayerIndex, ColorSchemeManager.FromDotColor(dot.Color));
+        SetColor(currentLayerIndex, initialColor);
     }
 
     public IEnumerator DoSwap(Dot dotToSwap)

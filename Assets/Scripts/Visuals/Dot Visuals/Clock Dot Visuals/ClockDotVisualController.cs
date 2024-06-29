@@ -47,24 +47,30 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     }
 
 
-
+    public override IEnumerator ClearAnimation()
+    {
+        yield return dot.transform.DOScale(Vector2.zero, 0f);
+    }
 
 
     public override IEnumerator BombHit()
     {
         Color bombColor = ColorSchemeManager.CurrentColorScheme.bombLight;
+
         SetColor(bombColor);
 
         foreach (Transform child in dot.transform)
         {
             if (child.TryGetComponent(out SpriteRenderer sr))
             {
-                sr.color = bombColor;
+                //change to bomb color and keep the original alpha value
+                sr.color = new Color(bombColor.r, bombColor.g, bombColor.b, sr.color.a);
             }
         }
 
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
+        //set back to initial color
         SetColor();
 
     }

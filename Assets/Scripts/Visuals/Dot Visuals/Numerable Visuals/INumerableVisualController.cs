@@ -5,8 +5,5 @@ using UnityEngine;
 
 public interface INumerableVisualController
 {
-
-   
-
     public void UpdateNumbers(int amount);
 }
