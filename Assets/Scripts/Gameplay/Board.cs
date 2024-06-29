@@ -71,7 +71,6 @@ public class Board : MonoBehaviour
     private void Start()
     {
         DotsObjectEvents.onCleared += OnCleared;
-        CommandInvoker.onCommandsEnded += OnCommandsEnded;
 
     }
 
@@ -81,20 +80,6 @@ public class Board : MonoBehaviour
     }
 
 
-    //private IEnumerator DestroyDotsObject(DotsGameObject dotsObject)
-    //{
-    //    if(dotsObject is IHittable)
-    //    {
-    //        if (dotsObject is Dot dot)
-    //            yield return new WaitForSeconds(dot.VisualController.GetVisuals<HittableVisuals>().clearDuration);
-    //        if (dotsObject is Tile tile)
-    //            yield return new WaitForSeconds(tile.VisualController.GetVisuals<HittableVisuals>().clearDuration);
-
-    //    }
-
-    //    Destroy(dotsObject.gameObject);
-
-    //}
 
     private void OnCleared(DotsGameObject dotsGameObject)
     {
@@ -131,19 +116,7 @@ public class Board : MonoBehaviour
         Destroy(dotsGameObject.gameObject);
     }
 
-    private void OnCommandsEnded()
-    {
-        foreach (DotsGameObject dotsGameObject in cleared)
-        {
-            if (dotsGameObject is BlankDot)
-            {
-                Debug.Log("BLANK Dot : " + dotsGameObject);
-            }
-            DestroyDotsGameObject(dotsGameObject);
-        }
-        cleared.Clear();
-
-    }
+    
     private void InitDots()
     {
         for (int i = 0; i < dotsOnBoard.Length; i++)
