@@ -49,13 +49,13 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     }
 
 
-    public override IEnumerator ClearAnimation()
+    public override IEnumerator DoClearAnimation()
     {
         yield return dot.transform.DOScale(Vector2.zero, 0f);
     }
 
 
-    public override IEnumerator BombHit()
+    public override IEnumerator DoBombHit()
     {
         Color bombColor = ColorSchemeManager.CurrentColorScheme.bombLight;
 
@@ -96,7 +96,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     }
 
 
-    public override IEnumerator HitAnimation(HitType hitType)
+    public override IEnumerator DoHitAnimation(HitType hitType)
     {
         yield break;
     }

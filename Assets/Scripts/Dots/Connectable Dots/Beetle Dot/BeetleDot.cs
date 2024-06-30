@@ -121,7 +121,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         onComplete?.Invoke(this);
 
         DotsObjectEvents.NotifyCleared(this, VisualController.Visuals.hittableVisuals.clearDuration);
-        yield return VisualController.ClearAnimation();
+        yield return VisualController.DoClearAnimation();
 
     }
 
