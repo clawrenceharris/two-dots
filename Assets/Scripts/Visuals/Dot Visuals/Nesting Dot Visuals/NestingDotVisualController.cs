@@ -6,7 +6,7 @@ using System;
 using static Type;
 public class NestingDotVisualController : DotVisualController, IPreviewable
 {
-    private NestingDotVisuals visuals;
+    public NestingDotVisuals Visuals { get; private set; }
     private NestingDot dot;
 
   
@@ -18,13 +18,13 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
         dot = (NestingDot)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
+        Visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
     }
@@ -48,7 +48,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
         yield break;
     }
 
-    public override IEnumerator HitAnimation(HitType hitType)
+    public override IEnumerator DoHitAnimation(HitType hitType)
     {
         
         if(dot.HitCount < dot.HitsToClear)
@@ -58,7 +58,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
 
         }
 
-        yield return base.HitAnimation(hitType);
+        yield return base.DoHitAnimation(hitType);
 
         
     }
@@ -67,24 +67,24 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
     {
 
         float duration = 0.5f;
-        visuals.nestingDotBottom.transform.DOMoveY(dot.transform.position.y - Board.offset, duration)
+        Visuals.nestingDotBottom.transform.DOMoveY(dot.transform.position.y - Board.offset, duration)
             .OnComplete(() =>
             {
-                visuals.nestingDotBottom.transform.position = dot.transform.position;
+                Visuals.nestingDotBottom.transform.position = dot.transform.position;
             });
-        visuals.nestingDotTop.transform.DOMoveY(dot.transform.position.y + Board.offset, duration)
+        Visuals.nestingDotTop.transform.DOMoveY(dot.transform.position.y + Board.offset, duration)
             .OnComplete(() =>
             {
-                visuals.nestingDotTop.transform.position = dot.transform.position;
+                Visuals.nestingDotTop.transform.position = dot.transform.position;
 
             });
 
-        visuals.nestingDotBottomSprite.enabled = true;
-        visuals.nestingDotTopSprite.enabled = true;
+        Visuals.nestingDotBottomSprite.enabled = true;
+        Visuals.nestingDotTopSprite.enabled = true;
 
-        visuals.nestingDotBottomSprite.DOFade(0, duration);
+        Visuals.nestingDotBottomSprite.DOFade(0, duration);
 
-        visuals.nestingDotBottomSprite.DOFade(0, duration);
+        Visuals.nestingDotBottomSprite.DOFade(0, duration);
             
 
     }
@@ -102,7 +102,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
     }
 
 
-    public override IEnumerator BombHit()
+    public override IEnumerator DoBombHit()
     {
         //Do nothing
 

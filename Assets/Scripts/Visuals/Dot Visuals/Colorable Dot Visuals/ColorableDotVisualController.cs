@@ -8,13 +8,13 @@ public abstract class ColorableDotVisualController : ConnectableDotVisualControl
 
 
 
-    public override IEnumerator BombHit()
+    public override IEnumerator DoBombHit()
     {
         
         //set the color to the blank color
         SetColor(ColorSchemeManager.CurrentColorScheme.bombLight);
 
-        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+        yield return new WaitForSeconds(HittableVisuals.hitDuration);
 
         //set the color back to the default color
         SetColor();

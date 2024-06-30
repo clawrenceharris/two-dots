@@ -16,12 +16,23 @@
             "type": "blank"
 
         },
-       
+
+
         {
-            "type": "normal",
-            "color": "yellow"
+            "type": "blank"
 
         },
+
+        {
+            "type": "blank"
+
+        },
+
+        {
+            "type": "blank"
+
+        },
+
         //{
         //    "type": "normal",
         //    "color": "red"
@@ -34,36 +45,22 @@
 
 
         //}
-        
-        {
-            "type": "clock",
-            "number": 1
 
 
-        },
 
-       
 
 
         {
             "type": "beetle",
             "colors": [ "red", "purple", "blue" ],
-            "color": "blue",
-            "hitCount":  2,
+            "color": "yellow",
+            "hitCount": 2,
             "directionX": -1,
             "directionY": 0
-        },
-
-
-        {
-            "type": "beetle",
-            "colors": [ "blue", "purple", "blue" ],
-            "color": "blue",
-            "hitCount": 2,
-
-            "directionX": 0,
-            "directionY": 1
         }
+
+
+
 
 
 

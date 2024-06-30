@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class AnchorDot : Dot
             };
         }
     }
+    private new AnchorDotVisualController VisualController => GetVisualController<AnchorDotVisualController>();
+
     public override int HitsToClear => 1;
 
 
@@ -33,4 +36,11 @@ public class AnchorDot : Dot
         yield return base.Hit(hitType);
     }
 
+    public override IEnumerator Clear(Action<IHittable> onComplete)
+    {
+        yield return Clear(VisualController.Visuals.hittableVisuals.clearDuration,
+            onComplete);
+
+        onComplete?.Invoke(this);
+    }
 }

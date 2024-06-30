@@ -33,30 +33,30 @@ public class BlockTile : Tile, IHittable
 
     public IEnumerator Hit(HitType hitType)
     {
-        HitType = hitType;
         DotsObjectEvents.NotifyHit(this);
+
+        HitType = hitType;
         HitCount++;
-        
-        yield return VisualController.HitAnimation(hitType);
+        if (hitType == HitType.BombExplosion)
+        {
+            yield return VisualController.DoBombHit();
+
+        }
+        yield return VisualController.DoHitAnimation(hitType);
 
     }
 
 
-    public IEnumerator Clear()
+    public IEnumerator Clear(Action<IHittable> onComplete)
     {
-        DotsObjectEvents.NotifyCleared(this);
-        yield return VisualController.ClearAnimation();
+        DotsObjectEvents.NotifyCleared(this, VisualController.Visuals.clearDuration);
+        yield return VisualController.DoClearAnimation();
+        onComplete?.Invoke(this);
     }
+
 
     public void UndoHit()
     {
         HitType = HitType.None;
-    }
-
-    public IEnumerator BombHit()
-    {
-
-        yield return VisualController.BombHit();
-
     }
 }

@@ -17,15 +17,17 @@ public class ClearCommand : Command
 
         
         List<IHittable> hittables = board.GetElements<IHittable>();
-
+        int clears = 0;
+        List<IHittable> toClear = new();
         foreach (IHittable hittable in hittables) {
 
-            //if (hittable is IExplodable)
-            //    continue;
+            
             if (hittable != null && hittable.HitCount >= hittable.HitsToClear)
             {
                 DidExecute = true;
-                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+                DotsGameObject dotsGameObject = (DotsGameObject)hittable;
+                CoroutineHandler.StartStaticCoroutine(hittable.Clear((hittable) => clears++));
+                toClear.Add(hittable);
 
             }
         }

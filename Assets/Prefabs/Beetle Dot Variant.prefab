@@ -1892,6 +1892,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Beetle Dot Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 6904294175992406759, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: clearDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_SortingOrder
       value: -1
@@ -1926,6 +1930,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2818817833734586123, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 1960504239126863493}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4964627941399903330 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6904294175992406759, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+  m_PrefabInstance: {fileID: 1960504239126863493}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5131234187509868856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ef6adbc449d34b0497e2ca950d64da5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5131234187509868856 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -1955,21 +1970,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 691b61333f92c4a758be546fe6a6be5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hittableVisuals: {fileID: 4964627941399903330}
   outerDot: {fileID: 8576582511116832377}
-  bombHitSprite: {fileID: 0}
-  clearDuration: 5
   leftWingLayer1: {fileID: 1835650987876660849}
   leftWingLayer2: {fileID: 6784024091193511163}
   leftWingLayer3: {fileID: 5206370952881365465}
   rightWingLayer1: {fileID: 3486266184288131690}
   rightWingLayer2: {fileID: 1000969558112632331}
   rightWingLayer3: {fileID: 2969042392531368742}
-  rightWhiteWingLayer1: {fileID: 2561304822658147802}
-  rightWhiteWingLayer2: {fileID: 522222781534322800}
-  rightWhiteWingLayer3: {fileID: 53354339885865347}
-  leftWhiteWingLayer1: {fileID: 877524595802536473}
-  leftWhiteWingLayer2: {fileID: 3837464552182016925}
-  leftWhiteWingLayer3: {fileID: 3532034070926783573}
   rightWings: {fileID: 8187732682292148997}
   leftWings: {fileID: 1787027141210881331}
   rotationEase: 9

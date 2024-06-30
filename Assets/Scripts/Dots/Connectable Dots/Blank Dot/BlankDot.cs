@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using static Type;
 using UnityEngine;
+using System;
 
 public class BlankDot : BlankDotBase
 {
     public override DotType DotType => DotType.BlankDot;
 
     public override int HitsToClear => 1;
+    private new BlankDotVisualController VisualController => GetVisualController<BlankDotVisualController>();
 
 
     public override void Disconnect()
@@ -27,6 +29,13 @@ public class BlankDot : BlankDotBase
     {
         HitCount++;
         yield return base.Hit(hitType);
+    }
+
+    public override IEnumerator Clear(Action<IHittable> onComplete)
+    {
+        yield return Clear(VisualController.Visuals.hittableVisuals.clearDuration,
+            onComplete);
+
     }
 
 }

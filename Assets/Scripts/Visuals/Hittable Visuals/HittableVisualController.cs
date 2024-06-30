@@ -9,41 +9,41 @@ using DG.Tweening;
 /// </summary>
 public abstract class HittableVisualController : VisualController, IHittableVisualController
 {
-    
+    private HittableVisuals visuals;
 
-    public virtual IEnumerator BombHit()
+    public override void Init(DotsGameObject dotsGameObject)
     {
-        GetVisuals<HittableVisuals>().bombHitSprite.color = ColorSchemeManager.CurrentColorScheme.bombLight;
+        visuals = dotsGameObject.GetComponent<HittableVisuals>();
+    }
+
+
+
+    /// <summary>
+    /// Starts the coroutine to visually
+    /// indicate that a hittable has been hit by a bomb 
+    /// </summary>
+    /// <returns></returns>
+    public virtual IEnumerator DoBombHit()
+    {
+        visuals.bombHitSprite.color = ColorSchemeManager.CurrentColorScheme.bombLight;
         spriteRenderer.sprite = GetVisuals<HittableVisuals>().bombHitSprite.sprite;
 
-        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+        yield return new WaitForSeconds(HittableVisuals.hitDuration);
 
         spriteRenderer.sprite = sprite;
     }
 
 
-    /// <summary>
-    /// Starts the hit animation for the
-    /// Dots game object associated with this visual controller.
-    /// The default hit animation looks the the default clear animation,
-    /// which scales out the game object
-    /// </summary>
-    /// <returns>IEnumerator</returns>
-    public virtual IEnumerator HitAnimation(HitType hitType)
+
+    public virtual IEnumerator DoHitAnimation(HitType hitType)
     {
-        if (GetGameObject<IHittable>().HitCount >= GetGameObject<IHittable>().HitsToClear)
-        {
-            yield return GetGameObject<DotsGameObject>().transform.DOScale(Vector2.zero,
-        HittableVisuals.defaultClearDuration);
-        }
-        
+        yield return null;
     }
 
-
-    public virtual IEnumerator ClearAnimation()
+    public virtual IEnumerator DoClearAnimation()
     {
         yield return GetGameObject<DotsGameObject>().transform.DOScale(Vector2.zero,
-             HittableVisuals.defaultClearDuration);
+             visuals.clearDuration);
        
     }
 

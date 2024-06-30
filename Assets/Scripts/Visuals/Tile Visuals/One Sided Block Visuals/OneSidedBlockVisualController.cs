@@ -6,7 +6,7 @@ using UnityEngine;
 public class OneSidedBlockVisualController : HittableVisualController
 {
     private OneSidedBlock tile;
-    private HittableVisuals visuals;
+    public HittableVisuals Visuals { get; private set; }
 
     public override T GetGameObject<T>()
     {
@@ -16,13 +16,15 @@ public class OneSidedBlockVisualController : HittableVisualController
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
+        base.Init(dotsGameObject);
+
         tile = (OneSidedBlock)dotsGameObject;
-        visuals = tile.GetComponent<HittableVisuals>();
+        Visuals = dotsGameObject.GetComponent<HittableVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
     }

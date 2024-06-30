@@ -5,7 +5,7 @@ using DG.Tweening;
 using static Type;
 using System;
 
-public abstract class BlankDotBaseVisualController : ConnectableDotVisualController
+public abstract class BlankDotBaseVisualController : ColorableDotVisualController
 {
     
     
@@ -22,8 +22,8 @@ public abstract class BlankDotBaseVisualController : ConnectableDotVisualControl
 
     public override void AnimateSelectionEffect()
     {
-        BlankDotVisuals visuals = GetVisuals<BlankDotVisuals>();
         base.AnimateSelectionEffect();
+        BlankDotVisuals visuals = GetVisuals<BlankDotVisuals>();
 
 
         Color color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
@@ -31,7 +31,7 @@ public abstract class BlankDotBaseVisualController : ConnectableDotVisualControl
         visuals.innerDot.color = color;
         GetVisuals<DotVisuals>().outerDot.color = color;
 
-        visuals.innerDot.transform.DOScale(Vector2.one,visuals.innerDotScaleDuration);
+        visuals.innerDot.transform.DOScale(Vector2.one, BlankDotVisuals.innerDotScaleDuration);
 
     }
 
@@ -39,7 +39,7 @@ public abstract class BlankDotBaseVisualController : ConnectableDotVisualControl
     {
         BlankDotVisuals visuals = GetVisuals<BlankDotVisuals>();
 
-        visuals.innerDot.transform.DOScale(Vector2.zero, visuals.innerDotScaleDuration);
+        visuals.innerDot.transform.DOScale(Vector2.zero, BlankDotVisuals.innerDotScaleDuration);
 
     }
 

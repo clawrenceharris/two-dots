@@ -7,7 +7,7 @@ public class NormalDotVisualController : ColorableDotVisualController
 {
 
     private NormalDot dot;
-    private DotVisuals visuals;
+    public DotVisuals Visuals { get; private set; }
 
 
     public override T GetGameObject<T>()
@@ -18,25 +18,21 @@ public class NormalDotVisualController : ColorableDotVisualController
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
+        base.Init(dotsGameObject);
+
         dot = (NormalDot)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<DotVisuals>();
+        Visuals = dotsGameObject.GetComponent<DotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         sprite = spriteRenderer.sprite;
         SetUp();
     }
 
-    public override IEnumerator HitAnimation(Type.HitType hitType)
-    {
-        yield return base.HitAnimation(hitType);
-        dot.transform.DOScale(Vector2.zero, visuals.clearDuration);
-
-    }
-
+    
 
    
 }

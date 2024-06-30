@@ -7,9 +7,9 @@ using DG.Tweening;
 public class BombDotVisualController : DotVisualController
 {
     private BombDot dot;
-    private BombDotVisuals visuals;
+    public BombDotVisuals Visuals { get; private set; }
 
-   
+
     public override T GetGameObject<T>()
     {
         return dot as T;
@@ -17,25 +17,28 @@ public class BombDotVisualController : DotVisualController
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
+        base.Init(dotsGameObject);
+
         dot = (BombDot)dotsGameObject;
-        visuals = dot.GetComponent<BombDotVisuals>();
+        Visuals = dotsGameObject.GetComponent<BombDotVisuals>();
+        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
 
     }
 
     protected override void SetColor()
     {
-        for (int i = 0; i  < visuals.bombSprites.Length; i++)
+        for (int i = 0; i  < Visuals.bombSprites.Length; i++)
         {
             if(i % 2 == 0)
-                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
+                Visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
             else
-                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
+                Visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
 
         }
     }
@@ -58,7 +61,7 @@ public class BombDotVisualController : DotVisualController
 
         line.transform.parent = dot.transform;
         line.transform.localScale = startScale;
-        line.sprite.color = BombDot.Hits.Contains(hittable) ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
+        line.sprite.color = BombDot.Hits.Contains(hittable) || hittable is BombDot ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
         line.transform.rotation = Quaternion.Euler(1f, 0, angle);
         line.disabled = true;
 
@@ -87,15 +90,11 @@ public class BombDotVisualController : DotVisualController
        
     }
 
-    public override IEnumerator HitAnimation(Type.HitType hitType)
+    public override IEnumerator DoBombHit()
     {
         yield break;
     }
 
-    public override IEnumerator BombHit()
-    {
-        yield break;
-    }
 
-   
+
 }

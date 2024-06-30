@@ -143,7 +143,7 @@ public class SoundManager : MonoBehaviour
         
     }
 
-    private void OnCleared(DotsGameObject dotsObject)
+    private void OnCleared(DotsGameObject dotsObject, float clearTime)
     {
         if(dotsObject is Tile tile)
             PlayTileCleardSound(tile);

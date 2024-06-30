@@ -1,7 +1,9 @@
-﻿public class AnchorDotVisualController : DotVisualController
+﻿using UnityEngine;
+
+public class AnchorDotVisualController : DotVisualController
 {
     private AnchorDot dot;
-    private DotVisuals visuals;
+    public DotVisuals Visuals { get; private set; }
 
     public override T GetGameObject<T>()
     {
@@ -10,12 +12,15 @@
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
     public override void Init(DotsGameObject dotsGameObject)
     {
+        base.Init(dotsGameObject);
+
         dot = (AnchorDot)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<DotVisuals>();
+        Visuals = dotsGameObject.GetComponent<DotVisuals>();
+        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
     }
 
     protected override void SetColor()

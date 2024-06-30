@@ -35,14 +35,16 @@ public abstract class Dot : DotsGameObject, IHittable
 
     public virtual IEnumerator Hit(HitType hitType)
     {
-        HitType = hitType;
         DotsObjectEvents.NotifyHit(this);
 
-        if (HitCount > HitsToClear)
-        {
-            yield break;
+        HitType = hitType;
+
+        if (hitType == HitType.BombExplosion) {
+            yield return VisualController.DoBombHit();
+
         }
-        yield return VisualController.HitAnimation(hitType);
+        
+        yield return VisualController.DoHitAnimation(hitType);
     }
 
 
@@ -51,16 +53,23 @@ public abstract class Dot : DotsGameObject, IHittable
         HitType = HitType.None;
     }
 
-    public virtual IEnumerator Clear()
+    protected IEnumerator Clear(float clearTime, Action<IHittable> onComplete)
     {
-        DotsObjectEvents.NotifyCleared(this);
-        yield return VisualController.ClearAnimation();
+        DotsObjectEvents.NotifyCleared(this, clearTime);
+        yield return VisualController.DoClearAnimation();
+        onComplete?.Invoke(this);
     }
 
-    public IEnumerator BombHit()
+    public virtual IEnumerator Clear(Action<IHittable> onComplete)
+    {
+        yield return Clear(0f, onComplete);
+    }
+
+
+    public IEnumerator BombHit(Action onComplete)
     {
         HitType = HitType.BombExplosion;
-        yield return VisualController.BombHit();
-        
+        yield return VisualController.DoBombHit();
+        onComplete?.Invoke();
     }
 }

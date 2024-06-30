@@ -12,7 +12,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
     private List<GameObject> wingsLayer3;
     private List<List<GameObject>> wingLayers;
     private BeetleDot dot;
-    private BeetleDotVisuals visuals;
+    public BeetleDotVisuals Visuals { get; private set; }
     private int currentLayerIndex;
 
     public override T GetGameObject<T>()
@@ -23,30 +23,33 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
+        base.Init(dotsGameObject);
+
         dot = (BeetleDot)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<BeetleDotVisuals>();
+        Visuals = dotsGameObject.GetComponent<BeetleDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
+
     }
 
     protected override void SetUp()
     {
         wingsLayer1 = new() {
-            visuals.leftWingLayer1,
-            visuals.rightWingLayer1,
+            Visuals.leftWingLayer1,
+            Visuals.rightWingLayer1,
         };
         wingsLayer2 = new() {
-            visuals.leftWingLayer2,
-            visuals.rightWingLayer2,
+            Visuals.leftWingLayer2,
+            Visuals.rightWingLayer2,
         };
         wingsLayer3 = new() {
-            visuals.leftWingLayer3,
-            visuals.rightWingLayer3,
+            Visuals.leftWingLayer3,
+            Visuals.rightWingLayer3,
         };
         wingLayers = new()
         {
@@ -137,23 +140,23 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
             CoroutineHandler.StartStaticCoroutine(RemoveWingsCo(i, duration));
             if (i + 1 < wingLayers.Count)
             {
-                wingLayers[i + 1][1].transform.parent = visuals.rightWings;
-                wingLayers[i + 1][0].transform.parent = visuals.leftWings;
+                wingLayers[i + 1][1].transform.parent = Visuals.rightWings;
+                wingLayers[i + 1][0].transform.parent = Visuals.leftWings;
             }
         }
     }
 
-    public override IEnumerator ClearAnimation()
+    public override IEnumerator DoClearAnimation()
     {
         bool isBombHit = dot.HitType == HitType.BombExplosion;
         float startFlapAngle = isBombHit ? 20f : 45f;
         float endFlapAngle = isBombHit ? 15f : 0;
 
-        float duration = visuals.clearDuration;
+        float duration = Visuals.hittableVisuals.clearDuration;
         float elapsedTime = 0f;
         float amplitude = 1f;
         float frequency = 0.1f;
-        float speed = 37f;
+        float speed = 40f;
         Vector3 direction = new(dot.DirectionX, dot.DirectionY);
 
         Vector3 startPosition = dot.transform.position;
@@ -205,14 +208,14 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
         Vector3 rightWingEndAngle = new(0, 0, endFlapAngle);
         
         // Flap up
-        visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
-        visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
+        Visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
+        Visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
 
         yield return new WaitForSeconds(flapDuration);
 
         // Flap down
-        visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
-        visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
+        Visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
+        Visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
         yield return new WaitForSeconds(flapDuration);
 
         
@@ -229,8 +232,8 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
             yield return FlapWings(startFlapAngle, endFlapAngle);
 
         }
-        visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
     }
 
@@ -241,13 +244,18 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
 
     
-    public override IEnumerator HitAnimation(HitType hitType)
+    public override IEnumerator DoHitAnimation(HitType hitType)
     {
-        float hitDuration = 1f;
+        float hitDuration = HittableVisuals.hitDuration;
         currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, dot.HitsToClear - 1);
 
-        visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+        if(dot.HitCount == 3)
+        {
+            yield break;
+        }
 
         RemoveWings(hitDuration);
         yield return new WaitForSeconds(hitDuration);
@@ -257,8 +265,8 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
     {
 
         Vector3 rotation = GetRotation();
-        yield return dot.transform.DOLocalRotate(rotation, visuals.rotationSpeed)
-                    .SetEase(visuals.rotationEase);
+        yield return dot.transform.DOLocalRotate(rotation, Visuals.rotationSpeed)
+                    .SetEase(Visuals.rotationEase);
 
     }
 
@@ -331,11 +339,11 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
     }
 
-    public override IEnumerator BombHit()
+    public override IEnumerator DoBombHit()
     {
         Color initialColor = ColorSchemeManager.FromDotColor(dot.Color);
         SetColor(currentLayerIndex, ColorSchemeManager.CurrentColorScheme.bombLight);
-        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+        yield return new WaitForSeconds(HittableVisuals.hitDuration);
         SetColor(currentLayerIndex, initialColor);
     }
 

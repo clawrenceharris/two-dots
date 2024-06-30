@@ -5,7 +5,7 @@ using DG.Tweening;
 public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IPreviewable
 {
     private MonsterDot dot;
-    private NumerableDotVisuals visuals;
+    public MonsterDotVisuals Visuals { get; private set; }
     private readonly NumerableVisualControllerBase numerableVisualController = new();
     public override T GetGameObject<T>()
     {
@@ -15,16 +15,16 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
         dot = (MonsterDot)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
+        Visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
-        numerableVisualController.Init(visuals);
+        numerableVisualController.Init(Visuals.numerableVisuals);
         
     }
 
@@ -39,12 +39,12 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         float scaleDuration = 0.4f;
         UpdateNumbers(dot.TempNumber);
 
-        visuals.digit1.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
-        visuals.digit2.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
+        Visuals.numerableVisuals.digit1.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
+        Visuals.numerableVisuals.digit2.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
 
         yield return new WaitForSeconds(scaleDuration);
-        visuals.digit1.transform.DOScale(Vector2.one, scaleDuration);
-        visuals.digit2.transform.DOScale(Vector2.one, scaleDuration);
+        Visuals.numerableVisuals.digit1.transform.DOScale(Vector2.one, scaleDuration);
+        Visuals.numerableVisuals.digit2.transform.DOScale(Vector2.one, scaleDuration);
 
     }
 

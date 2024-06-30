@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -66,5 +67,13 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
         yield break ;
     }
 
-    
+
+    public override IEnumerator Clear(Action<IHittable> onComplete)
+    {
+        yield return Clear(VisualController.Visuals.hittableVisuals.clearDuration,
+            onComplete);
+
+        onComplete?.Invoke(this);
+    }
+
 }

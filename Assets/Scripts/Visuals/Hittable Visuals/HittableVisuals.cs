@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class HittableVisuals : Visuals
+[System.Serializable]
+public class HittableVisuals : Visuals, IHittableVisuals
 {
-    public SpriteRenderer bombHitSprite;
-    public float clearDuration = 0.5f;
     public static float defaultClearDuration = 0.5f;
+    public static float hitDuration = 0.5f;
+
+    public float clearDuration;
+    public SpriteRenderer bombHitSprite;
+
+    public SpriteRenderer BombHitSprite => bombHitSprite;
+    public float ClearDuration => clearDuration;
+    
 }

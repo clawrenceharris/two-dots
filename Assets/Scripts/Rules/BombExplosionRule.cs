@@ -9,7 +9,7 @@ public class BombExplosionRule : IExplosionRule
         
         List<IHittable> toHit = new();
         List<IHittable> neighbors = board.GetNeighbors<IHittable>(explodable.Column, explodable.Row, true);
-
+        toHit.Add(explodable);
 
         foreach (IHittable neighbor in neighbors)
         {

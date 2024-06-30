@@ -9,13 +9,7 @@ public interface IHittable : IBoardElement
     public IEnumerator Hit(HitType hitType);
 
 
-    /// <summary>
-    /// Starts the coroutine to visually
-    /// indicate that a hittable has been hit by a bomb 
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator BombHit();
-
+   
     /// <summary>
     /// Number of hits made on the dot
     /// </summary>
@@ -26,6 +20,6 @@ public interface IHittable : IBoardElement
     public int HitsToClear { get; }
     public Dictionary<HitType, IHitRule> HitRules { get; }
     public void UndoHit();
-    public IEnumerator Clear();
+    public IEnumerator Clear(Action<IHittable> onComplete = null);
 
 }

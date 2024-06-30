@@ -81,7 +81,7 @@ public class Board : MonoBehaviour
 
 
 
-    private void OnCleared(DotsGameObject dotsGameObject)
+    private void OnCleared(DotsGameObject dotsGameObject, float clearDuration)
     {
 
         if (dotsGameObject is Dot dot)
@@ -95,16 +95,16 @@ public class Board : MonoBehaviour
         if (dotsGameObject is Tile tile)
         {
             Tiles[tile.Column, tile.Row] = null;
+
         }
 
-       StartCoroutine(ClearCo(dotsGameObject));
+        StartCoroutine(ClearCo(dotsGameObject, clearDuration));
 
     }
 
-    private IEnumerator ClearCo(DotsGameObject dotsGameObject)
+    private IEnumerator ClearCo(DotsGameObject dotsGameObject, float clearDuration)
     {
-        
-        yield return new WaitForSeconds(dotsGameObject.VisualController.GetVisuals<HittableVisuals>().clearDuration);
+        yield return new WaitForSeconds(clearDuration);
         
 
         DestroyDotsGameObject(dotsGameObject);

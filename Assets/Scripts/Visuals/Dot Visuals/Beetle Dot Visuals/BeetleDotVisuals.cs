@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+
 public class BeetleDotVisuals : DotVisuals
 {
-
     public GameObject leftWingLayer1;
     public GameObject leftWingLayer2;
     public GameObject leftWingLayer3;

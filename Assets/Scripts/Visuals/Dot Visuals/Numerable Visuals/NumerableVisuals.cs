@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
-public class NumerableDotVisuals : DotVisuals, INumerableVisuals
+
+[System.Serializable]
+public class NumerableVisuals : INumerableVisuals
 {
     public SpriteRenderer digit1;
     public SpriteRenderer digit2;

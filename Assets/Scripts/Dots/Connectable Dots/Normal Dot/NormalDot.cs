@@ -12,7 +12,7 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
 
     public override int HitsToClear => 1;
 
-    private new ColorableDotVisualController VisualController => GetVisualController<NormalDotVisualController>();
+    private new NormalDotVisualController VisualController => GetVisualController<NormalDotVisualController>();
     
     
     public override void Init(int column, int row)
@@ -37,8 +37,16 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
     public override IEnumerator Hit(HitType hitType)
     {
         HitCount++;
-
+        
         yield return base.Hit(hitType);
+    }
+
+    public override IEnumerator Clear(Action<IHittable> onComplete)
+    {
+        yield return Clear(VisualController.Visuals.hittableVisuals.clearDuration,
+            onComplete);
+
+        onComplete?.Invoke(this);
     }
 
 }

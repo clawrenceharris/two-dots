@@ -5,11 +5,11 @@ using System.Collections;
 public interface IHittableVisualController
 {
 
-    public IEnumerator BombHit();
+    public IEnumerator DoBombHit();
 
 
-    public IEnumerator HitAnimation(HitType hitType);
+    public IEnumerator DoHitAnimation(HitType hitType);
 
-    public IEnumerator ClearAnimation();
+    public IEnumerator DoClearAnimation();
    
 }

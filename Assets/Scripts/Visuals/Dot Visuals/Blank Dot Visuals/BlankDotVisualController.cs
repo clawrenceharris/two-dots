@@ -5,7 +5,7 @@ using UnityEngine;
 public class BlankDotVisualController : BlankDotBaseVisualController
 {
     private BlankDot dot;
-    private BlankDotVisuals visuals;
+    public BlankDotVisuals Visuals { get; private set; }
 
     public override T GetGameObject<T>()
     {
@@ -15,16 +15,17 @@ public class BlankDotVisualController : BlankDotBaseVisualController
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
+        base.Init(dotsGameObject);
+
         dot = (BlankDot)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<BlankDotVisuals>();
+        Visuals = dotsGameObject.GetComponent<BlankDotVisuals>();
 
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        sprite = spriteRenderer.sprite;
         SetUp();
     }
 

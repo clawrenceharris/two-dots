@@ -21,7 +21,7 @@ public abstract class VisualController : IVisualController
     /// <typeparam name="T">A game object of type Visuals</typeparam>
     /// <returns>The Visuals game object</returns>
     public abstract T GetVisuals<T>()
-        where T : Visuals;
+        where T : class;
 
     /// <summary>
     /// Returns the Two Dots game object that this visual

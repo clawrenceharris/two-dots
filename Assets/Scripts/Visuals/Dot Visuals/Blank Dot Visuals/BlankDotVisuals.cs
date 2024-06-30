@@ -3,5 +3,5 @@
 public class BlankDotVisuals : DotVisuals
 {
     public SpriteRenderer innerDot;
-    public float innerDotScaleDuration;
+    public static float innerDotScaleDuration = 0.3f;
 }

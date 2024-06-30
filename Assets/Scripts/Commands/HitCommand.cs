@@ -24,11 +24,11 @@ public class HitCommand : Command
 
         foreach (IHittable hittable in hittables)
         {
-            if (hittable == null || hittable is IExplodable)
+            if (hittable == null)
             {
                 continue;
             }
-            
+           
             foreach (HitType hitType in hittable.HitRules.Keys)
             {
                 if (hittable.HitRules.TryGetValue(hitType, out var rule))
@@ -40,17 +40,28 @@ public class HitCommand : Command
                         hits.Add(hittable);
                         CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
                     }
+
+
                 }
 
             }
-            
+            if (hittable != null && hittable.HitCount >= hittable.HitsToClear)
+            {
+                DidExecute = true;
+                DotsGameObject dotsGameObject = (DotsGameObject)hittable;
+                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+
+            }
+
 
         }
-        yield return new WaitForSeconds(0.9f);
+
+        yield return new WaitForSeconds(HittableVisuals.hitDuration);
 
         if (DidExecute)
         {
-            CommandInvoker.Instance.Enqueue(new ClearCommand());
+            // CommandInvoker.Instance.Enqueue(new ClearCommand());
+            CommandInvoker.Instance.Enqueue(new BoardCommand());
 
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
 

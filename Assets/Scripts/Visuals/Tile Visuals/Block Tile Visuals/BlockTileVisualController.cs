@@ -3,7 +3,7 @@
 public class BlockTileVisualController : HittableVisualController, ITileVisualController
 {
     private BlockTile tile;
-    private TileVisuals visuals;
+    public HittableVisuals Visuals { get; private set; }
 
     public override T GetGameObject<T>()
     {
@@ -13,13 +13,15 @@ public class BlockTileVisualController : HittableVisualController, ITileVisualCo
 
     public override T GetVisuals<T>()
     {
-        return visuals as T;
+        return Visuals as T;
     }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
+        base.Init(dotsGameObject);
+
         tile = (BlockTile)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<TileVisuals>();
+        Visuals = dotsGameObject.GetComponent<HittableVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
     }
