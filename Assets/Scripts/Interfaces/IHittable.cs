@@ -6,7 +6,7 @@ using System;
 public interface IHittable : IBoardElement
 {
     public HitType HitType { get; }
-    public IEnumerator Hit(HitType hitType);
+    public IEnumerator Hit(HitType hitType, Action onHitChanged = null);
 
 
    
@@ -20,6 +20,6 @@ public interface IHittable : IBoardElement
     public int HitsToClear { get; }
     public Dictionary<HitType, IHitRule> HitRules { get; }
     public void UndoHit();
-    public IEnumerator Clear(Action<IHittable> onComplete = null);
+    public IEnumerator Clear();
 
 }

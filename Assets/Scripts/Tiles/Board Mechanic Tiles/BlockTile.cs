@@ -31,7 +31,7 @@ public class BlockTile : Tile, IHittable
         visualController.Init(this);
     }
 
-    public IEnumerator Hit(HitType hitType)
+    public IEnumerator Hit(HitType hitType, Action onHitChanged = null)
     {
         DotsObjectEvents.NotifyHit(this);
 
@@ -42,16 +42,17 @@ public class BlockTile : Tile, IHittable
             yield return VisualController.DoBombHit();
 
         }
+        onHitChanged?.Invoke();
+
         yield return VisualController.DoHitAnimation(hitType);
 
     }
 
 
-    public IEnumerator Clear(Action<IHittable> onComplete)
+    public IEnumerator Clear()
     {
-        DotsObjectEvents.NotifyCleared(this, VisualController.Visuals.clearDuration);
+        DotsObjectEvents.NotifyCleared(this);
         yield return VisualController.DoClearAnimation();
-        onComplete?.Invoke(this);
     }
 
 
