@@ -1930,17 +1930,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2818817833734586123, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 1960504239126863493}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4964627941399903330 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6904294175992406759, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
-  m_PrefabInstance: {fileID: 1960504239126863493}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5131234187509868856}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef6adbc449d34b0497e2ca950d64da5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5131234187509868856 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -1970,7 +1959,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 691b61333f92c4a758be546fe6a6be5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hittableVisuals: {fileID: 4964627941399903330}
+  hittableVisuals:
+    clearDuration: 5
+    bombHitSprite: {fileID: 0}
   outerDot: {fileID: 8576582511116832377}
   leftWingLayer1: {fileID: 1835650987876660849}
   leftWingLayer2: {fileID: 6784024091193511163}

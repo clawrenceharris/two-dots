@@ -218,6 +218,11 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 3346875786764861427}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &7418231137940222176 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+  m_PrefabInstance: {fileID: 3346875786764861427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8246847050288318542 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -247,7 +252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ff7e1bd32f54d15b3b0a0548ee928f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hittableVisuals: {fileID: 0}
+  hittableVisuals:
+    clearDuration: 0.4
+    bombHitSprite: {fileID: 7418231137940222176}
   outerDot: {fileID: 4774173659814571791}
   numerableVisuals:
     digit1: {fileID: 5698075958798445826}

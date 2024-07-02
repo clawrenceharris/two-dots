@@ -166,17 +166,6 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 3062972721813983432}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8453581469220893231 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6904294175992406759, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
-  m_PrefabInstance: {fileID: 3062972721813983432}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8539122926316644213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef6adbc449d34b0497e2ca950d64da5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8539122926316644213 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -206,6 +195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2881741ec06684cf08a91e6580c1196d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hittableVisuals: {fileID: 8453581469220893231}
+  hittableVisuals:
+    clearDuration: 0.4
+    bombHitSprite: {fileID: 0}
   outerDot: {fileID: 5094386036265484340}
   innerDot: {fileID: 2479920984904146987}
