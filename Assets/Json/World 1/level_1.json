@@ -48,14 +48,13 @@
         //    "color": "red"
 
         //},
-        //{
-        //    "type": "monster",
-        //    "color": "red",
-        //    "number": 6
+        {
+            "type": "monster",
+            "color": "red",
+            "number": 6
 
 
-        //}
-
+        },
 
 
 

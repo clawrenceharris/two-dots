@@ -122,11 +122,11 @@ public class MoveBeetleDotsCommand : Command
                     else
                     {
                         //change the facing direction of the beetle
-                        CoroutineHandler.StartStaticCoroutine(beetleDot.TrySwap(() =>
+                        CoroutineHandler.StartStaticCoroutine(beetleDot.TrySwap(), () =>
                         {
                             UpdateBeetleDotDirection(beetleDot, dotToSwap, board);
 
-                        }));
+                        });
 
                     }
                     DidExecute = true;
@@ -151,7 +151,7 @@ public class MoveBeetleDotsCommand : Command
                         int dotToSwapRow = dotToSwap.Row;
                         int beetleDotCol = beetleDot.Column;
                         int beetleDotRow = beetleDot.Row;
-                        CoroutineHandler.StartStaticCoroutine(beetleDot.DoSwap(dotToSwap, () =>
+                        CoroutineHandler.StartStaticCoroutine(beetleDot.DoSwap(dotToSwap), () =>
                         {
 
                             board.Put(dotToSwap, beetleDotCol, beetleDotRow);
@@ -168,7 +168,7 @@ public class MoveBeetleDotsCommand : Command
                             UpdateBeetleDotDirection(beetleDot, nextDotToSwap, board);
 
 
-                        }));
+                        });
 
                     }
                 }

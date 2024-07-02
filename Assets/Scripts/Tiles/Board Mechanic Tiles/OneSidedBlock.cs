@@ -11,6 +11,7 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     private int directionY;
     public HitType HitType { get; private set; }
     public int DirectionX { get => directionX; set => directionX = value; }
+    public bool WasHit { get; protected set; }
 
     public int DirectionY { get => directionY; set => directionY = value; }
     public new OneSidedBlockVisualController VisualController => GetVisualController<OneSidedBlockVisualController>();

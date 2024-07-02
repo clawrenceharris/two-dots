@@ -5,21 +5,21 @@ using static Type;
 using System;
 public interface IHittable : IBoardElement
 {
-    public HitType HitType { get; }
-    public IEnumerator Hit(HitType hitType, Action onHitChanged = null);
+    HitType HitType { get; }
+    IEnumerator Hit(HitType hitType, Action onHitChanged = null);
 
-
+    bool WasHit { get; }
    
     /// <summary>
     /// Number of hits made on the dot
     /// </summary>
-    public int HitCount { get; set; }
+    int HitCount { get; set; }
     /// <summary>
     /// Number of hits required to clear the dot
     /// </summary>
-    public int HitsToClear { get; }
-    public Dictionary<HitType, IHitRule> HitRules { get; }
-    public void UndoHit();
-    public IEnumerator Clear();
+    int HitsToClear { get; }
+    Dictionary<HitType, IHitRule> HitRules { get; }
+    void UndoHit();
+    IEnumerator Clear();
 
 }

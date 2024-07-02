@@ -126,6 +126,7 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
             }
 
         }
+
         foreach (Transform child in visuals.rightWings)
         {
             if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
@@ -371,7 +372,7 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
 
     }
 
-    public IEnumerator TrySwap(Action callback)
+    public IEnumerator TrySwap()
     {
         float offset = 0.3f;
 
@@ -391,7 +392,6 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
             .SetEase(Ease.OutCubic);
             });
         yield return new WaitForSeconds(0.5f);
-        callback?.Invoke();
 
 
     }

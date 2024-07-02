@@ -25,8 +25,7 @@ public abstract class Dot : DotsGameObject, IHittable
 
 
     public  abstract int HitsToClear { get; }
-
-
+    public bool WasHit { get; protected set; }
 
     public virtual void Pulse()
     {
@@ -41,6 +40,7 @@ public abstract class Dot : DotsGameObject, IHittable
         DotsObjectEvents.NotifyHit(this);
 
         HitType = hitType;
+        WasHit = true;
         Hit(hitType);
         if (hitType == HitType.BombExplosion) {
             yield return VisualController.DoBombHit();

@@ -42,30 +42,28 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
     public int DirectionY { get => directionY; set => directionY = value; }
     private DotColor[] colors;
     public DotColor[] Colors { get => colors; set => colors = value; }
-    private bool wasHit;
     
 
     public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
 
 
-    public IEnumerator DoSwap(Dot dotToSwap, Action callback)
+    public IEnumerator DoSwap(Dot dotToSwap)
     {
-        if (wasHit)
+        if (WasHit)
         {
-            wasHit = false;
+            WasHit = false;
 
             yield break;
         }
 
         yield return VisualController.DoSwap(dotToSwap);
 
-        callback?.Invoke();
     }
 
     public override void Hit(HitType hitType)
     {
         HitCount++;
-        wasHit = true;
+        WasHit = true;
     }
     public override void InitDisplayController()
     {
@@ -96,16 +94,16 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
        yield return VisualController.PreviewClear();
     }
 
-    public IEnumerator TrySwap(Action onComplete)
+    public IEnumerator TrySwap()
     {
-        if (wasHit)
+        if (WasHit)
         {
-            wasHit = false;
+            WasHit = false;
             yield break;
         }
         
 
-        yield return VisualController.TrySwap(onComplete);
+        yield return VisualController.TrySwap();
     }
 
     public override void Select()
