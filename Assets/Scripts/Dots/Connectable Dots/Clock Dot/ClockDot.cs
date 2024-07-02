@@ -70,13 +70,12 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
         
         name = "(" + Column + ", " + Row + ")"; 
     }
-
-    public override IEnumerator Hit(HitType hitType)
+   
+    public override void Hit(HitType hitType)
     {
 
         numerable.Hit(hitType);
         HitCount = InitialNumber - TempNumber;
-        yield return base.Hit(hitType);
 
     }
 

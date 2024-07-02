@@ -49,7 +49,7 @@ public class BombDot : Dot, IExplodable
         {
            
 
-            StartCoroutine(VisualController.AnimateLine(hittable));
+            StartCoroutine(VisualController.DoLineAnimation(hittable));
             Hits.Add(hittable);
             hits.Add(hittable);
             yield return new WaitForSeconds(0.05f); // wait before animating next line
@@ -65,19 +65,11 @@ public class BombDot : Dot, IExplodable
         }
 
     }
-    public override IEnumerator Hit(HitType hitType)
+    public override void Hit(HitType hitType)
     {
         HitCount++;
-        return base.Hit(hitType);
     }
-
-    public override IEnumerator Clear(Action<IHittable> onComplete)
-    {
-        yield return Clear(VisualController.Visuals.hittableVisuals.clearDuration,
-            onComplete);
-
-        onComplete?.Invoke(this);
-    }
+    
 
 }
    

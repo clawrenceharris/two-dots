@@ -24,18 +24,11 @@ public class BlankDot : BlankDotBase
         visualController = new BlankDotVisualController();
         visualController.Init(this);
     }
-    
-    public override IEnumerator Hit(HitType hitType)
+
+    public override void Hit(HitType hitType)
     {
         HitCount++;
-        yield return base.Hit(hitType);
     }
 
-    public override IEnumerator Clear(Action<IHittable> onComplete)
-    {
-        yield return Clear(VisualController.Visuals.hittableVisuals.clearDuration,
-            onComplete);
-
-    }
-
+   
 }

@@ -37,13 +37,11 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
         visualController.Init(this);
     }
 
-    public override IEnumerator Hit(HitType hitType)
+    public override void Hit(HitType hitType)
     {
 
         numerable.Hit(hitType);
         HitCount = InitialNumber - TempNumber;
-
-        yield return base.Hit(hitType);
 
     }
     public override void Disconnect()
@@ -65,15 +63,6 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     public IEnumerator PreviewClear()
     {
         yield break ;
-    }
-
-
-    public override IEnumerator Clear(Action<IHittable> onComplete)
-    {
-        yield return Clear(VisualController.Visuals.hittableVisuals.clearDuration,
-            onComplete);
-
-        onComplete?.Invoke(this);
     }
 
 }

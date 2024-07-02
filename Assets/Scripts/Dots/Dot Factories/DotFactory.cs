@@ -21,6 +21,7 @@ public class DotFactory
         {
             string color = data.GetProperty<string>("Color");
             colorable.Color = JSONLevelLoader.FromJSONColor(color);
+            Debug.Log("HIIIII");
         }
 
         if (dotsGameObject is INumerable numberable)

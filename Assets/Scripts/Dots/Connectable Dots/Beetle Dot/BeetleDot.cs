@@ -62,13 +62,11 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         callback?.Invoke();
     }
 
-    public override IEnumerator Hit(HitType hitType)
+    public override void Hit(HitType hitType)
     {
         HitCount++;
         wasHit = true;
-        yield return base.Hit(hitType);
     }
-
     public override void InitDisplayController()
     {
         visualController = new BeetleDotVisualController();
@@ -116,14 +114,6 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         StartCoroutine(VisualController.PreviewHit(HitType.Connection));
     }
 
-    public override IEnumerator Clear(Action<IHittable> onComplete)
-    {
-        onComplete?.Invoke(this);
-
-        DotsObjectEvents.NotifyCleared(this, VisualController.Visuals.hittableVisuals.clearDuration);
-        yield return VisualController.DoClearAnimation();
-
-    }
-
+    
 
 }

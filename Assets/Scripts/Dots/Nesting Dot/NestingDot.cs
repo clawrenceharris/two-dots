@@ -28,10 +28,9 @@ public class NestingDot : Dot, IPreviewable
         new(){{HitType.NestingDot, new HitByNeighborsRule()}};
 
    
-    public override IEnumerator Hit(HitType hitType)
+    public override void Hit(HitType hitType)
     {
         HitCount++;
-        yield return base.Hit(hitType);
     }
     public override void InitDisplayController()
     {
