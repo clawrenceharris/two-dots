@@ -109,7 +109,9 @@ public static class Type
         Board,
         Explosion,
         MoveBeetleDots,
-        Explode,
+        BombExplode,
+        GemExplode,
+        None,
     }
     public enum ExplosionType
     {
@@ -183,6 +185,18 @@ public static class Type
         return type == DotType.BeetleDot;
     }
 
+    public static CommandType ToCommandType(this ExplosionType type)
+    {
+        switch (type)
+        {
+            case ExplosionType.BombExplosion:
+                return CommandType.BombExplode;
+            case ExplosionType.GemExplosion:
+                return CommandType.GemExplode;
+            default: return CommandType.None;
+            
+        }
+    }
     
 }
 

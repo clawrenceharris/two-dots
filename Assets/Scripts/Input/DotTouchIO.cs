@@ -22,6 +22,12 @@ public class DotTouchIO : MonoBehaviour
         {
             return false;
         }
+
+        if(connectable.HitCount >= connectable.HitsToClear)
+        {
+            return false;
+        }
+
         int column = (int)worldPosition.x;
         int row = (int)worldPosition.y;
 

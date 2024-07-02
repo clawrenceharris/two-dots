@@ -53,11 +53,11 @@ public class LineManager
     }
 
     
-    private void OnDotConnected(Dot dot)
+    private void OnDotConnected(ConnectableDot dot)
     {
-        currentLine.endPos = dot.transform.position;
+        currentLine.endPos = new Vector2(dot.Column, dot.Row) * Board.offset;
 
-        currentLine = DrawLine(dot.transform);
+        currentLine = DrawLine(dot);
         lines.Add(currentLine);
 
     }
@@ -86,45 +86,23 @@ public class LineManager
         }
     }
 
-    /// <summary>
-    /// Unsubscribes from game events.
-    /// </summary>
-    public void UnsubscribeFromEvents()
+    
+    private void OnDotSelected(ConnectableDot dot)
     {
-        ConnectionManager.onDotConnected -= OnDotConnected;
-        ConnectionManager.onDotDisconnected -= OnDotDisconnected;
-        ConnectionManager.onDotSelected -= OnDotSelected;
-        ConnectionManager.onConnectionEnded -= OnConnectionEnded;
-    }
-
-    /// <summary>
-    /// Handles the event when a dot is selected.
-    /// </summary>
-    /// <param name="dot">The dot that is selected.</param>
-    private void OnDotSelected(Dot dot)
-    {
-        Debug.Log(dot.Column + ", " + dot.Row);
-        Debug.Log(dot.name);
         //draw line when we select a dot
-        currentLine = DrawLine(dot.transform);
+        currentLine = DrawLine(dot);
         lines.Add(currentLine);
 
     }
 
-    /// <summary>
-    /// Handles the event when a dot is disconnected.
-    /// </summary>
-    /// <param name="dot">The dot that is disconnected.</param>
+    
     private void OnDotDisconnected(Dot dot)
     {
         //remove line when we disconnect a dot
         RemoveLine();
     }
 
-    /// <summary>
-    /// Handles the event when a connection between dots is ended.
-    /// </summary>
-    /// <param name="dots">The dots involved in the connection.</param>
+    
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
         foreach (ConnectorLine line in lines)
@@ -136,16 +114,16 @@ public class LineManager
     }
 
     /// <summary>
-    /// Draws a line between dots.
+    /// Draws a line at the given start position.
     /// </summary>
-    /// <param name="startPos">The position of the dot where the line starts.</param>
-    private ConnectorLine DrawLine(Transform start)
+    /// <param name="startPos">The position of the dot where the line should start.</param>
+    private ConnectorLine DrawLine(ConnectableDot dot)
     {
 
         ConnectorLine line = LinePool.Instance.Get();
         line.transform.parent = board.transform;
         line.color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
-        line.startPos = start.position;
+        line.startPos = new Vector2(dot.Column, dot.Row) * Board.offset;
         line.initialScale = new Vector2(1f, 0.3f);
 
         //we dont want the line to be active when we have a square

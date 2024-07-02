@@ -183,17 +183,14 @@ public class ConnectionManager
         {
             onConnectionEnded?.Invoke(ConnectedDots);
         }
-        
-
-
     }
-
+    
 
     private void OnCommandExecuted(Command command)
     {
         if(command is ClearCommand)
         {
-            Connection = null;
+            Connection.EndConnection();
 
         }
     }

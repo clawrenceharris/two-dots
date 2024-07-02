@@ -7,22 +7,19 @@ using static Type;
 
 public class Board : MonoBehaviour
 {
-    public int Width;
-    public int Height;
+    public int Width { get; private set; }
+    public int Height { get; private set; }
 
     private Dot[,] Dots;
-    public CommandType CommandType => CommandType.Board;
 
-    public bool DidExecute { get; private set; }
     public Tile[,] Tiles { get; private set; }
+
     private DotsGameObjectData[] tilesOnBoard;
-    public static event Action OnWin;
     private DotsGameObjectData[] dotsToSpawn;
     private DotsGameObjectData[] dotsOnBoard;
     private LineManager lineManager;
 
     public static float offset = 2.2f;
-    private List<DotsGameObject> cleared;
 
     public static float DotDropSpeed { get; private set; } = 0.4f;
 
@@ -41,7 +38,6 @@ public class Board : MonoBehaviour
         Tiles = new Tile[level.width, level.height];
         lineManager = new LineManager(this);
         tilesOnBoard = level.tilesOnBoard;
-        cleared = new();
         SetUpBoard();
 
 
@@ -81,7 +77,7 @@ public class Board : MonoBehaviour
 
 
 
-    private void OnCleared(DotsGameObject dotsGameObject, float clearDuration)
+    private void OnCleared(DotsGameObject dotsGameObject)
     {
 
         if (dotsGameObject is Dot dot)
@@ -98,13 +94,14 @@ public class Board : MonoBehaviour
 
         }
 
-        StartCoroutine(ClearCo(dotsGameObject, clearDuration));
+        StartCoroutine(ClearCo(dotsGameObject));
 
     }
 
-    private IEnumerator ClearCo(DotsGameObject dotsGameObject, float clearDuration)
+    private IEnumerator ClearCo(DotsGameObject dotsGameObject)
     {
-        yield return new WaitForSeconds(clearDuration);
+        float waitTime = dotsGameObject.VisualController.GetVisuals<IHittableVisuals>().ClearDuration; 
+        yield return new WaitForSeconds(waitTime);
         
 
         DestroyDotsGameObject(dotsGameObject);

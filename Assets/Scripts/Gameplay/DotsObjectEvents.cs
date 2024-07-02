@@ -3,14 +3,14 @@
 public static class DotsObjectEvents
 {
     public static event Action<DotsGameObject> onHit;
-    public static event Action<DotsGameObject, float> onCleared;
+    public static event Action<DotsGameObject> onCleared;
    
 
 
-    public static void NotifyCleared(DotsGameObject instance, float clearTime)
+    public static void NotifyCleared(DotsGameObject instance)
     {
        
-        onCleared?.Invoke(instance, clearTime);
+        onCleared?.Invoke(instance);
     }
 
     public static void NotifyHit(DotsGameObject instance)
