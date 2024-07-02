@@ -6,54 +6,37 @@ using System.Collections.Generic;
 
 public class ClearCommand : Command
 {
-
     public override CommandType CommandType => CommandType.Clear;
 
-   
+
     public override IEnumerator Execute(Board board)
     {
+        onCommandExecuting?.Invoke(this);
+
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ClearCommand));
 
 
-        
         List<IHittable> hittables = board.GetElements<IHittable>();
-        int clears = 0;
-        List<IHittable> toClear = new();
-        foreach (IHittable hittable in hittables) {
 
-            
+        foreach (IHittable hittable in hittables)
+        {
             if (hittable != null && hittable.HitCount >= hittable.HitsToClear)
             {
                 DidExecute = true;
-                DotsGameObject dotsGameObject = (DotsGameObject)hittable;
-                CoroutineHandler.StartStaticCoroutine(hittable.Clear((hittable) => clears++));
-                toClear.Add(hittable);
+                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
 
             }
         }
 
+
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
+
+
+
+        Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ClearCommand));
+
         CommandInvoker.Instance.Enqueue(new BoardCommand());
-
-        if (DidExecute)
-        {
-
-            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ClearCommand));
-
-
-        }
-        else
-        {
-            CommandInvoker.Instance.Enqueue(new ExplosionCommand());
-
-        }
-
-       
-
-
-
-
 
 
 
@@ -61,3 +44,4 @@ public class ClearCommand : Command
 
     }
 }
+

@@ -32,22 +32,42 @@ public class SoundManager : MonoBehaviour
         DotsObjectEvents.onCleared += OnCleared;
         DotsObjectEvents.onHit += OnDotHit;
         Connection.onSquareMade += OnSquareMade;
-        Command.onCommandExecuted += OnCommandExecuted;
+        Command.onCommandExecuting += OnCommandExecuting;
+
     }
 
+
+
+
+    private void OnCommandExecuting(Command command)
+    {
+        PlayCommandExecutionSound(command);
+
+    }
+
+    private void PlayCommandExecutionSound(Command command)
+    {
+        AudioClip sound = GetCommandExecutionSound(command);
+        audioSource.PlayOneShot(sound);
+    }
+
+    private AudioClip GetCommandExecutionSound(Command command)
+    {
+        return command.CommandType switch
+        {
+            CommandType.BombExplode => bombExplode,
+            CommandType.MoveClockDots => null,
+            CommandType.MoveBeetleDots => null,
+            
+            _ => null,
+        };
+    }
 
     private void PlayDotHitSound(Dot dot)
     {
         AudioClip sound = GetDotHitSound(dot);
-        //if (!hitSounds.Contains(sound))
-        //{
-            audioSource.PlayOneShot(sound);
-            hitSounds.Add(sound); 
-        //}
-       
+        audioSource.PlayOneShot(sound);
         
-        
-
     }
     
     private AudioClip GetDotClearedSound(Dot dot)
@@ -67,7 +87,6 @@ public class SoundManager : MonoBehaviour
         return dot.DotType switch
         {
             DotType.ClockDot => clockHit,
-            DotType.Bomb => bombExplode,
             DotType.AnchorDot => anchorDotSink,
 
             _ => null,
@@ -100,11 +119,7 @@ public class SoundManager : MonoBehaviour
     private void PlayDotCleardSound(Dot dot)
     {
         AudioClip sound = GetDotClearedSound(dot);
-        //if (!clearSounds.Contains(sound))
-        //{
-            audioSource.PlayOneShot(sound);
-            clearSounds.Add(sound); 
-        //}
+        audioSource.PlayOneShot(sound);
         
     }
 
@@ -112,13 +127,8 @@ public class SoundManager : MonoBehaviour
     private void PlayTileCleardSound(Tile tile)
     {
         AudioClip sound = GetTileClearedSound(tile);
-        
-
-        //if (!clearSounds.Contains(sound))
-        //{
-            audioSource.PlayOneShot(sound);
-            clearSounds.Add(sound); 
-        //}
+        audioSource.PlayOneShot(sound);
+        clearSounds.Add(sound); 
         
     }
 
@@ -143,26 +153,14 @@ public class SoundManager : MonoBehaviour
         
     }
 
-    private void OnCleared(DotsGameObject dotsObject, float clearTime)
+    private void OnCleared(DotsGameObject dotsObject)
     {
         if(dotsObject is Tile tile)
             PlayTileCleardSound(tile);
         if (dotsObject is Dot dot)
             PlayDotCleardSound(dot);
     }
-    private void OnCommandExecuted(Command command)
-    {
-        //if (command is HitCommand)
-        //{
-        //    hitSounds.Clear();
-        //    clearSounds.Clear();
-        //}
-    }
-    //private void OnCommandsEnded()
-    //{
-    //    hitSounds.Clear();
-    //    clearSounds.Clear();
-    //}
+   
 
     private void OnSquareMade(Square square)
     {

@@ -20,6 +20,8 @@ public class MoveClockDotsCommand : Command
 
             yield break;
         }
+        onCommandExecuting?.Invoke(this);
+
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
         //LinkedListNode<ConnectableDot> currentNode = connectedDots.Last;
 

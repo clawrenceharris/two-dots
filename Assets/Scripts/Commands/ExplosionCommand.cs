@@ -14,6 +14,8 @@ public class ExplosionCommand : Command
     
     public override IEnumerator Execute(Board board)
     {
+        onCommandExecuting?.Invoke(this);
+
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ExplosionCommand));
 
         List<IExplodable> explodables = board.GetExplodables();
@@ -25,7 +27,7 @@ public class ExplosionCommand : Command
         foreach (var group in groupedExplodables)
         {
             
-            CommandInvoker.Instance.Enqueue(new ExplodeCommand(group));
+            CommandInvoker.Instance.Enqueue(new ExplodeCommand(group, group.First().ExplosionType.ToCommandType()));
             
             DidExecute = true;
             

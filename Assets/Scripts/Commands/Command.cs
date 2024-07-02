@@ -7,6 +7,8 @@ using static Type;
 
 public abstract class Command : ICommand
 {
+    public static Action<Command> onCommandExecuting;
+
     public bool DidExecute { get; protected set; }
     public abstract CommandType CommandType { get; }
 

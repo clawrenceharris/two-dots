@@ -17,11 +17,12 @@ public class HitCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
-        List<IEnumerator> hitCoroutines = new();
+        onCommandExecuting?.Invoke(this);
+
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(HitCommand));
         List<IHittable> hits = new();
         List<IHittable> hittables = board.GetElements<IHittable>();
-
+        int hitCount = 0;
         foreach (IHittable hittable in hittables)
         {
             if (hittable == null)
@@ -38,30 +39,23 @@ public class HitCommand : Command
                         
                         DidExecute = true;
                         hits.Add(hittable);
-                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType));
+                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => hitCount++));
                     }
 
 
                 }
 
             }
-            if (hittable != null && hittable.HitCount >= hittable.HitsToClear)
-            {
-                DidExecute = true;
-                DotsGameObject dotsGameObject = (DotsGameObject)hittable;
-                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
-
-            }
+            
 
 
         }
+        yield return new WaitUntil(() => hits.Count == hitCount);
 
-        yield return new WaitForSeconds(HittableVisuals.hitDuration);
 
         if (DidExecute)
         {
-            // CommandInvoker.Instance.Enqueue(new ClearCommand());
-            CommandInvoker.Instance.Enqueue(new BoardCommand());
+            CommandInvoker.Instance.Enqueue(new ClearCommand());
 
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(HitCommand));
 

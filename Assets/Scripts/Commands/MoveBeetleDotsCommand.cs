@@ -94,6 +94,9 @@ public class MoveBeetleDotsCommand : Command
         {
             yield break;
         }
+
+        onCommandExecuting?.Invoke(this);
+
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
 
 

@@ -7,21 +7,23 @@ using System.Linq;
 
 public class ExplodeCommand : Command
 {
-    private readonly IGrouping<ExplosionType, IExplodable> explodables;
+    public readonly IGrouping<ExplosionType, IExplodable> explodables;
 
-    public override CommandType CommandType => CommandType.Explode;
+    private readonly CommandType commandType;
 
+    public override CommandType CommandType => commandType;
 
-    public ExplodeCommand(IGrouping<ExplosionType, IExplodable> explodables)
+    public ExplodeCommand(IGrouping<ExplosionType, IExplodable> explodables, CommandType commandType)
     {
         this.explodables = explodables;
+        this.commandType = commandType;
     }
 
 
     public override IEnumerator Execute(Board board)
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ExplodeCommand));
-
+        onCommandExecuting?.Invoke(this);
         List<IHittable> hits = new();
         int hitCount = 0;
         foreach (IExplodable explodable in explodables)
@@ -37,7 +39,7 @@ public class ExplodeCommand : Command
                     CoroutineHandler.StartStaticCoroutine(
                     explodable.Explode(toHit, (hittable) =>
                     {
-                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType), () => hitCount++);
+                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => hitCount++));
 
                     }));
 
@@ -56,7 +58,7 @@ public class ExplodeCommand : Command
         if (DidExecute)
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ExplodeCommand));
-            CommandInvoker.Instance.Enqueue(new HitCommand());
+            CommandInvoker.Instance.Enqueue(new ClearCommand());
         }
         
 
