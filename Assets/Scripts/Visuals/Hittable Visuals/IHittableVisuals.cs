@@ -6,5 +6,5 @@ public interface IHittableVisuals
 {
     SpriteRenderer BombHitSprite { get; }
     float ClearDuration { get; }
-   
+    
 }

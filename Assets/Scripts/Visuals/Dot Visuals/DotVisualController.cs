@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using static Type;
 public abstract class DotVisualController : HittableVisualController, IDotVisualController
 {
+    
 
     public IEnumerator Pulse()
     {

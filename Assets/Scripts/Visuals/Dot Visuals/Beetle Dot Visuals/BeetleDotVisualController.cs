@@ -5,33 +5,26 @@ using DG.Tweening;
 using static Type;
 using System;
 
-public class BeetleDotVisualController : ColorableDotVisualController, IPreviewable
+public class BeetleDotVisualController : ColorableVisualController, IPreviewable
 {
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
     private List<GameObject> wingsLayer3;
     private List<List<GameObject>> wingLayers;
     private BeetleDot dot;
-    public BeetleDotVisuals Visuals { get; private set; }
+    private BeetleDotVisuals visuals;
     private int currentLayerIndex;
 
-    public override T GetGameObject<T>()
-    {
-        return dot as T;
-    }
-
-
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
+    public override T GetGameObject<T>() => dot as T;
+    
+    public override T GetVisuals<T>() => visuals as T;
+    
 
     public override void Init(DotsGameObject dotsGameObject)
     {
-        base.Init(dotsGameObject);
 
         dot = (BeetleDot)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<BeetleDotVisuals>();
+        visuals = dotsGameObject.GetComponent<BeetleDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
 
@@ -40,16 +33,16 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
     protected override void SetUp()
     {
         wingsLayer1 = new() {
-            Visuals.leftWingLayer1,
-            Visuals.rightWingLayer1,
+            visuals.leftWingLayer1,
+            visuals.rightWingLayer1,
         };
         wingsLayer2 = new() {
-            Visuals.leftWingLayer2,
-            Visuals.rightWingLayer2,
+            visuals.leftWingLayer2,
+            visuals.rightWingLayer2,
         };
         wingsLayer3 = new() {
-            Visuals.leftWingLayer3,
-            Visuals.rightWingLayer3,
+            visuals.leftWingLayer3,
+            visuals.rightWingLayer3,
         };
         wingLayers = new()
         {
@@ -66,12 +59,14 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
     protected override void SetColor()
     {
-        for (int i = 1; i < dot.Colors.Length; i++)
+        Color currentColor = ColorSchemeManager.FromDotColor(dot.Color);
+
+        SetColor(currentLayerIndex, currentColor);
+
+        for (int i = currentLayerIndex + 1; i < wingLayers.Count; i++)
         {     
             SetColor(i, ColorSchemeManager.FromDotColor(dot.Colors[i]));    
         }
-        Color color = ColorSchemeManager.FromDotColor(dot.Color);
-        SetColor(currentLayerIndex, color);
 
 
     }
@@ -107,6 +102,14 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
         }
 
+        foreach(Transform child in visuals.rightWings)
+        {
+            if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.enabled = false;
+            }
+        }
+
         base.DisableSprites();
     }
 
@@ -123,7 +126,13 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
             }
 
         }
-
+        foreach (Transform child in visuals.rightWings)
+        {
+            if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
+            {
+                spriteRenderer.enabled = true;
+            }
+        }
         base.EnableSprites();
     }
 
@@ -140,8 +149,8 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
             CoroutineHandler.StartStaticCoroutine(RemoveWingsCo(i, duration));
             if (i + 1 < wingLayers.Count)
             {
-                wingLayers[i + 1][1].transform.parent = Visuals.rightWings;
-                wingLayers[i + 1][0].transform.parent = Visuals.leftWings;
+                wingLayers[i + 1][1].transform.parent = visuals.rightWings;
+                wingLayers[i + 1][0].transform.parent = visuals.leftWings;
             }
         }
     }
@@ -152,7 +161,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
         float startFlapAngle = isBombHit ? 20f : 45f;
         float endFlapAngle = isBombHit ? 15f : 0;
 
-        float duration = Visuals.hittableVisuals.clearDuration;
+        float duration = visuals.hittableVisuals.ClearDuration;
         float elapsedTime = 0f;
         float amplitude = 1f;
         float frequency = 0.1f;
@@ -208,18 +217,15 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
         Vector3 rightWingEndAngle = new(0, 0, endFlapAngle);
         
         // Flap up
-        Visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
-        Visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
+        visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
+        visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
 
         yield return new WaitForSeconds(flapDuration);
 
         // Flap down
-        Visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
-        Visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
-        yield return new WaitForSeconds(flapDuration);
-
-        
-       
+        visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
+        visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
+        yield return new WaitForSeconds(flapDuration);  
     }
 
 
@@ -232,8 +238,8 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
             yield return FlapWings(startFlapAngle, endFlapAngle);
 
         }
-        Visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        Visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
     }
 
@@ -249,8 +255,8 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
         float hitDuration = HittableVisuals.hitDuration;
         currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, dot.HitsToClear - 1);
 
-        Visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        Visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
         if(dot.HitCount == 3)
         {
@@ -265,8 +271,8 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
     {
 
         Vector3 rotation = GetRotation();
-        yield return dot.transform.DOLocalRotate(rotation, Visuals.rotationSpeed)
-                    .SetEase(Visuals.rotationEase);
+        yield return dot.transform.DOLocalRotate(rotation, visuals.rotationSpeed)
+                    .SetEase(visuals.rotationEase);
 
     }
 
@@ -339,13 +345,13 @@ public class BeetleDotVisualController : ColorableDotVisualController, IPreviewa
 
     }
 
-    public override IEnumerator DoBombHit()
-    {
-        Color initialColor = ColorSchemeManager.FromDotColor(dot.Color);
-        SetColor(currentLayerIndex, ColorSchemeManager.CurrentColorScheme.bombLight);
-        yield return new WaitForSeconds(HittableVisuals.hitDuration);
-        SetColor(currentLayerIndex, initialColor);
-    }
+    //public override IEnumerator DoBombHit()
+    //{
+    //    Color initialColor = ColorSchemeManager.FromDotColor(dot.Color);
+    //    SetColor(currentLayerIndex, ColorSchemeManager.CurrentColorScheme.bombLight);
+    //    yield return new WaitForSeconds(HittableVisuals.bombHitDuration);
+    //    SetColor(currentLayerIndex, initialColor);
+    //}
 
     public IEnumerator DoSwap(Dot dotToSwap)
     {

@@ -10,26 +10,18 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 {
     public static Dictionary<Dot, GameObject> ClockDotPreviews { get; private set; } = new();
     private ClockDot dot;
-    public ClockDotVisuals Visuals { get; private set; }
+    private  ClockDotVisuals visuals;
     private readonly NumerableVisualControllerBase numerableVisualController = new();
 
-    public override T GetGameObject<T>()
-    {
-        return dot as T;
-    }
+    public override T GetGameObject<T>() => dot as T;
 
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
+    public override T GetVisuals<T>() => visuals as T;
     public override void Init(DotsGameObject dotsGameObject)
     {
-        base.Init(dotsGameObject);
-
         dot = (ClockDot)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
+        visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        numerableVisualController.Init(Visuals.numerableVisuals);
+        numerableVisualController.Init(visuals.numerableVisuals);
         SetUp();
     }
 
@@ -42,9 +34,9 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
     protected override void SetColor()
     {
-        Visuals.top.color = ColorSchemeManager.CurrentColorScheme.clockDot;
-        Visuals.middle.color = new Color(255, 255, 255, 0.6f);
-        Visuals.shadow.color = new Color(255, 255, 255, 0.6f);
+        visuals.top.color = ColorSchemeManager.CurrentColorScheme.clockDot;
+        visuals.middle.color = new Color(255, 255, 255, 0.6f);
+        visuals.shadow.color = new Color(255, 255, 255, 0.6f);
         base.SetColor();
     }
 
@@ -70,7 +62,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
             }
         }
 
-        yield return new WaitForSeconds(HittableVisuals.hitDuration);
+        yield return new WaitForSeconds(HittableVisuals.bombHitDuration);
 
         //set back to initial color
         SetColor();
@@ -89,9 +81,9 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     public void Disconnect()
     {
 
-        Visuals.clockDotPreview.SetActive(false);
-        Visuals.clockDotPreview.transform.SetParent(dot.transform);
-        Visuals.clockDotPreview.transform.position = dot.transform.position;
+        visuals.clockDotPreview.SetActive(false);
+        visuals.clockDotPreview.transform.SetParent(dot.transform);
+        visuals.clockDotPreview.transform.position = dot.transform.position;
 
     }
 
@@ -109,11 +101,11 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         {
             yield break;
         }
-        Visuals.clockDotPreview.SetActive(true);
-        Visuals.clockDotPreview.transform.SetParent(null);
-        Color color = Visuals.clockDotPreview.GetComponent<SpriteRenderer>().color;
+        visuals.clockDotPreview.SetActive(true);
+        visuals.clockDotPreview.transform.SetParent(null);
+        Color color = visuals.clockDotPreview.GetComponent<SpriteRenderer>().color;
         color.a = 0.6f;
-        ClockDotPreviews.TryAdd(dot, Visuals.clockDotPreview);
+        ClockDotPreviews.TryAdd(dot, visuals.clockDotPreview);
         for (int i = connectedDots.Count - 1; i >= 0; i--)
         {
             Dot currentDot = connectedDots[i];
@@ -155,7 +147,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     private void MoveClockDotPreview( ClockDot clockDot, Dot destination)
     {
         ClockDotVisualController clockDotVisualController = clockDot.VisualController;
-        GameObject clockDotPreview = clockDotVisualController.Visuals.clockDotPreview;
+        GameObject clockDotPreview = clockDotVisualController.visuals.clockDotPreview;
         Vector2 pos = new Vector2(destination.Column, destination.Row) * Board.offset;
 
         clockDotPreview.transform.DOMove(pos, 0.6f);

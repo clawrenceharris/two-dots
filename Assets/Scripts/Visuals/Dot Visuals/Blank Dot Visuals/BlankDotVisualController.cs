@@ -5,25 +5,17 @@ using UnityEngine;
 public class BlankDotVisualController : BlankDotBaseVisualController
 {
     private BlankDot dot;
-    public BlankDotVisuals Visuals { get; private set; }
+    private BlankDotVisuals visuals;
 
-    public override T GetGameObject<T>()
-    {
-        return dot as T;
-    }
+    public override T GetGameObject<T>() => dot as T;
 
+    public override T GetVisuals<T>() => visuals as T;
 
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
 
     public override void Init(DotsGameObject dotsGameObject)
     {
-        base.Init(dotsGameObject);
-
         dot = (BlankDot)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<BlankDotVisuals>();
+        visuals = dotsGameObject.GetComponent<BlankDotVisuals>();
 
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();

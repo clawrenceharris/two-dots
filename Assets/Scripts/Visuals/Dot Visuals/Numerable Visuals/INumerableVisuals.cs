@@ -2,7 +2,6 @@
 
 public interface INumerableVisuals
 {
-    public SpriteRenderer Digit1 { get; }
-    public SpriteRenderer Digit2 { get; }
-    public Sprite[] Numbers { get; }
+    SpriteRenderer Digit1 { get; }
+    SpriteRenderer Digit2 { get; }
 }

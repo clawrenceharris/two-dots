@@ -6,26 +6,18 @@ using UnityEngine;
 public class OneSidedBlockVisualController : HittableVisualController
 {
     private OneSidedBlock tile;
-    public HittableVisuals Visuals { get; private set; }
+    private HittableTileVisuals visuals;
 
-    public override T GetGameObject<T>()
-    {
-        return tile as T ;
-    }
+    public override T GetGameObject<T>() => tile as T;
 
-
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
+    public override T GetVisuals<T>() => visuals as T;
 
     public override void Init(DotsGameObject dotsGameObject)
     {
-        base.Init(dotsGameObject);
-
         tile = (OneSidedBlock)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<HittableVisuals>();
+        visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
+        sprite = spriteRenderer.sprite;
         SetUp();
     }
 
@@ -65,5 +57,6 @@ public class OneSidedBlockVisualController : HittableVisualController
         tile.transform.rotation = rotation;
     }
 
-   
+    
+
 }

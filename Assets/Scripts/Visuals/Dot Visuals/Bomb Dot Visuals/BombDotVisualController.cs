@@ -7,25 +7,15 @@ using DG.Tweening;
 public class BombDotVisualController : DotVisualController
 {
     private BombDot dot;
-    public BombDotVisuals Visuals { get; private set; }
+    private BombDotVisuals visuals;
 
+    public override T GetGameObject<T>() => dot as T;
 
-    public override T GetGameObject<T>()
-    {
-        return dot as T;
-    }
-
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
-
+    public override T GetVisuals<T>() => visuals as T;
     public override void Init(DotsGameObject dotsGameObject)
     {
-        base.Init(dotsGameObject);
-
         dot = (BombDot)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<BombDotVisuals>();
+        visuals = dotsGameObject.GetComponent<BombDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
 
@@ -33,22 +23,22 @@ public class BombDotVisualController : DotVisualController
 
     protected override void SetColor()
     {
-        for (int i = 0; i  < Visuals.bombSprites.Length; i++)
+        for (int i = 0; i  < visuals.bombSprites.Length; i++)
         {
             if(i % 2 == 0)
-                Visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
+                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
             else
-                Visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
+                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
 
         }
     }
 
 
-    public IEnumerator AnimateLine(IHittable hittable)
+    public IEnumerator DoLineAnimation(IHittable hittable)
     {
 
         float elapsedTime = 0f;
-        float duration = 0.3f;
+        float duration = 0.25f;
 
         Vector2 startPos = dot.transform.position;
         Vector2 endPos = new Vector2(hittable.Column, hittable.Row) * Board.offset;
@@ -61,7 +51,7 @@ public class BombDotVisualController : DotVisualController
 
         line.transform.parent = dot.transform;
         line.transform.localScale = startScale;
-        line.sprite.color = BombDot.Hits.Contains(hittable) || hittable is BombDot ? Color.clear : ColorSchemeManager.CurrentColorScheme.bombLight;
+        line.sprite.enabled = !BombDot.Hits.Contains(hittable) && hittable is not BombDot;
         line.transform.rotation = Quaternion.Euler(1f, 0, angle);
         line.disabled = true;
 
@@ -70,8 +60,8 @@ public class BombDotVisualController : DotVisualController
         {
             float t = elapsedTime / duration; 
 
-            Vector3 newPos = Vector3.Lerp(startPos, endPos, t);
-            Vector3 newScale = Vector3.Lerp(startScale, endScale, t);
+            Vector3 newPos = Vector2.Lerp(startPos, endPos, t);
+            Vector3 newScale = Vector2.Lerp(startScale, endScale, t);
 
             // Update line position
             line.transform.position = newPos;

@@ -2,29 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IPreviewable
+public class MonsterDotVisualController : ColorableVisualController, INumerableVisualController, IPreviewable
 {
     private MonsterDot dot;
-    public MonsterDotVisuals Visuals { get; private set; }
+    private MonsterDotVisuals visuals;
     private readonly NumerableVisualControllerBase numerableVisualController = new();
-    public override T GetGameObject<T>()
-    {
-        return dot as T;
-    }
+    public override T GetGameObject<T>() => dot as T;
 
-
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
+    public override T GetVisuals<T>() => visuals as T;
 
     public override void Init(DotsGameObject dotsGameObject)
     {
         dot = (MonsterDot)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
+        visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
-        numerableVisualController.Init(Visuals.numerableVisuals);
+        numerableVisualController.Init(visuals.numerableVisuals);
         
     }
 
@@ -39,12 +32,12 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         float scaleDuration = 0.4f;
         UpdateNumbers(dot.TempNumber);
 
-        Visuals.numerableVisuals.digit1.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
-        Visuals.numerableVisuals.digit2.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
+        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
+        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
 
         yield return new WaitForSeconds(scaleDuration);
-        Visuals.numerableVisuals.digit1.transform.DOScale(Vector2.one, scaleDuration);
-        Visuals.numerableVisuals.digit2.transform.DOScale(Vector2.one, scaleDuration);
+        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one, scaleDuration);
+        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one, scaleDuration);
 
     }
 

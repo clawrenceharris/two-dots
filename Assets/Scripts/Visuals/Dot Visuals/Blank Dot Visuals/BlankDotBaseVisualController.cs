@@ -5,7 +5,7 @@ using DG.Tweening;
 using static Type;
 using System;
 
-public abstract class BlankDotBaseVisualController : ColorableDotVisualController
+public abstract class BlankDotBaseVisualController : ColorableVisualController
 {
     
     

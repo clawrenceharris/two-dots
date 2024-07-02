@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClockDotVisuals : BlankDotVisuals
+public class ClockDotVisuals : BlankDotVisuals, INumerableVisuals
 {
     public NumerableVisuals numerableVisuals;
 
@@ -11,8 +11,8 @@ public class ClockDotVisuals : BlankDotVisuals
     public SpriteRenderer shadow;
     public GameObject clockDotPreview;
 
-    
+    public SpriteRenderer Digit1 => numerableVisuals.Digit1;
 
-    
+    public SpriteRenderer Digit2 => numerableVisuals.Digit2;
 
 }

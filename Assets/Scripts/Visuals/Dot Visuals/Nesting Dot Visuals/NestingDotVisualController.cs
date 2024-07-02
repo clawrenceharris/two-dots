@@ -6,25 +6,18 @@ using System;
 using static Type;
 public class NestingDotVisualController : DotVisualController, IPreviewable
 {
-    public NestingDotVisuals Visuals { get; private set; }
+    private NestingDotVisuals visuals;
     private NestingDot dot;
 
-  
-    public override T GetGameObject<T>()
-    {
-        return dot as T;
-    }
 
+    public override T GetGameObject<T>() => dot as T;
 
-    public override T GetVisuals<T>()
-    {
-        return Visuals as T;
-    }
+    public override T GetVisuals<T>() => visuals as T;
 
     public override void Init(DotsGameObject dotsGameObject)
     {
         dot = (NestingDot)dotsGameObject;
-        Visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
+        visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
     }
@@ -67,24 +60,24 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
     {
 
         float duration = 0.5f;
-        Visuals.nestingDotBottom.transform.DOMoveY(dot.transform.position.y - Board.offset, duration)
+        visuals.nestingDotBottom.transform.DOMoveY(dot.transform.position.y - Board.offset, duration)
             .OnComplete(() =>
             {
-                Visuals.nestingDotBottom.transform.position = dot.transform.position;
+                visuals.nestingDotBottom.transform.position = dot.transform.position;
             });
-        Visuals.nestingDotTop.transform.DOMoveY(dot.transform.position.y + Board.offset, duration)
+        visuals.nestingDotTop.transform.DOMoveY(dot.transform.position.y + Board.offset, duration)
             .OnComplete(() =>
             {
-                Visuals.nestingDotTop.transform.position = dot.transform.position;
+                visuals.nestingDotTop.transform.position = dot.transform.position;
 
             });
 
-        Visuals.nestingDotBottomSprite.enabled = true;
-        Visuals.nestingDotTopSprite.enabled = true;
+        visuals.nestingDotBottomSprite.enabled = true;
+        visuals.nestingDotTopSprite.enabled = true;
 
-        Visuals.nestingDotBottomSprite.DOFade(0, duration);
+        visuals.nestingDotBottomSprite.DOFade(0, duration);
 
-        Visuals.nestingDotBottomSprite.DOFade(0, duration);
+        visuals.nestingDotBottomSprite.DOFade(0, duration);
             
 
     }

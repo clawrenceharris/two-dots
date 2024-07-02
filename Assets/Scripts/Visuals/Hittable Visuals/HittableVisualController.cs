@@ -7,14 +7,8 @@ using DG.Tweening;
 /// <summary>
 /// Represents a visual controller that controlls the visuals of a hittable Dots game object
 /// </summary>
-public abstract class HittableVisualController : VisualController, IHittableVisualController
+public abstract class HittableVisualController : VisualController
 {
-    private HittableVisuals visuals;
-
-    public override void Init(DotsGameObject dotsGameObject)
-    {
-        visuals = dotsGameObject.GetComponent<HittableVisuals>();
-    }
 
 
 
@@ -25,10 +19,11 @@ public abstract class HittableVisualController : VisualController, IHittableVisu
     /// <returns></returns>
     public virtual IEnumerator DoBombHit()
     {
-        visuals.bombHitSprite.color = ColorSchemeManager.CurrentColorScheme.bombLight;
-        spriteRenderer.sprite = GetVisuals<HittableVisuals>().bombHitSprite.sprite;
+        IHittableVisuals visuals = GetVisuals<IHittableVisuals>();
+        visuals.BombHitSprite.color = ColorSchemeManager.CurrentColorScheme.bombLight;
+        spriteRenderer.sprite = visuals.BombHitSprite.sprite;
 
-        yield return new WaitForSeconds(HittableVisuals.hitDuration);
+        yield return new WaitForSeconds(HittableVisuals.bombHitDuration);
 
         spriteRenderer.sprite = sprite;
     }
@@ -42,8 +37,9 @@ public abstract class HittableVisualController : VisualController, IHittableVisu
 
     public virtual IEnumerator DoClearAnimation()
     {
-        yield return GetGameObject<DotsGameObject>().transform.DOScale(Vector2.zero,
-             visuals.clearDuration);
+        IHittableVisuals visuals = GetVisuals<IHittableVisuals>();
+        DotsGameObject dotsGameObject = GetGameObject<DotsGameObject>();
+        yield return dotsGameObject.transform.DOScale(Vector2.zero, visuals.ClearDuration);
        
     }
 
