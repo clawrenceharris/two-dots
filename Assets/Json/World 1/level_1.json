@@ -43,11 +43,11 @@
 
         },
 
-        //{
-        //    "type": "normal",
-        //    "color": "red"
+        {
+            "type": "normal",
+            "color": "red"
 
-        //},
+        },
         {
             "type": "monster",
             "color": "red",
@@ -56,18 +56,18 @@
 
         },
 
-
-
-
         {
             "type": "beetle",
             "colors": [ "red", "purple", "blue" ],
             "color": "yellow",
             "hitCount": 0,
+            
             "directionX": -1,
             "directionY": 0
         }
 
+
+       
 
 
     ],
@@ -85,6 +85,7 @@
         //},
 
        
+
 
 
     ],

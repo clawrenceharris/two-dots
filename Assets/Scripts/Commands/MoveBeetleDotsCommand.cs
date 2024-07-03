@@ -124,7 +124,6 @@ public class MoveBeetleDotsCommand : Command
                         }));
 
                     }
-                    DidExecute = true;
 
 
                 }
@@ -148,6 +147,7 @@ public class MoveBeetleDotsCommand : Command
                         CoroutineHandler.StartStaticCoroutine(beetleDot.DoSwap(dotToSwap, () =>
                         {
 
+                            DidExecute = true;
 
                             board.Put(dotToSwap, beetleDotCol, beetleDotRow);
                             board.Put(beetleDot, dotToSwapCol, dotToSwapRow);
