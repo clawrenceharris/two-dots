@@ -58,12 +58,6 @@ public class Connection
 
     }
 
-    public void EndConnection()
-    {
-        ConnectedDots.Clear();
-        IsSquare = false;
-    }
-
     public void DisconnectDot(ConnectableDot dot)
     {
         

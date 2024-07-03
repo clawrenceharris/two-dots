@@ -5,7 +5,7 @@ using DG.Tweening;
 using static Type;
 using System;
 
-public class BeetleDotVisualController : ColorableVisualController, IPreviewable
+public class BeetleDotVisualController : ColorableVisualController, IPreviewable, IDirectionalVisualController
 {
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
@@ -14,6 +14,7 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
     private BeetleDot dot;
     private BeetleDotVisuals visuals;
     private int currentLayerIndex;
+    private readonly DirectionalVisualController directionalVisualController = new();
 
     public override T GetGameObject<T>() => dot as T;
     
@@ -26,6 +27,7 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
         dot = (BeetleDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<BeetleDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
+        directionalVisualController.Init(dot, visuals);
         SetUp();
 
     }
@@ -268,7 +270,7 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
         yield return new WaitForSeconds(hitDuration);
     }
 
-    public IEnumerator RotateCo()
+    public IEnumerator DoRotateAnimation()
     {
 
         Vector3 rotation = GetRotation();

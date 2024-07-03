@@ -7,8 +7,8 @@ public abstract class DotsGameObject : MonoBehaviour, IBoardElement
 {
 
     public virtual DotsGameObjectData ReplacementDot => null;
-    private int row;
-    private int column;
+    public int row;
+    public int column;
     public int Column { get => column; set => column = value; }
     public int Row { get => row; set => row = value; }
 

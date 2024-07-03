@@ -139,7 +139,7 @@ public class Board : MonoBehaviour
         Tile tile = DotFactory.CreateDotsGameObject<Tile>(data);
         tile.transform.position = new Vector2(data.col, data.row) * offset;
         tile.transform.parent = transform;
-        tile.name = "(" + data.col +  ", " + data.row  + ")";
+        tile.name = data.type + " (" + data.col +  ", " + data.row  + ")";
 
         Tiles[data.col, data.row] = tile;
         tile.Init(data.col, data.row);
@@ -220,7 +220,7 @@ public class Board : MonoBehaviour
             dot = DotFactory.CreateDotsGameObject<Dot>(data);
             dot.transform.position = new Vector2(data.col, data.row) * offset;
             dot.transform.parent = transform;
-            dot.name = dot.DotType.ToString() + " (" + data.col + ", " + data.col + ")";
+            dot.name = data.type + " (" + data.col + ", " + data.col + ")";
             dot.Init(data.col, data.row);
             Dots[data.col, data.row] = dot;
         }
@@ -240,13 +240,17 @@ public class Board : MonoBehaviour
         Dot dot = DotFactory.CreateDotsGameObject<Dot>(dotData);
 
         dot.transform.parent = transform;
-        dot.name = dot.DotType.ToString() + " (" + col + ", " + row + ")";
+        dot.name = dotData.type + " (" + col + ", " + row + ")";
         dot.transform.position = new Vector2(col, row + 100) * offset;
         dot.Init(col, row);
         Dots[col, row] = dot;
 
         return dot;
     }
+
+
+    
+
 
     public void Remove<T>(T dotsGameObject)
         where T : DotsGameObject
@@ -564,18 +568,12 @@ public class Board : MonoBehaviour
         return str;
     }
 
-    public void MoveTile(int column, int row1, int col, int row2)
+    
+    public bool Contains<T>()
+        where T : DotsGameObject, IBoardElement
     {
-        throw new NotImplementedException();
-    }
-
-    public void MoveTile(Tile tile, int col, int row)
-    {
-        throw new NotImplementedException();
-    }
-    public bool HasAny<T>() where T : class
-    {
-        if (typeof(T) == typeof(Dot))
+        Debug.Log(typeof(T) + " == " + typeof(Dot));
+        if (typeof(T).IsSubclassOf(typeof(Dot)))
         {
             foreach (Dot dot in Dots)
             {
@@ -585,7 +583,7 @@ public class Board : MonoBehaviour
                 }
             }
         }
-        else if (typeof(T) == typeof(Tile))
+        else if (typeof(T).IsSubclassOf(typeof(Tile)))
         {
             foreach (Tile tile in Tiles)
             {

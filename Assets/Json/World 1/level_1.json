@@ -63,7 +63,7 @@
             "type": "beetle",
             "colors": [ "red", "purple", "blue" ],
             "color": "yellow",
-            "hitCount": 2,
+            "hitCount": 0,
             "directionX": -1,
             "directionY": 0
         }

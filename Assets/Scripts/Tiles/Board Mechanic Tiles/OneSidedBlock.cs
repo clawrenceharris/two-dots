@@ -12,7 +12,7 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     public HitType HitType { get; private set; }
     public int DirectionX { get => directionX; set => directionX = value; }
     public bool WasHit { get; protected set; }
-
+    private readonly DirectionalBase directional = new();
     public int DirectionY { get => directionY; set => directionY = value; }
     public new OneSidedBlockVisualController VisualController => GetVisualController<OneSidedBlockVisualController>();
     public Dictionary<HitType, IHitRule> HitRules
@@ -28,6 +28,13 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     public int HitCount { get => hitCount; set => hitCount = value; }
 
     public int HitsToClear => 1;
+
+    public override void Init(int column, int row)
+    {
+        base.Init(column, row);
+        directional.Init(this);
+    }
+
 
     public override void InitDisplayController()
     {
@@ -61,5 +68,15 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
     public void UndoHit()
     {
         HitType = HitType.None;
+    }
+
+    public void ChangeDirection(int directionX, int directionY)
+    {
+        directional.ChangeDirection(directionX, directionY);
+    }
+
+    public Vector3 GetRotation()
+    {
+        return directional.GetRotation();
     }
 }

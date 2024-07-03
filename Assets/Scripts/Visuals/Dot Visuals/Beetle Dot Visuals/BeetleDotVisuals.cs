@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class BeetleDotVisuals : DotVisuals
+public class BeetleDotVisuals : DotVisuals, IDirectionalVisuals
 {
     public GameObject leftWingLayer1;
     public GameObject leftWingLayer2;
@@ -17,5 +17,11 @@ public class BeetleDotVisuals : DotVisuals
     public Ease rotationEase = Ease.OutCubic;
     public float rotationSpeed = 0.2f;
     public static float moveDuration = 0.5f;
-    
+
+    public DirectionalVisuals directionalVisuals;
+
+    public float RotationDuration => directionalVisuals.RotationDuration;
+
+    public Ease RotationEase => directionalVisuals.RotationEase;
+
 }

@@ -190,7 +190,7 @@ public class ConnectionManager
     {
         if(command is ClearCommand)
         {
-            Connection.EndConnection();
+            Connection = null;
 
         }
     }

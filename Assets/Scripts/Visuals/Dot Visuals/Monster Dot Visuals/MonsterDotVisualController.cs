@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-public class MonsterDotVisualController : ColorableVisualController, INumerableVisualController, IPreviewable
+public class MonsterDotVisualController : ColorableVisualController, INumerableVisualController, IPreviewable, IDirectionalVisualController
 {
     private MonsterDot dot;
     private MonsterDotVisuals visuals;
+    private readonly DirectionalVisualController directionalVisualController = new();
     private readonly NumerableVisualControllerBase numerableVisualController = new();
     public override T GetGameObject<T>() => dot as T;
 
@@ -17,6 +18,7 @@ public class MonsterDotVisualController : ColorableVisualController, INumerableV
         visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
+        directionalVisualController.Init(dot, visuals);
         numerableVisualController.Init(visuals.numerableVisuals);
         
     }
@@ -44,5 +46,15 @@ public class MonsterDotVisualController : ColorableVisualController, INumerableV
     public IEnumerator PreviewClear()
     {
         yield break;
+    }
+
+    public IEnumerator DoMove(int col, int row)
+    {
+        yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, 0.5f);
+    }
+
+    public IEnumerator DoRotateAnimation()
+    {
+        throw new System.NotImplementedException();
     }
 }

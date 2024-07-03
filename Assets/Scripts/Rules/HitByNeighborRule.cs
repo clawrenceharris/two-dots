@@ -8,12 +8,14 @@ public class HitByNeighborRule : IHitRule
 
     public bool Validate(IHittable hittable,Board board)
     {
-        if(hittable is not  IDirectional directional)
+        if(hittable is not  IDirectional directional ||
+           hittable is not IBoardElement boardElement)
         {
             return false;
         }
-        int targetCol = directional.Column + directional.DirectionX;
-        int targetRow = directional.Row + directional.DirectionY;
+
+        int targetCol = boardElement.Column + directional.DirectionX;
+        int targetRow = boardElement.Row + directional.DirectionY;
 
         ConnectableDot adjacentDot = board.Get<ConnectableDot>(targetCol, targetRow);
         

@@ -23,6 +23,18 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         }
     }
 
+    private readonly DirectionalBase directional = new();
+
+    
+    public int DirectionX { get => directional.DirectionX; set => directional.DirectionX = value; }
+    public int DirectionY { get => directional.DirectionY; set => directional.DirectionY = value; }
+    private DotColor[] colors;
+    public DotColor[] Colors { get => colors; set => colors = value; }
+    
+
+    public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
+
+
     public override DotsGameObjectData ReplacementDot
     {
         get
@@ -36,47 +48,44 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         }
     }
 
-    private int directionX;
-    private int directionY;
-    public int DirectionX { get => directionX; set => directionX = value; }
-    public int DirectionY { get => directionY; set => directionY = value; }
-    private DotColor[] colors;
-    public DotColor[] Colors { get => colors; set => colors = value; }
-    
+    public override void Init(int column, int row)
+    {
+        base.Init(column, row);
+        directional.Init(this);
 
-    public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
+    }
 
-
-    public IEnumerator DoSwap(Dot dotToSwap)
+    public IEnumerator DoSwap(Dot dotToSwap, Action onComplete = null)
     {
         if (WasHit)
         {
             WasHit = false;
-
             yield break;
         }
 
+
         yield return VisualController.DoSwap(dotToSwap);
+        onComplete?.Invoke();
 
     }
 
+    
     public override void Hit(HitType hitType)
     {
         HitCount++;
         WasHit = true;
     }
+
+
     public override void InitDisplayController()
     {
         visualController = new BeetleDotVisualController();
         visualController.Init(this);
     }
 
-    public IEnumerator ChangeDirection(int directionX, int directionY)
+    public void ChangeDirection(int directionX, int directionY)
     {
-        DirectionX = directionX;
-        DirectionY = directionY;
-
-        yield return VisualController.RotateCo();
+        directional.ChangeDirection(directionX, directionY);
     }
 
     public IEnumerator PreviewHit(HitType hitType)
@@ -94,16 +103,17 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
        yield return VisualController.PreviewClear();
     }
 
-    public IEnumerator TrySwap()
+    public IEnumerator TrySwap(Action onComplete = null)
     {
         if (WasHit)
         {
             WasHit = false;
             yield break;
         }
-        
+
 
         yield return VisualController.TrySwap();
+        onComplete?.Invoke();
     }
 
     public override void Select()
@@ -112,6 +122,13 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         StartCoroutine(VisualController.PreviewHit(HitType.Connection));
     }
 
-    
+    void IDirectional.ChangeDirection(int directionX, int directionY)
+    {
+       directional.ChangeDirection(directionX, directionY);
+    }
 
+    public Vector3 GetRotation()
+    {
+        return directional.GetRotation();
+    }
 }

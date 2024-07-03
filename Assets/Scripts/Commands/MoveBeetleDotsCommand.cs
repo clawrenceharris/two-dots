@@ -56,7 +56,7 @@ public class MoveBeetleDotsCommand : Command
         if (!CanMove(dotToSwap))
         {
             Vector2Int newDir = FindBestDirection(dot, board);
-            CoroutineHandler.StartStaticCoroutine(dot.ChangeDirection(newDir.x, newDir.y));
+            dot.ChangeDirection(newDir.x, newDir.y);
         }
        
     }
@@ -90,12 +90,7 @@ public class MoveBeetleDotsCommand : Command
     public override IEnumerator Execute(Board board)
     {
 
-        if (!board.HasAny<BeetleDot>())
-        {
-            yield break;
-        }
-
-        onCommandExecuting?.Invoke(this);
+        
 
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
 
@@ -106,8 +101,8 @@ public class MoveBeetleDotsCommand : Command
         {
             for(int j = 0; j < board.Height; j++)
             {
-                Dot dot = board.Get<Dot>(i, j);
-                if (dot is BeetleDot beetleDot)
+                BeetleDot beetleDot = board.Get<BeetleDot>(i, j);
+                if (beetleDot != null)
                 {
                     
                     Dot dotToSwap = board.Get<Dot>(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
@@ -122,11 +117,11 @@ public class MoveBeetleDotsCommand : Command
                     else
                     {
                         //change the facing direction of the beetle
-                        CoroutineHandler.StartStaticCoroutine(beetleDot.TrySwap(), () =>
+                        CoroutineHandler.StartStaticCoroutine(beetleDot.TrySwap(() =>
                         {
                             UpdateBeetleDotDirection(beetleDot, dotToSwap, board);
 
-                        });
+                        }));
 
                     }
                     DidExecute = true;
@@ -136,9 +131,8 @@ public class MoveBeetleDotsCommand : Command
             }
             
         }
-
+        
         for (int i = 0; i < board.Width; i++)
-
         {
             for (int j = 0; j < board.Height; j++)
             {
@@ -151,8 +145,9 @@ public class MoveBeetleDotsCommand : Command
                         int dotToSwapRow = dotToSwap.Row;
                         int beetleDotCol = beetleDot.Column;
                         int beetleDotRow = beetleDot.Row;
-                        CoroutineHandler.StartStaticCoroutine(beetleDot.DoSwap(dotToSwap), () =>
+                        CoroutineHandler.StartStaticCoroutine(beetleDot.DoSwap(dotToSwap, () =>
                         {
+
 
                             board.Put(dotToSwap, beetleDotCol, beetleDotRow);
                             board.Put(beetleDot, dotToSwapCol, dotToSwapRow);
@@ -168,15 +163,21 @@ public class MoveBeetleDotsCommand : Command
                             UpdateBeetleDotDirection(beetleDot, nextDotToSwap, board);
 
 
-                        });
+                        }));
 
                     }
                 }
             }
             
         }
-        yield return new WaitForSeconds(BeetleDotVisuals.moveDuration);
-        Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(MoveBeetleDotsCommand));
+        if (DidExecute)
+        {
+            onCommandExecuting?.Invoke(this);
+
+            yield return new WaitForSeconds(BeetleDotVisuals.moveDuration);
+            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(MoveBeetleDotsCommand));
+
+        }
 
         yield return base.Execute(board);
 

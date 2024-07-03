@@ -23,7 +23,7 @@ public class DotsGameObjectController
     public static Tween DropDot(Dot dot, int row, float duration = 0.6f)
     {
         dot.Row = row;
-        dot.name = "(" + dot.Column + ", " + dot.Row + ")";
+        dot.name = dot.DotType +  " (" + dot.Column + ", " + dot.Row + ")";
         return dot.transform.DOMoveY(row * Board.offset, duration).SetEase(Ease.OutBounce);
     }
 
