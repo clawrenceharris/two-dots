@@ -2,20 +2,69 @@ using static Type;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Linq;
+using Unity.VisualScripting;
+
+[System.Serializable]
+
+public class DotAudio : DotsGameObjectAudio
+{
+    public DotType dotType;
+   
+}
+
+public class DotsGameObjectAudio
+{
+    public AudioVariations connectionAudio;
+    public AudioClip[] hitAudio;
+
+    public AudioVariations hitPreviewAudio;
+    public AudioVariations spawnAudio;
+    public AudioVariations clearAudio;
+    public AudioVariations clearPreviewAudio;
+}
+
+[System.Serializable]
+public class TileAudio : DotsGameObjectAudio
+{
+    public TileType tileType;
+   
+}
+
+[System.Serializable]
+public class CommandExecutionAudio
+{
+    public AudioVariations commandExecutionAudio;
+    public CommandType commandType;
+
+}
+
+
+[System.Serializable]
+public class AudioVariations
+{
+    [SerializeField]private AudioClip[] audioClips;
+
+    public AudioClip GetSound()
+    {
+        int rand = Random.Range(0, audioClips.Length);
+
+        return audioClips[rand];
+    }
+}
+
 public class SoundManager : MonoBehaviour
 {
     [SerializeField] private AudioClip[] connectionSounds;
-    [SerializeField] private AudioClip anchorDotSink;
-    [SerializeField] private AudioClip clockHit;
 
-    [SerializeField] private AudioClip bombActive;
-    [SerializeField] private AudioClip bombExplode;
-    [SerializeField] private AudioClip blockTile;
+
+    [SerializeField] private DotAudio[] dotSounds;
+    [SerializeField] private TileAudio[] tileSounds;
+    [SerializeField] private CommandExecutionAudio[] commandExecutionSounds;
+
 
     private AudioSource audioSource;
     private AudioDistortionFilter audioDistortion;
-    private readonly HashSet<AudioClip> hitSounds = new();
-    private readonly HashSet<AudioClip> clearSounds = new();
 
 
     private void Awake()
@@ -45,22 +94,31 @@ public class SoundManager : MonoBehaviour
 
     }
 
+
+    private void PlaySounds(List<AudioClip> sounds)
+    {
+        foreach (AudioClip sound in sounds)
+            audioSource.PlayOneShot(sound);
+    }
     private void PlayCommandExecutionSound(Command command)
     {
-        AudioClip sound = GetCommandExecutionSound(command);
-        audioSource.PlayOneShot(sound);
+        AudioClip sound = GetCommandExecutionSounds(command);
+        PlaySound(sound);
+       
     }
 
-    private AudioClip GetCommandExecutionSound(Command command)
+    private AudioClip GetCommandExecutionSounds(Command command)
     {
-        return command.CommandType switch
-        {
-            CommandType.BombExplode => bombExplode,
-            CommandType.MoveClockDots => null,
-            CommandType.MoveBeetleDots => null,
-            
-            _ => null,
-        };
+
+        //Filter all command execution audio to match this command's command type
+        CommandExecutionAudio audio = commandExecutionSounds
+             .FirstOrDefault((audio) => audio.commandType == command.CommandType);
+
+        //Return a sound from the execution sound variations
+
+        if(audio != null)
+            return audio.commandExecutionAudio.GetSound();
+        return null;
     }
 
     private void PlayDotHitSound(Dot dot)
@@ -72,48 +130,43 @@ public class SoundManager : MonoBehaviour
     
     private AudioClip GetDotClearedSound(Dot dot)
     {
-        return dot.DotType switch
-        {
-            DotType.ClockDot => bombActive,
-            DotType.NestingDot => bombActive,
-            DotType.BeetleDot => bombActive,
-            _ => null,
-        };
+        //Find the dot audio to match this dot's dot type 
+        DotAudio audio = dotSounds.FirstOrDefault((audio) => audio.dotType == dot.DotType);
 
+        //Return a sound from the clear sound variations
+
+        if(audio != null)
+            return audio.clearAudio.GetSound();
+        return null;
 
     }
+
     private AudioClip GetDotHitSound(Dot dot)
     {
-        return dot.DotType switch
-        {
-            DotType.ClockDot => clockHit,
-            DotType.AnchorDot => anchorDotSink,
-
-            _ => null,
-        };
+        //Find the dot audio to match this dot's dot type 
+        DotAudio audio = dotSounds.FirstOrDefault((audio) => audio.dotType == dot.DotType);
 
 
+        //Return a sound from the hit sound variations based on dot hit count
+        if(audio != null)
+            return audio.hitAudio[Mathf.Clamp(dot.HitCount, 0, dot.HitsToClear -2)];
+        return null;
     }
 
     
     private AudioClip GetTileClearedSound(Tile tile)
     {
-        return tile.TileType switch
-        {
-            TileType.BlockTile => blockTile,
-            _ => null,
-        };
+        //Find all dot audio to match this tile's tile type 
+        TileAudio audio = tileSounds.FirstOrDefault((audio) => audio.tileType == tile.TileType);
+
+        //Return a sound from the clear sound variations
+        if(audio != null)
+            return audio.clearAudio.GetSound();
+        return null;
     }
 
 
-    private AudioClip GetConnectedSound(ConnectableDot dot)
-    {
-        return dot.DotType switch
-        {
-            _ => null,
-        };
-    }
-
+    
 
 
     private void PlayDotCleardSound(Dot dot)
@@ -128,7 +181,6 @@ public class SoundManager : MonoBehaviour
     {
         AudioClip sound = GetTileClearedSound(tile);
         audioSource.PlayOneShot(sound);
-        clearSounds.Add(sound); 
         
     }
 
@@ -164,10 +216,7 @@ public class SoundManager : MonoBehaviour
 
     private void OnSquareMade(Square square)
     {
-        if (square.DotsInSquare.Count > 0)
-        {
-            audioSource.PlayOneShot(bombActive);
-        }
+        
         audioDistortion.enabled = true;
         audioSource.volume = 0.5f;
         int index1 = GetIndex();
