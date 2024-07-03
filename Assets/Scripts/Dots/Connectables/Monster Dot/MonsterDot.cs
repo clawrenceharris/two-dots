@@ -13,6 +13,19 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     private readonly DirectionalBase directional = new();
     public new MonsterDotVisualController VisualController => GetVisualController<MonsterDotVisualController>();
     public int TempNumber{ get => numerable.TempNumber; set => numerable.TempNumber = value; }
+    public override DotsGameObjectData ReplacementDot
+    {
+        get
+        {
+            DotsGameObjectData data = new(JSONLevelLoader.ToJsonDotType(DotType.NormalDot))
+            {
+                col = Column,
+                row = Row
+            };
+            data.SetProperty("Color", JSONLevelLoader.ToJsonColor(Color));
+            return data;
+        }
+    }
 
     public int CurrentNumber => numerable.CurrentNumber;
 
@@ -41,16 +54,22 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     }
 
 
-    public IEnumerator DoMove()
+    public IEnumerator DoMove(Action onComplete = null)
     {
+        if (WasHit)
+        {
+            WasHit = false;
+            yield break;
+        }
         int targetCol = DirectionX + Column;
         int targetRow = DirectionY + Row;
         yield return VisualController.DoMove(targetCol, targetRow);
+        onComplete?.Invoke();
     }
 
     public override void Hit(HitType hitType)
     {
-
+        WasHit = true;
         numerable.Hit(hitType);
         HitCount = InitialNumber - TempNumber;
 
