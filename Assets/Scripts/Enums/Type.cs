@@ -112,6 +112,7 @@ public static class Type
         BombExplode,
         GemExplode,
         None,
+        MoveMonsterDots,
     }
     public enum ExplosionType
     {
