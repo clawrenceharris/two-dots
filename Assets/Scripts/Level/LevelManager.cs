@@ -124,6 +124,7 @@ public class LevelManager : MonoBehaviour
         if (didMove)
         {
             CommandInvoker.Instance.Enqueue(new MoveBeetleDotsCommand());
+            CommandInvoker.Instance.Enqueue(new MoveMonsterDotsCommand());
 
             CommandInvoker.Instance.Enqueue(new HitCommand());
             CommandInvoker.Instance.ExecuteNextCommand();
