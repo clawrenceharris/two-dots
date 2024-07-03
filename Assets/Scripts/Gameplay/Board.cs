@@ -83,7 +83,7 @@ public class Board : MonoBehaviour
         if (dotsGameObject is Dot dot)
         {
             //replace the dot that is being cleared with its replacement dot
-            Dot replacement = InitDotOnBoard(dot.ReplacementDot);
+            Dot replacement = InitDotsGameObject<Dot>(dot.ReplacementDot);
             
             Dots[dot.Column, dot.Row] = replacement;
             
@@ -118,7 +118,7 @@ public class Board : MonoBehaviour
     {
         for (int i = 0; i < dotsOnBoard.Length; i++)
         {
-            Dot dot = InitDotOnBoard(dotsOnBoard[i]);
+            Dot dot = InitDotsGameObject<Dot>(dotsOnBoard[i]);
             DotsGameObjectController.DropDot(dot, dot.Row, DotDropSpeed);
 
 
@@ -210,22 +210,27 @@ public class Board : MonoBehaviour
         }
         return null;
     }
-    private Dot InitDotOnBoard(DotsGameObjectData data)
+
+
+    public T InitDotsGameObject<T>(DotsGameObjectData data)
+        where T : DotsGameObject
     {
 
-        Dot dot = null;
+        T dotsGameObject = default;
 
         if (data != null)
         {
-            dot = DotFactory.CreateDotsGameObject<Dot>(data);
-            dot.transform.position = new Vector2(data.col, data.row) * offset;
-            dot.transform.parent = transform;
-            dot.name = data.type + " (" + data.col + ", " + data.col + ")";
-            dot.Init(data.col, data.row);
-            Dots[data.col, data.row] = dot;
+            dotsGameObject = DotFactory.CreateDotsGameObject<T>(data);
+            dotsGameObject.transform.position = new Vector2(data.col, data.row) * offset;
+            dotsGameObject.transform.parent = transform;
+            dotsGameObject.name = data.type + " (" + data.col + ", " + data.col + ")";
+            dotsGameObject.Init(data.col, data.row);
+
+            
+            Put(dotsGameObject, data.col, data.row);
         }
 
-        return dot;
+        return dotsGameObject;
 
     }
 
