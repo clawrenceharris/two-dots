@@ -50,7 +50,7 @@ public class MonsterDotVisualController : ColorableVisualController, INumerableV
 
     public IEnumerator DoMove(int col, int row)
     {
-        yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, 0.5f);
+        yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, MonsterDotVisuals.moveDuration);
     }
 
     public IEnumerator DoRotateAnimation()

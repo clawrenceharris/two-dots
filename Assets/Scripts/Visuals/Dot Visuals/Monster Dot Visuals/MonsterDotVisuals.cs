@@ -13,8 +13,9 @@ public class MonsterDotVisuals : DotVisuals, INumerableVisuals, IDirectionalVisu
 
 
     public DirectionalVisuals directionalVisuals;
+    internal static float moveDuration = 0.6f;
 
-    public float RotationDuration =>directionalVisuals.RotationDuration;
+    public float RotationDuration => directionalVisuals.RotationDuration;
 
     public Ease RotationEase => directionalVisuals.RotationEase;
 }
