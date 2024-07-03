@@ -78,7 +78,9 @@ public class JSONLevelLoader
             case "yellow": return DotColor.Yellow;
             case "purple": return DotColor.Purple;
             case "green": return DotColor.Green;
-            default: return DotColor.Blank;
+            case "blank": return DotColor.Blank;
+
+            default: throw new ArgumentException();
         }
     }
 
@@ -93,7 +95,22 @@ public class JSONLevelLoader
             DotType.AnchorDot => "anchor",
             DotType.NestingDot => "nesting",
             DotType.BeetleDot => "beetle",
-            _ => "bombb",
+            _ => throw new ArgumentException(),
         };
+    }
+
+    internal static object ToJsonColor(DotColor color)
+    {
+        switch (color)
+        {
+            case DotColor.Red: return "red";
+            case DotColor.Blue: return "blue";
+            case DotColor.Yellow: return "yellow" ;
+            case DotColor.Purple: return "purple";
+            case DotColor.Green : return "green";
+            case DotColor.Blank: return "blank";
+
+            default: return DotColor.None;
+        }
     }
 }
