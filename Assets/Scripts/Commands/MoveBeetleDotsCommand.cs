@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 using System.Linq;
+
+/// <summary>
+/// Represents a command that handles the movement logic of beetle dots on the game board.
+/// This command checks each beetle dot's current direction, updates the direction if needed, and
+/// performs the swap with the target dot if possible.
+/// </summary>
 public class MoveBeetleDotsCommand : MoveCommand
 {
+    //Dictionary that maps each movable beetle dot to a dot to swap 
     private readonly Dictionary<BeetleDot, Dot> dotsToSwap = new();
 
     public override CommandType CommandType => CommandType.MoveBeetleDots;
@@ -29,16 +36,14 @@ public class MoveBeetleDotsCommand : MoveCommand
    
     public override bool CanMove(Dot targetDot)
     {
-        //if the dot is null or it is a beetle 
-        if(targetDot == null || targetDot is BeetleDot)
+        // If the dot is null or it is a beetle dot, it is not available to be swapped
+        if (targetDot == null || targetDot is BeetleDot)
         {
-            //then it is not avalaible to be swapped
             return false;
         }
-        //if another beetle dot is already moving to this dot
+        // If another beetle dot is already moving to this dot, it is not available to be swapped
         if (dotsToSwap.ContainsValue(targetDot))
         {
-            //then it is not avalaible to be swapped
             return false;
         }
         return true;
@@ -46,7 +51,13 @@ public class MoveBeetleDotsCommand : MoveCommand
     }
 
 
-
+    /// <summary>
+    /// Executes the move command for beetle dots on the specified board.
+    /// This method iterates through all beetle dots, updates their direction if necessary,
+    /// and performs the swap with the target dot if possible.
+    /// </summary>
+    /// <param name="board">The game board on which to execute the command.</param>
+    /// <returns>An IEnumerator for coroutine execution.</returns>
     public override IEnumerator Execute(Board board)
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
@@ -61,6 +72,7 @@ public class MoveBeetleDotsCommand : MoveCommand
         }
 
 
+        // Perform the swap for each beetle dot in the dictionary
         foreach (BeetleDot beetleDot in beetleDots)
         {
             
@@ -84,7 +96,7 @@ public class MoveBeetleDotsCommand : MoveCommand
             }
             else
             {
-                //change the facing direction of the beetle
+                //change the direction the beetle dot faces
                 CoroutineHandler.StartStaticCoroutine(beetleDot.TrySwap(() =>
                 {
                     UpdateBeetleDotDirection(beetleDot, dotToSwap, board);

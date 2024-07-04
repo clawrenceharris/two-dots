@@ -46,12 +46,6 @@ TagManager:
   - name: Line
     uniqueID: 1023218459
     locked: 0
-  - name: Monster Dot
-    uniqueID: 927677347
-    locked: 0
-  - name: Beetle Dot
-    uniqueID: 1360561245
-    locked: 0
   - name: Dot
     uniqueID: 1239392859
     locked: 0

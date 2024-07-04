@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using static Type;
+
+
 public class MoveMonsterDotsCommand : MoveCommand
 {
     public override CommandType CommandType => CommandType.MoveMonsterDots;
+
+    //Dictionary that maps each movable monster dot to a dot to move to 
     private readonly Dictionary<MonsterDot, Dot> dotsToMoveTo = new();
 
 

@@ -17,13 +17,11 @@ public class MoveClockDotsCommand : Command
 
         if (!ConnectionManager.Connection.Any<ClockDot>())
         {
-
             yield break;
         }
         onCommandExecuting?.Invoke(this);
 
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
-        //LinkedListNode<ConnectableDot> currentNode = connectedDots.Last;
 
         Dictionary<ConnectableDot, Vector2Int> originalPositions = new();
 

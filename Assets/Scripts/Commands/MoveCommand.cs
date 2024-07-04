@@ -70,7 +70,11 @@ public abstract class MoveCommand : Command
     }
 
 
-
+    /// <summary>
+    /// Determines if the target dot can be moved to.
+    /// </summary>
+    /// <param name="targetDot">The dot to check for movement availability.</param>
+    /// <returns>True if the dot can be moved to; otherwise, false.</returns>
     public abstract bool CanMove(Dot targetDot);
 
 }

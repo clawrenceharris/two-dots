@@ -4,10 +4,12 @@ using UnityEngine;
 using System.Linq;
 using static Type;
 
-
-
-
-
+/// <summary>
+/// Represents a command that handles the hit detection and execution logic on the game board.
+/// This command checks all IHittable elements on the board and applies hit logic on the element based its defined rules.
+/// If any hits are executed, it enqueues a ClearCommand to clear the board.
+/// If no hits are executed, it enqueues an ExplosionCommand.
+/// </summary>
 public class HitCommand : Command
 {
 
