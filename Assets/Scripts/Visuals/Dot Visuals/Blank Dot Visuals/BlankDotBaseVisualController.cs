@@ -4,8 +4,9 @@ using UnityEngine;
 using DG.Tweening;
 using static Type;
 using System;
+using System.Linq;
 
-public abstract class BlankDotBaseVisualController : ColorableVisualController
+public abstract class BlankDotBaseVisualController : ColorableVisualController, IPreviewable
 {
     
     
@@ -20,7 +21,7 @@ public abstract class BlankDotBaseVisualController : ColorableVisualController
         GetVisuals<BlankDotVisuals>().innerDot.color = color;
     }
 
-    public override void AnimateSelectionEffect()
+    public override IEnumerator AnimateSelectionEffect()
     {
         base.AnimateSelectionEffect();
         BlankDotVisuals visuals = GetVisuals<BlankDotVisuals>();
@@ -31,16 +32,34 @@ public abstract class BlankDotBaseVisualController : ColorableVisualController
         visuals.innerDot.color = color;
         GetVisuals<DotVisuals>().outerDot.color = color;
 
-        visuals.innerDot.transform.DOScale(Vector2.one, BlankDotVisuals.innerDotScaleDuration);
+        yield return visuals.innerDot.transform.DOScale(Vector2.one, BlankDotVisuals.innerDotScaleDuration);
 
     }
 
-    public void AnimateDeselectionEffect()
+    public IEnumerator AnimateDeselectionEffect()
     {
         BlankDotVisuals visuals = GetVisuals<BlankDotVisuals>();
 
-        visuals.innerDot.transform.DOScale(Vector2.zero, BlankDotVisuals.innerDotScaleDuration);
+        yield return visuals.innerDot.transform.DOScale(Vector2.zero, BlankDotVisuals.innerDotScaleDuration);
 
     }
 
+    public IEnumerator PreviewHit(HitType hitType)
+    {
+        BlankDotBase dot = GetGameObject<BlankDotBase>();
+        while (ConnectionManager.ConnectedDots.Contains(dot))
+        {
+            dot.UpdateColor();
+
+            yield return AnimateSelectionEffect();
+        }
+
+        yield return AnimateDeselectionEffect();
+
+    }
+
+    public IEnumerator PreviewClear()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -28,24 +28,4 @@ public abstract class ColorableVisualController : ConnectableDotVisualController
 
     }
 
-
-    public override void AnimateSelectionEffect()
-    {
-        DotVisuals visuals = GetVisuals<DotVisuals>();
-        visuals.outerDot.color = ColorSchemeManager.FromDotColor(GetGameObject<IColorable>().Color);
-
-        visuals.outerDot.transform.DOScale(Vector3.one * 3, DotVisuals.outerDotScaleDuration)
-            .SetEase(Ease.OutQuad);
-
-        visuals.outerDot.DOFade(0, DotVisuals.outerDotFadeDuration)
-            .SetEase(Ease.Linear)
-            .OnComplete(() =>
-            {
-                visuals.outerDot.transform.localScale = Vector2.zero;
-                Color color = visuals.outerDot.color;
-                color.a = 1;
-                visuals.outerDot.color = color;
-            });
-    }
-
 }
