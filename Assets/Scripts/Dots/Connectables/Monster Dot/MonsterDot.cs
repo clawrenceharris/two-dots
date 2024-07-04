@@ -64,7 +64,6 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     }
     public override void Disconnect()
     {
-        base.Disconnect();
         VisualController.UpdateNumbers(CurrentNumber);
 
     }
@@ -91,5 +90,10 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     public Vector3 GetRotation()
     {
        return directional.GetRotation();
+    }
+
+    public override void Deselect()
+    {
+        VisualController.UpdateNumbers(CurrentNumber);
     }
 }

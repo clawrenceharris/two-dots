@@ -31,7 +31,10 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
     }
 
 
-
+    public override void Deselect()
+    {
+        //do nothing
+    }
 
 
     public override void Hit(HitType hitType)
@@ -39,5 +42,8 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
         HitCount++;
     }
 
-    
+    public override void Disconnect()
+    {
+        //do nothing;
+    }
 }
