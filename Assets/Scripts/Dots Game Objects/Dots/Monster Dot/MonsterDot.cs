@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
+
+
 public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, IPreviewable, IDirectional
 {
 
