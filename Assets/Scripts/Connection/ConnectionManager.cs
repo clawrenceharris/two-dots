@@ -188,10 +188,9 @@ public class ConnectionManager
 
     private void OnCommandExecuted(Command command)
     {
-        if(command is ClearCommand)
+        if(command is HitCommand)
         {
-            Connection = null;
-
+            Connection.EndConnection();
         }
     }
 

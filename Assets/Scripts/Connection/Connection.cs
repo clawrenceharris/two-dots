@@ -95,9 +95,10 @@ public class Connection
         return false;
     }
 
+    public void EndConnection()
+    {
+        ConnectedDots.Clear();
+        IsSquare = false;
 
-
-
-
-
+    }
 }

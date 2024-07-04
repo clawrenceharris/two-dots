@@ -6,46 +6,20 @@
     "dotsToSpawn": [
 
 
-        {
-            "type": "blank"
 
-        },
-
-
-        {
-            "type": "blank"
-
-        },
-
-
-        {
-            "type": "blank"
-
-        },
-
-        {
-            "type": "blank"
-
-        },
-
-        {
-            "type": "blank"
-
-        },
-
-        {
-            "type": "blank"
-
-        },
-
-        {
-            "type": "blank"
-
-        },
 
         {
             "type": "normal",
-            "color": "red"
+            "color": "blue"
+
+        },
+        {
+            "type": "blank"
+
+        },
+        {
+            "type": "normal",
+            "color": "purple"
 
         },
         {
@@ -55,19 +29,26 @@
 
 
         },
+        {
+            "type": "monster",
+            "color": "green",
+            "number": 12
+
+
+        },
 
         {
             "type": "beetle",
             "colors": [ "red", "purple", "blue" ],
             "color": "yellow",
             "hitCount": 0,
-            
+
             "directionX": -1,
             "directionY": 0
         }
 
 
-       
+
 
 
     ],
