@@ -7,9 +7,7 @@ public abstract class ConnectableDot : Dot, IConnectable
     public override Dictionary<HitType, IHitRule> HitRules =>
         new ()
         {
-            {
-                HitType.Square, new HitBySquareRule()
-            },
+            
             {
                 HitType.Connection, new HitByConnectionRule()
             }
@@ -17,13 +15,10 @@ public abstract class ConnectableDot : Dot, IConnectable
 
 
     public new ConnectableDotVisualController VisualController => GetVisualController<ConnectableDotVisualController>();
-        
-    
 
-    public virtual void Disconnect()
-    { 
-        UndoHit();   
-    }
+
+
+    public abstract void Disconnect();
 
     public virtual void Connect(ConnectableDot dot)
     {
@@ -35,9 +30,9 @@ public abstract class ConnectableDot : Dot, IConnectable
 
     public virtual void Select()
     {
-        VisualController.AnimateSelectionEffect();
+       StartCoroutine(VisualController.AnimateSelectionEffect());
     }
 
-
-
+    public abstract void Deselect();
+    
 }

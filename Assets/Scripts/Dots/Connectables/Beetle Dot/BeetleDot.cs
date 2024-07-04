@@ -105,12 +105,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
         onComplete?.Invoke();
     }
 
-    public override void Select()
-    {
-        base.Select();
-        StartCoroutine(VisualController.PreviewHit(HitType.Connection));
-    }
-
+   
     void IDirectional.ChangeDirection(int directionX, int directionY)
     {
        directional.ChangeDirection(directionX, directionY);
@@ -119,5 +114,15 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
     public Vector3 GetRotation()
     {
         return directional.GetRotation();
+    }
+
+    public override void Deselect()
+    {
+        //do nothing
+    }
+
+    public override void Disconnect()
+    {
+        //do nothing
     }
 }

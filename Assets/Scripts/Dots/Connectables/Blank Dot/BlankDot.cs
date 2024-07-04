@@ -13,11 +13,6 @@ public class BlankDot : BlankDotBase
     private new BlankDotVisualController VisualController => GetVisualController<BlankDotVisualController>();
 
 
-    public override void Disconnect()
-    {
-        base.Disconnect();
-    }
-
 
     public override void InitDisplayController()
     {

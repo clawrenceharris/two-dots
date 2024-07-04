@@ -52,11 +52,7 @@ public abstract class Dot : DotsGameObject, IHittable
     }
 
 
-    public virtual void UndoHit()
-    {
-        HitType = HitType.None;
-    }
-
+   
     public IEnumerator Clear()
     {
         DotsObjectEvents.NotifyCleared(this);
@@ -72,4 +68,6 @@ public abstract class Dot : DotsGameObject, IHittable
         yield return VisualController.DoBombHit();
         onComplete?.Invoke();
     }
+
+    
 }
