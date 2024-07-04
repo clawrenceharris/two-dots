@@ -8,20 +8,20 @@ public abstract class MoveCommand : Command
     /// Finds the best direction that the dot can turn to in which the
     /// dot it is directed towards can be moved to
     /// </summary>
-    /// <param name="dot"></param>
+    /// <param name="t"></param>
     /// <param name="board"></param>
     /// <returns></returns>
-    public virtual Vector2Int FindBestDirection<T>(T dot, Board board)
+    public virtual Vector2Int FindBestDirection<T>(T t, Board board)
         where T : IDirectional, IBoardElement
     {
 
-        int rightX = -dot.DirectionY;
-        int rightY = dot.DirectionX;
-        int leftX = dot.DirectionY;
-        int leftY = -dot.DirectionX;
+        int rightX = -t.DirectionY;
+        int rightY = t.DirectionX;
+        int leftX = t.DirectionY;
+        int leftY = -t.DirectionX;
 
         //get the dot that is 90 degrees to the left of the dot (y, -x)
-        Dot left = board.Get<Dot>(leftX + dot.Column, leftY + dot.Row);
+        Dot left = board.Get<Dot>(leftX + t.Column, leftY + t.Row);
 
         if (CanMove(left))
         {
@@ -39,14 +39,14 @@ public abstract class MoveCommand : Command
     /// Finds the best direction that the dot can turn to in which the
     /// dot it is directed towards can be moved to
     /// </summary>
-    /// <param name="dot"></param>
+    /// <param name="t"></param>
     /// <param name="board"></param>
     /// <returns></returns>
-    public virtual Vector2Int GetRandomDirection<T>(T dot, Board board)
+    public virtual Vector2Int GetRandomDirection<T>(T t, Board board)
         where T : IDirectional, IBoardElement
     {
 
-        List<Dot> neighbors = board.GetNeighbors<Dot>(dot.Column, dot.Row, false);
+        List<Dot> neighbors = board.GetNeighbors<Dot>(t.Column, t.Row, false);
 
         List<Dot> validNeighbors = new();
         foreach(Dot neighbor in neighbors)
@@ -60,7 +60,7 @@ public abstract class MoveCommand : Command
         {
             int rand = Random.Range(0, validNeighbors.Count);
             Dot targetDot = validNeighbors[rand];
-            return new Vector2Int(targetDot.Column - dot.Column, targetDot.Row - dot.Row);
+            return new Vector2Int(targetDot.Column - t.Column, targetDot.Row - t.Row);
 
         }
         return new Vector2Int(0, 0);
@@ -71,6 +71,6 @@ public abstract class MoveCommand : Command
 
 
 
-    public abstract bool CanMove(Dot dot);
+    public abstract bool CanMove(Dot targetDot);
 
 }
