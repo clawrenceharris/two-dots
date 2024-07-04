@@ -66,7 +66,10 @@ public class Connection
 
 
         if (!ConnectedDots.Contains(dot))
+        {
             dot.Disconnect();
+
+        }
 
         //if the connection has no color dots in it after discconection, change the connection's dotType to blank type 
         if (IsBlankConnection())

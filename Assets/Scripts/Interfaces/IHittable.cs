@@ -19,7 +19,6 @@ public interface IHittable : IBoardElement
     /// </summary>
     int HitsToClear { get; }
     Dictionary<HitType, IHitRule> HitRules { get; }
-    void UndoHit();
     IEnumerator Clear();
 
 }

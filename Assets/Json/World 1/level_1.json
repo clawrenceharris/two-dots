@@ -13,29 +13,9 @@
             "color": "blue"
 
         },
-        {
-            "type": "blank"
-
-        },
-        {
-            "type": "normal",
-            "color": "purple"
-
-        },
-        {
-            "type": "monster",
-            "color": "red",
-            "number": 6
-
-
-        },
-        {
-            "type": "monster",
-            "color": "green",
-            "number": 12
-
-
-        },
+       
+        
+       
 
         {
             "type": "beetle",
