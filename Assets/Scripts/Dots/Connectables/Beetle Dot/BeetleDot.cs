@@ -57,13 +57,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
 
     public IEnumerator DoSwap(Dot dotToSwap, Action onComplete = null)
     {
-        if (WasHit)
-        {
-            WasHit = false;
-            yield break;
-        }
-
-
+        
         yield return VisualController.DoSwap(dotToSwap);
         onComplete?.Invoke();
 
@@ -105,12 +99,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolor
 
     public IEnumerator TrySwap(Action onComplete = null)
     {
-        if (WasHit)
-        {
-            WasHit = false;
-            yield break;
-        }
-
+       
 
         yield return VisualController.TrySwap();
         onComplete?.Invoke();

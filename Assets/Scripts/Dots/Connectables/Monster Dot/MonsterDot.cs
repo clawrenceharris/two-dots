@@ -13,19 +13,7 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     private readonly DirectionalBase directional = new();
     public new MonsterDotVisualController VisualController => GetVisualController<MonsterDotVisualController>();
     public int TempNumber{ get => numerable.TempNumber; set => numerable.TempNumber = value; }
-    public override DotsGameObjectData ReplacementDot
-    {
-        get
-        {
-            DotsGameObjectData data = new(JSONLevelLoader.ToJsonDotType(DotType.NormalDot))
-            {
-                col = Column,
-                row = Row
-            };
-            data.SetProperty("Color", JSONLevelLoader.ToJsonColor(Color));
-            return data;
-        }
-    }
+   
 
     public int CurrentNumber => numerable.CurrentNumber;
 

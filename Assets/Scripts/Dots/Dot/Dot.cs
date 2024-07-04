@@ -25,7 +25,7 @@ public abstract class Dot : DotsGameObject, IHittable
 
 
     public  abstract int HitsToClear { get; }
-    public bool WasHit { get; protected set; }
+    public bool WasHit { get; set; }
 
     public virtual void Pulse()
     {

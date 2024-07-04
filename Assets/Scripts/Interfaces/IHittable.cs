@@ -8,7 +8,7 @@ public interface IHittable : IBoardElement
     HitType HitType { get; }
     IEnumerator Hit(HitType hitType, Action onHitChanged = null);
 
-    bool WasHit { get; }
+    bool WasHit { get; set; }
    
     /// <summary>
     /// Number of hits made on the dot

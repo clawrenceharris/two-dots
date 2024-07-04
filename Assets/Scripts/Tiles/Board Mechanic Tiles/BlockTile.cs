@@ -12,7 +12,7 @@ public class BlockTile : Tile, IHittable
     private int hitCount;
     public int HitCount { get => hitCount; set => hitCount = value; }
     public int HitsToClear => 1;
-    public bool WasHit { get; protected set; }
+    public bool WasHit { get; set; }
 
     public Dictionary<HitType, IHitRule> HitRules
     {
