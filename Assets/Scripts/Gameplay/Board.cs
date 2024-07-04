@@ -98,7 +98,7 @@ public class Board : MonoBehaviour
 
     }
 
-    private IEnumerator ClearCo(DotsGameObject dotsGameObject)
+    public IEnumerator ClearCo(DotsGameObject dotsGameObject)
     {
         float waitTime = dotsGameObject.VisualController.GetVisuals<IHittableVisuals>().ClearDuration; 
         yield return new WaitForSeconds(waitTime);
@@ -577,29 +577,6 @@ public class Board : MonoBehaviour
     public bool Contains<T>()
         where T : DotsGameObject, IBoardElement
     {
-        Debug.Log(typeof(T) + " == " + typeof(Dot));
-        if (typeof(T).IsSubclassOf(typeof(Dot)))
-        {
-            foreach (Dot dot in Dots)
-            {
-                if (dot is T)
-                {
-                    return true;
-                }
-            }
-        }
-        else if (typeof(T).IsSubclassOf(typeof(Tile)))
-        {
-            foreach (Tile tile in Tiles)
-            {
-                if (tile is T)
-                {
-                    return true;
-                }
-            }
-        }
-
-
-        return false;
+        return GetElements<T>().Count > 0;
     }
 }
