@@ -1038,7 +1038,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
   m_SortingLayer: 2
-  m_SortingOrder: 100
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: 656997ef4782149ae904a4a52b097e47, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1885,8 +1885,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 9e29924ade7424ba6ad3d72aa0a810a7, type: 3}
     - target: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_SortingOrder
-      value: 100
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1239392859
       objectReference: {fileID: 0}
     - target: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_Name
@@ -1947,6 +1955,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d3f88dc7590410d81711da8d55870d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row: 0
+  column: 0
 --- !u!114 &7899909159905269120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1969,10 +1979,37 @@ MonoBehaviour:
   rightWingLayer1: {fileID: 3486266184288131690}
   rightWingLayer2: {fileID: 1000969558112632331}
   rightWingLayer3: {fileID: 2969042392531368742}
+  sprites:
+  - {fileID: 6031929684153815446}
+  - {fileID: 2582488271558180330}
+  - {fileID: 1275438299152516774}
+  - {fileID: 1592602273389861278}
+  - {fileID: 3234074599791456259}
+  - {fileID: 4127337358718649202}
+  - {fileID: 4705821077366460001}
+  - {fileID: 944580608047463362}
+  - {fileID: 318908160909679498}
+  - {fileID: 5776717803765892242}
+  - {fileID: 1071094623808257658}
+  - {fileID: 2924625010476529036}
+  - {fileID: 3502894632889044173}
+  - {fileID: 2323645555201743125}
+  - {fileID: 5451360227085682791}
+  - {fileID: 1042799456188890859}
+  - {fileID: 3083377105042707543}
+  - {fileID: 6987961834894658620}
+  - {fileID: 8532178909544791777}
+  - {fileID: 625296942729802444}
+  - {fileID: 3912225837980019469}
   rightWings: {fileID: 8187732682292148997}
   leftWings: {fileID: 1787027141210881331}
   rotationEase: 9
   rotationSpeed: 0.2
+--- !u!212 &6031929684153815446 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+  m_PrefabInstance: {fileID: 1960504239126863493}
+  m_PrefabAsset: {fileID: 0}
 --- !u!212 &8576582511116832377 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}

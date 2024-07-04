@@ -169,11 +169,66 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 41c02d5897f94423ba5a22daeddd6cf7, type: 3}
   - {fileID: 8300000, guid: fec8cb6ccd7c74f9499379ce5f1ad99e, type: 3}
   - {fileID: 8300000, guid: 45f3b547e03ed417e86bce41572950c6, type: 3}
-  anchorDotSink: {fileID: 8300000, guid: 1e354fab3eb424443b6cfe588556dd7a, type: 3}
-  clockHit: {fileID: 0}
-  bombActive: {fileID: 8300000, guid: 67e477fcf6b6e457a9c30523085046b3, type: 3}
-  bombExplode: {fileID: 8300000, guid: a3b0d0f9d6ce34f7a9ba2aece648a83f, type: 3}
-  blockTile: {fileID: 0}
+  dotSounds:
+  - connectionAudio:
+      audioClips: []
+    hitAudio:
+    - {fileID: 8300000, guid: 7fc9d98e6bcb54f8c8981bd634d81621, type: 3}
+    - {fileID: 8300000, guid: a9e89ea59906c4f1aaa45842178319ba, type: 3}
+    hitPreviewAudio:
+      audioClips: []
+    spawnAudio:
+      audioClips: []
+    clearAudio:
+      audioClips:
+      - {fileID: 8300000, guid: a029d193cb9524edaafbe7867962d85c, type: 3}
+      - {fileID: 8300000, guid: 4319b12bef2e349aba1e7ce33537c756, type: 3}
+      - {fileID: 8300000, guid: c26c51cc1eec34e858f55eb67c3cdd12, type: 3}
+    clearPreviewAudio:
+      audioClips: []
+    dotType: 8
+  - connectionAudio:
+      audioClips: []
+    hitAudio: []
+    hitPreviewAudio:
+      audioClips: []
+    spawnAudio:
+      audioClips: []
+    clearAudio:
+      audioClips:
+      - {fileID: 8300000, guid: 1e354fab3eb424443b6cfe588556dd7a, type: 3}
+    clearPreviewAudio:
+      audioClips: []
+    dotType: 7
+  - connectionAudio:
+      audioClips: []
+    hitAudio:
+    - {fileID: 8300000, guid: c85d1f243768f47c5bb072155874f628, type: 3}
+    - {fileID: 8300000, guid: 880c59f92d2eb480283e77441536b477, type: 3}
+    hitPreviewAudio:
+      audioClips: []
+    spawnAudio:
+      audioClips: []
+    clearAudio:
+      audioClips:
+      - {fileID: 8300000, guid: 7839a2581a6f04909873cc9cdf0d161a, type: 3}
+    clearPreviewAudio:
+      audioClips: []
+    dotType: 4
+  tileSounds: []
+  commandExecutionSounds:
+  - commandExecutionAudio:
+      audioClips:
+      - {fileID: 8300000, guid: 80897b741d07b4af4b5269f0caa0aa82, type: 3}
+    commandType: 5
+  - commandExecutionAudio:
+      audioClips:
+      - {fileID: 8300000, guid: a3b0d0f9d6ce34f7a9ba2aece648a83f, type: 3}
+    commandType: 6
+  - commandExecutionAudio:
+      audioClips:
+      - {fileID: 8300000, guid: 066fc1831065742979c8393ebf70034e, type: 3}
+    commandType: 9
 --- !u!164 &171902020
 AudioReverbFilter:
   m_ObjectHideFlags: 0
@@ -534,8 +589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 018684c26a5db443284a773c971a19ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Width: 0
-  Height: 0
 --- !u!1 &1039618579
 GameObject:
   m_ObjectHideFlags: 0
