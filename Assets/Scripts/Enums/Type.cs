@@ -65,6 +65,7 @@ public static class Type
         Scroll,
         Snow,
         BlockTile,
+        Ice,
     }
 
 
