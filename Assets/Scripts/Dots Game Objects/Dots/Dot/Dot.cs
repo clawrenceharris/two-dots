@@ -10,22 +10,24 @@ public abstract class Dot : DotsGameObject, IHittable
 {
 
     public abstract Dictionary<HitType, IHitRule> HitRules { get; }
-
-    public bool DidExecute { get; protected set; }
-    public static event Action<Dot> onDotCleared;
-    public static event Action<Dot> onDotHit;
     
     public new DotVisualController VisualController => GetVisualController<DotVisualController>();
-   
+    private readonly HittableBase hittable = new();
     public abstract DotType DotType { get; }
 
-    public HitType HitType { get; protected set; }
+    public HitType HitType { get => hittable.HitType; }
 
-    public int HitCount { get; set; }
+    public int HitCount { get => hittable.HitCount; set => hittable.HitCount = value; }
 
 
     public  abstract int HitsToClear { get; }
-    public bool WasHit { get; set; }
+    public bool WasHit { get => hittable.WasHit; set => hittable.WasHit = value; }
+
+    public override void Init(int column, int row)
+    {
+        base.Init(column, row);
+        hittable.Init(this);
+    }
 
     public virtual void Pulse()
     {
@@ -35,39 +37,19 @@ public abstract class Dot : DotsGameObject, IHittable
     public abstract void Hit(HitType hitType);
    
 
-    public virtual IEnumerator Hit(HitType hitType, Action onHitChanged = null)
+    public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
-        DotsObjectEvents.NotifyHit(this);
-
-        HitType = hitType;
-        WasHit = true;
         Hit(hitType);
-        if (hitType == HitType.BombExplosion) {
-            yield return VisualController.DoBombHit();
-
-        }
-
-        onHitChanged?.Invoke();
-        yield return VisualController.DoHitAnimation(hitType);
+        yield return hittable.Hit(hitType, onHitComplete);
     }
 
 
    
     public IEnumerator Clear()
     {
-        DotsObjectEvents.NotifyCleared(this);
-        yield return VisualController.DoClearAnimation();
+        yield return hittable.Clear();
 
     }
 
-   
-
-    public IEnumerator BombHit(Action onComplete)
-    {
-        HitType = HitType.BombExplosion;
-        yield return VisualController.DoBombHit();
-        onComplete?.Invoke();
-    }
-
-    
+ 
 }
