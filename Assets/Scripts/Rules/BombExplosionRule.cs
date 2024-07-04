@@ -6,7 +6,10 @@ public class BombExplosionRule : IExplosionRule
 {
     public List<IHittable> Validate(IExplodable explodable, Board board)
     {
-        
+        if (explodable is not IBoardElement boardElement)
+        {
+            return new();
+        }
         List<IHittable> toHit = new();
         List<IHittable> neighbors = board.GetNeighbors<IHittable>(explodable.Column, explodable.Row, true);
         toHit.Add(explodable);
@@ -19,7 +22,7 @@ public class BombExplosionRule : IExplosionRule
             }
         }
 
-        return  toHit.OrderBy(dot => dot.Column).ThenByDescending(dot => dot.Row).ToList();
+        return  toHit.OrderBy(dot => boardElement.Column).ThenByDescending(dot => boardElement.Row).ToList();
         
 
     }

@@ -6,7 +6,11 @@ public class HitByNeighborsRule : IHitRule
 {
     public bool Validate(IHittable hittable, Board board)
     {
-        List<Dot> neighbors = board.GetNeighbors<Dot>(hittable.Column, hittable.Row);
+        if(hittable is not IBoardElement boardElement)
+        {
+            return false;
+        }
+        List<Dot> neighbors = board.GetNeighbors<Dot>(boardElement.Column, boardElement.Row);
 
         foreach (Dot neighbor in neighbors)
         {
@@ -23,7 +27,7 @@ public class HitByNeighborsRule : IHitRule
 
 
             AdjacentPositionRule adjacenyRule = new();
-            if (adjacenyRule.Validate(hittable, connectableDot))
+            if (adjacenyRule.Validate(boardElement, connectableDot))
             {
                 return true;
             }

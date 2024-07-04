@@ -146,7 +146,7 @@ public class Board : MonoBehaviour
     }
 
     public List<T> GetElements<T>()
-        where T : IBoardElement
+        where T : class
     {
         List<T> boardElements = new();
         for (int i = 0; i < Width; i++)
@@ -308,7 +308,7 @@ public class Board : MonoBehaviour
     /// <param name="row">The row of the board element whose neighbors are being found </param>
     /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
     /// <returns>A list of the neighboring board elements </returns>
-    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals = true) where T : IBoardElement
+    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals = true) where T : class
     {
 
         List<T> neighbors = new()
@@ -344,7 +344,7 @@ public class Board : MonoBehaviour
     /// <param name="col">The colummn of the board element</param>
     /// <param name="row">The row of the desired board element</param>
     /// <returns>The board element at the specified position</returns>
-    public T Get<T>(int col, int row) where T : IBoardElement
+    public T Get<T>(int col, int row)
     {
         if (col >= 0 && col < Width && row >= 0 && row < Height)
         {

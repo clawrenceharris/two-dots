@@ -7,17 +7,10 @@ public class DirectionalBase : IDirectional
     public int DirectionX { get; set; }
     public int DirectionY { get; set; }
     private IDirectional directional;
-    public DotsGameObject GetGameObject() => (DotsGameObject)directional;
+    public DotsGameObject DotsGameObject => (DotsGameObject)directional;
     public T GetGameObject<T>() where T : DotsGameObject => (T)directional;
 
-    public  IDirectionalVisualController VisualController
-    {
-        get
-        {
-            DotsGameObject dotsObject = GetGameObject();
-            return dotsObject.GetVisualController<IDirectionalVisualController>();
-        }
-    }
+    public IDirectionalVisualController VisualController => DotsGameObject.GetVisualController<IDirectionalVisualController>();
 
     public Vector3 GetRotation()
     {
