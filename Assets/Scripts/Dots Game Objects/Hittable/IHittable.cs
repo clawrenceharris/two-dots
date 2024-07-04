@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 using System;
-public interface IHittable : IBoardElement
+public interface IHittable
 {
     HitType HitType { get; }
-    IEnumerator Hit(HitType hitType, Action onHitChanged = null);
+    IEnumerator Hit(HitType hitType, Action onHitComplete = null);
 
     bool WasHit { get; set; }
    
@@ -20,5 +20,6 @@ public interface IHittable : IBoardElement
     int HitsToClear { get; }
     Dictionary<HitType, IHitRule> HitRules { get; }
     IEnumerator Clear();
+
 
 }
