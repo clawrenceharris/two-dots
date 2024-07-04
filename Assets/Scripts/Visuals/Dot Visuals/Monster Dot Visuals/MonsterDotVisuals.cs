@@ -6,7 +6,7 @@ using UnityEngine;
 public class MonsterDotVisuals : DotVisuals, INumerableVisuals, IDirectionalVisuals
 {
     public NumerableVisuals numerableVisuals;
-
+    public SpriteRenderer[] sprites;
     public SpriteRenderer Digit1 => numerableVisuals.Digit1;
 
     public SpriteRenderer Digit2 => numerableVisuals.Digit2;

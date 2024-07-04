@@ -17,10 +17,10 @@ public class MonsterDotVisualController : ColorableVisualController, INumerableV
         dot = (MonsterDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
         spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        SetUp();
         directionalVisualController.Init(dot, visuals);
         numerableVisualController.Init(visuals.numerableVisuals);
-        
+        SetUp();
+
     }
 
 
@@ -50,8 +50,17 @@ public class MonsterDotVisualController : ColorableVisualController, INumerableV
 
     public IEnumerator DoMove(int col, int row)
     {
+        for(int i = 0; i < visuals.sprites.Length; i++)
+        {
+            visuals.sprites[i].sortingOrder += 100;
+
+        }
         yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, MonsterDotVisuals.moveDuration);
+
+        yield return new WaitForSeconds(0.8f);
+        
     }
+
 
     public IEnumerator DoRotateAnimation()
     {

@@ -348,14 +348,7 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
 
     }
 
-    //public override IEnumerator DoBombHit()
-    //{
-    //    Color initialColor = ColorSchemeManager.FromDotColor(dot.Color);
-    //    SetColor(currentLayerIndex, ColorSchemeManager.CurrentColorScheme.bombLight);
-    //    yield return new WaitForSeconds(HittableVisuals.bombHitDuration);
-    //    SetColor(currentLayerIndex, initialColor);
-    //}
-
+    
     public IEnumerator DoSwap(Dot dotToSwap)
     {
         float moveDuration = BeetleDotVisuals.moveDuration;
@@ -363,14 +356,24 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
         int dotToSwapRow = dotToSwap.Row;
         int beetleDotCol = dot.Column;
         int beetleDotRow = dot.Row;
+
+        for (int i = 0; i < visuals.sprites.Length; i++)
+        {
+            visuals.sprites[i].sortingOrder += 100;
+
+        }
+
         dotToSwap.transform.DOLocalMove(new Vector2(beetleDotCol, beetleDotRow) * Board.offset, moveDuration);
-
-
-
-         dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveDuration);
+        dot.transform.DOLocalMove(new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset, moveDuration);
         
 
         yield return new WaitForSeconds(moveDuration);
+
+        for (int i = 0; i < visuals.sprites.Length; i++)
+        {
+            visuals.sprites[i].sortingOrder -= 100;
+
+        }
 
     }
 
