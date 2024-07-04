@@ -41,7 +41,8 @@ public class BombDotVisualController : DotVisualController
         float duration = 0.25f;
 
         Vector2 startPos = dot.transform.position;
-        Vector2 endPos = new Vector2(hittable.Column, hittable.Row) * Board.offset;
+        IBoardElement boardElement = (IBoardElement)hittable;
+        Vector2 endPos = new Vector2(boardElement.Column, boardElement.Row) * Board.offset;
         Vector2 startScale = new(1f, 0.2f);
         Vector2 endScale = new(0.7f, 0.03f);
 
