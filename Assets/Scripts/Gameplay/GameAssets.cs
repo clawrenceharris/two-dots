@@ -16,6 +16,8 @@ public class GameAssets : MonoBehaviour
     public ConnectorLine Line;
     public BeetleDot BeetleDot;
     public MonsterDot MonsterDot;
+    public Ice Ice;
+
     public Sprite[] Numbers;
     public static GameAssets Instance { get; private set; }
 
@@ -47,6 +49,7 @@ public class GameAssets : MonoBehaviour
             TileType.EmptyTile => EmptyTile,
             TileType.BlockTile => BlockTile,
             TileType.OneSidedBlock => OneSidedBlock,
+            TileType.Ice => Ice,
 
             _ => null,
         };
