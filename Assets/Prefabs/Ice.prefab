@@ -347,6 +347,7 @@ GameObject:
   - component: {fileID: 6573839904771127083}
   - component: {fileID: 2090024341507942208}
   - component: {fileID: 2554302231691386354}
+  - component: {fileID: 2994705523803631559}
   m_Layer: 0
   m_Name: Ice
   m_TagString: Untagged
@@ -439,3 +440,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   row: 0
   column: 0
+--- !u!114 &2994705523803631559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7284253521214074165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373956d9bfad14e7686fa92c931c758f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 2090024341507942208}
+  hittableVisuals:
+    clearDuration: 0.4

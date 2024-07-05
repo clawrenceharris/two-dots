@@ -1969,9 +1969,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 691b61333f92c4a758be546fe6a6be5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 6031929684153815446}
   hittableVisuals:
     clearDuration: 5
-    bombHitSprite: {fileID: 0}
   outerDot: {fileID: 8576582511116832377}
   leftWingLayer1: {fileID: 1835650987876660849}
   leftWingLayer2: {fileID: 6784024091193511163}

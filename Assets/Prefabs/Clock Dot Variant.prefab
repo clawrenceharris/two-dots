@@ -508,6 +508,11 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5094386036265484340, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
   m_PrefabInstance: {fileID: 781624674258617416}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &7555240099833715603 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7062059107003244507, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+  m_PrefabInstance: {fileID: 781624674258617416}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8960453033303663421 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8539122926316644213, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
@@ -525,6 +530,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07f6f4c375114fd9b26a934e80d79d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row: 0
+  column: 0
 --- !u!114 &1339387377695013001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb2fa48e4fda4439b902be6b94f0dd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 7555240099833715603}
   hittableVisuals:
     clearDuration: 0
     bombHitSprite: {fileID: 0}
@@ -545,7 +553,6 @@ MonoBehaviour:
   numerableVisuals:
     digit1: {fileID: 5482940535151725559}
     digit2: {fileID: 2033111714938831576}
-    numbers: []
   top: {fileID: 5679960757758592677}
   middle: {fileID: 6865684550561447720}
   shadow: {fileID: 7387436768553865744}

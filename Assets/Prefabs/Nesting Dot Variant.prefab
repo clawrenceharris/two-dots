@@ -353,6 +353,11 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 2971068818806707420}
   m_PrefabAsset: {fileID: 0}
+--- !u!212 &7042503334726736847 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+  m_PrefabInstance: {fileID: 2971068818806707420}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8447496296866440033 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -370,6 +375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f318aa6b7fce41f9933b7ddcd4fcd5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row: 0
+  column: 0
 --- !u!114 &6432543078332248584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,9 +389,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c44ce470b433a4cce9346b3335c6ba7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 7042503334726736847}
+  hittableVisuals:
+    clearDuration: 0
   outerDot: {fileID: 4974334867245958176}
-  clearTime: 0.4
-  bombHitSprite: {fileID: 0}
   nestingDotTop: {fileID: 7845775649337258509}
   nestingDotBottom: {fileID: 2421772789560536524}
   nestingDotBottomSprite: {fileID: 4463504198251220756}

@@ -266,9 +266,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67ff7e1bd32f54d15b3b0a0548ee928f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 7418231137940222176}
   hittableVisuals:
     clearDuration: 0.4
-    bombHitSprite: {fileID: 7418231137940222176}
   outerDot: {fileID: 4774173659814571791}
   numerableVisuals:
     digit1: {fileID: 5698075958798445826}

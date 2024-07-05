@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04dbf501744849c98814324e45f0fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  row: 0
+  column: 0
 --- !u!114 &1199843951156130171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 373956d9bfad14e7686fa92c931c758f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 3045387909203170339}
   hittableVisuals:
     clearDuration: 0.4
-    bombHitSprite: {fileID: 3045387909203170339}
