@@ -40,7 +40,7 @@ public class DotFactory
 
         }
 
-        if(dotsGameObject is IMulticolorable multicolored)
+        if(dotsGameObject is IMultiColorable multicolored)
         {
             string[] colors = data.GetProperty<string[]>("Colors");
             multicolored.Colors = new DotColor[colors.Length];

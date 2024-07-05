@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMulticolorable
+public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColorable
 {
     public override DotType DotType => DotType.BeetleDot;
     public override int HitsToClear => 3;
