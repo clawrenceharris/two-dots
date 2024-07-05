@@ -3,10 +3,26 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class OneSidedBlockVisualController : HittableVisualController
+public class OneSidedBlockVisualController : TileVisualController, IHittableVisualController
 {
     private OneSidedBlock tile;
     private HittableTileVisuals visuals;
+    private readonly HittableVisualControllerBase hittableVisualController = new();
+
+    public IEnumerator DoBombHit()
+    {
+        yield return hittableVisualController.DoBombHit();
+    }
+
+    public IEnumerator DoClearAnimation()
+    {
+        yield return hittableVisualController.DoClearAnimation();
+    }
+
+    public IEnumerator DoHitAnimation(Type.HitType hitType)
+    {
+        yield return hittableVisualController.DoHitAnimation(hitType);
+    }
 
     public override T GetGameObject<T>() => tile as T;
 
@@ -16,16 +32,14 @@ public class OneSidedBlockVisualController : HittableVisualController
     {
         tile = (OneSidedBlock)dotsGameObject;
         visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        sprite = spriteRenderer.sprite;
+        hittableVisualController.Init(tile, visuals);
         SetUp();
     }
 
     protected override void SetColor()
     {
-        spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
     }
-
 
     protected override void SetUp()
     {
@@ -40,7 +54,7 @@ public class OneSidedBlockVisualController : HittableVisualController
 
         if(tile.DirectionX < 0)
         {
-            spriteRenderer.flipY = true;
+            visuals.spriteRenderer.flipY = true;
 
             rotation = Quaternion.Euler(0, 0, 180);
         }

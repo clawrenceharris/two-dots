@@ -11,7 +11,6 @@ using System.Linq;
 /// </summary>
 public abstract class VisualController : IVisualController
 {
-    protected SpriteRenderer spriteRenderer;
     protected Color color;
 
     /// <summary>
@@ -72,7 +71,7 @@ public abstract class VisualController : IVisualController
 
     public virtual void SetColor(Color color)
     {
-        spriteRenderer.color = color;
+        GetVisuals<Visuals>().spriteRenderer.color = color;
     }
 
 
@@ -81,7 +80,7 @@ public abstract class VisualController : IVisualController
     /// </summary>
     public virtual void DisableSprites()
     {
-        spriteRenderer.enabled = false;
+        GetVisuals<Visuals>().spriteRenderer.enabled = false;
         foreach (Transform child in GetGameObject<DotsGameObject>().transform)
         {
             if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))
@@ -97,7 +96,7 @@ public abstract class VisualController : IVisualController
     /// </summary>
     public virtual void EnableSprites()
     {
-        spriteRenderer.enabled = true;
+        GetVisuals<Visuals>().spriteRenderer.enabled = true;
         foreach (Transform child in GetGameObject<DotsGameObject>().transform)
         {
             if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer))

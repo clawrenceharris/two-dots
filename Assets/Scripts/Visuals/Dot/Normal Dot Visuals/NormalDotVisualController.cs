@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class NormalDotVisualController : ColorableVisualController
+public class NormalDotVisualController : DotVisualController
 {
 
     private NormalDot dot;
@@ -17,12 +17,13 @@ public class NormalDotVisualController : ColorableVisualController
     {
         dot = (NormalDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<DotVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        sprite = spriteRenderer.sprite;
         SetUp();
     }
 
-    
 
-   
+    protected override void SetColor()
+    {
+        visuals.spriteRenderer.color = ColorSchemeManager.FromDotColor(dot.Color); ;
+    }
+
 }

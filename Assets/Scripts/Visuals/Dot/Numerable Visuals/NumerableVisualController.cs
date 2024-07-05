@@ -6,7 +6,7 @@ public class NumerableVisualControllerBase : INumerableVisualController
 
 {
     private INumerableVisuals visuals;
-    public void Init(INumerableVisuals visuals)
+    public void Init(INumerable numerable, INumerableVisuals visuals)
     {
         this.visuals = visuals;
     }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using static Type;
 using System;
 
-public class ClockDotVisualController : BlankDotBaseVisualController, INumerableVisualController, IPreviewable
+public class ClockDotVisualController : BlankDotBaseVisualController, INumerableVisualController, IHittableVisualController, IPreviewable
 {
     public static Dictionary<Dot, GameObject> ClockDotPreviews { get; private set; } = new();
     private ClockDot dot;
@@ -20,16 +20,15 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     {
         dot = (ClockDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        numerableVisualController.Init(visuals.numerableVisuals);
-        SetUp();
+        numerableVisualController.Init(dot, visuals.numerableVisuals);
+        base.Init(dotsGameObject);
     }
 
 
     protected override void SetUp()
     {
-        base.SetUp();
         UpdateNumbers(dot.CurrentNumber);
+        base.SetUp();
     }
 
     protected override void SetColor()
@@ -37,14 +36,8 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         visuals.top.color = ColorSchemeManager.CurrentColorScheme.clockDot;
         visuals.middle.color = new Color(255, 255, 255, 0.6f);
         visuals.shadow.color = new Color(255, 255, 255, 0.6f);
-        base.SetColor();
     }
 
-
-    public override IEnumerator DoClearAnimation()
-    {
-        yield return dot.transform.DOScale(Vector2.zero, 0f);
-    }
 
 
     public override IEnumerator DoBombHit()
@@ -88,14 +81,14 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     }
 
 
-    public override IEnumerator DoHitAnimation(HitType hitType)
+    public IEnumerator DoHitAnimation(HitType hitType)
     {
         yield break;
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+    public override IEnumerator PreviewHit(HitType hitType)
     {
-
+        yield return base.PreviewHit(hitType);
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
         if (connectedDots.Count == 0)
         {

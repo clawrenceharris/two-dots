@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-public class BlockTileVisualController : HittableVisualController, ITileVisualController
+public class BlockVisualController : TileVisualController
 {
-    private BlockTile tile;
-    private HittableVisuals visuals;
+    private Block tile;
+    private HittableTileVisuals visuals;
 
     public override T GetGameObject<T>() => tile as T;
 
@@ -11,14 +11,12 @@ public class BlockTileVisualController : HittableVisualController, ITileVisualCo
 
     public override void Init(DotsGameObject dotsGameObject)
     {
-        tile = (BlockTile)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<HittableVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        SetUp();
+        tile = (Block)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
     }
 
     protected override void SetColor()
     {
-        spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
     }
 }

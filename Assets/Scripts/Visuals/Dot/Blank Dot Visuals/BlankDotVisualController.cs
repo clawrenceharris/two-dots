@@ -16,11 +16,14 @@ public class BlankDotVisualController : BlankDotBaseVisualController
     {
         dot = (BlankDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<BlankDotVisuals>();
+        base.Init(dotsGameObject);
 
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        SetUp();
     }
 
-    
+    protected override void SetColor()
+    {
+        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.blank;
+    }
+
 
 }

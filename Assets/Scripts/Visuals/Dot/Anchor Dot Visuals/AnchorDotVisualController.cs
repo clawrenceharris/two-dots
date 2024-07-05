@@ -12,7 +12,6 @@ public class AnchorDotVisualController : DotVisualController
     {
         dot = (AnchorDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<DotVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
     }
 
     protected override void SetColor()

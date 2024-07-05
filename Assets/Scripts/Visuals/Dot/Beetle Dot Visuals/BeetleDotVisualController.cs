@@ -5,7 +5,7 @@ using DG.Tweening;
 using static Type;
 using System;
 
-public class BeetleDotVisualController : ColorableVisualController, IPreviewable, IDirectionalVisualController
+public class BeetleDotVisualController : DotVisualController, IPreviewable, IDirectionalVisualController
 {
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
@@ -26,9 +26,8 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
 
         dot = (BeetleDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<BeetleDotVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        directionalVisualController.Init(dot, visuals);
-        SetUp();
+        directionalVisualController.Init(dot, visuals.directionalVisuals);
+        base.Init(dotsGameObject);
 
     }
 
@@ -158,7 +157,7 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
         }
     }
 
-    public override IEnumerator DoClearAnimation()
+    public IEnumerator DoClearAnimation()
     {
         bool isBombHit = dot.HitType == HitType.BombExplosion;
         float startFlapAngle = isBombHit ? 20f : 45f;
@@ -173,6 +172,8 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
 
         Vector3 startPosition = dot.transform.position;
         Vector3 unitDirection = direction.normalized;
+
+        CoroutineHandler.StartStaticCoroutine(hittableVisualController.DoClearAnimation());
 
         while (elapsedTime < duration * speed)
         {
@@ -253,7 +254,7 @@ public class BeetleDotVisualController : ColorableVisualController, IPreviewable
 
 
     
-    public override IEnumerator DoHitAnimation(HitType hitType)
+    public IEnumerator DoHitAnimation(HitType hitType)
     {
         float hitDuration = HittableVisuals.hitDuration;
         currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, dot.HitsToClear - 1);

@@ -43,15 +43,13 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
     {
         tile = (EmptyTile)dotsGameObject;
         visuals = dotsGameObject.GetComponent<EmptyTileVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
-        sprite = spriteRenderer.sprite;
         SetUp(board);
     }
 
     protected override void SetColor()
     {
         Color bgColor = ColorSchemeManager.CurrentColorScheme.backgroundColor;
-        spriteRenderer.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.5f);
+        visuals.spriteRenderer.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.5f);
     }
     private void SetUp(Board board)
     {
@@ -282,27 +280,12 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
         return false;
     }
 
-    private bool ShouldFlipX()
-    {
-        if (isRight &&  isBottom)
-        {
-            return true;
-        }
-        return false;
-    }
+    
 
     public virtual void InitSprite()
     {
-
-        //SpriteRenderer.flipY = ShouldFlipY();
-
-        spriteRenderer.sprite = GetSprite();
-            
-
-        
-
-
-
+        visuals.spriteRenderer.sprite = GetSprite();
+           
     }
 
 }

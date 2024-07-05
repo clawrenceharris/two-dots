@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using DG.Tweening;
-public class BombDotVisualController : DotVisualController
+public class BombDotVisualController : DotVisualController, IHittableVisualController
 {
     private BombDot dot;
     private BombDotVisuals visuals;
@@ -16,7 +16,6 @@ public class BombDotVisualController : DotVisualController
     {
         dot = (BombDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<BombDotVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
 
     }
@@ -86,6 +85,6 @@ public class BombDotVisualController : DotVisualController
         yield break;
     }
 
-
-
+    
+    
 }

@@ -6,16 +6,12 @@ using static Type;
 using System;
 using System.Linq;
 
-public abstract class BlankDotBaseVisualController : ColorableVisualController, IPreviewable
+public abstract class BlankDotBaseVisualController : ConnectableDotVisualController, IPreviewable
 {
     
     
 
-    protected override void SetColor()
-    {
-        spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.blank;
-    }
-
+    
     public void SetInnerColor(Color color)
     {
         GetVisuals<BlankDotVisuals>().innerDot.color = color;
@@ -44,7 +40,7 @@ public abstract class BlankDotBaseVisualController : ColorableVisualController, 
 
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+    public virtual IEnumerator PreviewHit(HitType hitType)
     {
         BlankDotBase dot = GetGameObject<BlankDotBase>();
         while (ConnectionManager.ConnectedDots.Contains(dot))
@@ -60,6 +56,6 @@ public abstract class BlankDotBaseVisualController : ColorableVisualController, 
 
     public IEnumerator PreviewClear()
     {
-        throw new NotImplementedException();
+        yield break;
     }
 }

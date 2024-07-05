@@ -18,7 +18,6 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
     {
         dot = (NestingDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
-        spriteRenderer = dotsGameObject.GetComponent<SpriteRenderer>();
         SetUp();
     }
 
@@ -32,7 +31,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
                 
             }
         }
-        spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
 
     }
 
@@ -47,16 +46,13 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
         if(dot.HitCount < dot.HitsToClear)
         {
             UpdateDotScale();
-            DoHitAnimation();
+            yield return DoHitAnimation();
 
         }
-
-        yield return base.DoHitAnimation(hitType);
-
         
     }
 
-    private void DoHitAnimation()
+    private IEnumerator DoHitAnimation()
     {
 
         float duration = 0.5f;
@@ -78,7 +74,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
         visuals.nestingDotBottomSprite.DOFade(0, duration);
 
         visuals.nestingDotBottomSprite.DOFade(0, duration);
-            
+        yield return null;  
 
     }
 
@@ -110,7 +106,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
         float randomness = 20; 
         dot.transform.DOShakePosition(duration, new Vector3(strength, strength, 0), vibrato, randomness, false, true);
 
-        yield return spriteRenderer.DOColor(Color.black, duration);
+        yield return visuals.spriteRenderer.DOColor(Color.black, duration);
     }
 
     public IEnumerator PreviewClear()
