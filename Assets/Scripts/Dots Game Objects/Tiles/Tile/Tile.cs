@@ -8,5 +8,5 @@ public abstract class Tile : DotsGameObject
 {
     
     public abstract TileType TileType { get;}
-    public VisualController VisualController => GetVisualController<VisualController>();
+    public new VisualController VisualController => GetVisualController<VisualController>();
 }
