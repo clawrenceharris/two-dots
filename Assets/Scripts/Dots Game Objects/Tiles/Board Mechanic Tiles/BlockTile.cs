@@ -7,7 +7,7 @@ using static Type;
 public class BlockTile : Tile, IHittable
 {
 
-    public override TileType TileType => TileType.BlockTile;
+    public override TileType TileType => TileType.Block;
     public HitType HitType { get; private set; }
     private int hitCount;
     public int HitCount { get => hitCount; set => hitCount = value; }

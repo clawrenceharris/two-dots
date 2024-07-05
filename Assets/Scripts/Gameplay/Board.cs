@@ -385,7 +385,8 @@ public class Board : MonoBehaviour
         {
             for (int row = Height - 1; row >= 0; row--)
             {
-                if (Tiles[col, row] && Tiles[col, row].TileType == TileType.BlockTile)
+                Tile tile = Tiles[col, row];
+                if (tile && tile.TileType.IsBoardMechanicTile())
                 {
                     break;
                 }
@@ -412,7 +413,7 @@ public class Board : MonoBehaviour
 
             for (int row = Height - 1; row >= 0; row--)
             {
-                if (Tiles[col, row] && Tiles[col, row].TileType == TileType.BlockTile)
+                if (Tiles[col, row] && Tiles[col, row].TileType.IsBoardMechanicTile())
                 {
                     break;
 

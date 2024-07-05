@@ -6,7 +6,7 @@ public class GameAssets : MonoBehaviour
 {
     public Dot NormalDot;
     public Tile EmptyTile;
-    public Tile BlockTile;
+    public Tile Block;
     public Tile OneSidedBlock;
     public NestingDot NestingDot;
     public BombDot Bomb;
@@ -47,7 +47,7 @@ public class GameAssets : MonoBehaviour
         return type switch
         {
             TileType.EmptyTile => EmptyTile,
-            TileType.BlockTile => BlockTile,
+            TileType.Block => Block,
             TileType.OneSidedBlock => OneSidedBlock,
             TileType.Ice => Ice,
 
