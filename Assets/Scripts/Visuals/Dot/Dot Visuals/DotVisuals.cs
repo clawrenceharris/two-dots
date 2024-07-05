@@ -9,7 +9,6 @@ public class DotVisuals : Visuals, IHittableVisuals
     public SpriteRenderer outerDot;
     public static float outerDotScaleDuration = 0.8f;
     public static float outerDotFadeDuration = 0.8f;
-    public SpriteRenderer BombHitSprite => hittableVisuals.BombHitSprite;
 
     public float ClearDuration => hittableVisuals.ClearDuration;
 
