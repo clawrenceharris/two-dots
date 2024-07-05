@@ -35,7 +35,7 @@ public static class Type
         BigSqaure,
 
     }
-    public enum BoardMechanicType
+    public enum TileType
     {
         None,
         Ice,
@@ -46,16 +46,7 @@ public static class Type
         CeramicTile,
         SunGate,
         Circut,
-        Glacier
-
-
-
-    }
-
-
-    public enum TileType
-    {
-        None,
+        Glacier,
         OneSidedBlock,
         EmptyTile,
         Ramp,
@@ -64,9 +55,11 @@ public static class Type
         PartyPopper,
         Scroll,
         Snow,
-        BlockTile,
-        Ice,
+        Block,
+
+
     }
+
 
 
     public enum HitType
@@ -161,7 +154,10 @@ public static class Type
     }
 
     
-
+    public static bool IsBoardMechanicTile(this TileType type)
+    {
+        return type == TileType.Block || type == TileType.OneSidedBlock;
+    }
     public static bool IsExplosion(this HitType type)
     {
         return type == HitType.BombExplosion || type == HitType.GemExplosion;
