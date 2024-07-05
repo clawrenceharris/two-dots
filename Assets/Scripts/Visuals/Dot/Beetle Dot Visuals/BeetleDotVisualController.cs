@@ -5,7 +5,7 @@ using DG.Tweening;
 using static Type;
 using System;
 
-public class BeetleDotVisualController : DotVisualController, IPreviewable, IDirectionalVisualController
+public class BeetleDotVisualController : ConnectableDotVisualController, IPreviewable, IDirectionalVisualController
 {
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
@@ -157,7 +157,7 @@ public class BeetleDotVisualController : DotVisualController, IPreviewable, IDir
         }
     }
 
-    public IEnumerator DoClearAnimation()
+    public override IEnumerator DoClearAnimation()
     {
         bool isBombHit = dot.HitType == HitType.BombExplosion;
         float startFlapAngle = isBombHit ? 20f : 45f;
@@ -173,7 +173,7 @@ public class BeetleDotVisualController : DotVisualController, IPreviewable, IDir
         Vector3 startPosition = dot.transform.position;
         Vector3 unitDirection = direction.normalized;
 
-        CoroutineHandler.StartStaticCoroutine(hittableVisualController.DoClearAnimation());
+        CoroutineHandler.StartStaticCoroutine(base.DoClearAnimation());
 
         while (elapsedTime < duration * speed)
         {
@@ -254,7 +254,7 @@ public class BeetleDotVisualController : DotVisualController, IPreviewable, IDir
 
 
     
-    public IEnumerator DoHitAnimation(HitType hitType)
+    public override IEnumerator DoHitAnimation(HitType hitType)
     {
         float hitDuration = HittableVisuals.hitDuration;
         currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, dot.HitsToClear - 1);

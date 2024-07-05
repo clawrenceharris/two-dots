@@ -16,7 +16,7 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
     {
         dot = (BombDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<BombDotVisuals>();
-        SetUp();
+        base.Init(dotsGameObject);
 
     }
 

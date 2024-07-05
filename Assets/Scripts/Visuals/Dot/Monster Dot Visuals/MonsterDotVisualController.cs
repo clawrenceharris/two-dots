@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-public class MonsterDotVisualController : DotVisualController, INumerableVisualController, IPreviewable, IDirectionalVisualController
+public class MonsterDotVisualController : ConnectableDotVisualController, INumerableVisualController, IPreviewable, IDirectionalVisualController
 {
     private MonsterDot dot;
     private MonsterDotVisuals visuals;
@@ -63,7 +63,7 @@ public class MonsterDotVisualController : DotVisualController, INumerableVisualC
 
     public IEnumerator DoRotateAnimation()
     {
-        throw new System.NotImplementedException();
+        yield break;
     }
 
     protected override void SetColor()

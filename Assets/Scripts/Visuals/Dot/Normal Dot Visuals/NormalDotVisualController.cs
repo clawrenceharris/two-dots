@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class NormalDotVisualController : DotVisualController
+public class NormalDotVisualController : ConnectableDotVisualController
 {
 
     private NormalDot dot;
@@ -17,7 +17,7 @@ public class NormalDotVisualController : DotVisualController
     {
         dot = (NormalDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<DotVisuals>();
-        SetUp();
+        base.Init(dotsGameObject);
     }
 
 

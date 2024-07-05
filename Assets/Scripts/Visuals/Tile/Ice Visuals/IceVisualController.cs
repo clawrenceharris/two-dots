@@ -6,6 +6,7 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
 {
     private Ice tile;
     private IceVisuals visuals;
+   
     private readonly HittableVisualControllerBase hittableVisualController = new();
     public override T GetGameObject<T>() => tile as T;
     public override T GetVisuals<T>() => visuals as T;
@@ -18,6 +19,14 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
         SetUp();
     }
 
+    protected override void SetUp()
+    {
+        base.SetUp();
+        tile.transform.localScale = Vector2.one * (Board.offset - Board.offset /4);
+
+        SetSprite();
+    }
+
     protected override void SetColor()
     {
         //do nothing
@@ -28,9 +37,24 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
         yield return hittableVisualController.DoBombHit();
     }
 
+
+    private void SetSprite()
+    {
+        if (tile.HitCount == 1)
+        {
+            visuals.cracks.sprite = visuals.cracksHit1;
+        }
+
+        if (tile.HitCount == 2)
+        {
+            visuals.cracks.sprite = visuals.cracksHit2;
+        }
+    }
+
     public IEnumerator DoHitAnimation(HitType hitType)
     {
-       yield return hittableVisualController.DoHitAnimation(hitType);
+        SetSprite();
+        yield return null;
     }
 
     public IEnumerator DoClearAnimation()
