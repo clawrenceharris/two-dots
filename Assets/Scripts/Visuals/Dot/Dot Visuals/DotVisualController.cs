@@ -8,7 +8,7 @@ using static Type;
 public abstract class DotVisualController : VisualController, IDotVisualController, IHittableVisualController
 {
 
-    protected readonly HittableVisualControllerBase hittableVisualController;
+    protected readonly HittableVisualControllerBase hittableVisualController = new();
 
     public override void Init(DotsGameObject dotsGameObject)
     {
