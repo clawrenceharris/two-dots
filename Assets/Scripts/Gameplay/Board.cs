@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using static Type;
+using System.Xml.Linq;
 
 
 public class Board : MonoBehaviour
@@ -153,10 +154,14 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < Height; j++)
             {
-                T element = Get<T>(i, j);
-                if (element != null)
+                
+                if (Dots[i,j] is T dot)
                 {
-                    boardElements.Add(element);
+                    boardElements.Add(dot);
+                }
+                if (Tiles[i, j] is T tile)
+                {
+                    boardElements.Add(tile);
                 }
             }
         }
@@ -284,21 +289,7 @@ public class Board : MonoBehaviour
         }
 
     }
-    public IHittable GetHittableAt(int col, int row)
-    {
-        if (col >= 0 && col < Width && row >= 0 && row < Height)
-        {
-            if (Dots[col, row] is IHittable dot)
-            {
-                return dot;
-            }
-            else if (Tiles[col, row] is IHittable tile)
-            {
-                return tile;
-            }
-        }
-        return null;
-    }
+   
     /// <summary>
     ///Adds neighboring board elements based on
     ///their positions relative to the given row and column
@@ -390,7 +381,7 @@ public class Board : MonoBehaviour
                 {
                     break;
                 }
-                if (!Dots[col, row] && !Tiles[col, row])
+                if (!Dots[col, row])
                 {
                     dotsDropped = true;
 
@@ -413,12 +404,13 @@ public class Board : MonoBehaviour
 
             for (int row = Height - 1; row >= 0; row--)
             {
-                if (Tiles[col, row] && Tiles[col, row].TileType.IsBoardMechanicTile())
+                Tile tile = Tiles[col, row];
+                if (tile && tile.TileType.IsBoardMechanicTile())
                 {
                     break;
 
                 }
-                if (!Tiles[col, row] && !Dots[col, row])
+                if (!Dots[col, row])
                 {
 
                     for (int k = row + 1; k < Height; k++)
