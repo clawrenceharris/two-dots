@@ -16,7 +16,7 @@ public class Ice : Tile, IHittable
 
     public int HitsToClear => 3;
 
-    public Dictionary<HitType, IHitRule> HitRules => new();
+    public Dictionary<HitType, IHitRule> HitRules => new() { { HitType.Connection, new HitBySamePositionRule() } };
 
     public override void Init(int column, int row)
     {
@@ -36,7 +36,8 @@ public class Ice : Tile, IHittable
 
     public IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
-       yield return hittable.Hit(hitType);
+        HitCount++;
+        yield return hittable.Hit(hitType, onHitComplete);
     }
 
     
