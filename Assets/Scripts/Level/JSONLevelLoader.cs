@@ -22,53 +22,51 @@ public class JSONLevelLoader
         return level;
     }
 
-    public static DotsGameObject FromJsonType(string dotType)
+    public static DotsGameObject FromJsonType(string type)
     {
-        return dotType switch
+        //dots
+        switch (type)
         {
-            "normal" => GameAssets.Instance.NormalDot,
-            "clock" => GameAssets.Instance.ClockDot,
-            "bomb" => GameAssets.Instance.Bomb,
-            "blank" => GameAssets.Instance.BlankDot,
-            "anchor" => GameAssets.Instance.AnchorDot,
-            "nesting" => GameAssets.Instance.NestingDot,
-            "beetle" => GameAssets.Instance.BeetleDot,
-            "monster" => GameAssets.Instance.MonsterDot,
-            "one sided block" => GameAssets.Instance.OneSidedBlock,
-            "empty" => GameAssets.Instance.EmptyTile,
-
-
-            _ => throw new ArgumentException("'" + dotType +  "' is not a valid game object type"),
+            case "normal": return GameAssets.Instance.NormalDot;
+            case "clock": return GameAssets.Instance.ClockDot;
+            case "bomb": return GameAssets.Instance.Bomb;
+            case "blank": return GameAssets.Instance.BlankDot;
+            case "anchor": return GameAssets.Instance.AnchorDot;
+            case "nesting": return GameAssets.Instance.NestingDot;
+            case "beetle": return GameAssets.Instance.BeetleDot;
+            case "monster": return GameAssets.Instance.MonsterDot;
         };
+
+        //tiles
+        switch (type)
+        {
+            case "one sided block": return GameAssets.Instance.OneSidedBlock;
+            case "empty": return GameAssets.Instance.EmptyTile;
+            case "ice": return GameAssets.Instance.Ice;
+
+        }
+
+        throw new ArgumentException("'" + type + "' is not a valid Json game object type");
+
     }
 
 
 
-   
-    
 
     public static TileType FromJsonTileType(string type)
     {
         return type switch
         {
-            "empty" => TileType.EmptyTile,
-            "block" => TileType.BlockTile,
+            "ice" => TileType.Ice,
+            "slime" => TileType.Slime,
+            "block" => TileType.Block,
             "one sided block" => TileType.OneSidedBlock,
-
+            "empty" => TileType.EmptyTile,
             _ => TileType.None,
         };
     }
 
-    public static BoardMechanicType FromJsonBoardMechanicType(string type)
-    {
-        return type switch
-        {
-            "block" => BoardMechanicType.Ice,
-            "slime" => BoardMechanicType.Slime,
-            _ => BoardMechanicType.None,
-        };
-    }
-
+   
     public static DotColor FromJSONColor(string color)
     {
         switch (color)
@@ -84,9 +82,9 @@ public class JSONLevelLoader
         }
     }
 
-    public static string ToJsonDotType(DotType dotType)
+    public static string ToJsonDotType(DotType type)
     {
-        return dotType switch
+        return type switch
         {
             DotType.NormalDot => "normal",
             DotType.ClockDot => "clock",
@@ -98,19 +96,29 @@ public class JSONLevelLoader
             _ => throw new ArgumentException(),
         };
     }
-
-    internal static object ToJsonColor(DotColor color)
+    public static string ToJsonTileType(TileType type)
     {
-        switch (color)
+        return type switch
         {
-            case DotColor.Red: return "red";
-            case DotColor.Blue: return "blue";
-            case DotColor.Yellow: return "yellow" ;
-            case DotColor.Purple: return "purple";
-            case DotColor.Green : return "green";
-            case DotColor.Blank: return "blank";
+            TileType.Slime => "slime",
+            TileType.Ice => "ice",
+            TileType.Block => "block",
+            TileType.OneSidedBlock => "one sided block",
+            _ => throw new ArgumentException(),
+        };
+    }
 
-            default: return DotColor.None;
-        }
+    public static object ToJsonColor(DotColor color)
+    {
+        return color switch
+        {
+            DotColor.Red => "red",
+            DotColor.Blue => "blue",
+            DotColor.Yellow => "yellow",
+            DotColor.Purple => "purple",
+            DotColor.Green => "green",
+            DotColor.Blank => "blank",
+            _ => DotColor.None,
+        };
     }
 }
