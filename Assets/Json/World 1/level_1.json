@@ -52,12 +52,12 @@
     ],
 
     "tilesOnBoard": [
-        //{
-        //    "type": "empty",
-        //    "row": 4,
-        //    "col": 5
+        {
+            "type": "ice",
+            "row": 4,
+            "col": 4
 
-        //},
+        },
         //{
         //    "type": "empty",
         //    "row": 4,

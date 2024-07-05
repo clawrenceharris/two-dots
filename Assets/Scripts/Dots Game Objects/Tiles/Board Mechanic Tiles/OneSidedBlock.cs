@@ -7,12 +7,12 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
 {
     
     public override TileType TileType => TileType.OneSidedBlock;
+    private readonly DirectionalBase directional = new();
+
     private int directionX;
     private int directionY;
-    public HitType HitType { get; private set; }
     public int DirectionX { get => directionX; set => directionX = value; }
-    public bool WasHit { get; set; }
-    private readonly DirectionalBase directional = new();
+    
     public int DirectionY { get => directionY; set => directionY = value; }
     public new OneSidedBlockVisualController VisualController => GetVisualController<OneSidedBlockVisualController>();
     public Dictionary<HitType, IHitRule> HitRules
@@ -23,16 +23,37 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
         }
     }
 
+    private readonly HittableBase hittable = new();
 
-    private int hitCount;
-    public int HitCount { get => hitCount; set => hitCount = value; }
+
+    public HitType HitType { get => hittable.HitType; }
+
+    public int HitCount { get => hittable.HitCount; set => hittable.HitCount = value; }
+
 
     public int HitsToClear => 1;
+    public bool WasHit { get => hittable.WasHit; set => hittable.WasHit = value; }
 
     public override void Init(int column, int row)
     {
         base.Init(column, row);
+        hittable.Init(this);
         directional.Init(this);
+
+    }
+
+
+    public IEnumerator Clear()
+    {
+        yield return hittable.Clear();
+
+    }
+
+    public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
+    {
+        HitCount++;
+
+        yield return hittable.Hit(hitType, onHitComplete);
     }
 
 
@@ -42,34 +63,9 @@ public class OneSidedBlock : Tile, IDirectional, IHittable
         visualController.Init(this);
     }
 
-    public virtual IEnumerator Hit(HitType hitType, Action onHitChanged = null)
-    {
-        HitType = hitType;
-        HitCount++;
-        DotsObjectEvents.NotifyHit(this);
-        if (hitType == HitType.BombExplosion)
-        {
-            yield return VisualController.DoBombHit();
-
-        }
-        onHitChanged?.Invoke();
-        yield return VisualController.DoHitAnimation(hitType);
-
-    }
 
 
-
-    public IEnumerator Clear()
-    {
-        DotsObjectEvents.NotifyCleared(this);
-        yield return VisualController.DoClearAnimation();
-    }
-
-    public void UndoHit()
-    {
-        HitType = HitType.None;
-    }
-
+    
     public void ChangeDirection(int directionX, int directionY)
     {
         directional.ChangeDirection(directionX, directionY);

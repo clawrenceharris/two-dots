@@ -9,11 +9,13 @@ using System.Collections.Generic;
 public abstract class Dot : DotsGameObject, IHittable
 {
 
-    public abstract Dictionary<HitType, IHitRule> HitRules { get; }
     
     public new DotVisualController VisualController => GetVisualController<DotVisualController>();
-    private readonly HittableBase hittable = new();
     public abstract DotType DotType { get; }
+
+    private readonly HittableBase hittable = new();
+
+    public abstract Dictionary<HitType, IHitRule> HitRules { get; }
 
     public HitType HitType { get => hittable.HitType; }
 
@@ -29,13 +31,12 @@ public abstract class Dot : DotsGameObject, IHittable
         hittable.Init(this);
     }
 
-    public virtual void Pulse()
-    {
-        VisualController.Pulse();
-    }
 
-    public abstract void Hit(HitType hitType);
-   
+    public IEnumerator Clear()
+    {
+        yield return hittable.Clear();
+
+    }
 
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
@@ -45,11 +46,13 @@ public abstract class Dot : DotsGameObject, IHittable
 
 
    
-    public IEnumerator Clear()
-    {
-        yield return hittable.Clear();
+    
+    public abstract void Hit(HitType hitType);
 
+    public virtual void Pulse()
+    {
+        VisualController.Pulse();
     }
 
- 
+
 }

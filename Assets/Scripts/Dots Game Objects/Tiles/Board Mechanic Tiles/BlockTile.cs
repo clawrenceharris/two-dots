@@ -4,15 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-public class BlockTile : Tile, IHittable
+public class Block : Tile, IHittable
 {
 
     public override TileType TileType => TileType.Block;
-    public HitType HitType { get; private set; }
-    private int hitCount;
-    public int HitCount { get => hitCount; set => hitCount = value; }
     public int HitsToClear => 1;
-    public bool WasHit { get; set; }
 
     public Dictionary<HitType, IHitRule> HitRules
     {
@@ -22,44 +18,42 @@ public class BlockTile : Tile, IHittable
         }
     } 
 
-    public new BlockTileVisualController VisualController => GetVisualController<BlockTileVisualController>();
+    public new BlockVisualController VisualController => GetVisualController<BlockVisualController>();
+
+    private readonly HittableBase hittable = new();
 
 
-    public bool DidExecute { get; private set; }
+    public HitType HitType { get => hittable.HitType; }
 
-    public override void InitDisplayController()
+    public int HitCount { get => hittable.HitCount; set => hittable.HitCount = value; }
+
+
+    public bool WasHit { get => hittable.WasHit; set => hittable.WasHit = value; }
+
+    public override void Init(int column, int row)
     {
-        visualController = new BlockTileVisualController();
-        visualController.Init(this);
-    }
-
-    public IEnumerator Hit(HitType hitType, Action onHitChanged = null)
-    {
-        DotsObjectEvents.NotifyHit(this);
-
-        HitType = hitType;
-        HitCount++;
-        if (hitType == HitType.BombExplosion)
-        {
-            yield return VisualController.DoBombHit();
-
-        }
-        onHitChanged?.Invoke();
-
-        yield return VisualController.DoHitAnimation(hitType);
+        base.Init(column, row);
+        hittable.Init(this);
 
     }
 
 
     public IEnumerator Clear()
     {
-        DotsObjectEvents.NotifyCleared(this);
-        yield return VisualController.DoClearAnimation();
+        yield return hittable.Clear();
+
     }
 
-
-    public void UndoHit()
+    public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
-        HitType = HitType.None;
+        HitCount++;
+
+        yield return hittable.Hit(hitType, onHitComplete);
+    }
+
+    public override void InitDisplayController()
+    {
+        visualController = new BlockVisualController();
+        visualController.Init(this);
     }
 }
