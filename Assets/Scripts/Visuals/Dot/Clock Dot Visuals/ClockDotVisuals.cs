@@ -10,6 +10,7 @@ public class ClockDotVisuals : BlankDotVisuals, INumerableVisuals
     public SpriteRenderer middle;
     public SpriteRenderer shadow;
     public GameObject clockDotPreview;
+    internal static float moveDuration = 0.5f;
 
     public SpriteRenderer Digit1 => numerableVisuals.Digit1;
 

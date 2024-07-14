@@ -19,10 +19,7 @@ public abstract class DotVisualController : VisualController, IDotVisualControll
         SetUp();
     }
 
-    public virtual IEnumerator DoBombHit()
-    {
-        yield return hittableVisualController.DoBombHit();
-    }
+    
 
     public virtual IEnumerator DoClearAnimation()
     {
@@ -38,4 +35,6 @@ public abstract class DotVisualController : VisualController, IDotVisualControll
     {
         throw new NotImplementedException();
     }
+
+   
 }

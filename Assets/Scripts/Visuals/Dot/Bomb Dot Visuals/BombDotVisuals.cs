@@ -5,5 +5,5 @@ using UnityEngine;
 public class BombDotVisuals : ExplodableVisuals
 {
     public SpriteRenderer[] bombSprites;
-
+    public GameObject line;
 }

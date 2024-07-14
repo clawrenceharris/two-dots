@@ -20,10 +20,5 @@ public class BlankDotVisualController : BlankDotBaseVisualController
 
     }
 
-    protected override void SetColor()
-    {
-        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.blank;
-    }
-
 
 }

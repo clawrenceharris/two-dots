@@ -17,25 +17,17 @@ public class HittableVisualControllerBase : IHittableVisualController
     {
         this.visuals = visuals;
         this.hittable = hittable;
+
     }
 
-    
-    public IEnumerator DoBombHit()
-    {
-        Visuals visuals = (Visuals)this.visuals;
-        Color color = visuals.spriteRenderer.color;
-        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.bombLight;
 
-        yield return new WaitForSeconds(HittableVisuals.bombHitDuration);
-
-        visuals.spriteRenderer.color = color;
-    }
-
+   
 
 
     public IEnumerator DoHitAnimation(HitType hitType)
     {
-        yield return null;
+        DotsGameObject dotsGameObject = (DotsGameObject)hittable;
+        yield return dotsGameObject.transform.DOScale(Vector2.zero, visuals.ClearDuration);
     }
 
     public virtual IEnumerator DoClearAnimation()
@@ -45,6 +37,5 @@ public class HittableVisualControllerBase : IHittableVisualController
        
     }
 
-    
-    
+   
 }

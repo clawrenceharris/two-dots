@@ -27,14 +27,9 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
         SetSprite();
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         //do nothing
-    }
-
-    public IEnumerator DoBombHit()
-    {
-        yield return hittableVisualController.DoBombHit();
     }
 
 

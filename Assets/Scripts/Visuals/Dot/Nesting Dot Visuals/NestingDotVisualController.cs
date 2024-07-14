@@ -21,7 +21,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
         SetUp();
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         foreach(Transform child in dot.transform)
         {
@@ -35,7 +35,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
 
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+    public IEnumerator PreviewHit(PreviewHitType hitType)
     {
         yield break;
     }
@@ -91,13 +91,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
     }
 
 
-    public override IEnumerator DoBombHit()
-    {
-        //Do nothing
-
-        yield break;
-    }
-
+    
     private IEnumerator DoShakeAnimation()
     {
         float duration = 0.8f;

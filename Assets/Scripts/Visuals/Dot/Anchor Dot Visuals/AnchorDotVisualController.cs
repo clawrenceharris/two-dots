@@ -14,7 +14,7 @@ public class AnchorDotVisualController : DotVisualController
         visuals = dotsGameObject.GetComponent<DotVisuals>();
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         //do nothing
     }

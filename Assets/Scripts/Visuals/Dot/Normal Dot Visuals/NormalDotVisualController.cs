@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class NormalDotVisualController : ConnectableDotVisualController
+public class NormalDotVisualController : ColorableDotVisualController
 {
 
     private NormalDot dot;
@@ -21,7 +21,7 @@ public class NormalDotVisualController : ConnectableDotVisualController
     }
 
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         visuals.spriteRenderer.color = ColorSchemeManager.FromDotColor(dot.Color); ;
     }

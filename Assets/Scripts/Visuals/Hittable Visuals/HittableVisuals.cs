@@ -9,5 +9,4 @@ public class HittableVisuals : IHittableVisuals
     public static float bombHitDuration = 0.2f;
     [SerializeField] private float clearDuration;
     public float ClearDuration => clearDuration;
-
 }

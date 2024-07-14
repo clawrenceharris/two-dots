@@ -9,11 +9,7 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
     private HittableTileVisuals visuals;
     private readonly HittableVisualControllerBase hittableVisualController = new();
 
-    public IEnumerator DoBombHit()
-    {
-        yield return hittableVisualController.DoBombHit();
-    }
-
+   
     public IEnumerator DoClearAnimation()
     {
         yield return hittableVisualController.DoClearAnimation();
@@ -36,7 +32,7 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
         SetUp();
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
     }

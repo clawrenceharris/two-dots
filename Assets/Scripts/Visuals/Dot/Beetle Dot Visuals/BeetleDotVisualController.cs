@@ -5,7 +5,7 @@ using DG.Tweening;
 using static Type;
 using System;
 
-public class BeetleDotVisualController : ConnectableDotVisualController, IPreviewable, IDirectionalVisualController
+public class BeetleDotVisualController : ColorableDotVisualController, IPreviewable, IDirectionalVisualController
 {
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
@@ -58,7 +58,7 @@ public class BeetleDotVisualController : ConnectableDotVisualController, IPrevie
         base.SetUp();
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         Color currentColor = ColorSchemeManager.FromDotColor(dot.Color);
 
@@ -70,6 +70,11 @@ public class BeetleDotVisualController : ConnectableDotVisualController, IPrevie
         }
 
 
+    }
+
+    public override IEnumerator AnimateSelectionEffect()
+    {
+        return base.AnimateSelectionEffect();
     }
 
     public override void SetColor(Color color)
@@ -233,7 +238,7 @@ public class BeetleDotVisualController : ConnectableDotVisualController, IPrevie
     }
 
 
-    public IEnumerator PreviewHit(HitType hitType)
+    public IEnumerator PreviewHit(PreviewHitType hitType)
     {
         float startFlapAngle = 45f;
         float endFlapAngle = 0f;

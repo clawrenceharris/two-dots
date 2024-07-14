@@ -56,7 +56,7 @@ public abstract class VisualController : IVisualController
 
     public abstract void Init(DotsGameObject dotsGameObject);
     
-    protected abstract void SetColor();
+    public abstract void SetInitialColor();
 
     /// <summary>
     /// Performs set up operations such as setting
@@ -64,7 +64,7 @@ public abstract class VisualController : IVisualController
     /// </summary>
     protected virtual void SetUp()
     {
-        SetColor();
+        SetInitialColor();
 
     }
 

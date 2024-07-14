@@ -6,7 +6,7 @@ using static Type;
 using System;
 using System.Linq;
 
-public abstract class BlankDotBaseVisualController : ConnectableDotVisualController, IPreviewable
+public abstract class BlankDotBaseVisualController : ColorableDotVisualController, IPreviewable
 {
     
     
@@ -17,9 +17,14 @@ public abstract class BlankDotBaseVisualController : ConnectableDotVisualControl
         GetVisuals<BlankDotVisuals>().innerDot.color = color;
     }
 
+    public override void SetInitialColor()
+    {
+        GetVisuals<Visuals>().spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.blank;
+    }
+
     public override IEnumerator AnimateSelectionEffect()
     {
-        base.AnimateSelectionEffect();
+        CoroutineHandler.StartStaticCoroutine(base.AnimateSelectionEffect());
         BlankDotVisuals visuals = GetVisuals<BlankDotVisuals>();
 
 
@@ -32,7 +37,7 @@ public abstract class BlankDotBaseVisualController : ConnectableDotVisualControl
 
     }
 
-    public IEnumerator AnimateDeselectionEffect()
+    public virtual IEnumerator AnimateDeselectionEffect()
     {
         BlankDotVisuals visuals = GetVisuals<BlankDotVisuals>();
 
@@ -40,22 +45,24 @@ public abstract class BlankDotBaseVisualController : ConnectableDotVisualControl
 
     }
 
-    public virtual IEnumerator PreviewHit(HitType hitType)
+    public virtual IEnumerator PreviewHit(PreviewHitType hitType)
     {
         BlankDotBase dot = GetGameObject<BlankDotBase>();
-        while (ConnectionManager.ConnectedDots.Contains(dot))
+        while (ConnectionManager.ToHit.Contains(dot) && DotTouchIO.IsInputActive)
         {
             dot.UpdateColor();
-
-            yield return AnimateSelectionEffect();
+            yield return null;
         }
-
         yield return AnimateDeselectionEffect();
+
 
     }
 
-    public IEnumerator PreviewClear()
+
+
+
+    public virtual IEnumerator PreviewClear()
     {
-        yield break;
+        yield return null;
     }
 }

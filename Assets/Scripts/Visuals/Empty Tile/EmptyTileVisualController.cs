@@ -46,7 +46,7 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
         SetUp(board);
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         Color bgColor = ColorSchemeManager.CurrentColorScheme.backgroundColor;
         visuals.spriteRenderer.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.5f);
@@ -55,26 +55,26 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
     {
         
             
-        if (board.Get<Tile>(tile.Column, tile.Row + 1))
+        if (board.GetDotAt<Tile>(tile.Column, tile.Row + 1))
         {
 
             hasTop = true;
         }
 
-        if (board.Get<Tile>(tile.Column, tile.Row - 1))
+        if (board.GetDotAt<Tile>(tile.Column, tile.Row - 1))
         {
 
             hasBottom = true;
         }
 
 
-        if (board.Get<Tile>(tile.Column + 1, tile.Row ))
+        if (board.GetDotAt<Tile>(tile.Column + 1, tile.Row ))
                 
         {
 
             hasRight = true;
         }
-        if (board.Get<Tile>(tile.Column - 1, tile.Row))
+        if (board.GetDotAt<Tile>(tile.Column - 1, tile.Row))
 
         {
             hasLeft = true;

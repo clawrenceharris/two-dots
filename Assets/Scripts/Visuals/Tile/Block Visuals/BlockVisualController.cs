@@ -15,7 +15,7 @@ public class BlockVisualController : TileVisualController
         visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
     }

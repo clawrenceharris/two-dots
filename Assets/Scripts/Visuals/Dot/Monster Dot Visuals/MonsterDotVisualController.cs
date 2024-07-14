@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-public class MonsterDotVisualController : ConnectableDotVisualController, INumerableVisualController, IPreviewable, IDirectionalVisualController
+using static Type;
+
+public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IPreviewable, IDirectionalVisualController
 {
     private MonsterDot dot;
     private MonsterDotVisuals visuals;
@@ -22,24 +24,32 @@ public class MonsterDotVisualController : ConnectableDotVisualController, INumer
 
     }
 
+    
 
     public void UpdateNumbers(int amount)
     {
          numerableVisualController.UpdateNumbers(amount);
     }
 
-    public IEnumerator PreviewHit(Type.HitType hitType)
+    public IEnumerator PreviewHit(PreviewHitType hitType)
     {
-        float scaleDuration = 0.4f;
-        UpdateNumbers(dot.TempNumber);
 
-        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
-        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one * 1.3f, scaleDuration);
+        UpdateNumbers(dot.TempNumber);
+        yield return ScaleNumbers();
+        
+
+    }
+
+    public IEnumerator ScaleNumbers()
+    {
+        float scaleDuration = 0.2f;
+
+        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one * 1.8f, scaleDuration);
+        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one * 1.8f, scaleDuration);
 
         yield return new WaitForSeconds(scaleDuration);
         visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one, scaleDuration);
         visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one, scaleDuration);
-
     }
 
     public IEnumerator PreviewClear()
@@ -60,13 +70,21 @@ public class MonsterDotVisualController : ConnectableDotVisualController, INumer
         
     }
 
+    public override IEnumerator DoHitAnimation(Type.HitType hitType)
+    {
+        if (dot.HitCount >= dot.HitsToClear)
+            yield return base.DoHitAnimation(hitType);
+        else
+            yield return ScaleNumbers();
+
+    }
 
     public IEnumerator DoRotateAnimation()
     {
         yield break;
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         visuals.spriteRenderer.color = ColorSchemeManager.FromDotColor(dot.Color); ;
     }

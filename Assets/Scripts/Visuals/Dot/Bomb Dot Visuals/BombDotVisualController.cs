@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using DG.Tweening;
+using Unity.VisualScripting;
+
 public class BombDotVisualController : DotVisualController, IHittableVisualController
 {
     private BombDot dot;
@@ -20,7 +22,7 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
 
     }
 
-    protected override void SetColor()
+    public override void SetInitialColor()
     {
         for (int i = 0; i  < visuals.bombSprites.Length; i++)
         {
@@ -32,59 +34,55 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
         }
     }
 
+    public override void SetColor(Color color)
+    {
+        for(int i = 0; i < visuals.bombSprites.Length; i++)
+            visuals.bombSprites[i].color = color;
+    }
 
-    public IEnumerator DoLineAnimation(IHittable hittable)
+
+    public IEnumerator DoLineAnimation(IHittable hittable, Action callback = null)
     {
 
-        float elapsedTime = 0f;
-        float duration = 0.25f;
+        float duration = 0.2f;
+        Vector3 startPos = dot.transform.position;
+        DotsGameObject dotsGameObject = (DotsGameObject)hittable;
+        Vector3 targetPosition = new Vector3(dotsGameObject.Column, dotsGameObject.Row) * Board.offset;
 
-        Vector2 startPos = dot.transform.position;
-        IBoardElement boardElement = (IBoardElement)hittable;
-        Vector2 endPos = new Vector2(boardElement.Column, boardElement.Row) * Board.offset;
-        Vector2 startScale = new(1f, 0.2f);
-        Vector2 endScale = new(0.7f, 0.03f);
-
-        float angle = Vector2.SignedAngle(Vector2.right, endPos - startPos);
-
+        float angle = Vector2.SignedAngle(Vector2.right, targetPosition - startPos);
+        float distance = Vector2.Distance(startPos, targetPosition);
+        distance -= dot.transform.localScale.x / 2 + dotsGameObject.transform.localScale.x / 2;
         ConnectorLine line = Object.Instantiate(GameAssets.Instance.Line);
+        line.sprite.sortingLayerName = "Bomb";
+        line.sprite.sortingOrder = 100;
 
+        
+        line.transform.SetPositionAndRotation(startPos, Quaternion.Euler(0, 0, angle));
+
+        line.transform.localScale = new Vector3(0, 0.2f);
         line.transform.parent = dot.transform;
-        line.transform.localScale = startScale;
-        line.sprite.enabled = !BombDot.Hits.Contains(hittable) && hittable is not BombDot;
-        line.transform.rotation = Quaternion.Euler(1f, 0, angle);
-        line.disabled = true;
 
-        
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration; 
+        line.transform.DOScale(new Vector3(distance, 0.2f), duration / 2);
+        yield return new WaitForSeconds(duration / 2);
 
-            Vector3 newPos = Vector2.Lerp(startPos, endPos, t);
-            Vector3 newScale = Vector2.Lerp(startScale, endScale, t);
+        callback?.Invoke();
+        Vector3 position = targetPosition - (targetPosition - startPos).normalized * distance;
 
-            // Update line position
-            line.transform.position = newPos;
-            line.transform.localScale = newScale;
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-
-        yield return line.transform.DOScale(new Vector2(0, line.transform.localScale.y), 0.4f);
-        Object.Destroy(line.gameObject);
+        line.transform.DOMove(position, duration);
 
 
-        
-       
+        line.transform.DOScale(new Vector3(distance, 0.1f), duration / 2);
+
+
+        yield return new WaitForSeconds(duration / 2);
+        line.transform.DOMove(targetPosition, duration/2);
+
+        line.transform.DOScale(new Vector3(0, 0.1f), duration / 2);
+
     }
 
-    public override IEnumerator DoBombHit()
-    {
-        yield break;
-    }
 
-    
-    
+
+
+
 }
