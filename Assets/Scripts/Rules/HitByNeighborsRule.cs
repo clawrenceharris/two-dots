@@ -10,7 +10,7 @@ public class HitByNeighborsRule : IHitRule
         {
             return false;
         }
-        List<Dot> neighbors = board.GetNeighbors<Dot>(boardElement.Column, boardElement.Row);
+        List<Dot> neighbors = board.GetDotNeighbors<Dot>(boardElement.Column, boardElement.Row);
 
         foreach (Dot neighbor in neighbors)
         {

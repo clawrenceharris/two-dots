@@ -17,7 +17,7 @@ public class HitByNeighborRule : IHitRule
         int targetCol = boardElement.Column + directional.DirectionX;
         int targetRow = boardElement.Row + directional.DirectionY;
 
-        ConnectableDot adjacentDot = board.Get<ConnectableDot>(targetCol, targetRow);
+        ConnectableDot adjacentDot = board.GetDotAt<ConnectableDot>(targetCol, targetRow);
         
          
         return ConnectionManager.GetElementsToHit<ConnectableDot>().Contains(adjacentDot);

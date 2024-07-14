@@ -10,16 +10,20 @@ public class HitBySamePositionRule : IHitRule
         {
             return false;
         }
-        List<IBoardElement> elementsToHit = ConnectionManager.GetElementsToHit<IBoardElement>();
-        foreach (IBoardElement toHit in elementsToHit)
-        {
-            Debug.Log(toHit.Column + "==" + boardElement.Column + "&&" + toHit.Row + "==" + boardElement.Row);
-            if (toHit.Column == boardElement.Column && toHit.Row == boardElement.Row)
-            {
-                return true;
-            }
 
+        List<IHittable> hittables = board.FindElementsOfType<IHittable>();
+        foreach (IHittable h in hittables)
+        {
+            if (h is IBoardElement b)
+                if (b.Column == boardElement.Column && b.Row == boardElement.Row)
+                {
+
+                    return h.HitType.IsConnection() || h.HitType.IsExplosion();
+                }
         }
+
+        
+
         return false;
     }
 

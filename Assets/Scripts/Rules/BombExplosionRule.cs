@@ -10,22 +10,33 @@ public class BombExplosionRule : IExplosionRule
         {
             return new();
         }
-        List<IHittable> toHit = new();
-        List<IHittable> neighbors = board.GetNeighbors<IHittable>(explodable.Column, explodable.Row, true);
-        toHit.Add(explodable);
 
-        foreach (IHittable neighbor in neighbors)
+        List<IHittable> dots = board.GetDotNeighbors<IHittable>(explodable.Column, explodable.Row, true);
+        List<IHittable> tiles = board.GetTileNeighbors<IHittable>(explodable.Column, explodable.Row, true);
+        List<IHittable> toHit = new() { explodable};
+        toHit.AddRange(dots);
+        toHit.AddRange(tiles);
+
+
+
+
+        toHit.Sort((a, b) =>
         {
-            if(neighbor is IHittable hittable)
-            {
-                toHit.Add(hittable);
-            }
-        }
+            if (a == null && b == null) return 0; // Both are null, consider them equal
+            if (a == null) return -1; // Null is considered less than non-null
+            if (b == null) return 1; // Non-null is considered greater than null
 
-        return  toHit.OrderBy(dot => boardElement.Column).ThenByDescending(dot => boardElement.Row).ToList();
-        
+            return Compare((DotsGameObject)a, (DotsGameObject)b); 
+        });
 
+        return toHit;
     }
 
-    
+    public int Compare(DotsGameObject a, DotsGameObject b)
+    {
+        int compareX = a.Column.CompareTo(b.Column);
+        return compareX == 0 ? a.Row.CompareTo(b.Row) : compareX;
+    }
+
+
 }
