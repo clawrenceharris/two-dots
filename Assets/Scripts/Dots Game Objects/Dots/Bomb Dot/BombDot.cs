@@ -3,17 +3,18 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using static Type;
-
+using System.Linq;
 
 public class BombDot : Dot, IExplodable
 {
     
-
+    
     public override DotType DotType => DotType.Bomb;
+   
 
     public Dictionary<HitType, IExplosionRule> ExplosionRules => new() { { HitType.BombExplosion, new BombExplosionRule() } };
     public override int HitsToClear => 1;
-
+    public static BombExplosionManager bombExplosionManager = new();
     public override Dictionary<HitType, IHitRule> HitRules => new();
 
     public static List<IHittable> Hits { get; } = new();// the list of hittables all Bomb objects have hit
@@ -25,6 +26,7 @@ public class BombDot : Dot, IExplodable
 
     public int HitsToExplode => 0;
 
+
     public override void InitDisplayController()
     {
         visualController = new BombDotVisualController();
@@ -32,39 +34,90 @@ public class BombDot : Dot, IExplodable
     }
 
 
-    
+    private void OnEnable()
+    {
+        BombExplosionManager.bombs.Add(this);
+    }
+
 
     private void OnDisable()
     {
         Hits.Clear();
+        BombExplosionManager.bombs.Remove(this);
     }
 
 
-    public IEnumerator Explode(List<IHittable> hittables, Action<IHittable> callback)
+    public IEnumerator ChangeHittablesColor(IHittable hittable)
     {
-        List<IHittable> hits = new(); // the list of hittables this current Bomb object has hit
+        float duration = 0.2f;
+        DotsGameObject dotsGameObject = (DotsGameObject)hittable;
+
+        //set the color the bomb color
+        dotsGameObject.VisualController.SetColor(ColorSchemeManager.CurrentColorScheme.bombLight);
+        yield return new WaitForSeconds(duration);
+
+        //undo previous set color 
+       
+        dotsGameObject.VisualController.SetInitialColor();
+
         
+    }
 
-        foreach (IHittable hittable in hittables)
+
+    
+    public IEnumerator Explode(List<IHittable> toHit, Action<IHittable> onComplete)
+    {
+        List<IHittable> hittables = new(toHit.Where(hittable => hittable is not BombDot));
+
+        bombExplosionManager.AssignHittablesToBombs(hittables);
+        
+        int counter = 0;
+
+
+        foreach (var bomb in BombExplosionManager.bombToDotsMap.Keys)
         {
-           
+            foreach (IHittable hittable in BombExplosionManager.bombToDotsMap[bomb])
+            {
+    
+                if (hittable != null)
+                {
 
-            StartCoroutine(VisualController.DoLineAnimation(hittable));
-            Hits.Add(hittable);
-            hits.Add(hittable);
-            yield return new WaitForSeconds(0.05f); // wait before animating next line
-            
+                    CoroutineHandler.StartStaticCoroutine(bomb.VisualController.DoLineAnimation(hittable, () =>
+                    {
+                        CoroutineHandler.StartStaticCoroutine(ChangeHittablesColor(hittable),() => counter++);
+
+                    }));
+
+                    yield return new WaitForSeconds(0.02f);
+
+                }
+                else
+                {
+                    counter++;
+
+                }
+                if (hittable == hittables.Last())
+                {
+                    yield return new WaitForSeconds(0.1f);
+                }
+
+
+            }
+
         }
 
 
-        foreach (IHittable hittable in hits)
+        yield return new WaitUntil(() => counter == hittables.Count);
+        foreach (IHittable hittable in toHit)
         {
-            yield return new WaitForSeconds(0.01f); // wait before invoking completion
+            onComplete?.Invoke(hittable);
 
-            callback?.Invoke(hittable);
         }
 
     }
+
+    
+
     public override void Hit(HitType hitType)
     {
         HitCount++;

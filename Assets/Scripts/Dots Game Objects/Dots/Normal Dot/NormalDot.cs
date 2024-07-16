@@ -46,4 +46,8 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
     {
         //do nothing;
     }
+
+    
+
+   
 }

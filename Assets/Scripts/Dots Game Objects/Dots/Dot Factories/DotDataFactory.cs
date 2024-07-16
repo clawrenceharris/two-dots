@@ -39,6 +39,8 @@ public class DotDataFactory
                 break;
             case "clock":
                 dotData.SetProperty("Number", (int)number);
+                dotData.SetProperty("Color", JSONLevelLoader.ToJsonColor(DotColor.Blank));
+
                 break;
             case "monster":
                 dotData.SetProperty("Color", (string)color);
@@ -46,7 +48,7 @@ public class DotDataFactory
 
                 break;
             case "blank":
-                dotData.SetProperty("Color", JSONLevelLoader.ToJsonDotType(DotType.BlankDot));
+                dotData.SetProperty("Color", JSONLevelLoader.ToJsonColor(DotColor.Blank));
 
                 break;
 

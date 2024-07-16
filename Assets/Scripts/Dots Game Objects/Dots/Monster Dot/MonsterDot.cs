@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static MonsterDot;
 using static Type;
 
 
@@ -11,23 +12,24 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     private readonly NumerableBase numerable = new();
 
     public override DotType DotType => DotType.MonsterDot;
-
     private readonly DirectionalBase directional = new();
     public new MonsterDotVisualController VisualController => GetVisualController<MonsterDotVisualController>();
-    public int TempNumber{ get => numerable.TempNumber; set => numerable.TempNumber = value; }
-   
+    public int TempNumber { get => numerable.TempNumber; set => numerable.TempNumber = value; }
 
     public int CurrentNumber => numerable.CurrentNumber;
 
     public int InitialNumber { get => numerable.InitialNumber; set => numerable.InitialNumber = value; }
     public DotColor Color { get; set; }
 
-    
+
 
     public override int HitsToClear => numerable.InitialNumber;
 
     public int DirectionX { get; set; }
     public int DirectionY { get; set; }
+    public bool IsPreviewing { get; private set; }
+
+    public List<IHitRule> PreviewHitRules => new() { new HitByConnectionRule()};
 
     public override void Init(int column, int row)
     {
@@ -44,17 +46,18 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     }
 
 
-    public IEnumerator DoMove(Action onComplete = null)
+    public IEnumerator DoMove()
     {
-        if (WasHit)
-        {
-            WasHit = false;
-            yield break;
-        }
+
         int targetCol = DirectionX + Column;
         int targetRow = DirectionY + Row;
         yield return VisualController.DoMove(targetCol, targetRow);
-        onComplete?.Invoke();
+    }
+    public override IEnumerator Clear()
+    {
+        IsPreviewing = false;
+
+        return base.Clear();
     }
 
     public override void Hit(HitType hitType)
@@ -70,10 +73,10 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+    public IEnumerator StartPreview(PreviewHitType hitType)
     {
         int connectionCount = ConnectionManager.ToHit.Count;
- 
+
         TempNumber = Mathf.Clamp(CurrentNumber - connectionCount, 0, int.MaxValue);
 
         yield return VisualController.PreviewHit(hitType);
@@ -81,7 +84,7 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     public IEnumerator PreviewClear()
     {
-        yield break ;
+        yield break;
     }
 
     public void ChangeDirection(int directionX, int directionY)
@@ -91,11 +94,16 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     public Vector3 GetRotation()
     {
-       return directional.GetRotation();
+        return directional.GetRotation();
     }
 
     public override void Deselect()
     {
         VisualController.UpdateNumbers(CurrentNumber);
+    }
+
+    public void StopPreview()
+    {
+       IsPreviewing = false;
     }
 }

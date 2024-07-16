@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-public class NestingDot : Dot, IPreviewable
+public class NestingDot : Dot
 {
     public override DotType DotType => DotType.NestingDot;
 
@@ -27,7 +27,9 @@ public class NestingDot : Dot, IPreviewable
     public override Dictionary<HitType, IHitRule> HitRules =>
         new(){{HitType.NestingDot, new HitByNeighborsRule()}};
 
-   
+    public bool IsPreviewing { get; private set; }
+
+
     public override void Hit(HitType hitType)
     {
         HitCount++;
@@ -38,12 +40,14 @@ public class NestingDot : Dot, IPreviewable
         visualController.Init(this);
     }
 
-    public IEnumerator PreviewClear()
+    public override IEnumerator Clear()
     {
-        yield return VisualController.PreviewClear();
+        IsPreviewing = false;
+        return base.Clear();
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+
+    public IEnumerator StartPreview(PreviewHitType hitType)
     {
         yield break;
     }

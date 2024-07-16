@@ -4,7 +4,7 @@ using static Type;
 using System;
 using System.Collections.Generic;
 
-public class ClockDot : BlankDotBase, INumerable, IPreviewable
+public class ClockDot : BlankDotBase, INumerable
 {
     public override DotType DotType => DotType.ClockDot;
     public int TempNumber { get => numerable.TempNumber; set => numerable.TempNumber = value; }
@@ -12,7 +12,6 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     public int InitialNumber { get => numerable.InitialNumber; set => numerable.InitialNumber = value; }
     public int CurrentNumber { get => numerable.CurrentNumber;}
     public new ClockDotVisualController VisualController => GetVisualController<ClockDotVisualController>();
-
     public override DotsGameObjectData ReplacementDot
     {
         get
@@ -58,47 +57,48 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     }
     
     public override void Disconnect()
-    {
+    { 
         base.Disconnect();
         VisualController.UpdateNumbers(CurrentNumber);
-        VisualController.Disconnect();
     }
 
-    public IEnumerator DoMove(List<Vector2Int> path, Action onComplete)
+    
+    public IEnumerator DoMove(List<Vector2Int> path, Action onMoved = null)
     {
-        yield return VisualController.DoMove(path, onComplete);
+        yield return VisualController.DoMove(path, onMoved);
         
         name = "(" + Column + ", " + Row + ")"; 
     }
    
     public override void Hit(HitType hitType)
     {
-
         numerable.Hit(hitType);
         HitCount = InitialNumber - TempNumber;
-
+        TempNumber = int.MaxValue;
     }
 
-    public IEnumerator PreviewHit(HitType hitType)
+    public override IEnumerator StartPreview(PreviewHitType hitType)
     {
+
         int connectionCount = ConnectionManager.ToHit.Count;
 
         TempNumber = Mathf.Clamp(CurrentNumber - connectionCount, 0, int.MaxValue);
 
-        if(InitialNumber - TempNumber == HitsToClear)
-        {
-            StartCoroutine(PreviewClear());
-        }
-        yield return VisualController.PreviewHit(hitType);
-     
+
+
+        yield return base.StartPreview(hitType);
+
     }
 
-    public IEnumerator PreviewClear()
+
+    public override void StopPreview()
     {
-        yield return VisualController.PreviewClear();
+        base.StopPreview();
+        VisualController.StopPreview();
     }
 
-    
+
+
 
 
 

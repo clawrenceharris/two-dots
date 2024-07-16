@@ -17,7 +17,7 @@ public abstract class Dot : DotsGameObject, IHittable
 
     public abstract Dictionary<HitType, IHitRule> HitRules { get; }
 
-    public HitType HitType { get => hittable.HitType; }
+    public HitType HitType { get => hittable.HitType; protected set => hittable.HitType = value; }
 
     public int HitCount { get => hittable.HitCount; set => hittable.HitCount = value; }
 
@@ -32,8 +32,9 @@ public abstract class Dot : DotsGameObject, IHittable
     }
 
 
-    public IEnumerator Clear()
+    public virtual IEnumerator Clear()
     {
+        
         yield return hittable.Clear();
 
     }

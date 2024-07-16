@@ -12,17 +12,16 @@ public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IColo
     private new BlankDotBaseVisualController VisualController => GetVisualController<BlankDotBaseVisualController>();
 
     public DotColor Color { get; set; }
+    public bool IsPreviewing { get; protected set; }
+
+    public virtual List<IHitRule> PreviewHitRules => new() { new HitByConnectionRule() };
 
     public override void Init(int column, int row)
     {
         base.Init(column, row);
     }
    
-    public override void Disconnect()
-    {
-        Deselect();
-
-    }
+    
     /// <summary>
     /// /changes the color of the inner dot to the connection's color
     /// </summary>
@@ -36,28 +35,29 @@ public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IColo
 
     public override void Deselect()
     {
-        if (!ConnectionManager.ToHit.Contains(this))
-            StartCoroutine(VisualController.AnimateDeselectionEffect());
-
-
+        StartCoroutine(VisualController.AnimateDeselectionEffect());
     }
+
+   
+
     public override void Connect(ConnectableDot dot)
     {
-        base.Connect(dot);
+        base.Connect(dot); 
         if (dot is IColorable colorable)
             Color = colorable.Color;
     }
-
-    public IEnumerator PreviewHit(HitType hitType)
+    
+    public virtual IEnumerator StartPreview(PreviewHitType hitType)
     {
-        yield return VisualController.PreviewHit(hitType);
-
+        IsPreviewing = true;
+        StartCoroutine(VisualController.PreviewHit(hitType));
+        yield return null;
 
     }
 
-    public IEnumerator PreviewClear()
+    public virtual void StopPreview()
     {
-        yield break;
+        IsPreviewing = false;
     }
 }
 
