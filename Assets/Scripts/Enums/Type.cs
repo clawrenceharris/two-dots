@@ -93,21 +93,28 @@ public static class Type
         OneSidedBlock,
         NestingDot,
         BeetleDot,
+        Disconnection,
     }
 
     public enum CommandType
     {
+        SinkAnchorDots,
+
         Hit,
-        Clear,
         MoveClockDots,
-        Board,
-        Explosion,
-        MoveBeetleDots,
-        BombExplode,
+
+        Clear,
+
         GemExplode,
-        None,
+        Board,
+
+        Explosion,
+
+        BombExplode,
+        MoveBeetleDots,
         MoveMonsterDots,
     }
+
     public enum ExplosionType
     {
         BombExplosion,
@@ -182,6 +189,10 @@ public static class Type
     {
         return type == DotType.BeetleDot;
     }
+    public static bool IsConnection(this HitType type)
+    {
+        return type == HitType.Square || type == HitType.Connection;
+    }
 
     public static CommandType ToCommandType(this ExplosionType type)
     {
@@ -191,11 +202,19 @@ public static class Type
                 return CommandType.BombExplode;
             case ExplosionType.GemExplosion:
                 return CommandType.GemExplode;
-            default: return CommandType.None;
+            default: throw new ArgumentException();
             
         }
     }
-    
+
+    public static bool IsBasicDot(this DotType type)
+    {
+        return type == DotType.BlankDot || type == DotType.NormalDot;
+    }
+    public static bool IsClockDot(this DotType type)
+    {
+        return type == DotType.ClockDot;
+    }
 }
 
 
