@@ -8,26 +8,38 @@
 
 
 
+
         {
-            "type": "normal",
-            "color": "blue"
+            "type": "blank"
 
         },
-       
-        
-       
 
         {
-            "type": "beetle",
-            "colors": [ "red", "purple", "blue" ],
-            "color": "yellow",
-            "hitCount": 0,
+            "type": "blank"
 
-            "directionX": -1,
-            "directionY": 0
+        },
+
+        {
+            "type": "blank"
+
+        },
+
+
+        {
+            "type": "anchor"
+        },
+
+        //{
+        //    "type": "nesting"
+        //},
+
+
+        {
+            "type": "clock",
+            "number": 4
+           
+
         }
-
-
 
 
 
@@ -35,18 +47,10 @@
     "dotsOnBoard": [
 
 
-        //{
-        //    "type": "beetle",
-        //    "colors": [ "blue", "purple", "blue" ],
-        //    "row": 3,
-        //    "col": 3,
-        //    "hitCount": 2,
-        //    "directionX": -1,
-        //    "directionY": 0
-        //},
+        
 
-       
 
+      
 
 
     ],
@@ -58,11 +62,32 @@
             "col": 4
 
         },
-        //{
-        //    "type": "empty",
-        //    "row": 4,
-        //    "col": 4
-        //},
+        {
+            "type": "ice",
+            "row": 4,
+            "col": 3
+
+        },
+        {
+            "type": "ice",
+            "row": 3,
+            "col": 4
+        },
+        {
+            "type": "ice",
+            "row": 3,
+            "col": 3
+        },
+        {
+            "type": "ice",
+            "row": 2,
+            "col": 4
+        },
+        {
+            "type": "ice",
+            "row": 2,
+            "col": 3
+        },
         //{
         //    "type": "empty",
         //    "row": 3,
@@ -86,7 +111,7 @@
 
         {
             "type": "one sided block",
-            "row": 0,
+            "row": 1,
             "col": 0,
             "directionX": 1,
             "directionY": 0
@@ -98,7 +123,7 @@
             "col": 4,
             "directionX": 0,
             "directionY": 1
-              
+
         }
         //{
         //    "type": "block",
