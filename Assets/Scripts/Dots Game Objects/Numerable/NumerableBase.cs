@@ -39,18 +39,21 @@ public class NumerableBase : INumerable
 
     public void Hit(HitType hitType)
     {
-        //this happens when the connection has concluded  
-        if (hitType == HitType.Connection)
+
+        if (hitType.IsConnection())
         {
             UpdateCurrentNumber(TempNumber);
 
         }
-        else if (hitType == HitType.BombExplosion)
+
+
+        else if (hitType.IsExplosion())
         {
             //set current number to be one less than the current number
             TempNumber = Mathf.Clamp(CurrentNumber - 1, 0, int.MaxValue);
             UpdateCurrentNumber(TempNumber);
 
         };
+
     }
 }

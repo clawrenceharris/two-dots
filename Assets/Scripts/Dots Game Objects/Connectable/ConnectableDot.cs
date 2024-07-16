@@ -14,23 +14,28 @@ public abstract class ConnectableDot : Dot, IConnectable
         };
 
 
-    public new ConnectableDotVisualController VisualController => GetVisualController<ConnectableDotVisualController>();
+    public new ColorableDotVisualController VisualController => GetVisualController<ColorableDotVisualController>();
 
 
 
-    public abstract void Disconnect();
+    public virtual void Disconnect()
+    {
+        HitType = HitType.None;
+        Deselect();
+
+    }
 
     public virtual void Connect(ConnectableDot dot)
     {
 
-        VisualController.AnimateSelectionEffect();
+        StartCoroutine(VisualController.AnimateSelectionEffect());
 
 
     }
 
     public virtual void Select()
     {
-       StartCoroutine(VisualController.AnimateSelectionEffect());
+        StartCoroutine(VisualController.AnimateSelectionEffect());
     }
 
     public abstract void Deselect();

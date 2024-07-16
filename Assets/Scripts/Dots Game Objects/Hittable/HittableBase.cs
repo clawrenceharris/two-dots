@@ -6,12 +6,14 @@ using static Type;
 
 public class HittableBase : IHittable
 {
-    public HitType HitType { get; private set; }
+    public HitType HitType { get; set; }
 
     public bool WasHit { get; set; }
     public int HitCount { get; set; }
     public IHittable hittable;
     public int HitsToClear { get => hittable.HitsToClear; }
+    public static event Action<IHittable> onCleared;
+    public static event Action<IHittable> onHit;
 
     public Dictionary<HitType, IHitRule> HitRules { get => hittable.HitRules; }
     public DotsGameObject DotsGameObject => (DotsGameObject)hittable;
@@ -25,15 +27,11 @@ public class HittableBase : IHittable
 
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
-        DotsObjectEvents.NotifyHit(DotsGameObject);
+        onHit?.Invoke(hittable);
 
         HitType = hitType;
         WasHit = true;
-        if (hitType == HitType.BombExplosion)
-        {
-            yield return VisualController.DoBombHit();
-
-        }
+       
 
         onHitComplete?.Invoke();
         yield return VisualController.DoHitAnimation(hitType);
@@ -43,7 +41,7 @@ public class HittableBase : IHittable
 
     public IEnumerator Clear()
     {
-        DotsObjectEvents.NotifyCleared(DotsGameObject);
+        onCleared?.Invoke(hittable);
         yield return VisualController.DoClearAnimation();
 
     }
