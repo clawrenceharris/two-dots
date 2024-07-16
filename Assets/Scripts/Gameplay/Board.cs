@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using static Type;
-using System.Xml.Linq;
+using System.Linq;
 
 
 public class Board : MonoBehaviour
@@ -13,7 +13,7 @@ public class Board : MonoBehaviour
 
     private Dot[,] Dots;
 
-    public Tile[,] Tiles { get; private set; }
+    private Tile[,] Tiles;
 
     private DotsGameObjectData[] tilesOnBoard;
     private DotsGameObjectData[] dotsToSpawn;
@@ -21,8 +21,9 @@ public class Board : MonoBehaviour
     private LineManager lineManager;
 
     public static float offset = 2.2f;
-
-    public static float DotDropSpeed { get; private set; } = 0.4f;
+    public static event Action<DotsGameObject> onObjectSpawned;
+    public static float DotDropSpeed { get; private set; } = 0.3f;
+    public List<IHittable> Cleared { get; private set; } = new();
 
     public static event Action<Board> onBoardCreated;
     public static event Action onDotsDropped;
@@ -67,7 +68,7 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        DotsObjectEvents.onCleared += OnCleared;
+        HittableBase.onCleared += OnCleared;
 
     }
 
@@ -78,8 +79,9 @@ public class Board : MonoBehaviour
 
 
 
-    private void OnCleared(DotsGameObject dotsGameObject)
+    private void OnCleared(IHittable hittable)
     {
+        DotsGameObject dotsGameObject = (DotsGameObject)hittable;
 
         if (dotsGameObject is Dot dot)
         {
@@ -94,7 +96,7 @@ public class Board : MonoBehaviour
             Tiles[tile.Column, tile.Row] = null;
 
         }
-
+        Cleared.Add(hittable);
         StartCoroutine(ClearCo(dotsGameObject));
 
     }
@@ -131,63 +133,13 @@ public class Board : MonoBehaviour
     {
         for (int i = 0; i < tilesOnBoard.Length; i++)
         {
-            InitTile(tilesOnBoard[i]);
+            InitDotsGameObject<Tile>(tilesOnBoard[i]);
+
         }
     }
 
-    private void InitTile(DotsGameObjectData data)
-    {
-        Tile tile = DotFactory.CreateDotsGameObject<Tile>(data);
-        tile.transform.position = new Vector2(data.col, data.row) * offset;
-        tile.transform.parent = transform;
-        tile.name = data.type + " (" + data.col +  ", " + data.row  + ")";
 
-        Tiles[data.col, data.row] = tile;
-        tile.Init(data.col, data.row);
-    }
-
-    public List<T> GetElements<T>()
-        where T : class
-    {
-        List<T> boardElements = new();
-        for (int i = 0; i < Width; i++)
-        {
-            for (int j = 0; j < Height; j++)
-            {
-                
-                if (Dots[i,j] is T dot)
-                {
-                    boardElements.Add(dot);
-                }
-                if (Tiles[i, j] is T tile)
-                {
-                    boardElements.Add(tile);
-                }
-            }
-        }
-        return boardElements;
-    }
-
-    public List<IExplodable> GetExplodables()
-    {
-
-        List<IExplodable> explodables = new();
-        for (int i = 0; i < Width; i++)
-        {
-            for (int j = 0; j < Height; j++)
-            {
-                IExplodable explodable = GetExplodableAt(i, j);
-                if (explodable != null)
-                {
-                    explodables.Add(explodable);
-                }
-            }
-        }
-
-        return explodables;
-    }
-
-
+    
     public void CreateBomb(int col, int row)
     {
         BombDot bomb = Instantiate(GameAssets.Instance.Bomb);
@@ -233,6 +185,7 @@ public class Board : MonoBehaviour
 
             
             Put(dotsGameObject, data.col, data.row);
+            onObjectSpawned?.Invoke(dotsGameObject);
         }
 
         return dotsGameObject;
@@ -260,7 +213,6 @@ public class Board : MonoBehaviour
 
 
     
-
 
     public void Remove<T>(T dotsGameObject)
         where T : DotsGameObject
@@ -291,31 +243,133 @@ public class Board : MonoBehaviour
     }
    
     /// <summary>
-    ///Adds neighboring board elements based on
-    ///their positions relative to the given row and column
+    /// Returns a list of neighboring dots that surrounds
+    /// an element at the given column and row
     /// </summary>
-    /// <typeparam name="T">A Board Element</typeparam>
+    /// <typeparam name="T">A class</typeparam>
     /// <param name="col">The column of the board element whose neighbors are being found</param>
     /// <param name="row">The row of the board element whose neighbors are being found </param>
     /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
     /// <returns>A list of the neighboring board elements </returns>
-    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals = true) where T : class
+    public List<T> GetDotNeighbors<T>(int col, int row, bool includesDiagonals = true)
+        where T : class
     {
 
         List<T> neighbors = new()
         {
-            Get<T>(col, row + 1),
-            Get<T>(col, row - 1),
-            Get<T>(col + 1, row),
-            Get<T>(col - 1, row),
+            GetDotAt<T>(col, row + 1),
+            GetDotAt<T>(col, row - 1),
+            GetDotAt<T>(col + 1, row),
+            GetDotAt<T>(col - 1, row),
         };
 
         List<T> diagonals = new()
         {
-            Get<T>(col + 1, row + 1),
-            Get<T>(col + 1, row - 1),
-            Get<T>(col - 1, row + 1),
-            Get<T>(col - 1, row -1),
+            GetDotAt<T>(col + 1, row + 1),
+            GetDotAt<T>(col + 1, row - 1),
+            GetDotAt<T>(col - 1, row + 1),
+            GetDotAt<T>(col - 1, row -1),
+        };
+
+        if (includesDiagonals)
+        {
+            neighbors.AddRange(diagonals);
+        }
+        return neighbors;
+    }
+    /// <summary>
+    /// Returns a list of neighboring dots that surrounds
+    /// an element at the given column and row
+    /// </summary>
+    /// <param name="col">The column of the board element whose neighbors are being found</param>
+    /// <param name="row">The row of the board element whose neighbors are being found </param>
+    /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
+    /// <returns>A list of the neighboring board elements </returns>
+    public List<Dot> GetDotNeighbors(int col, int row, bool includesDiagonals = true)
+    {
+
+        List<Dot> neighbors = new()
+        {
+            GetDotAt(col, row + 1),
+            GetDotAt(col, row - 1),
+            GetDotAt(col + 1, row),
+            GetDotAt(col - 1, row),
+        };
+
+        List<Dot> diagonals = new()
+        {
+            GetDotAt(col + 1, row + 1),
+            GetDotAt(col + 1, row - 1),
+            GetDotAt(col - 1, row + 1),
+            GetDotAt(col - 1, row -1),
+        };
+
+        if (includesDiagonals)
+        {
+            neighbors.AddRange(diagonals);
+        }
+        return neighbors;
+    }
+    /// <summary>
+    /// Returns a list of neighboring tiles that surrounds
+    /// an element at the given column and row
+    /// </summary>
+    /// <typeparam name="T">A class</typeparam>
+    /// <param name="col">The column of the board element whose neighbors are being found</param>
+    /// <param name="row">The row of the board element whose neighbors are being found </param>
+    /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
+    /// <returns>A list of the neighboring board elements </returns>
+    public List<T> GetTileNeighbors<T>(int col, int row, bool includesDiagonals = true)
+        where T : class
+    {
+
+        List<T> neighbors = new()
+        {
+            GetTileAt<T>(col, row + 1),
+            GetTileAt<T>(col, row - 1),
+            GetTileAt<T>(col + 1, row),
+            GetTileAt<T>(col - 1, row),
+        };
+
+        List<T> diagonals = new()
+        {
+            GetTileAt<T>(col + 1, row + 1),
+            GetTileAt<T>(col + 1, row - 1),
+            GetTileAt<T>(col - 1, row + 1),
+            GetTileAt<T>(col - 1, row -1),
+        };
+
+        if (includesDiagonals)
+        {
+            neighbors.AddRange(diagonals);
+        }
+        return neighbors;
+    }
+    /// <summary>
+    /// Returns a list of neighboring tiles that surrounds
+    /// an element at the given column and row
+    /// </summary>
+    /// <param name="col">The column of the board element whose neighbors are being found</param>
+    /// <param name="row">The row of the board element whose neighbors are being found </param>
+    /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
+    /// <returns>A list of the neighboring board elements </returns>
+    public List<Tile> GetTileNeighbors(int col, int row, bool includesDiagonals = true)
+    {
+
+        List<Tile> neighbors = new()
+        {
+            GetTileAt(col, row + 1),
+            GetTileAt(col, row - 1),
+            GetTileAt(col + 1, row),
+            GetTileAt(col - 1, row),
+        };
+
+        List<Tile> diagonals = new()
+        {
+            GetTileAt(col + 1, row + 1),
+            GetTileAt(col + 1, row - 1),
+            GetTileAt(col - 1, row + 1),
+            GetTileAt(col - 1, row -1),
         };
 
         if (includesDiagonals)
@@ -326,8 +380,6 @@ public class Board : MonoBehaviour
     }
 
 
-
-
     /// <summary>
     /// Returns a board element at the given column and row
     /// </summary>
@@ -335,22 +387,63 @@ public class Board : MonoBehaviour
     /// <param name="col">The colummn of the board element</param>
     /// <param name="row">The row of the desired board element</param>
     /// <returns>The board element at the specified position</returns>
-    public T Get<T>(int col, int row)
+    public T GetDotAt<T>(int col, int row)
     {
         if (col >= 0 && col < Width && row >= 0 && row < Height)
         {
-            if (Dots[col, row] is T dot)
-                return dot;
+            if (Dots[col, row] is T t)
+                return t;
 
-            if (Tiles[col, row] is T tile)
-                return tile;
+            
 
         }
         return default;
     }
 
+    public Dot GetDotAt(int col, int row)
+    {
+        if (col >= 0 && col < Width && row >= 0 && row < Height)
+        {
+             return Dots[col, row];
+        }
+        return null;
+    }
 
 
+    public T GetTileAt<T>(int col, int row)
+    {
+        if (col >= 0 && col < Width && row >= 0 && row < Height)
+        {
+            if (Tiles[col, row] is T t)
+                return t;
+        }
+        return default;
+    }
+    public Tile GetTileAt(int col, int row)
+    {
+        if (col >= 0 && col < Width && row >= 0 && row < Height)
+        {
+            return Tiles[col, row];
+        }
+        return null;
+    }
+    /// <summary>
+    /// Gets a board mechanic tile at the specified column and row
+    /// </summary>
+    /// <typeparam name="T">The desired type that the desired board mechanic inherits</typeparam>
+    /// <param name="col">The column of the desired board mechanic tile</param>
+    /// <param name="row">The row of the desired board mechanic tile</param>
+    /// <returns>A board mechanic tile at the specified column and row or null if not found</returns>
+    public T GetBoardMechanicTileAt<T>(int col, int row)
+    {
+        if (col >= 0 && col < Width && row >= 0 && row < Height)
+        {
+            Tile tile = Tiles[col, row];
+            if (tile is T t && tile.TileType.IsBoardMechanicTile())
+                return t;
+        }
+        return default;
+    }
 
     public void Put<T>(T dotsObject, int col, int row)
         where T : DotsGameObject
@@ -392,6 +485,8 @@ public class Board : MonoBehaviour
 
             }
         }
+
+
         return dotsDropped;
     }
 
@@ -454,7 +549,7 @@ public class Board : MonoBehaviour
 
         for (int i = row - 1; i >= 0; i--)
         {
-            Dot dot = Get<Dot>(col, i);
+            Dot dot = GetDotAt(col, i);
             if (dot != null)
             {
                 return false;
@@ -476,7 +571,7 @@ public class Board : MonoBehaviour
 
         for (int i = col - 1; i >= 0; i--)
         {
-            Dot dot = Get<Dot>(i, row);
+            Dot dot = GetDotAt(i, row);
 
             if (dot != null)
             {
@@ -498,7 +593,7 @@ public class Board : MonoBehaviour
 
         for (int i = col + 1; i < Width; i++)
         {
-            Dot dot = Get<Dot>(i, row);
+            Dot dot = GetDotAt(i, row);
 
             if (dot != null)
             {
@@ -521,7 +616,7 @@ public class Board : MonoBehaviour
 
         for (int i = row + 1; i < Height; i++)
         {
-            Dot dot = Get<Dot>(col, i);
+            Dot dot = GetDotAt(col, i);
 
             if (dot != null)
             {
@@ -536,7 +631,7 @@ public class Board : MonoBehaviour
     {
         for (int row = 0; row < Height; row++)
         {
-            Dot dot = Get<Dot>(col, row);
+            Dot dot = GetDotAt(col, row);
             if (dot)
             {
                 return dot;
@@ -570,6 +665,96 @@ public class Board : MonoBehaviour
     public bool Contains<T>()
         where T : DotsGameObject, IBoardElement
     {
-        return GetElements<T>().Count > 0;
+        return FindElementsOfType<T>().Count > 0;
+    }
+
+   
+
+    public List<T> GetDotsAndTilesAt<T>(int col, int row)
+    {
+        List<T> dotsAndTiles = new();
+        foreach(Tile tile in Tiles)
+        {
+            if(tile && tile.Column == col && tile.Row == row && tile is T t)
+            {
+                dotsAndTiles.Add(t);
+            }
+        }
+        foreach (Dot dot in Dots)
+        {
+
+            if (dot && dot.Column == col && dot.Row == row && dot is T t)
+            {
+                dotsAndTiles.Add(t);
+            }
+        }
+        return dotsAndTiles;
+        
+       
+    }
+
+    public List<T> GetBoardMechanicTileNeighbors<T>(int col, int row, bool includesDiagonals)
+    {
+        List<T> neighbors = new()
+        {
+            GetBoardMechanicTileAt<T>(col, row + 1),
+            GetBoardMechanicTileAt<T>(col, row - 1),
+            GetBoardMechanicTileAt<T>(col + 1, row),
+            GetBoardMechanicTileAt<T>(col - 1, row),
+        };
+
+        List<T> diagonals = new()
+        {
+            GetBoardMechanicTileAt<T>(col + 1, row + 1),
+            GetBoardMechanicTileAt<T>(col + 1, row - 1),
+            GetBoardMechanicTileAt<T>(col - 1, row + 1),
+            GetBoardMechanicTileAt<T>(col - 1, row -1),
+        };
+
+        if (includesDiagonals)
+        {
+            neighbors.AddRange(diagonals);
+        }
+        return neighbors;
+    }
+
+    public List<T> FindTilesOfType<T>()
+        where T : class
+    {
+
+        return Tiles.OfType<T>().ToList();
+    }
+
+    public List<T> FindDotsOfType<T>()
+        where T : class
+    {
+
+        return Dots.OfType<T>().ToList();
+    }
+    public List<Dot> GetDots()
+    {
+        return Dots.OfType<Dot>().ToList();
+    }
+    public List<Tile> GetTiles()
+    {
+        return Tiles.OfType<Tile>().ToList();
+    }
+    public List<T> FindElementsOfType<T>()
+        where T : class
+
+    {
+        List<T> tiles = Tiles.OfType<T>().ToList();
+        List<T> dots = Dots.OfType<T>().ToList();
+        return dots.Concat(tiles).ToList();
+    }
+
+    public List<T> FindBoardMechanicTilesOfType<T>()
+    {
+        List<T> tiles = Tiles
+            .OfType<Tile>()
+            .Where(tile => tile.TileType.IsBoardMechanicTile())
+            .OfType<T>()
+            .ToList();
+        return tiles;
     }
 }
