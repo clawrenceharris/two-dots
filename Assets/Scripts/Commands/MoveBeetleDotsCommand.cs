@@ -62,7 +62,7 @@ public class MoveBeetleDotsCommand : MoveCommand
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveBeetleDotsCommand));
 
-        List<BeetleDot> beetleDots = board.GetElements<BeetleDot>();
+        List<BeetleDot> beetleDots = board.FindElementsOfType<BeetleDot>();
         int beetleDotCount = 0;
 
         if (beetleDots.Where((dot) => !dot.WasHit).Count() > 0)
@@ -70,13 +70,17 @@ public class MoveBeetleDotsCommand : MoveCommand
             onCommandExecuting?.Invoke(this);
 
         }
+        else
+        {
+            yield break;
+        }
 
 
         // Perform the swap for each beetle dot in the dictionary
         foreach (BeetleDot beetleDot in beetleDots)
         {
             
-            Dot dotToSwap = board.Get<Dot>(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
+            Dot dotToSwap = board.GetDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
 
             //skip if the beetle dot was already hit
             if (beetleDot.WasHit)
@@ -131,7 +135,7 @@ public class MoveBeetleDotsCommand : MoveCommand
                     beetleDot.Column = dotToSwapCol;
                     beetleDot.Row = dotToSwapRow;
 
-                    Dot nextDotToSwap = board.Get<Dot>(dotToSwapCol + beetleDot.DirectionX, dotToSwapRow + beetleDot.DirectionY);
+                    Dot nextDotToSwap = board.GetDotAt(dotToSwapCol + beetleDot.DirectionX, dotToSwapRow + beetleDot.DirectionY);
 
                     //beetle dot moved so update direction
                     UpdateBeetleDotDirection(beetleDot, nextDotToSwap, board);

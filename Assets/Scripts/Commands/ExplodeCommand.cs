@@ -40,14 +40,15 @@ public class ExplodeCommand : Command
     public override IEnumerator Execute(Board board)
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ExplodeCommand));
+
+        List<IHittable> hittables = new();// List to store elements that were hit
+        List<Coroutine> coroutines = new();
+        int hitCount = 0;
+
         onCommandExecuting?.Invoke(this);
 
-        List<IHittable> hits = new();// List to store elements that were hit
-
-        int hitCount = 0;
         foreach (IExplodable explodable in explodables)
         {
-
             foreach (HitType hitType in explodable.ExplosionRules.Keys)
             {
                 if (explodable.ExplosionRules.TryGetValue(hitType, out IExplosionRule rule))
@@ -57,35 +58,50 @@ public class ExplodeCommand : Command
                     DidExecute = true;
 
                     // Add the elements to the hit list
-                    hits.AddRange(toHit);
-
+                    hittables.AddRange(toHit.Where(hittable => hittable != null));
 
                     // Start the coroutine to apply the explosion effect and subsequent hit effects
-                    CoroutineHandler.StartStaticCoroutine(
-                    explodable.Explode(toHit, (hittable) =>
-                    {
-                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => hitCount++));
 
-                    }));
+
+                    if(explodable == explodables.Last())
+                        CoroutineHandler.StartStaticCoroutine(
+                        explodable.Explode(hittables, (hittable) =>
+                        {
+                            if(hittable != null)
+                                CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () =>
+                                {
+                                    hitCount++;
+                                    //hit any normal tiles at the same position as the current hittable
+                                    IBoardElement b = (IBoardElement)hittable;
+                                    IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
+                                    if(tile != null)
+                                    {
+                                        CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType));
+
+                                    }
+
+
+                                }));
+
+                        }));
+
+                    
+
 
                 }
 
+                
+           
+
             }
-
-            
-
         }
+        
 
         // Wait until all hit effects have been processed
-        yield return new WaitUntil(() => hitCount == hits.Count);
+        yield return new WaitUntil(() => hitCount == hittables.Count);
 
 
 
-        if (DidExecute)
-        {
-            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ExplodeCommand));
-            CommandInvoker.Instance.Enqueue(new ClearCommand());
-        }
         
 
         yield return base.Execute(board);

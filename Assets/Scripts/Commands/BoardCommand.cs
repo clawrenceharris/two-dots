@@ -10,9 +10,10 @@ public class BoardCommand : Command
     public override IEnumerator Execute(Board board)
     {
 
-        onCommandExecuting?.Invoke(this);
 
+       
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(BoardCommand));
+        onCommandExecuting?.Invoke(this);
 
         bool dotsDropped;
         do
@@ -28,10 +29,9 @@ public class BoardCommand : Command
 
         if (DidExecute)
         {
-            yield return new WaitForSeconds(Board.DotDropSpeed);
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(BoardCommand));
 
-            CommandInvoker.Instance.Enqueue(new HitCommand());
+            yield return new WaitForSeconds(Board.DotDropSpeed);
 
         }
 
@@ -39,4 +39,6 @@ public class BoardCommand : Command
 
 
     }
+
+    
 }

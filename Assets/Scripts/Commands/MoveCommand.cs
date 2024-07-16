@@ -21,7 +21,7 @@ public abstract class MoveCommand : Command
         int leftY = -t.DirectionX;
 
         //get the dot that is 90 degrees to the left of the dot (y, -x)
-        Dot left = board.Get<Dot>(leftX + t.Column, leftY + t.Row);
+        Dot left = board.GetDotAt(leftX + t.Column, leftY + t.Row);
 
         if (CanMove(left))
         {
@@ -46,7 +46,7 @@ public abstract class MoveCommand : Command
         where T : IDirectional, IBoardElement
     {
 
-        List<Dot> neighbors = board.GetNeighbors<Dot>(t.Column, t.Row, false);
+        List<Dot> neighbors = board.GetDotNeighbors<Dot>(t.Column, t.Row, false);
 
         List<Dot> validNeighbors = new();
         foreach(Dot neighbor in neighbors)

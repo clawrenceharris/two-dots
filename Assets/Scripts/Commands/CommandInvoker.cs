@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using static Type;
+using System.Threading.Tasks;
+
 
 
 public class CommandInvoker
@@ -61,14 +63,15 @@ public class CommandInvoker
     
     //private readonly PriorityQueue<ICommand> commands = new(CommandComparer.Compare);
     private readonly Board board;
-    private readonly Queue<ICommand> commands = new();
+    private readonly PriorityQueue<ICommand> commands = new();
 
     public static CommandInvoker Instance;
     public static int commandCount;
     public static bool CommandsEnded { get; private set; } = true;
-    private Coroutine checkCommandsEndedCoroutine;
     public static event Action onCommandsEnded;
-    private bool isExecuting;
+    public static event Action onCommandBatchCompleted;
+
+    public bool IsExecuting { get; private set; }
     public CommandInvoker(Board board)
     {
         Instance = this;
@@ -76,36 +79,46 @@ public class CommandInvoker
         this.board = board;
     }
 
+   
+    public Command GetNextCommand(CommandType type)
+    {
+        switch (type)
+        {
+            case CommandType.Board:
+                return new HitCommand();
+            case CommandType.Hit:
+                return new ClearCommand();
+            case CommandType.Clear:
+                return new BoardCommand();
+            default: throw new ArgumentException();
+        }
+    }
+
     public void Enqueue(ICommand command)
     {
         CommandsEnded = false;
-        commands.Enqueue(command);
+        commands.Enqueue(command,(int) command.CommandType);
 
-        // Restart the check coroutine when a new command is executed
-        RestartCheckCommandsEndedCoroutine();
+        
 
     }
 
-    public void ExecuteNextCommand()
+    
+
+
+    public IEnumerator ExecuteNextCommand(Action<bool> onCommandFinished = null)
     {
-        if (commands.Count != 0)
+        while (commands.Count > 0)
         {
             ICommand command = commands.Dequeue();
-            CoroutineHandler.StartStaticCoroutine(ExecuteCommandCo(command));
+            yield return command.Execute(board);
+            onCommandFinished?.Invoke(command.DidExecute);
         }
-        else
-        {
-            isExecuting = false;
 
-        }
+       
     }
-
-    private IEnumerator ExecuteCommandCo(ICommand command)
-    {
-        isExecuting = true;
-        yield return command.Execute(board); 
-        ExecuteNextCommand();
-    }
+    
+   
 
     private void OnCommandExecuted(Command command)
     {
@@ -113,28 +126,77 @@ public class CommandInvoker
     }
 
     
-    private void RestartCheckCommandsEndedCoroutine()
+    public IEnumerator ExecuteLateCommands()
     {
-        if (checkCommandsEndedCoroutine != null)
+        bool keepGoing = false;
+        Enqueue(new ExplosionCommand());
+        yield return ExecuteNextCommand((didExecute) =>
         {
-           CoroutineHandler.StopStaticCoroutine(checkCommandsEndedCoroutine);
+            if (didExecute)
+            {
+                keepGoing = true;
+            }
+        });
+        if (keepGoing)
+        {
+            yield return ExecuteCommands();
         }
-        checkCommandsEndedCoroutine = CoroutineHandler.StartStaticCoroutine(CheckCommandsEnded());
+
+
+
     }
 
-    private IEnumerator CheckCommandsEnded()
-    { 
-        yield return new WaitForSeconds(0.5f); 
-
-        if (commands.Count == 0  && !CommandsEnded && !isExecuting)
+    public IEnumerator ExecuteCommands()
+    {
+        bool keepGoing = false;
+        do
         {
-            
-                CommandsEnded = true;
-                Debug.Log(commandCount+ " All commands have ended.");
+            IsExecuting = true;
 
-                onCommandsEnded?.Invoke();
-        }
+            keepGoing = false;
+
+            Enqueue(new SinkAnchorDotsCommand());
+            Enqueue(new HitCommand());
+            Enqueue(new MoveClockDotsCommand());
+            Enqueue(new ClearCommand());
+            Enqueue(new BoardCommand());
+
+
+            yield return ExecuteNextCommand((didExecute) =>
+            {
+                if (didExecute)
+                {
+                    keepGoing = true;
+                }
+            });
+
+            onCommandBatchCompleted?.Invoke();
+        } while (keepGoing);
+        IsExecuting = false;
+
+        yield return ExecuteLateCommands();
+
+        //all commands have finished
         
+       
+        if (LevelManager.DidMove) {
+
+            Debug.Log(commandCount + " All commands have ended.");
+
+            onCommandsEnded?.Invoke();
+            Enqueue(new MoveBeetleDotsCommand());
+            Enqueue(new MoveMonsterDotsCommand());
+            CoroutineHandler.StartStaticCoroutine(ExecuteCommands());
+
+        }
+        //execute commands
+
+
+
     }
 
+   
+
+
+    
 }

@@ -33,7 +33,7 @@ public class MoveMonsterDotsCommand : MoveCommand
     {
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveMonsterDotsCommand));
 
-        List<MonsterDot> monsterDots = board.GetElements<MonsterDot>();
+        List<MonsterDot> monsterDots = board.FindElementsOfType<MonsterDot>();
         List<NormalDot> replacementDots = new();
         int monsterDotCount = 0;
 
@@ -48,7 +48,7 @@ public class MoveMonsterDotsCommand : MoveCommand
             Vector2Int targetDirection = GetRandomDirection(monsterDot, board);
             monsterDot.DirectionX = targetDirection.x;
             monsterDot.DirectionY = targetDirection.y;
-            Dot dotToMoveTo = board.Get<Dot>(
+            Dot dotToMoveTo = board.GetDotAt(
                 monsterDot.Column + monsterDot.DirectionX,
                 monsterDot.Row + monsterDot.DirectionY);
 
@@ -74,7 +74,7 @@ public class MoveMonsterDotsCommand : MoveCommand
             if (dotsToMoveTo.TryGetValue(monsterDot, out var dotToMoveTo))
             {
 
-                CoroutineHandler.StartStaticCoroutine(monsterDot.DoMove(() =>
+                CoroutineHandler.StartStaticCoroutine(monsterDot.DoMove(),() =>
                 {
                     monsterDotCount++;
 
@@ -83,7 +83,7 @@ public class MoveMonsterDotsCommand : MoveCommand
                     int endCol = dotToMoveTo.Column;
                     int endRow = dotToMoveTo.Row;
 
-                    Dot dot = board.Get<Dot>(endCol, endRow); //get the dot to move to
+                    Dot dot = board.GetDotAt(endCol, endRow); //get the dot to move to
 
                     board.Put(monsterDot, endCol, endRow);
 
@@ -104,7 +104,7 @@ public class MoveMonsterDotsCommand : MoveCommand
 
                     monsterDot.Column = endCol;
                     monsterDot.Row = endRow;
-                }));
+                });
             }
         }
         yield return new WaitUntil(() => monsterDotCount == dotsToMoveTo.Count);
