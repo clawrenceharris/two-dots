@@ -12,11 +12,11 @@ public class BombExplosionRule : IExplosionRule
         }
 
         List<IHittable> dots = board.GetDotNeighbors<IHittable>(explodable.Column, explodable.Row, true);
-        List<IHittable> tiles = board.GetTileNeighbors<IHittable>(explodable.Column, explodable.Row, true);
-        List<IHittable> toHit = new() { explodable};
-        toHit.AddRange(dots);
-        toHit.AddRange(tiles);
+        List<IHittable> tiles = board.GetBoardMechanicTileNeighbors<IHittable>(explodable.Column, explodable.Row, true);
+        List<IHittable> toHit = dots.Concat(tiles).ToList();
 
+        //add this bomb in the list so it will be hit and cleared along with the other dots and tiles
+        toHit.Add(explodable);
 
 
 
