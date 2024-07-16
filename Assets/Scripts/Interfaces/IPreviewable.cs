@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-public interface IPreviewable
+public interface IPreviewable : IHittable
 {
-    public IEnumerator PreviewHit(HitType hitType);
-    public IEnumerator PreviewClear();
+    bool IsPreviewing { get;}
+    List<IHitRule> PreviewHitRules { get; }
 
+    IEnumerator StartPreview(PreviewHitType hitType);
+    void StopPreview();
 }
