@@ -73,9 +73,9 @@ public class LineManager
         Color targetColor = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
         foreach (ConnectorLine line in lines)
         {
-            if (line.color != targetColor)
+            if (line.sprite.color != targetColor)
             {
-                line.color = targetColor;
+                line.sprite.color = targetColor;
             }
         }
 
@@ -128,6 +128,32 @@ public class LineManager
 
         //we dont want the line to be active when we have a square
         line.sprite.enabled = !IsSquare();
+        line.updateLine = UpdateLine;
         return line;
+    }
+
+    private void UpdateLine(ConnectorLine line, Vector2 startPos, Vector2 endPos)
+    {
+        line.transform.position = startPos;
+
+        float distance = Vector2.Distance(startPos, endPos);
+
+        float scaleXOffset = 1;
+        // Calculate the new scale value based on the distance
+        float newXScale = line.initialScale.x + distance - scaleXOffset;
+
+
+        float angle = Vector2.SignedAngle(Vector2.right, endPos - startPos);
+
+
+
+        line.transform.rotation = Quaternion.Euler(0f, 0f, angle );
+
+
+
+        // Apply the new scale and position
+        line.transform.localScale = new Vector3(newXScale, line.initialScale.y);
+
+
     }
 }
