@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour
     public static int MoveCount { get; private set; } = 0;
     public bool IsHighscore { get; private set; }
     public int score;
-    private bool didMove;
+    public static bool DidMove { get; private set; }
     [SerializeField] private ColorScheme[] colorSchemes;
     public bool IsTutorial
     {
@@ -57,112 +57,75 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         SubscribeToEvents();
+        StartCoroutine(ExecuteCommands());
+
     }
+
+    private IEnumerator ExecuteCommands()
+    {
+        yield return new WaitForSeconds(0.8f);
+
+        yield return CommandInvoker.Instance.ExecuteCommands();
+    }
+
+
     private void OnDisable()
     {
         UnsubscribeFromEvents();
     }
-    
+
     private void UnsubscribeFromEvents()
     {
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
-        ConnectionManager.onDotSelected -= OnDotSelected;
 
-        ConnectionManager.onDotConnected -= OnDotConnected;
-        ConnectionManager.onDotDisconnected -= OnDotDisconnected;
         CommandInvoker.onCommandsEnded -= OnCommnadsEnded;
+
     }
 
     private void SubscribeToEvents()
     {
-        ConnectionManager.onDotSelected += OnDotSelected;
 
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
-        ConnectionManager.onDotConnected += OnDotConnected;
-        ConnectionManager.onDotDisconnected += OnDotDisconnected;
         CommandInvoker.onCommandsEnded += OnCommnadsEnded;
-    }
-
-    private void OnDotSelected(ConnectableDot dot)
-    {
-
-        
-        if (dot is IPreviewable previewable)
-        {
-            StartCoroutine(previewable.PreviewHit(HitType.Connection));
-        }
-        
-    }
-
-
-
-    private void OnDotDisconnected(ConnectableDot dot)
-    {
-        List<IHittable> toHit = ConnectionManager.ToHit;
-
-        foreach (IHittable hittable in toHit)
-        {
-            if (hittable is IPreviewable previewable)
-            {
-                StartCoroutine(previewable.PreviewHit(HitType.None));
-            }
-        }
-    }
-
-    private void OnDotConnected(ConnectableDot dot)
-    {
-        List<IHittable> toHit = ConnectionManager.ToHit;
-
-        foreach (IHittable hittable in toHit)
-        {
-            if (hittable is IPreviewable previewable)
-            {
-                StartCoroutine(previewable.PreviewHit(HitType.Connection));
-            }
-        }
-    }
-
-   
-    private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
-    {
-        didMove = true;
-        CommandInvoker.Instance.Enqueue(new HitCommand());
-        CommandInvoker.Instance.Enqueue(new MoveClockDotsCommand());
-
-        CommandInvoker.Instance.ExecuteNextCommand();
 
     }
 
     private void OnCommnadsEnded()
     {
-        if (didMove)
-        {
-            CommandInvoker.Instance.Enqueue(new MoveBeetleDotsCommand());
-            CommandInvoker.Instance.Enqueue(new MoveMonsterDotsCommand());
-
-            CommandInvoker.Instance.Enqueue(new HitCommand());
-            CommandInvoker.Instance.ExecuteNextCommand();
-
-            didMove = false;
-
-        }
+        DidMove = false;
     }
 
- 
+    
+
+    
 
    
+    private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
+    {
+
+        DidMove = true;
+        StartCoroutine(CommandInvoker.Instance.ExecuteCommands());
+
+        
+
+    }
+
+    
+
     public void StartLevel(int levelNum)
     {
         new CommandInvoker(board);
         new ConnectionManager(board);
         new DotsGameObjectController(board);
+        new PreviewManager(board);
+
         Level = JSONLevelLoader.ReadJsonFile(levelNum);
         LinePool.Instance.FillPool(Level.width * Level.height);
 
         board.Init(Level);
         
         colorSchemeManager.SetColorScheme(Level.levelNum - 1);
-        
+
     }
 
 
