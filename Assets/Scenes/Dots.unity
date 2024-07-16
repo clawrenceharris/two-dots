@@ -169,66 +169,145 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 41c02d5897f94423ba5a22daeddd6cf7, type: 3}
   - {fileID: 8300000, guid: fec8cb6ccd7c74f9499379ce5f1ad99e, type: 3}
   - {fileID: 8300000, guid: 45f3b547e03ed417e86bce41572950c6, type: 3}
-  dotSounds:
+  dotAudio:
   - connectionAudio:
       audioClips: []
+      maxPlaysAtOnce: 0
     hitAudio:
-    - {fileID: 8300000, guid: 7fc9d98e6bcb54f8c8981bd634d81621, type: 3}
-    - {fileID: 8300000, guid: a9e89ea59906c4f1aaa45842178319ba, type: 3}
+    - audioClips:
+      - {fileID: 8300000, guid: bb9fc82ab50e14bb58344ee0434eb6b4, type: 3}
+      - {fileID: 8300000, guid: 32ea287d63bc54b5ea7ed83af0087179, type: 3}
+      - {fileID: 8300000, guid: 32ea287d63bc54b5ea7ed83af0087179, type: 3}
+      - {fileID: 8300000, guid: 32ea287d63bc54b5ea7ed83af0087179, type: 3}
+      - {fileID: 8300000, guid: 32ea287d63bc54b5ea7ed83af0087179, type: 3}
+      maxPlaysAtOnce: 10
     hitPreviewAudio:
       audioClips: []
+      maxPlaysAtOnce: 0
     spawnAudio:
-      audioClips: []
-    clearAudio:
       audioClips:
-      - {fileID: 8300000, guid: a029d193cb9524edaafbe7867962d85c, type: 3}
-      - {fileID: 8300000, guid: 4319b12bef2e349aba1e7ce33537c756, type: 3}
-      - {fileID: 8300000, guid: c26c51cc1eec34e858f55eb67c3cdd12, type: 3}
+      - {fileID: 8300000, guid: f55209c5fc08246cfa97d8fab6f8d8d5, type: 3}
+      maxPlaysAtOnce: 0
+    clearAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
     clearPreviewAudio:
       audioClips: []
-    dotType: 8
+      maxPlaysAtOnce: 0
+    dotType: 2
   - connectionAudio:
       audioClips: []
-    hitAudio: []
-    hitPreviewAudio:
-      audioClips: []
-    spawnAudio:
-      audioClips: []
-    clearAudio:
-      audioClips:
-      - {fileID: 8300000, guid: 1e354fab3eb424443b6cfe588556dd7a, type: 3}
-    clearPreviewAudio:
-      audioClips: []
-    dotType: 7
-  - connectionAudio:
-      audioClips: []
+      maxPlaysAtOnce: 0
     hitAudio:
-    - {fileID: 8300000, guid: c85d1f243768f47c5bb072155874f628, type: 3}
-    - {fileID: 8300000, guid: 880c59f92d2eb480283e77441536b477, type: 3}
+    - audioClips:
+      - {fileID: 8300000, guid: bb9fc82ab50e14bb58344ee0434eb6b4, type: 3}
+      - {fileID: 8300000, guid: 32ea287d63bc54b5ea7ed83af0087179, type: 3}
+      maxPlaysAtOnce: 0
+    - audioClips:
+      - {fileID: 8300000, guid: bb9fc82ab50e14bb58344ee0434eb6b4, type: 3}
+      - {fileID: 8300000, guid: 32ea287d63bc54b5ea7ed83af0087179, type: 3}
+      maxPlaysAtOnce: 0
+    - audioClips:
+      - {fileID: 8300000, guid: bb9fc82ab50e14bb58344ee0434eb6b4, type: 3}
+      - {fileID: 8300000, guid: 32ea287d63bc54b5ea7ed83af0087179, type: 3}
+      maxPlaysAtOnce: 0
     hitPreviewAudio:
       audioClips: []
+      maxPlaysAtOnce: 0
     spawnAudio:
-      audioClips: []
-    clearAudio:
       audioClips:
-      - {fileID: 8300000, guid: 7839a2581a6f04909873cc9cdf0d161a, type: 3}
+      - {fileID: 8300000, guid: f55209c5fc08246cfa97d8fab6f8d8d5, type: 3}
+      maxPlaysAtOnce: 2
+    clearAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
     clearPreviewAudio:
       audioClips: []
-    dotType: 4
-  tileSounds: []
-  commandExecutionSounds:
+      maxPlaysAtOnce: 0
+    dotType: 5
+  tileAudio:
+  - connectionAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    hitAudio:
+    - audioClips:
+      - {fileID: 8300000, guid: d16c21d0d86ee416fa89e571b9bed445, type: 3}
+      maxPlaysAtOnce: 1
+    - audioClips:
+      - {fileID: 8300000, guid: d16c21d0d86ee416fa89e571b9bed445, type: 3}
+      maxPlaysAtOnce: 2
+    - audioClips:
+      - {fileID: 8300000, guid: 01772001d61d54ad08e670bf9aac4ba7, type: 3}
+      maxPlaysAtOnce: 2
+    hitPreviewAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    spawnAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    clearAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    clearPreviewAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    tileType: 1
+  - connectionAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    hitAudio:
+    - audioClips:
+      - {fileID: 8300000, guid: bc83684b1833b444ea890622a06c3167, type: 3}
+      maxPlaysAtOnce: 2
+    hitPreviewAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    spawnAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    clearAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    clearPreviewAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    tileType: 18
+  - connectionAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    hitAudio:
+    - audioClips:
+      - {fileID: 8300000, guid: bc83684b1833b444ea890622a06c3167, type: 3}
+      maxPlaysAtOnce: 2
+    hitPreviewAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    spawnAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    clearAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    clearPreviewAudio:
+      audioClips: []
+      maxPlaysAtOnce: 0
+    tileType: 10
+  commandExecutionAudio:
   - commandExecutionAudio:
       audioClips:
       - {fileID: 8300000, guid: 80897b741d07b4af4b5269f0caa0aa82, type: 3}
-    commandType: 5
+      maxPlaysAtOnce: 1
+    commandType: 7
+  - commandExecutionAudio:
+      audioClips:
+      - {fileID: 8300000, guid: 66f7f1f83348f4afeb99e11355e3b230, type: 3}
+      maxPlaysAtOnce: 1
+    commandType: 1
   - commandExecutionAudio:
       audioClips:
       - {fileID: 8300000, guid: a3b0d0f9d6ce34f7a9ba2aece648a83f, type: 3}
+      maxPlaysAtOnce: 1
     commandType: 6
-  - commandExecutionAudio:
-      audioClips:
-      - {fileID: 8300000, guid: 066fc1831065742979c8393ebf70034e, type: 3}
-    commandType: 9
 --- !u!164 &171902020
 AudioReverbFilter:
   m_ObjectHideFlags: 0
@@ -403,16 +482,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalDot: {fileID: 2303686786482766387, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   EmptyTile: {fileID: 573003161363665607, guid: 383f349a0078c4926b5a47d581f13c67, type: 3}
-  BlockTile: {fileID: 6330128674848982776, guid: 5a9bc18603c1144f3ab2789a05000ab8, type: 3}
+  Block: {fileID: 6330128674848982776, guid: 5a9bc18603c1144f3ab2789a05000ab8, type: 3}
   OneSidedBlock: {fileID: 5648905683831243604, guid: 226b9a5c2147644af84249074fe13998, type: 3}
   NestingDot: {fileID: 1301763148403125575, guid: 390027d122ca746928a098b53c90c9cd, type: 3}
   Bomb: {fileID: 2723959319491112794, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
   ClockDot: {fileID: 4499002589781983019, guid: 0fafcb1f472894a4598cc40c64faee9e, type: 3}
   AnchorDot: {fileID: 6403194489089915213, guid: 1bd84699e5d6c41a6ac5b3372c0d3e32, type: 3}
   BlankDot: {fileID: 5651903629060155388, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
-  Line: {fileID: 7744309208762822857, guid: 734d110512c864f619561b39d3e05c05, type: 3}
+  Line: {fileID: 1009829332854879936, guid: e66051827bad04f24bb7b902ae159a41, type: 3}
   BeetleDot: {fileID: 5951655027707420521, guid: 7fd628870f4924990a58fb3a11d55cfd, type: 3}
   MonsterDot: {fileID: 921457685839405913, guid: 726a7c6bd326a47a38d8eccbcbb8e410, type: 3}
+  Ice: {fileID: 2554302231691386354, guid: 5beab8c1198e44d9f84eabd3c4057821, type: 3}
   Numbers:
   - {fileID: 21300000, guid: 4e90cf8faa34743d4be779c763ef5881, type: 3}
   - {fileID: 21300000, guid: 2fe71c858d7454697b7999b2074f7722, type: 3}
@@ -476,7 +556,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.38470095, g: 0.77671427, b: 0.8584906, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
