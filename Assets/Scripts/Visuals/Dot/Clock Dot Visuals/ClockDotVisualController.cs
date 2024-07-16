@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using static Type;
 using System;
 
-public class ClockDotVisualController : BlankDotBaseVisualController, INumerableVisualController, IHittableVisualController, IPreviewable
+public class ClockDotVisualController : BlankDotBaseVisualController, INumerableVisualController, IHittableVisualController
 {
     public static Dictionary<Dot, GameObject> ClockDotPreviews { get; private set; } = new();
     private ClockDot dot;
@@ -76,15 +76,10 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     {
         CoroutineHandler.StartStaticCoroutine(base.PreviewHit(hitType));
 
-        List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
+        if(dot.InitialNumber - dot.TempNumber == dot.HitsToClear)
+            CoroutineHandler.StartStaticCoroutine(PreviewClear());
 
-        if (hitType == PreviewHitType.None)
-        {
-            visuals.clockDotPreview.SetActive(false);
-            visuals.clockDotPreview.transform.SetParent(dot.transform);
-            visuals.clockDotPreview.transform.position = dot.transform.position;
-            yield break;
-        }
+        List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
 
         if (ConnectionManager.ConnectedDots.Contains(dot))
         {
@@ -106,7 +101,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
                 count++;
 
                 lastAvailableDot = connectedDots[^count];
-                if(lastAvailableDot.DotType.IsBasicDot())
+                if(lastAvailableDot.DotType.IsBasicDot() || lastAvailableDot.DotType.IsClockDot())
                     clockDot.VisualController.visuals.clockDotPreview.transform.DOMove(lastAvailableDot.transform.position, 0.5f);
                 
                 yield return null;
@@ -115,9 +110,9 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     }
 
    
-    public override IEnumerator PreviewClear()
+    public IEnumerator PreviewClear()
     {
-        while (dot.InitialNumber - dot.TempNumber >= dot.HitsToClear && DotTouchIO.IsInputActive)
+        while (dot.IsPreviewing)
         {
 
             float elapsedTime = 0f;
@@ -126,7 +121,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
             float shakeDuration = 0.6f;
             float shakeIntensity = 15f;
             float shakeSpeed = 20f;
-            while (elapsedTime < shakeDuration)
+            while (elapsedTime < shakeDuration && dot.IsPreviewing)
             {
                 // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
                 float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
@@ -151,17 +146,25 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
             yield return base.AnimateDeselectionEffect();
     }
-    public IEnumerator DoMove(List<Vector2Int> path)
+    public IEnumerator DoMove(List<Vector2Int> path, Action onMoved)
     {
         float duration = ClockDotVisuals.moveDuration;
         float moveDuration = duration / path.Count;
         foreach (var pos in path)
         {
             dot.transform.DOMove(new Vector2(pos.x, pos.y) * Board.offset, moveDuration);
-            yield return new WaitForSeconds(moveDuration - moveDuration / 2);
+            yield return new WaitForSeconds(moveDuration - moveDuration /2);
+            onMoved?.Invoke();
         }
 
         yield return base.AnimateDeselectionEffect();
 
+    }
+
+    public void StopPreview()
+    {
+        visuals.clockDotPreview.SetActive(false);
+        visuals.clockDotPreview.transform.SetParent(dot.transform);
+        visuals.clockDotPreview.transform.position = dot.transform.position;
     }
 }

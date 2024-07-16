@@ -55,26 +55,26 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
     {
         
             
-        if (board.GetDotAt<Tile>(tile.Column, tile.Row + 1))
+        if (board.GetTileAt(tile.Column, tile.Row + 1))
         {
 
             hasTop = true;
         }
 
-        if (board.GetDotAt<Tile>(tile.Column, tile.Row - 1))
+        if (board.GetTileAt(tile.Column, tile.Row - 1))
         {
 
             hasBottom = true;
         }
 
 
-        if (board.GetDotAt<Tile>(tile.Column + 1, tile.Row ))
+        if (board.GetTileAt(tile.Column + 1, tile.Row ))
                 
         {
 
             hasRight = true;
         }
-        if (board.GetDotAt<Tile>(tile.Column - 1, tile.Row))
+        if (board.GetTileAt(tile.Column - 1, tile.Row))
 
         {
             hasLeft = true;

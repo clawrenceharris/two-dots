@@ -22,7 +22,7 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
     protected override void SetUp()
     {
         base.SetUp();
-        tile.transform.localScale = Vector2.one * (Board.offset - Board.offset /4);
+        tile.transform.localScale = Vector2.one * (Board.offset - Board.offset /5);
 
         SetSprite();
     }
@@ -49,7 +49,10 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
     public IEnumerator DoHitAnimation(HitType hitType)
     {
         SetSprite();
-        yield return null;
+        if(tile.HitCount >= tile.HitsToClear)
+        {
+            yield return DoClearAnimation();
+        }
     }
 
     public IEnumerator DoClearAnimation()

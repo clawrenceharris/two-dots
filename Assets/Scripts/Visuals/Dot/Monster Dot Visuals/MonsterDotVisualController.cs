@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using static Type;
 
-public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IPreviewable, IDirectionalVisualController
+public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IDirectionalVisualController
 {
     private MonsterDot dot;
     private MonsterDotVisuals visuals;

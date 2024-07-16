@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 using static Type;
-public class NestingDotVisualController : DotVisualController, IPreviewable
+public class NestingDotVisualController : DotVisualController
 {
     private NestingDotVisuals visuals;
     private NestingDot dot;
@@ -18,7 +18,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewable
     {
         dot = (NestingDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
-        SetUp();
+        base.Init(dotsGameObject);
     }
 
     public override void SetInitialColor()

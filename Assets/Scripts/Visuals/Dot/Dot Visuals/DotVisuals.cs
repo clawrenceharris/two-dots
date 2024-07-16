@@ -8,6 +8,7 @@ public class DotVisuals : Visuals, IHittableVisuals
 
     public SpriteRenderer outerDot;
     public static float selectionAnimationDuration = 0.6f;
+    public Sprite bombHitSprite;
 
     public float ClearDuration => hittableVisuals.ClearDuration;
 

@@ -6,7 +6,7 @@ using static Type;
 using System;
 using System.Linq;
 
-public abstract class BlankDotBaseVisualController : ColorableDotVisualController, IPreviewable
+public abstract class BlankDotBaseVisualController : ColorableDotVisualController
 {
     
     
@@ -58,11 +58,7 @@ public abstract class BlankDotBaseVisualController : ColorableDotVisualControlle
 
     }
 
+   
 
 
-
-    public virtual IEnumerator PreviewClear()
-    {
-        yield return null;
-    }
 }

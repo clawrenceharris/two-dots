@@ -12,10 +12,18 @@ public class AnchorDotVisualController : DotVisualController
     {
         dot = (AnchorDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<DotVisuals>();
+        base.Init(dotsGameObject);
     }
 
     public override void SetInitialColor()
     {
-        //do nothing
+         visuals.spriteRenderer.sprite = visuals.sprite;
+        
+        
+    }
+
+    public override void SetColor(Color color)
+    {
+        visuals.spriteRenderer.sprite = visuals.bombHitSprite;
     }
 }

@@ -17,7 +17,11 @@ public class HittableVisualControllerBase : IHittableVisualController
     {
         this.visuals = visuals;
         this.hittable = hittable;
-
+        if(hittable is AnchorDot)
+        {
+            Debug.Log("HELLLOOOO" + visuals);
+            
+        }
     }
 
 

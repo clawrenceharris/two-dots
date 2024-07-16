@@ -44,7 +44,7 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
     public IEnumerator DoLineAnimation(IHittable hittable, Action callback = null)
     {
 
-        float duration = 0.2f;
+        float duration = BombDotVisuals.bombHitDuration;
         Vector3 startPos = dot.transform.position;
         DotsGameObject dotsGameObject = (DotsGameObject)hittable;
         Vector3 targetPosition = new Vector3(dotsGameObject.Column, dotsGameObject.Row) * Board.offset;

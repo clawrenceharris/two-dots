@@ -5,7 +5,7 @@ using DG.Tweening;
 using static Type;
 using System;
 
-public class BeetleDotVisualController : ColorableDotVisualController, IPreviewable, IDirectionalVisualController
+public class BeetleDotVisualController : ColorableDotVisualController, IDirectionalVisualController
 {
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
