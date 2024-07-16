@@ -100,7 +100,10 @@ public class Connection
 
     public void EndConnection()
     {
+        List<ConnectableDot> connectedDots = new(ConnectedDots);
+
         ConnectedDots.Clear();
+
         IsSquare = false;
 
     }

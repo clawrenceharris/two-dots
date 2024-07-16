@@ -125,10 +125,10 @@ public class Square
     public void ActivateBombsInsideSquare()
     {
 
-        FindDotsInsideSquare();
+        DotsInSquare = FindDotsInsideSquare();
         foreach (Dot dot in DotsInSquare)
         {
-            dot.VisualController.DisableSprites();
+            dot.gameObject.SetActive(false);
             board.CreateBomb(dot.Column, dot.Row);
         }
     }
@@ -138,11 +138,11 @@ public class Square
 
         foreach (Dot dot in DotsInSquare)
         {
-            dot.VisualController.EnableSprites();
+            dot.gameObject.SetActive(true);
 
             //get the bomb that is at this dot's position on the board
             //then destroy it
-            Dot bomb = board.Get<Dot>(dot.Column, dot.Row);
+            Dot bomb = board.GetDotAt<Dot>(dot.Column, dot.Row);
             Object.Destroy(bomb.gameObject);
 
             //put the original dot back
@@ -152,20 +152,20 @@ public class Square
 
     }
 
-    private void FindDotsInsideSquare()
+    private List<Dot> FindDotsInsideSquare()
     {
         LinkedList<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots;
         HashSet<Dot> dotsInSquare = new();
         List<ConnectableDot> square = GetImmediateBombSquare();
         if (connectedDots.Count < 9)
         {
-            return;
+            return new();
         }
         for (int col = 0; col < board.Width; col++)
         {
             for (int row = 0; row < board.Height; row++)
             {
-                Dot dot = board.Get<Dot>(col, row);
+                Dot dot = board.GetDotAt<Dot>(col, row);
                 //Make sure dot is not in the square and not on edge of board because there is no need to fill these
                 if (dot && !square.Contains(dot) && !board.IsOnEdgeOfBoard(dot.Column, dot.Row))
                 {
@@ -175,7 +175,7 @@ public class Square
             }
         }
 
-        DotsInSquare.AddRange(dotsInSquare);
+        return dotsInSquare.ToList();
 
     }
 
@@ -229,7 +229,7 @@ public class Square
             visitedDots.Add(currentDot);
 
             // Get neighbors of the current dot
-            List<Dot> neighbors = board.GetNeighbors<Dot>(currentDot.Column, currentDot.Row, true);
+            List<Dot> neighbors = board.GetDotNeighbors<Dot>(currentDot.Column, currentDot.Row, true);
 
             foreach (Dot neighbor in neighbors)
             {
@@ -292,7 +292,7 @@ public class Square
         {
             for (int row = 0; row < board.Height; row++)
             {
-                Dot dot = board.Get<Dot>(col, row);
+                Dot dot = board.GetDotAt<Dot>(col, row);
 
                 if (dot is ConnectableDot connectableDot && ShouldBeHit(connectableDot))
                 {
@@ -314,7 +314,7 @@ public void DeselectDotsForSquare()
     {
         for (int row = 0; row < board.Height; row++)
         {
-            Dot dot = board.Get<Dot>(col, row);
+            Dot dot = board.GetDotAt<Dot>(col, row);
 
             if (dot is ConnectableDot connectableDot && ShouldBeHit(dot))
             {

@@ -14,6 +14,7 @@ public class ConnectionManager
     private static SquareManager squareManager;
     public static event Action<LinkedList<ConnectableDot>> onConnectionEnded;
     public static Connection Connection { get; private set; }
+    public static List<Connection> Connections { get; private set; } = new();
 
 
     public static LinkedList<ConnectableDot> ConnectedDots
@@ -95,6 +96,7 @@ public class ConnectionManager
         DotTouchIO.onSelectionEnded += HandleSelectionEnded;
         DotTouchIO.onDotConnected += OnDotConnected;
         Command.onCommandExecuted += OnCommandExecuted;
+        CommandInvoker.onCommandBatchCompleted += OnCommandBatchCompleted;
 
     }
 
@@ -125,6 +127,7 @@ public class ConnectionManager
 
     private void OnDotConnected(ConnectableDot dot)
     {
+        
         LinkedListNode<ConnectableDot> lastDot = ConnectedDots.Last;
         if (ConnectedDots.Count == 0 || lastDot.Value == dot)
         {
@@ -153,6 +156,7 @@ public class ConnectionManager
     {
 
         Connection = new Connection(dot, squareManager);
+        Connections.Add(Connection);
         dot.Select();
         onDotSelected?.Invoke(dot);
 
@@ -175,25 +179,42 @@ public class ConnectionManager
 
             ConnectableDot last = ConnectedDots.Last.Value;
             Connection.DisconnectDot(last);
-
+            Connections.RemoveAt(0);
             onDotDisconnected?.Invoke(last);
             return;
         }
         else
         {
+
             onConnectionEnded?.Invoke(ConnectedDots);
         }
+        
+        foreach (ConnectableDot dot in ConnectedDots)
+        {
+            dot.Disconnect();
+        }
+
     }
-    
+
 
     private void OnCommandExecuted(Command command)
     {
-        if(command is HitCommand)
+        if (command is HitCommand)
         {
-            Connection.EndConnection();
+           
+
         }
+       
+
     }
 
-   
+    private void OnCommandBatchCompleted()
+    {
+        Connection?.EndConnection();
+
+    }
+
+
+
 }
 
