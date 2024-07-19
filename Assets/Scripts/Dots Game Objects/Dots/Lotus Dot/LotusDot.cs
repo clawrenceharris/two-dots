@@ -8,7 +8,7 @@ public class LotusDot : ConnectableDot
     public override DotType DotType => DotType.LotusDot;
     public override int HitsToClear => 1;
 
-
+    public override Dictionary<HitType, IHitRule> HitRules => new(base.HitRules) { { HitType.LotusDot, new LotusDotHitRule() } };
     public override void Deselect()
     {
        //do nothing

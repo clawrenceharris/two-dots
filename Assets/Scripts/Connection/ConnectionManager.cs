@@ -126,12 +126,9 @@ public class ConnectionManager
     }
 
     
-    public static void ConnectDot<T>(T t)
+    public static void ConnectDot(ConnectableDot dot)
     {
-        if(t is not ConnectableDot dot)
-        {
-            return;
-        }
+        
         if(Connection == null)
         {
             dot.Select();

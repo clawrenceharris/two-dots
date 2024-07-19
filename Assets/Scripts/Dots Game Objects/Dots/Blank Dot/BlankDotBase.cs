@@ -37,19 +37,11 @@ public abstract class BlankDotBase : ConnectableDot, IConnectable, IPreviewable
     }
 
    
-
-    public override void Connect(ConnectableDot dot)
-    {
-        base.Connect(dot); 
-        if (dot is IColorable colorable)
-            Color = colorable.Color;
-    }
     
     public virtual IEnumerator StartPreview(PreviewHitType hitType)
     {
         IsPreviewing = true;
-        StartCoroutine(VisualController.PreviewHit(hitType));
-        yield return null;
+        yield return VisualController.PreviewHit(hitType);
 
     }
 

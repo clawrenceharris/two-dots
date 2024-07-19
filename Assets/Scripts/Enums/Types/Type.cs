@@ -85,6 +85,16 @@ public static class GameTypeExtensions
     {
         return type == DotType.MoonStoneDot;
     }
+
+    public static CommandType ToCommandType(this ExplosionType type)
+    {
+        return type switch
+        {
+            ExplosionType.BombExplosion => CommandType.BombExplode,
+            ExplosionType.GemExplosion => CommandType.GemExplode,
+            _ => CommandType.None,
+        };
+    }
 }
 
 

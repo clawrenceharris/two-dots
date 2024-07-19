@@ -21,6 +21,7 @@ public enum CommandType
     BombExplode,
     MoveBeetleDots,
     MoveMonsterDots,
+    None,
 }
 
 

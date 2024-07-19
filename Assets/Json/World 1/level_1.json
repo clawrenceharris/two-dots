@@ -7,25 +7,24 @@
 
 
 
-        {
-            "type": "normal",
-            "color": "red"
+        //{
+        //    "type": "normal",
+        //    "color": "red"
 
-        },
+        //},
         {
             "type": "blank"
-        },
-       
-        {
-            "type": "nesting",
-            "hitCount": 2
-           
-        },
-        {
-            "type": "lotus",
-           
-            "color": "red"
         }
+        //{
+        //    "type": "nesting",
+        //    "hitCount": 2
+           
+        //},
+        //{
+        //    "type": "lotus",
+           
+        //    "color": "red"
+        //}
 
     ],
     "dotsOnBoard": [

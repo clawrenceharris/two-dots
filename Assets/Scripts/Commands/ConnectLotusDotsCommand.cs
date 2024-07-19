@@ -61,9 +61,11 @@ public class ConnectLotusDotsCommand : Command
                     if (!neighbor.DotType.IsLotusDot())
                     {
                         neighbor.Select();
+                        ConnectionManager.ConnectDot(neighbor);
+
                     }
 
-                    ConnectionManager.ConnectDot(neighbor);
+
                     yield return LineManager.DrawLine(currentDot, neighbor);
 
                     // Add the neighbor to the queue for further exploration

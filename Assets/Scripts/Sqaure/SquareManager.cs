@@ -34,7 +34,7 @@ public class SquareManager
         if (isSquare)
         {
 
-            Square = GetSquare();
+            Square = new Square(board);
 
             //activate bombs if any
             Square.ActivateBombsInsideSquare();
@@ -54,41 +54,15 @@ public class SquareManager
         {
             return;
         }
-        Square.DeselectDotsForSquare();
+        Square.DeselectDotsFromSquare();
         Square.DeactivateBombsInsideSquare();
 
         Square = null;
 
     }
 
-    private Square GetSquare()
-    {
-        //SquareType squareType = DecideSquareType();
-
-        //// Use the factory to create the appropriate square instance
-        //Square = SquareFactory.CreateSquare(squareType, board);
-        return  new Square(board);
-    }
-
+   
     
-    //private SquareType DecideSquareType()
-    //{
-
-    //    if (ConnectionManager.Connection.Color == DotColor.Blank)
-    //    {
-    //        return SquareType.BlankSqaure;
-    //    }
-    //    else if (ConnectionManager.Connection.Color != DotColor.Blank)
-    //    {
-    //        return SquareType.NoramlSqaure;
-    //    }
-
-    //    else
-    //    {
-    //        throw new Exception("Could not determine square type");
-    //    }
-    //}
-
     public static bool CheckForSquare()
     {
         LinkedList<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots;
@@ -309,7 +283,7 @@ public class Square
 /// <summary>
 /// Deselects the dots that would of been hit by the square.
 /// </summary>
-public void DeselectDotsForSquare()
+public void DeselectDotsFromSquare()
 {
     for (int col = 0; col < board.Width; col++)
     {
@@ -319,7 +293,8 @@ public void DeselectDotsForSquare()
 
             if (dot is ConnectableDot connectableDot && ShouldBeHit(dot))
             {
-                connectableDot.Deselect();
+                if(!ConnectionManager.ToHit.Contains(connectableDot))
+                    connectableDot.Deselect();
             }
 
         }
@@ -332,14 +307,5 @@ public void DeselectDotsForSquare()
 
 }
 
-public class BlankSquare : Square
-{
-    public BlankSquare(Board board) : base(board) { }
-
-
-
-    
-
-}
 
 
