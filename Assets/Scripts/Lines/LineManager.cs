@@ -1,16 +1,19 @@
+using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.U2D;
 
 /// <summary>
 /// Manages the drawing and removal of lines between dots in the game.
 /// </summary>
 public class LineManager
 {
-    private readonly List<ConnectorLine> lines;
+    private static List<ConnectorLine> lines;
     private readonly Board board;
     private ConnectorLine currentLine;
+    public static Vector2 LineScale { get; private set; } = new Vector2(1f, 0.3f);
 
-    
     public LineManager(Board board)
     {
         this.board = board;
@@ -55,6 +58,10 @@ public class LineManager
     
     private void OnDotConnected(ConnectableDot dot)
     {
+        if (!currentLine)
+        {
+            return;
+        }
         currentLine.endPos = new Vector2(dot.Column, dot.Row) * Board.offset;
 
         currentLine = DrawLine(dot);
@@ -67,15 +74,15 @@ public class LineManager
     /// </summary>
     public void UpdateLines()
     {
-        if (lines.Count == 0) return;
+        if (lines.Count == 0 || ConnectionManager.Connection == null) return;
 
         //update the lines' color 
         Color targetColor = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
         foreach (ConnectorLine line in lines)
         {
-            if (line.sprite.color != targetColor)
+            if (line.SpriteRenderer.color != targetColor)
             {
-                line.sprite.color = targetColor;
+                line.SpriteRenderer.color = targetColor;
             }
         }
 
@@ -105,12 +112,44 @@ public class LineManager
     
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots)
     {
-        foreach (ConnectorLine line in lines)
-        {
-            LinePool.Instance.Return(line);
-        }
-        lines.Clear();
+        RemoveAllLines();
         currentLine = null;
+    }
+
+   
+
+    
+
+    public static IEnumerator DrawLine(IColorable start, IColorable end)
+    {
+        DotsGameObject endObject = (DotsGameObject)end;
+        DotsGameObject startObject = (DotsGameObject)start;
+
+        ConnectorLine line = LinePool.Instance.Get();
+        line.startPos = startObject.transform.position;
+        line.initialScale = LineScale;
+        line.transform.localScale = line.initialScale;
+        line.endPos = endObject.transform.position;
+        line.SpriteRenderer.color = ColorSchemeManager.FromDotColor(end.Color);
+        line.SpriteRenderer.sortingLayerName = "Line";
+
+        line.updateLine = AutoConnectLine;
+        lines.Add(line);
+
+        yield return new WaitForSeconds(0.2f);
+
+    }
+
+    private static void AutoConnectLine(ConnectorLine line, Vector2 startPos, Vector2 endPos)
+    {
+        float distance = Vector2.Distance(startPos, endPos);
+        float scaleXOffset = 1f;
+        float newXScale = line.initialScale.x + distance - scaleXOffset;
+
+        float angle = Vector2.SignedAngle(Vector2.right, endPos - startPos);
+        line.transform.SetPositionAndRotation(startPos, Quaternion.Euler(0f, 0f, angle));
+
+        line.transform.DOScale(new Vector2(newXScale, line.initialScale.y), 0.2f);
     }
 
     /// <summary>
@@ -122,19 +161,26 @@ public class LineManager
 
         ConnectorLine line = LinePool.Instance.Get();
         line.transform.parent = board.transform;
-        line.color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
+        line.SpriteRenderer.color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
         line.startPos = new Vector2(dot.Column, dot.Row) * Board.offset;
-        line.initialScale = new Vector2(1f, 0.3f);
+        line.initialScale = LineScale;
 
         //we dont want the line to be active when we have a square
-        line.sprite.enabled = !IsSquare();
+        line.SpriteRenderer.enabled = !IsSquare();
         line.updateLine = UpdateLine;
         return line;
     }
-
+    
+    public static void RemoveAllLines()
+    {
+        foreach (ConnectorLine line in lines)
+        {
+            LinePool.Instance.Return(line);
+        }
+        lines.Clear();
+    }
     private void UpdateLine(ConnectorLine line, Vector2 startPos, Vector2 endPos)
     {
-        line.transform.position = startPos;
 
         float distance = Vector2.Distance(startPos, endPos);
 
@@ -144,16 +190,14 @@ public class LineManager
 
 
         float angle = Vector2.SignedAngle(Vector2.right, endPos - startPos);
-
-
-
-        line.transform.rotation = Quaternion.Euler(0f, 0f, angle );
-
-
+        
+        line.transform.SetPositionAndRotation(startPos, Quaternion.Euler(0f, 0f, angle ));
 
         // Apply the new scale and position
         line.transform.localScale = new Vector3(newXScale, line.initialScale.y);
 
 
     }
+
+
 }

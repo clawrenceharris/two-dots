@@ -31,21 +31,13 @@ public class LinePool : MonoBehaviour
         if (linePool.Count > 0){
             ConnectorLine line = linePool.Dequeue();
             line.gameObject.SetActive(true);
+            line.enabled = true;
             return line;
 
         }
 
 
-        else{
-            Debug.Log("HIUYGTFF");
-            ConnectorLine line = Instantiate(GameAssets.Instance.Line, Vector2.one, Quaternion.identity);
-            line.transform.parent = transform;
-
-            linePool.Enqueue(line);
-
-            line.gameObject.SetActive(false);
-            return line;
-        }
+        return null;
     }
 
 
