@@ -31,7 +31,7 @@ public class BoardCommand : Command
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(BoardCommand));
 
-            yield return new WaitForSeconds(Board.DotDropSpeed);
+            yield return new WaitForSeconds(0.8f);
 
         }
 
