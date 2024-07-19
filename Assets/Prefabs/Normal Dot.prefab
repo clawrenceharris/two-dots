@@ -211,6 +211,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 5224356030327197459}
+  sprite: {fileID: 0}
   hittableVisuals:
     clearDuration: 0.4
   outerDot: {fileID: 7796637422996918524}
+  bombHitSprite: {fileID: 0}

@@ -147,7 +147,8 @@ MonoBehaviour:
   - {fileID: 6722489279500980237}
   - {fileID: 982398389764484874}
   - {fileID: 8147211790846465351}
-  line: {fileID: 8490186781745985152, guid: bd0056c760d074c0fab9806f01267888, type: 3}
+  line: {fileID: 935950358824313196, guid: e66051827bad04f24bb7b902ae159a41, type: 3}
+  lineSprite: {fileID: 21300000, guid: a3964ccd7cbe3423ca0c0915ce097fe6, type: 3}
 --- !u!1 &4044538420008121860
 GameObject:
   m_ObjectHideFlags: 0
