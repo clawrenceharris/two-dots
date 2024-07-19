@@ -77,6 +77,7 @@ public static class Type
         NestingDot,
         BeetleDot,
         MonsterDot,
+        LotusDot,
     }
 
     public enum PreviewHitType
@@ -99,6 +100,7 @@ public static class Type
     public enum CommandType
     {
         SinkAnchorDots,
+        ClearLotusDots,
 
         Hit,
         MoveClockDots,
@@ -150,14 +152,10 @@ public static class Type
     }
 
 
-    public static bool ShouldBeHitBySquare(IHittable hittable)
+    public static bool ShouldBeHitBySquare(this DotType type)
     {
-        if(hittable is Dot dot)
-        {
-            return dot.DotType == DotType.MoonStoneDot || dot.DotType == DotType.GeoidDot;
-
-        }
-        return false;
+        
+        return type == DotType.MoonStoneDot || type == DotType.GeoidDot;   
     }
 
     
