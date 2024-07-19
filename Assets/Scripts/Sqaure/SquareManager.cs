@@ -269,16 +269,19 @@ public class Square
     protected virtual bool ShouldBeHit(IHittable hittable)
     {
 
-
+        if(hittable is not ConnectableDot dot)
+        {
+            return false;
+        }
         return
 
             //the dot is not going to be a bomb
             !DotsInSquare.Contains(hittable) &&
 
-            (ShouldBeHitBySquare(hittable) ||
+            (dot.DotType.ShouldBeHitBySquare() ||
             ToHit.Contains(hittable) ||
             //the dot's color is the same as the connection color
-            hittable is IColorable colorDot && colorDot.Color == ConnectionManager.Connection.Color);
+            dot.Color == ConnectionManager.Connection.Color);
 
     }
 
@@ -337,10 +340,7 @@ public class BlankSquare : Square
 
 
 
-    protected override bool ShouldBeHit(IHittable hittable)
-    {
-        return ShouldBeHitBySquare(hittable) || hittable is ConnectableDot;
-    }
+    
 
 }
 
