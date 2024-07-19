@@ -93,7 +93,7 @@ public class ConnectionManager
     private void SubscribeToEvents()
     {
         DotTouchIO.onDotSelected += OnDotSelected;
-        DotTouchIO.onSelectionEnded += HandleSelectionEnded;
+        DotTouchIO.onSelectionEnded += OnConnectionEnded;
         DotTouchIO.onDotConnected += OnDotConnected;
         Command.onCommandExecuted += OnCommandExecuted;
         CommandInvoker.onCommandBatchCompleted += OnCommandBatchCompleted;
@@ -125,6 +125,24 @@ public class ConnectionManager
         return connectionRule.Validate(ConnectedDots.Last.Value, dot);
     }
 
+    
+    public static void ConnectDot<T>(T t)
+    {
+        if(t is not ConnectableDot dot)
+        {
+            return;
+        }
+        if(Connection == null)
+        {
+            dot.Select();
+            Connection = new(dot, squareManager);
+        }
+        else
+        {
+            Connection.ConnectDot(dot);
+
+        }
+    }
     private void OnDotConnected(ConnectableDot dot)
     {
         
@@ -146,7 +164,8 @@ public class ConnectionManager
         // if the connection is valid and it is not currently a square
         else if (IsValidConnection(dot) && !IsSquare)
         {
-            Connection.ConnectDot(dot);          
+            Connection.ConnectDot(dot);
+            Connection.CheckForSquare();
             onDotConnected?.Invoke(dot);
 
         }
@@ -165,7 +184,7 @@ public class ConnectionManager
 
 
 
-    private void HandleSelectionEnded()
+    private void OnConnectionEnded()
     {
         
         if (IsSquare)
@@ -214,7 +233,13 @@ public class ConnectionManager
 
     }
 
-
-
+    public static void EndConnection()
+    {
+        onConnectionEnded?.Invoke(ConnectedDots);
+        foreach (ConnectableDot dot in ConnectedDots)
+        {
+            dot.Disconnect();
+        }
+    }
 }
 

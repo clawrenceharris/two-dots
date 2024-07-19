@@ -48,16 +48,19 @@ public class Connection
         if(dot is IColorable colorDot && dot is not IBlank)
             Color = colorDot.Color;
 
+        
+
+
+    }
+    public void CheckForSquare()
+    {
         IsSquare = squareManager.ProcessSquare();
         if (IsSquare)
         {
             onSquareMade?.Invoke(squareManager.Square);
 
         }
-
-
     }
-
     public void DisconnectDot(ConnectableDot dot)
     {
         
