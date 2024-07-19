@@ -7,16 +7,17 @@ public class LotusDot : ConnectableDot
     public override DotType DotType => DotType.LotusDot;
     public override int HitsToClear => 1;
 
-    public override Dictionary<HitType, IHitRule> HitRules => new(){{HitType.LotusDot, new HitByAdjacentColorRule()}};
 
     public override void Deselect()
     {
        //do nothing
     }
+
     public override void Connect(ConnectableDot dot)
     {
         //do nothing
     }
+
     public override void Hit(HitType hitType)
     {
         HitCount++;
