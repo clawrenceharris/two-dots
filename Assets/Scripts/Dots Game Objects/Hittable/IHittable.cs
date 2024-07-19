@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Type;
 using System;
+
+
 public interface IHittable
 {
     HitType HitType { get; }

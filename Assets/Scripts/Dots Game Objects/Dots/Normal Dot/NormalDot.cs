@@ -1,6 +1,4 @@
 
-using static Type;
-using Color = UnityEngine.Color;
 using System.Collections;
 using System.Collections.Generic;
 using System;

@@ -1,9 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using static Type;
 using System;
 using DG.Tweening;
-using Color = UnityEngine.Color;
 using System.Collections.Generic;
 
 public abstract class Dot : DotsGameObject, IHittable

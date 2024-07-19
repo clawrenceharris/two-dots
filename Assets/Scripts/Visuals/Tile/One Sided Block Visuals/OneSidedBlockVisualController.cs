@@ -15,7 +15,7 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
         yield return hittableVisualController.DoClearAnimation();
     }
 
-    public IEnumerator DoHitAnimation(Type.HitType hitType)
+    public IEnumerator DoHitAnimation(HitType hitType)
     {
         yield return hittableVisualController.DoHitAnimation(hitType);
     }

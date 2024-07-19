@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Type;
+
+
 public abstract class ConnectableDot : Dot, IConnectable, IColorable
 {
     public override Dictionary<HitType, IHitRule> HitRules =>

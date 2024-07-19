@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static Type;
+
 public interface IExplodable : IHittable, IBoardElement
 {
     Dictionary<HitType, IExplosionRule> ExplosionRules { get; }

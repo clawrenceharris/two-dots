@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static Type;
+
+
 public class Ice : Tile, IHittable
 {
     public override TileType TileType => TileType.Ice;

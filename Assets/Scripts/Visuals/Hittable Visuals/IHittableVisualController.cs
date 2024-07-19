@@ -1,5 +1,6 @@
 ﻿using System.Collections;
-using static Type;
+
+
 public interface IHittableVisualController
 {
    

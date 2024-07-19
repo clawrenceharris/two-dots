@@ -1,7 +1,7 @@
 ﻿using System;
-using static Type;
 using UnityEngine;
 using System.Collections;
+
 public class NumerableBase : INumerable
 {
 

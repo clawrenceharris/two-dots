@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
-using static Type;
+
+
 public class DotDataFactory
 {
     public static DotsGameObjectData CreateDotData(JObject itemObject)

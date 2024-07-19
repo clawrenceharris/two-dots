@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using static Type;
 
 
 public class MoveMonsterDotsCommand : MoveCommand

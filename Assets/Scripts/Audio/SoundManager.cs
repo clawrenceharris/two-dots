@@ -1,4 +1,3 @@
-using static Type;
 using System.Collections.Generic;
 using UnityEngine;
 

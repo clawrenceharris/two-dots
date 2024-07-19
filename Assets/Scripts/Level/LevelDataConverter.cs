@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using static Type;
 
 public class LevelDataConverter : JsonConverter<LevelData>
 {

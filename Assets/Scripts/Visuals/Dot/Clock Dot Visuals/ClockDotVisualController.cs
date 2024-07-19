@@ -3,7 +3,6 @@ using UnityEngine;
 using DG.Tweening;
 using System.Linq;
 using System.Collections.Generic;
-using static Type;
 using System;
 
 public class ClockDotVisualController : BlankDotBaseVisualController, INumerableVisualController, IHittableVisualController

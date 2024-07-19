@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Type;
+
+
 public class LotusDot : ConnectableDot
 {
     public override DotType DotType => DotType.LotusDot;

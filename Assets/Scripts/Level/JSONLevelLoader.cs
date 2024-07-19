@@ -1,7 +1,6 @@
 
 using UnityEngine;
 using System.IO;
-using static Type;
 using Newtonsoft.Json;
 using System;
 

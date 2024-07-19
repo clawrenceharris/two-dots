@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using static Type;
 using System;
-using Color = UnityEngine.Color;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -65,31 +63,31 @@ public class SquareManager
 
     private Square GetSquare()
     {
-        SquareType squareType = DecideSquareType();
+        //SquareType squareType = DecideSquareType();
 
-        // Use the factory to create the appropriate square instance
-        Square = SquareFactory.CreateSquare(squareType, board);
-        return Square;
+        //// Use the factory to create the appropriate square instance
+        //Square = SquareFactory.CreateSquare(squareType, board);
+        return  new Square(board);
     }
 
     
-    private SquareType DecideSquareType()
-    {
+    //private SquareType DecideSquareType()
+    //{
 
-        if (ConnectionManager.Connection.Color == DotColor.Blank)
-        {
-            return SquareType.BlankSqaure;
-        }
-        else if (ConnectionManager.Connection.Color != DotColor.Blank)
-        {
-            return SquareType.NoramlSqaure;
-        }
+    //    if (ConnectionManager.Connection.Color == DotColor.Blank)
+    //    {
+    //        return SquareType.BlankSqaure;
+    //    }
+    //    else if (ConnectionManager.Connection.Color != DotColor.Blank)
+    //    {
+    //        return SquareType.NoramlSqaure;
+    //    }
 
-        else
-        {
-            throw new Exception("Could not determine square type");
-        }
-    }
+    //    else
+    //    {
+    //        throw new Exception("Could not determine square type");
+    //    }
+    //}
 
     public static bool CheckForSquare()
     {

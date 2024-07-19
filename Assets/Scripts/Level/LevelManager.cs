@@ -3,13 +3,9 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using static Type;
-public enum ExecutionStage
-{
-    ClearAnchorsAtBottom,
-    DropDots,
-    ClearConnection
-}
+
+
+
 public class LevelManager : MonoBehaviour
 
 

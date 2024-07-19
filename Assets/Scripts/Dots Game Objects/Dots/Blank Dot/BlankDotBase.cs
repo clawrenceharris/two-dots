@@ -2,9 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Type;
 
-public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IPreviewable
+public abstract class BlankDotBase : ConnectableDot, IConnectable, IPreviewable
 {
 
 

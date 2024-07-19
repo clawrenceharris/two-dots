@@ -1,7 +1,6 @@
 using System;
 using System.Net.NetworkInformation;
 using UnityEngine;
-using static Type;
 using Color = UnityEngine.Color;
 
 public class ColorSchemeManager

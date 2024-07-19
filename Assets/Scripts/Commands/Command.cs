@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using static Type;
 using System.Threading.Tasks;
 
 public abstract class Command : ICommand

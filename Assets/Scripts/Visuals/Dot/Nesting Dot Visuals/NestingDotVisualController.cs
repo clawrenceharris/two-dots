@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
-using static Type;
 public class NestingDotVisualController : DotVisualController
 {
     private NestingDotVisuals visuals;

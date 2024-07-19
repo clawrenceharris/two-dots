@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Type;
 
 /// <summary>
 /// Represents a hit rule that checks if an IHittable object is at the bottom of the board.

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Type;
+
 public class GameAssets : MonoBehaviour
 {
     [Header("Dots")]
@@ -19,9 +19,10 @@ public class GameAssets : MonoBehaviour
     [Header("Tiles")]
 
     public Ice Ice;
-    public Tile EmptyTile;
-    public Tile Block;
-    public Tile OneSidedBlock;
+    public EmptyTile EmptyTile;
+    public Block Block;
+    public OneSidedBlock OneSidedBlock;
+    public Water Water;
 
     [Header("Lines")]
     public ConnectorLine Line;

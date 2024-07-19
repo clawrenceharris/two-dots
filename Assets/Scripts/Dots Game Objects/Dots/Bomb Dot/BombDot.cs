@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using static Type;
 using System.Linq;
 
 public class BombDot : Dot, IExplodable

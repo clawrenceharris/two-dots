@@ -1,5 +1,4 @@
 using UnityEngine;
-using static Type;
 using System;
 using Object = UnityEngine.Object;
 

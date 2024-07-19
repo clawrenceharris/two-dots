@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Type;
 
 public class PreviewManager
 {
@@ -74,7 +73,7 @@ public class PreviewManager
         {
             if (hittable is IPreviewable previewable)
             {
-                if (previewable.IsPreviewing && previewable.HitCount < previewable.HitsToClear)
+                if (previewable.IsPreviewing)
                     previewable.StopPreview();
             }
         }

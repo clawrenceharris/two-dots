@@ -6,7 +6,6 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-using static Type;
 public class MoveClockDotsCommand : Command
 {
 

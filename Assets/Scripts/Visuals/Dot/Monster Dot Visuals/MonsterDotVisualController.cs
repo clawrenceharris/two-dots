@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using static Type;
 
 public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IDirectionalVisualController
 {
@@ -70,7 +69,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         
     }
 
-    public override IEnumerator DoHitAnimation(Type.HitType hitType)
+    public override IEnumerator DoHitAnimation(HitType hitType)
     {
         if (dot.HitCount >= dot.HitsToClear)
             yield return base.DoHitAnimation(hitType);

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Type;
+
+
 public class EmptyTile : Tile
 {
     public override TileType TileType => TileType.EmptyTile;
