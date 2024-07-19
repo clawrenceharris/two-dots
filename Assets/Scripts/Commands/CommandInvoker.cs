@@ -156,7 +156,7 @@ public class CommandInvoker
             keepGoing = false;
 
             Enqueue(new SinkAnchorDotsCommand());
-            Enqueue(new ClearLotusDotsCommand());
+            Enqueue(new ConnectLotusDotsCommand());
 
             Enqueue(new HitCommand());
             Enqueue(new MoveClockDotsCommand());
