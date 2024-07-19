@@ -23,7 +23,7 @@ public class ConnectLotusDotsCommand : Command
     /// <param name="board">The game board.</param>
     /// <param name="onDotConnected">Action to perform when a dot is connected.</param>
     /// <returns>Enumerator for the coroutine.</returns>
-    private IEnumerator ConnectNeighbors(ConnectableDot startingDot, Vector2Int direction, Board board, Action<ConnectableDot> onDotConnected)
+    private IEnumerator ConnectNeighbors(LotusDot lotusDot, ConnectableDot startingDot, Vector2Int direction, Board board, Action<ConnectableDot> onDotConnected)
     {
         // Queue for breadth-first search traversal
         Queue<ConnectableDot> queue = new();
@@ -41,18 +41,19 @@ public class ConnectLotusDotsCommand : Command
                 continue;
             }
 
-            ConnectableDot neighbor = board.GetDotAt<ConnectableDot>(b.Column + direction.x, b.Row + direction.y);
+            var neighbor = board.GetDotAt<ConnectableDot>(b.Column + direction.x, b.Row + direction.y);
+            var rule = new LotusDotConnectionRule();
 
-            // Checks that the neighbor is valid and has not been visited yet
             if (neighbor != null && !visitedDots.Contains(neighbor))
             {
-                var rule = new LotusDotConnectionRule();
-                if (rule.Validate(startingDot, neighbor, board))
+                //If the neighbor is not valid then exit the loop 
+                if (!rule.Validate(lotusDot, neighbor, board))
                 {
                     visitedDots.Add(neighbor);
 
                     break;
                 }
+               
                 else
                 {
                     visitedDots.Add(neighbor);
@@ -70,10 +71,9 @@ public class ConnectLotusDotsCommand : Command
                     queue.Enqueue(neighbor);
                     onDotConnected?.Invoke(neighbor);
 
-                   
                 }
-
             }
+            
         }
 
         ongoingConnections--;
@@ -84,19 +84,19 @@ public class ConnectLotusDotsCommand : Command
     /// </summary>
     /// <param name="startingDot">The starting dot for the connections.</param>
     /// <param name="board">The game board.</param>
-    private void InitiateConnectionsInAllDirections(ConnectableDot startingDot, Board board)
+    private void InitiateConnectionsInAllDirections(LotusDot lotusDot, ConnectableDot startingDot, Board board)
     {
         Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
         foreach (Vector2Int direction in directions)
         {
             ongoingConnections++;
-            CoroutineHandler.StartStaticCoroutine(ConnectNeighbors(startingDot, direction, board, dot =>
+            CoroutineHandler.StartStaticCoroutine(ConnectNeighbors(lotusDot, startingDot, direction, board, dot =>
             {
                 List<IColorable> neighbors = board.GetDotNeighbors<IColorable>(dot.Column, dot.Row, false);
 
                 if (neighbors.Any((neighbor) => neighbor != null && neighbor.Color == startingDot.Color))
                 {
-                    InitiateConnectionsInAllDirections(dot, board);
+                    InitiateConnectionsInAllDirections(lotusDot, dot, board);
                 }
             }));
         }
@@ -120,7 +120,7 @@ public class ConnectLotusDotsCommand : Command
 
                 if (lotusDot != null)
                 {
-                    InitiateConnectionsInAllDirections(lotusDot, board);
+                    InitiateConnectionsInAllDirections(lotusDot, lotusDot, board);
 
                 }
 
