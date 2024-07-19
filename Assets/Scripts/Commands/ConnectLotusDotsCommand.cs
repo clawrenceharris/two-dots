@@ -80,7 +80,7 @@ public class ConnectLotusDotsCommand : Command
     }
 
     /// <summary>
-    /// Initiates connections from the given dot in all possible directions.
+    /// Initiates connections from the given dot in all cardinal directions.
     /// </summary>
     /// <param name="startingDot">The starting dot for the connections.</param>
     /// <param name="board">The game board.</param>
