@@ -21,7 +21,6 @@ public class BombDot : Dot, IExplodable
 
     public ExplosionType ExplosionType => ExplosionType.BombExplosion;
 
-    public static event Action<IHittable> onBombExploded;
     public new BombDotVisualController VisualController => GetVisualController<BombDotVisualController>();
 
     public int HitsToExplode => 0;
@@ -79,9 +78,9 @@ public class BombDot : Dot, IExplodable
             foreach (IHittable hittable in BombExplosionManager.bombToDotsMap[bomb])
             {
     
-                if (hittable != null)
+                if (hittable != null && !Hits.Contains(hittable))
                 {
-
+                    Hits.Add(hittable);
                     CoroutineHandler.StartStaticCoroutine(bomb.VisualController.DoLineAnimation(hittable, () =>
                     {
                         CoroutineHandler.StartStaticCoroutine(ChangeHittablesColor(hittable),() => counter++);
