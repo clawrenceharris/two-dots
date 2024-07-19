@@ -7,11 +7,21 @@ using System.Linq;
 public abstract class ColorableDotVisualController : DotVisualController
 {
 
+    public override void SetInitialColor()
+    {
+        DotVisuals visuals = GetVisuals<DotVisuals>();
+        IColorable colorable = GetGameObject<IColorable>();
+
+        visuals.spriteRenderer.color = ColorSchemeManager.FromDotColor(colorable.Color);
+    }
+
+
     public virtual IEnumerator AnimateSelectionEffect()
     {
         DotVisuals visuals = GetVisuals<DotVisuals>();
+        IColorable colorable = GetGameObject<IColorable>();
 
-        DotColor dotColor = GetGameObject<IColorable>().Color;
+        DotColor dotColor = colorable.Color;
         visuals.outerDot.color = ColorSchemeManager.FromDotColor(dotColor);
 
         // Animate scale

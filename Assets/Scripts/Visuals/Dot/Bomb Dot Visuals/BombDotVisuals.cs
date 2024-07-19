@@ -7,5 +7,5 @@ public class BombDotVisuals : ExplodableVisuals
     public SpriteRenderer[] bombSprites;
     public GameObject line;
     public static float bombHitDuration = 0.1f;
-
+    public Sprite lineSprite;
 }

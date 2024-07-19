@@ -10,7 +10,6 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
 {
     private BombDot dot;
     private BombDotVisuals visuals;
-
     public override T GetGameObject<T>() => dot as T;
 
     public override T GetVisuals<T>() => visuals as T;
@@ -21,7 +20,7 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
         base.Init(dotsGameObject);
 
     }
-
+   
     public override void SetInitialColor()
     {
         for (int i = 0; i  < visuals.bombSprites.Length; i++)
@@ -52,11 +51,13 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
         float angle = Vector2.SignedAngle(Vector2.right, targetPosition - startPos);
         float distance = Vector2.Distance(startPos, targetPosition);
         distance -= dot.transform.localScale.x / 2 + dotsGameObject.transform.localScale.x / 2;
-        ConnectorLine line = Object.Instantiate(GameAssets.Instance.Line);
-        line.sprite.sortingLayerName = "Bomb";
-        line.sprite.sortingOrder = 100;
 
-        
+        ConnectorLine line = Object.Instantiate(GameAssets.Instance.Line);
+
+        line.enabled = false;
+        line.SpriteRenderer.color = ColorSchemeManager.CurrentColorScheme.bombLight;
+        line.SpriteRenderer.sortingLayerName = "Bomb";
+        line.SpriteRenderer.sortingOrder = 100;
         line.transform.SetPositionAndRotation(startPos, Quaternion.Euler(0, 0, angle));
 
         line.transform.localScale = new Vector3(0, 0.2f);
@@ -78,7 +79,8 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
         line.transform.DOMove(targetPosition, duration/2);
 
         line.transform.DOScale(new Vector3(0, 0.1f), duration / 2);
-
+        yield return new WaitForSeconds(duration / 2);
+        Object.Destroy(line.gameObject);
     }
 
 
