@@ -20,7 +20,6 @@ public class NormalDot : ConnectableDot, IColorable, IConnectable
         base.Init(column, row);
     }
 
-    public DotColor Color { get; set; }
 
 
     public override void InitDisplayController()

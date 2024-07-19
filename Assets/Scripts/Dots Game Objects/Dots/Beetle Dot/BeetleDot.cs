@@ -8,7 +8,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
     public override DotType DotType => DotType.BeetleDot;
     public override int HitsToClear => 3;
     private DotColor color;
-    public DotColor Color
+    public override DotColor Color
     {
         get
         {

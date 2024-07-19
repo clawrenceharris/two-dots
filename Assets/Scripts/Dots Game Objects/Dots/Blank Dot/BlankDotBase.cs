@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Type;
 
-public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IColorable, IPreviewable
+public abstract class BlankDotBase : ConnectableDot, IBlank, IConnectable, IPreviewable
 {
 
 
     public override DotType DotType { get; }
     private new BlankDotBaseVisualController VisualController => GetVisualController<BlankDotBaseVisualController>();
 
-    public DotColor Color { get; set; }
     public bool IsPreviewing { get; protected set; }
 
     public virtual List<IHitRule> PreviewHitRules => new() { new HitByConnectionRule() };

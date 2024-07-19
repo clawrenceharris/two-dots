@@ -19,9 +19,6 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     public int CurrentNumber => numerable.CurrentNumber;
 
     public int InitialNumber { get => numerable.InitialNumber; set => numerable.InitialNumber = value; }
-    public DotColor Color { get; set; }
-
-
 
     public override int HitsToClear => numerable.InitialNumber;
 

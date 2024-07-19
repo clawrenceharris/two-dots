@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Type;
-public abstract class ConnectableDot : Dot, IConnectable
+public abstract class ConnectableDot : Dot, IConnectable, IColorable
 {
     public override Dictionary<HitType, IHitRule> HitRules =>
         new ()
@@ -16,7 +16,7 @@ public abstract class ConnectableDot : Dot, IConnectable
 
     public new ColorableDotVisualController VisualController => GetVisualController<ColorableDotVisualController>();
 
-
+    public virtual DotColor Color { get; set; }
 
     public virtual void Disconnect()
     {
