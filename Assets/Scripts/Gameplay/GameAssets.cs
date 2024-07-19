@@ -4,21 +4,33 @@ using UnityEngine;
 using static Type;
 public class GameAssets : MonoBehaviour
 {
+    [Header("Dots")]
     public Dot NormalDot;
-    public Tile EmptyTile;
-    public Tile Block;
-    public Tile OneSidedBlock;
+   
     public NestingDot NestingDot;
     public BombDot Bomb;
     public ClockDot ClockDot;
     public AnchorDot AnchorDot;
     public BlankDot BlankDot;
-    public ConnectorLine Line;
     public BeetleDot BeetleDot;
     public MonsterDot MonsterDot;
-    public Ice Ice;
+    public LotusDot LotusDot;
 
+    [Header("Tiles")]
+
+    public Ice Ice;
+    public Tile EmptyTile;
+    public Tile Block;
+    public Tile OneSidedBlock;
+
+    [Header("Lines")]
+    public ConnectorLine Line;
+
+    [Header("Sprites")]
     public Sprite[] Numbers;
+
+   
+
     public static GameAssets Instance { get; private set; }
 
     private void Awake()
@@ -37,6 +49,7 @@ public class GameAssets : MonoBehaviour
             DotType.Bomb => Bomb,
             DotType.NestingDot => NestingDot,
             DotType.BeetleDot => BeetleDot,
+            DotType.LotusDot => LotusDot,
 
             _ => null,
         };

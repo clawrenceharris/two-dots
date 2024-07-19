@@ -35,19 +35,18 @@ public class JSONLevelLoader
             case "nesting": return GameAssets.Instance.NestingDot;
             case "beetle": return GameAssets.Instance.BeetleDot;
             case "monster": return GameAssets.Instance.MonsterDot;
+            case "lotus": return GameAssets.Instance.LotusDot;
+
         };
 
         //tiles
-        switch (type)
+        return type switch
         {
-            case "one sided block": return GameAssets.Instance.OneSidedBlock;
-            case "empty": return GameAssets.Instance.EmptyTile;
-            case "ice": return GameAssets.Instance.Ice;
-
-        }
-
-        throw new ArgumentException("'" + type + "' is not a valid Json game object type");
-
+            "one sided block" => GameAssets.Instance.OneSidedBlock,
+            "empty" => GameAssets.Instance.EmptyTile,
+            "ice" => GameAssets.Instance.Ice,
+            _ => throw new ArgumentException("'" + type + "' is not a valid Json game object type"),
+        };
     }
 
 
@@ -69,17 +68,16 @@ public class JSONLevelLoader
    
     public static DotColor FromJSONColor(string color)
     {
-        switch (color)
+        return color switch
         {
-            case "red": return DotColor.Red;
-            case "blue": return DotColor.Blue;
-            case "yellow": return DotColor.Yellow;
-            case "purple": return DotColor.Purple;
-            case "green": return DotColor.Green;
-            case "blank": return DotColor.Blank;
-
-            default: throw new ArgumentException();
-        }
+            "red" => DotColor.Red,
+            "blue" => DotColor.Blue,
+            "yellow" => DotColor.Yellow,
+            "purple" => DotColor.Purple,
+            "green" => DotColor.Green,
+            "blank" => DotColor.Blank,
+            _ => throw new ArgumentException(),
+        };
     }
 
     public static string ToJsonDotType(DotType type)

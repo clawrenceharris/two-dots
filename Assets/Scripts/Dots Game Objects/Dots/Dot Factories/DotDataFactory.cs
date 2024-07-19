@@ -27,6 +27,7 @@ public class DotDataFactory
        
         switch (type)
         {
+            case "lotus":
             case "normal":
                 dotData.SetProperty("Color", (string)color);
                 break;
@@ -49,7 +50,6 @@ public class DotDataFactory
                 break;
             case "blank":
                 dotData.SetProperty("Color", JSONLevelLoader.ToJsonColor(DotColor.Blank));
-
                 break;
 
         };
