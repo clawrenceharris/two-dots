@@ -213,6 +213,11 @@ public static class Type
     {
         return type == DotType.ClockDot;
     }
+
+    public static bool IsMoonstoneDot(this DotType type)
+    {
+        return type == DotType.MoonStoneDot;
+    }
 }
 
 

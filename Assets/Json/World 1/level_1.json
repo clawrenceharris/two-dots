@@ -7,52 +7,54 @@
 
 
 
+        {
+            "type": "normal",
+            "color": "red"
 
-
+        },
         {
             "type": "blank"
-
         },
-
+       
         {
-            "type": "blank"
-
-        },
-
-        {
-            "type": "blank"
-
-        },
-
-
-        {
-            "type": "anchor"
-        },
-
-        //{
-        //    "type": "nesting"
-        //},
-
-
-        {
-            "type": "clock",
-            "number": 4
+            "type": "nesting",
+            "hitCount": 2
            
-
+        },
+        {
+            "type": "lotus",
+           
+            "color": "red"
         }
-
-
 
     ],
     "dotsOnBoard": [
 
+        {
+            "type": "lotus",
+            "color": "red",
+            "col": 0,
+            "row": 0
+        },
 
-        
-
-
-      
-
-
+        {
+            "type": "lotus",
+            "color": "red",
+            "col": 1,
+            "row": 0
+        },
+        {
+            "type": "lotus",
+            "color": "red",
+            "col": 1,
+            "row": 1
+        },
+        {
+            "type": "lotus",
+            "color": "red",
+            "col": 0,
+            "row": 1
+        }
     ],
 
     "tilesOnBoard": [
@@ -109,22 +111,22 @@
         //    "col": 0
         //},
 
-        {
-            "type": "one sided block",
-            "row": 1,
-            "col": 0,
-            "directionX": 1,
-            "directionY": 0
-        },
+        //{
+        //    "type": "one sided block",
+        //    "row": 1,
+        //    "col": 0,
+        //    "directionX": 1,
+        //    "directionY": 0
+        //},
 
-        {
-            "type": "one sided block",
-            "row": 0,
-            "col": 4,
-            "directionX": 0,
-            "directionY": 1
+        //{
+        //    "type": "one sided block",
+        //    "row": 0,
+        //    "col": 4,
+        //    "directionX": 0,
+        //    "directionY": 1
 
-        }
+        //}
         //{
         //    "type": "block",
         //    "row": 1,
