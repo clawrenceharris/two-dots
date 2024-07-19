@@ -34,7 +34,12 @@ public class NestingDotVisualController : DotVisualController
         visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
 
     }
-
+    protected override void SetUp()
+    {
+        base.SetUp();
+        RemoveLayers(0f);
+        
+    }
     public IEnumerator PreviewHit(PreviewHitType hitType)
     {
         yield break;
@@ -46,38 +51,44 @@ public class NestingDotVisualController : DotVisualController
         if(dot.HitCount < dot.HitsToClear)
         {
             UpdateDotScale();
-            yield return DoHitAnimation();
-
+            float duration = visuals.hittableVisuals.HitDuration;
+            RemoveLayers(duration);
+            yield return null;
         }
         
     }
-
-    private IEnumerator DoHitAnimation()
+    private void RemoveLayers(float duration)
     {
+        for(int i = 0; i < dot.HitCount; i++)
+        {
+            UpdateDotScale();
 
-        float duration = 0.5f;
-        visuals.nestingDotBottom.transform.DOMoveY(dot.transform.position.y - Board.offset, duration)
+            visuals.nestingDotBottom.transform.DOMoveY(dot.transform.position.y - Board.offset, duration)
             .OnComplete(() =>
             {
                 visuals.nestingDotBottom.transform.position = dot.transform.position;
             });
-        visuals.nestingDotTop.transform.DOMoveY(dot.transform.position.y + Board.offset, duration)
+
+            visuals.nestingDotTop.transform.DOMoveY(dot.transform.position.y + Board.offset, duration)
             .OnComplete(() =>
             {
                 visuals.nestingDotTop.transform.position = dot.transform.position;
 
             });
 
-        visuals.nestingDotBottomSprite.enabled = true;
-        visuals.nestingDotTopSprite.enabled = true;
 
-        visuals.nestingDotBottomSprite.DOFade(0, duration);
+            visuals.nestingDotBottomSprite.enabled = true;
+            visuals.nestingDotTopSprite.enabled = true;
 
-        visuals.nestingDotBottomSprite.DOFade(0, duration);
-        yield return null;  
+            visuals.nestingDotBottomSprite.DOFade(0, duration);
+
+            visuals.nestingDotBottomSprite.DOFade(0, duration);
+
+
+        }
 
     }
-
+    
     private void UpdateDotScale()
     {
         if (dot.HitCount == 1)

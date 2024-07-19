@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IHittableVisuals
 {
     float ClearDuration { get; }
+    float HitDuration { get; }
 }

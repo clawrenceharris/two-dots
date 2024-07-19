@@ -54,7 +54,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         currentLayerIndex = Mathf.Clamp(dot.HitCount, 0, dot.HitsToClear-1);
 
         Rotate();
-        RemoveWings();
+        RemoveLayers();
         base.SetUp();
     }
 
@@ -148,7 +148,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
     /// Based on the current layer, removes previous layers of wings off of the beetle dot
     /// </summary>
     /// <param name="duration">The duration of the animation</param>
-    private void RemoveWings(float duration = 0f)
+    private void RemoveLayers(float duration = 0f)
     {
         for(int i = 0; i < currentLayerIndex; i++)
         {
@@ -261,7 +261,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
     
     public override IEnumerator DoHitAnimation(HitType hitType)
     {
-        float hitDuration = HittableVisuals.hitDuration;
+        float hitDuration = visuals.hittableVisuals.HitDuration;
         currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, dot.HitsToClear - 1);
 
         visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
@@ -272,7 +272,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
             yield break;
         }
 
-        RemoveWings(hitDuration);
+        RemoveLayers(hitDuration);
         yield return new WaitForSeconds(hitDuration);
     }
 

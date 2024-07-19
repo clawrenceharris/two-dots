@@ -6,6 +6,7 @@ public class ExplodableVisuals : Visuals, IHittableVisuals
 {
     public HittableVisuals hittableVisuals;
     public float explodeDuration = 0.7f;
+    public float HitDuration => hittableVisuals.HitDuration;
 
     public float ClearDuration => hittableVisuals.ClearDuration;
 }
