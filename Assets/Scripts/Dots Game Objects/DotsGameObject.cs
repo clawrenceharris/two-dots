@@ -7,10 +7,9 @@ public abstract class DotsGameObject : MonoBehaviour, IBoardElement
 {
 
     public virtual DotsGameObjectData ReplacementDot => null;
-    public int row;
-    public int column;
-    public int Column { get => column; set => column = value; }
-    public int Row { get => row; set => row = value; }
+    
+    public int Column { get; set; }
+    public int Row { get; set; }
 
     public T GetVisualController<T>()  where T : class
     {
