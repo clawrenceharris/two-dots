@@ -16,9 +16,5 @@ public class ColorScheme : ScriptableObject
     public Color bombLight;
     public Color bombDark;
     public Color backgroundColor;
-
-
-
-
-
+    public Color water;
 }
