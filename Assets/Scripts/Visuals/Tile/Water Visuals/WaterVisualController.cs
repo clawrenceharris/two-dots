@@ -1,20 +1,22 @@
-﻿using System.Collections;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockVisualController : TileVisualController, IHittableVisualController
+public class WaterVisualController : TileVisualController, IHittableVisualController
 {
-    private Block tile;
-    private HittableTileVisuals visuals;
+    private Water tile;
+    private WaterVisuals visuals;
     private readonly HittableVisualController hittableVisualController = new();
-
     public override T GetGameObject<T>() => tile as T;
 
+
     public override T GetVisuals<T>() => visuals as T;
+   
 
     public override void Init(DotsGameObject dotsGameObject)
     {
-        tile = (Block)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
+        tile = (Water)dotsGameObject;
+        visuals = dotsGameObject.GetComponent<WaterVisuals>();
         hittableVisualController.Init(tile, visuals);
         base.Init(dotsGameObject);
 
@@ -22,12 +24,13 @@ public class BlockVisualController : TileVisualController, IHittableVisualContro
 
     public override void SetInitialColor()
     {
-        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        visuals.spriteRenderer.color = Color.white;
+        visuals.water.color = ColorSchemeManager.CurrentColorScheme.water;
     }
 
     public IEnumerator DoHitAnimation(HitType hitType)
     {
-       yield return hittableVisualController.DoHitAnimation(hitType);
+        yield return hittableVisualController.DoHitAnimation(hitType);
     }
 
     public IEnumerator DoClearAnimation()

@@ -10,7 +10,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     public static Dictionary<Dot, GameObject> ClockDotPreviews { get; private set; } = new();
     private ClockDot dot;
     private  ClockDotVisuals visuals;
-    private readonly NumerableVisualControllerBase numerableVisualController = new();
+    private readonly NumerableVisualController numerableVisualController = new();
     public override T GetGameObject<T>() => dot as T;
 
     public override T GetVisuals<T>() => visuals as T;

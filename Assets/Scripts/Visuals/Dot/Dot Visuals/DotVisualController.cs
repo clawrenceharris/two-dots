@@ -9,7 +9,7 @@ public abstract class DotVisualController : VisualController, IDotVisualControll
 
 {
 
-    protected readonly HittableVisualControllerBase hittableVisualController = new();
+    protected readonly HittableVisualController hittableVisualController = new();
 
     public override void Init(DotsGameObject dotsGameObject)
     {

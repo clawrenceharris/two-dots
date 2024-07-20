@@ -8,7 +8,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     private MonsterDot dot;
     private MonsterDotVisuals visuals;
     private readonly DirectionalVisualController directionalVisualController = new();
-    private readonly NumerableVisualControllerBase numerableVisualController = new();
+    private readonly NumerableVisualController numerableVisualController = new();
     public override T GetGameObject<T>() => dot as T;
 
     public override T GetVisuals<T>() => visuals as T;

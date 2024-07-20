@@ -2,7 +2,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 
-public class NumerableVisualControllerBase : INumerableVisualController
+public class NumerableVisualController : INumerableVisualController
 
 {
     private INumerableVisuals visuals;

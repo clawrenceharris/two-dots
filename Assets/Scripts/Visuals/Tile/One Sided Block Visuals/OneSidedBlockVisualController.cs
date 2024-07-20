@@ -7,7 +7,7 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
 {
     private OneSidedBlock tile;
     private HittableTileVisuals visuals;
-    private readonly HittableVisualControllerBase hittableVisualController = new();
+    private readonly HittableVisualController hittableVisualController = new();
 
    
     public IEnumerator DoClearAnimation()
@@ -29,7 +29,7 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
         tile = (OneSidedBlock)dotsGameObject;
         visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
         hittableVisualController.Init(tile, visuals);
-        SetUp();
+        base.Init(dotsGameObject);
     }
 
     public override void SetInitialColor()

@@ -6,7 +6,7 @@ using DG.Tweening;
 /// <summary>
 /// Represents a visual controller base that controlls the visuals of a hittable Dots game object
 /// </summary>
-public class HittableVisualControllerBase : IHittableVisualController
+public class HittableVisualController : IHittableVisualController
 {
 
     private IHittableVisuals visuals;

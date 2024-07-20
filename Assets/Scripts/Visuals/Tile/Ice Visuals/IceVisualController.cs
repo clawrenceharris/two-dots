@@ -7,7 +7,7 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
     private Ice tile;
     private IceVisuals visuals;
    
-    private readonly HittableVisualControllerBase hittableVisualController = new();
+    private readonly HittableVisualController hittableVisualController = new();
     public override T GetGameObject<T>() => tile as T;
     public override T GetVisuals<T>() => visuals as T;
 
@@ -16,7 +16,7 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
         tile = (Ice)dotsGameObject;
         visuals = dotsGameObject.GetComponent<IceVisuals>();
         hittableVisualController.Init(tile, visuals);
-        SetUp();
+        base.Init(dotsGameObject);
     }
 
     protected override void SetUp()
