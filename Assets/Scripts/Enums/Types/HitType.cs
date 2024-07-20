@@ -19,5 +19,6 @@ public enum HitType
     BeetleDot,
     MonsterDot,
     LotusDot,
+    Water,
 }
 
