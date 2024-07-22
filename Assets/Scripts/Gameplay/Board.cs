@@ -22,7 +22,7 @@ public class Board : MonoBehaviour
     public static float offset = 2.2f;
     public static event Action<DotsGameObject> onObjectSpawned;
     public static float DotDropSpeed { get; private set; } = 0.3f;
-    public List<IHittable> Cleared { get; private set; } = new();
+    public List<Dot> ClearedDots { get; private set; } = new();
 
     public static event Action<Board> onBoardCreated;
     public static event Action onDotsDropped;
@@ -68,7 +68,7 @@ public class Board : MonoBehaviour
     private void Start()
     {
         HittableBase.onCleared += OnCleared;
-
+        CommandInvoker.onCommandsEnded += OnCommandsEnded;
     }
 
     private void Update()
@@ -76,39 +76,34 @@ public class Board : MonoBehaviour
         lineManager.UpdateLines();
     }
 
-
+    private void OnCommandsEnded()
+    {
+        foreach(IHittable hittable in ClearedDots)
+            DestroyDotsGameObject((DotsGameObject)hittable);
+        ClearedDots.Clear();
+    }
 
     private void OnCleared(IHittable hittable)
     {
         DotsGameObject dotsGameObject = (DotsGameObject)hittable;
-
         if (dotsGameObject is Dot dot)
         {
-            //replace the dot that is being cleared with its replacement dot
+            ////replace the dot that is being cleared with its replacement dot
             Dot replacement = InitDotsGameObject<Dot>(dot.ReplacementDot);
-            
+
             Dots[dot.Column, dot.Row] = replacement;
-            
+            ClearedDots.Add(dot);
+
         }
         if (dotsGameObject is Tile tile)
         {
             Tiles[tile.Column, tile.Row] = null;
 
         }
-        Cleared.Add(hittable);
-        StartCoroutine(ClearCo(dotsGameObject));
 
     }
 
-    public IEnumerator ClearCo(DotsGameObject dotsGameObject)
-    {
-        float waitTime = dotsGameObject.VisualController.GetVisuals<IHittableVisuals>().ClearDuration; 
-        yield return new WaitForSeconds(waitTime);
-        
-
-        DestroyDotsGameObject(dotsGameObject);
-
-    }
+   
 
     public void DestroyDotsGameObject(DotsGameObject dotsGameObject)
     {
@@ -245,7 +240,7 @@ public class Board : MonoBehaviour
     /// Returns a list of neighboring dots that surrounds
     /// an element at the given column and row
     /// </summary>
-    /// <typeparam name="T">A class</typeparam>
+    /// <typeparam name="T">A reference</typeparam>
     /// <param name="col">The column of the board element whose neighbors are being found</param>
     /// <param name="row">The row of the board element whose neighbors are being found </param>
     /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
@@ -274,7 +269,7 @@ public class Board : MonoBehaviour
         {
             neighbors.AddRange(diagonals);
         }
-        return neighbors;
+        return neighbors.Where((neighbor) => neighbor != null).ToList();
     }
     /// <summary>
     /// Returns a list of neighboring dots that surrounds
@@ -307,13 +302,49 @@ public class Board : MonoBehaviour
         {
             neighbors.AddRange(diagonals);
         }
-        return neighbors;
+        return neighbors.Where((neighbor) => neighbor != null).ToList();
     }
+
+    /// <summary>
+    /// Returns a list of neighboring dots that surrounds
+    /// an element at the given column and row
+    /// </summary>
+    /// <param name="col">The column of the board element whose neighbors are being found</param>
+    /// <param name="row">The row of the board element whose neighbors are being found </param>
+    /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well.
+    /// Default is true
+    /// <returns>A list of the neighboring board elements </returns>
+    public List<Dot> GetClearedDotNeighbors(int col, int row, bool includesDiagonals = true)
+    {
+
+        List<Dot> neighbors = new()
+        {
+            GetClearedDotAt(col, row + 1),
+            GetClearedDotAt(col, row - 1),
+            GetClearedDotAt(col + 1, row),
+            GetClearedDotAt(col - 1, row),
+        };
+
+        List<Dot> diagonals = new()
+        {
+            GetClearedDotAt(col + 1, row + 1),
+            GetClearedDotAt(col + 1, row - 1),
+            GetClearedDotAt(col - 1, row + 1),
+            GetClearedDotAt(col - 1, row -1),
+        };
+
+        if (includesDiagonals)
+        {
+            neighbors.AddRange(diagonals);
+        }
+        return neighbors.Where((neighbor) => neighbor != null).ToList();
+    }
+
     /// <summary>
     /// Returns a list of neighboring tiles that surrounds
     /// an element at the given column and row
     /// </summary>
-    /// <typeparam name="T">A class</typeparam>
+    /// <typeparam name="T">A reference</typeparam>
     /// <param name="col">The column of the board element whose neighbors are being found</param>
     /// <param name="row">The row of the board element whose neighbors are being found </param>
     /// <param name="includesDiagonals">Whether or not the method should return diagonal neighbors as well
@@ -342,7 +373,7 @@ public class Board : MonoBehaviour
         {
             neighbors.AddRange(diagonals);
         }
-        return neighbors;
+        return neighbors.Where((neighbor) => neighbor != null).ToList();
     }
     /// <summary>
     /// Returns a list of neighboring tiles that surrounds
@@ -375,7 +406,7 @@ public class Board : MonoBehaviour
         {
             neighbors.AddRange(diagonals);
         }
-        return neighbors;
+        return neighbors.Where((neighbor) => neighbor != null).ToList();
     }
 
 
@@ -408,6 +439,14 @@ public class Board : MonoBehaviour
         return null;
     }
 
+    public Dot GetClearedDotAt(int col, int row)
+    {
+        if (col >= 0 && col < Width && row >= 0 && row < Height)
+        {
+            return ClearedDots.FirstOrDefault((dot) => dot.Column == col && dot.Row == row);
+        }
+        return null;
+    }
 
     public T GetTileAt<T>(int col, int row)
     {
