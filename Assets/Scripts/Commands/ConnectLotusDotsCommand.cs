@@ -10,7 +10,7 @@ using System.Linq;
 /// </summary>
 public class ConnectLotusDotsCommand : Command
 {
-    public override CommandType CommandType => CommandType.ClearLotusDots;
+    public override CommandType CommandType => CommandType.ConnectLotusDots;
     readonly HashSet<ConnectableDot> visitedDots = new();
     private int ongoingConnections = 0;
 

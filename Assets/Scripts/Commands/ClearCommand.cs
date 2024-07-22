@@ -19,7 +19,6 @@ public class ClearCommand : Command
 
         foreach (IHittable hittable in hittables)
         {
-            hittable.WasHit = false;
             if (hittable != null && hittable.HitCount >= hittable.HitsToClear)
             {
                 DidExecute = true;
@@ -45,11 +44,5 @@ public class ClearCommand : Command
 
     }
 
-    //public override bool ShouldExecute(Board board)
-    //{
-    //    List<IHittable> hittables =board.GetElements<IHittable>();
-    //    IEnumerable<IHittable> shouldClear = hittables.Where((hittable) => hittable.HitCount >= hittable.HitsToClear);
-    //    return shouldClear.Count() > 0;
-    //}
 }
 

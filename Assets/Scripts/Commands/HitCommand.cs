@@ -13,9 +13,7 @@ public class HitCommand : Command
 
     public override CommandType CommandType => CommandType.Hit;
 
-    private readonly List<IHittable> hits = new(); // all elements that have been hit
-    private int hitCount = 0; //number of hittables whose hit coroutine has completed 
-
+    private int ongoingCoroutines = 0;
 
     private void Hit(IHittable hittable, Board board,Action onComplete = null)
     {
@@ -29,11 +27,10 @@ public class HitCommand : Command
             {
                 if (rule.Validate(hittable, board))
                 {
-                    hits.Add(hittable);
+                    ongoingCoroutines++;
                     CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
-                        hitCount++;
                         onComplete?.Invoke();
-                    }));
+                    }),() => ongoingCoroutines--);
                 }
             }
         }
@@ -69,7 +66,8 @@ public class HitCommand : Command
 
 
         //wait until all hit coroutines have finished
-        yield return new WaitUntil(() => hits.Count == hitCount);
+        yield return new WaitUntil(() => ongoingCoroutines == 0);
+
         yield return base.Execute(board);
 
     }

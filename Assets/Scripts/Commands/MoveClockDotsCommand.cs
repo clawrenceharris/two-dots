@@ -12,17 +12,17 @@ public class MoveClockDotsCommand : Command
     public override CommandType CommandType => CommandType.MoveClockDots;
     public override IEnumerator Execute(Board board)
     {
+        
+        IEnumerable<ConnectableDot> clockDots = ConnectionManager.ConnectedDots.Where(dot => dot.DotType.IsClockDot());
 
-        List<ConnectableDot> clockDots = ConnectionManager.ConnectedDots.Where((dot) => dot is ClockDot).ToList();
-
-        if (clockDots.Count == 0)
+        if (clockDots.Count() == 0)
         {
             yield break;
         }
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveClockDotsCommand));
 
 
-        List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
+        List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
 
         Dictionary<ConnectableDot, Vector2Int> originalPositions = new();
 

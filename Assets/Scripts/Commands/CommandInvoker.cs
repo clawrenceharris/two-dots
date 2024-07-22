@@ -160,7 +160,10 @@ public class CommandInvoker
             Enqueue(new MoveClockDotsCommand());
 
             Enqueue(new ClearCommand());
+            Enqueue(new SpreadWaterCommand());
+
             Enqueue(new BoardCommand());
+            Enqueue(new ClearClockDotsCommand());
 
 
             yield return ExecuteNextCommand((didExecute) =>
@@ -177,9 +180,7 @@ public class CommandInvoker
 
         yield return ExecuteLateCommands();
 
-        //all commands have finished
-        
-       
+        //commands have finished
         if (LevelManager.DidMove) {
 
             Debug.Log(commandCount + " All commands have ended.");
@@ -190,7 +191,6 @@ public class CommandInvoker
             CoroutineHandler.StartStaticCoroutine(ExecuteCommands());
 
         }
-        //execute commands
 
 
 

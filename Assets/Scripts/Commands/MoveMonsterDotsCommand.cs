@@ -53,7 +53,7 @@ public class MoveMonsterDotsCommand : MoveCommand
 
             if (monsterDot.WasHit)
             {
-                monsterDot.WasHit = false;
+//                monsterDot.WasHit = false;
                 continue;
             }
 
