@@ -57,7 +57,6 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     public override void Hit(HitType hitType)
     {
-        WasHit = true;
         numerable.Hit(hitType);
         HitCount = InitialNumber - TempNumber;
 

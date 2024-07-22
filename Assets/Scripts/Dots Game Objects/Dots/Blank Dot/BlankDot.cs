@@ -9,7 +9,6 @@ public class BlankDot : BlankDotBase
     public override DotType DotType => DotType.BlankDot;
 
     public override int HitsToClear => 1;
-    private new BlankDotVisualController VisualController => GetVisualController<BlankDotVisualController>();
 
 
 

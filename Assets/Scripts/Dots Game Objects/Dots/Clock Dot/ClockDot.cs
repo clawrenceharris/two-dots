@@ -24,7 +24,7 @@ public class ClockDot : BlankDotBase, INumerable
         }
     }
 
-    public override int HitsToClear => numerable.InitialNumber;
+    public override int HitsToClear =>int.MaxValue;
 
 
     public override void Init(int column, int row)
@@ -72,8 +72,6 @@ public class ClockDot : BlankDotBase, INumerable
     public override void Hit(HitType hitType)
     {
         numerable.Hit(hitType);
-        HitCount = InitialNumber - TempNumber;
-        TempNumber = int.MaxValue;
     }
 
     public override IEnumerator StartPreview(PreviewHitType hitType)

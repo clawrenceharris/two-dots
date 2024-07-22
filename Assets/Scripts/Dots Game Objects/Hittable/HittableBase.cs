@@ -30,7 +30,6 @@ public class HittableBase : IHittable
 
         HitType = hitType;
         WasHit = true;
-       
 
         onHitComplete?.Invoke();
         yield return VisualController.DoHitAnimation(hitType);

@@ -78,7 +78,6 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
     public override void Hit(HitType hitType)
     {
         HitCount++;
-        WasHit = true;
     }
 
 

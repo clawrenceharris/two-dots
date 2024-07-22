@@ -21,7 +21,7 @@ public abstract class Dot : DotsGameObject, IHittable
 
 
     public  abstract int HitsToClear { get; }
-    public bool WasHit { get => hittable.WasHit; set => hittable.WasHit = value; }
+    public bool WasHit { get => hittable.WasHit; private set => hittable.WasHit = value; }
 
     public override void Init(int column, int row)
     {
@@ -40,6 +40,7 @@ public abstract class Dot : DotsGameObject, IHittable
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
         Hit(hitType);
+
         yield return hittable.Hit(hitType, onHitComplete);
     }
 
