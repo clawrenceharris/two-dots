@@ -22,3 +22,4 @@ MonoBehaviour:
   bombLight: {r: 1, g: 1, b: 1, a: 1}
   bombDark: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   backgroundColor: {r: 1, g: 0.6979857, b: 0.514151, a: 1}
+  water: {r: 0.6316305, g: 0.87700254, b: 0.8867924, a: 1}
