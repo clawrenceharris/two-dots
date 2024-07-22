@@ -12,17 +12,21 @@
         //    "color": "red"
 
         //},
+        //{
+        //    "type": "clock",
+        //    "number": 5
+        //},
         {
             "type": "blank"
         }
         //{
         //    "type": "nesting",
         //    "hitCount": 2
-           
+
         //},
         //{
         //    "type": "lotus",
-           
+
         //    "color": "red"
         //}
 
@@ -64,9 +68,15 @@
 
         },
         {
-            "type": "ice",
+            "type": "water",
             "row": 4,
             "col": 3
+
+        },
+        {
+            "type": "water",
+            "row": 0,
+            "col": 2
 
         },
         {
@@ -88,7 +98,7 @@
             "type": "ice",
             "row": 2,
             "col": 3
-        },
+        }
         //{
         //    "type": "empty",
         //    "row": 3,

@@ -40,8 +40,8 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: Background Tile
+    uniqueID: 1035179603
     locked: 0
   - name: Line
     uniqueID: 1023218459
@@ -49,9 +49,12 @@ TagManager:
   - name: Dot
     uniqueID: 1239392859
     locked: 0
-  - name: Tile
-    uniqueID: 1988139559
-    locked: 0
   - name: Bomb
     uniqueID: 3894952193
+    locked: 0
+  - name: Foreground Tile
+    uniqueID: 463975771
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0
