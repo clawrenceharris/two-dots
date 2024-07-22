@@ -14,7 +14,10 @@ public static class GameTypeExtensions
         return type == DotType.LotusDot;
     }
 
-
+    public static bool IsWater(this TileType type)
+    {
+        return type == TileType.Water;
+    }
 
     public static bool CanConnectToAnyDot(this DotType type)
     {
