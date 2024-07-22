@@ -108,4 +108,17 @@ public class Connection
         IsSquare = false;
 
     }
+
+    public List<T> FindDotsOfType<T>()
+    {
+        List<T> dots = new();
+        foreach(ConnectableDot dot in ConnectedDots)
+        {
+            if (dot is T t)
+            {
+                dots.Add(t);
+            }
+        }
+        return dots;
+    }
 }

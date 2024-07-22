@@ -95,7 +95,6 @@ public class ConnectionManager
         DotTouchIO.onDotSelected += OnDotSelected;
         DotTouchIO.onSelectionEnded += OnConnectionEnded;
         DotTouchIO.onDotConnected += OnDotConnected;
-        Command.onCommandExecuted += OnCommandExecuted;
         CommandInvoker.onCommandBatchCompleted += OnCommandBatchCompleted;
 
     }
@@ -213,16 +212,6 @@ public class ConnectionManager
     }
 
 
-    private void OnCommandExecuted(Command command)
-    {
-        if (command is HitCommand)
-        {
-           
-
-        }
-       
-
-    }
 
     private void OnCommandBatchCompleted()
     {
