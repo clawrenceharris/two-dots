@@ -6,15 +6,18 @@ using UnityEngine;
 public enum CommandType
 {
     SinkAnchorDots,
-    ClearLotusDots,
+    ConnectLotusDots,
 
     Hit,
-    MoveClockDots,
 
     Clear,
+    MoveClockDots,
+
+    SpreadWater,
 
     GemExplode,
     Board,
+    ClearClockDots,
 
     Explosion,
 
