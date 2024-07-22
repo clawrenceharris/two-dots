@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterVisualController : TileVisualController, IHittableVisualController
+public class WaterVisualController : TileVisualController
 {
     private Water tile;
     private WaterVisuals visuals;
-    private readonly HittableVisualController hittableVisualController = new();
     public override T GetGameObject<T>() => tile as T;
 
 
@@ -17,7 +16,6 @@ public class WaterVisualController : TileVisualController, IHittableVisualContro
     {
         tile = (Water)dotsGameObject;
         visuals = dotsGameObject.GetComponent<WaterVisuals>();
-        hittableVisualController.Init(tile, visuals);
         base.Init(dotsGameObject);
 
     }
@@ -28,13 +26,12 @@ public class WaterVisualController : TileVisualController, IHittableVisualContro
         visuals.water.color = ColorSchemeManager.CurrentColorScheme.water;
     }
 
-    public IEnumerator DoHitAnimation(HitType hitType)
+    public override void SetColor(Color color)
     {
-        yield return hittableVisualController.DoHitAnimation(hitType);
+        base.SetColor(color);
+        visuals.water.color = color;
+
     }
 
-    public IEnumerator DoClearAnimation()
-    {
-        yield return hittableVisualController.DoClearAnimation();
-    }
+
 }

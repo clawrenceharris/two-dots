@@ -16,21 +16,12 @@ public class HittableVisualController : IHittableVisualController
     {
         this.visuals = visuals;
         this.hittable = hittable;
-        if(hittable is AnchorDot)
-        {
-            Debug.Log("HELLLOOOO" + visuals);
-            
-        }
     }
-
-
-   
 
 
     public IEnumerator DoHitAnimation(HitType hitType)
     {
-        DotsGameObject dotsGameObject = (DotsGameObject)hittable;
-        yield return dotsGameObject.transform.DOScale(Vector2.zero, visuals.ClearDuration);
+        yield return null;
     }
 
     public virtual IEnumerator DoClearAnimation()
