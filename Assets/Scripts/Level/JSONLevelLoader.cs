@@ -105,6 +105,8 @@ public class JSONLevelLoader
             TileType.Ice => "ice",
             TileType.Block => "block",
             TileType.OneSidedBlock => "one sided block",
+            TileType.Water => "water",
+
             _ => throw new ArgumentException(),
         };
     }
