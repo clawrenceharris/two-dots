@@ -9,21 +9,7 @@ public class CoroutineHandler : MonoBehaviour
     private static CoroutineHandler instance;
 
    
-    public static IEnumerator WaitForAll(List<IEnumerator> coroutines)
-    {
-        List<Coroutine> runningCoroutines = new List<Coroutine>();
-        foreach (IEnumerator coroutine in coroutines)
-        {
-            runningCoroutines.Add(instance.StartCoroutine(coroutine));
-        }
-
-        foreach (Coroutine coroutine in runningCoroutines)
-        {
-            yield return coroutine;
-        }
-
-        coroutines.Clear();
-    }
+    
 
     private void Awake()
     {
