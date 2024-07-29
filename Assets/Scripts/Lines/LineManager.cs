@@ -133,7 +133,7 @@ public class LineManager
         line.SpriteRenderer.color = ColorSchemeManager.FromDotColor(end.Color);
         line.SpriteRenderer.sortingLayerName = "Line";
 
-        line.updateLine = AutoConnectLine;
+        line.update = AutoConnectLine;
         lines.Add(line);
 
         yield return new WaitForSeconds(0.2f);
@@ -167,7 +167,7 @@ public class LineManager
 
         //we dont want the line to be active when we have a square
         line.SpriteRenderer.enabled = !IsSquare();
-        line.updateLine = UpdateLine;
+        line.update = UpdateLine;
         return line;
     }
     

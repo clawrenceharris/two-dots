@@ -9,7 +9,7 @@ public class ConnectorLine : MonoBehaviour
     public delegate void UpdateLine(ConnectorLine line, Vector2 startPos, Vector2 endPos);
     public Quaternion rotation = Quaternion.identity;
     public SpriteRenderer SpriteRenderer { get; private set; }
-    public UpdateLine updateLine;
+    public UpdateLine update;
     public GameObject line;
     public Transform right;
 
@@ -20,7 +20,7 @@ public class ConnectorLine : MonoBehaviour
     }
     private void Update()
     {
-        updateLine?.Invoke(this, startPos, endPos);
+        update?.Invoke(this, startPos, endPos);
     }
 
     
