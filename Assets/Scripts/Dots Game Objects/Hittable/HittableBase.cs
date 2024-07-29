@@ -30,9 +30,12 @@ public class HittableBase : IHittable
 
         HitType = hitType;
         WasHit = true;
+        if(hittable.HitCount <= hittable.HitsToClear){
+            onHitComplete?.Invoke();
 
-        onHitComplete?.Invoke();
-        yield return VisualController.DoHitAnimation(hitType);
+        }
+        CoroutineHandler.StartStaticCoroutine(VisualController.DoHitAnimation(hitType));
+        yield return null;
     }
 
 

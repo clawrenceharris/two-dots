@@ -45,9 +45,10 @@ public class Block : Tile, IHittable
 
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
-        HitCount++;
 
         yield return hittable.Hit(hitType, onHitComplete);
+        HitCount++;
+
     }
 
     public override void InitDisplayController()

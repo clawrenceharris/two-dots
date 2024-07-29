@@ -39,8 +39,8 @@ public abstract class Dot : DotsGameObject, IHittable
 
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
-        Hit(hitType);
 
+        Hit(hitType);
         yield return hittable.Hit(hitType, onHitComplete);
     }
 
