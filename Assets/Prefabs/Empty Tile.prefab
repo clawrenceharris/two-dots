@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 578437344c76f4386ad13ebf39311665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 8567817409825067955}
   sprite: {fileID: 0}
   Left: {fileID: -895824873, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
   RightBottom: {fileID: 311230193, guid: 891308a2c42a54e2e9c160519811c5ca, type: 3}
