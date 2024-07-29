@@ -7,7 +7,10 @@ public static class GameTypeExtensions
 {
 
    
+    public static bool IsBlockable(this TileType type){
+        return type == TileType.Block || type == TileType.OneSidedBlock;
 
+    }
 
     public static bool IsLotusDot(this DotType type)
     {
@@ -19,7 +22,7 @@ public static class GameTypeExtensions
         return type == TileType.Water;
     }
 
-    public static bool CanConnectToAnyDot(this DotType type)
+    public static bool IsBlank(this DotType type)
     {
         return type == DotType.BlankDot || type == DotType.ClockDot || type == DotType.Magnet;
     }
@@ -27,7 +30,7 @@ public static class GameTypeExtensions
 
     public static bool IsConnectableDot(this DotType type)
     {
-        return type == DotType.NormalDot || type.CanConnectToAnyDot() || type == DotType.BeetleDot;
+        return type == DotType.NormalDot || type.IsBlank() || type == DotType.BeetleDot;
     }
     
 
