@@ -10,29 +10,15 @@ public class HitByNeighborsRule : IHitRule
         {
             return false;
         }
-        List<Dot> neighbors = board.GetDotNeighbors<Dot>(boardElement.Column, boardElement.Row);
+        List<ConnectableDot> neighbors = board.GetDotNeighbors<ConnectableDot>(boardElement.Column, boardElement.Row, false);
 
-        foreach (Dot neighbor in neighbors)
+        foreach (ConnectableDot neighbor in neighbors)
         {
-            //if the neighbor is not a connectable dot or it is not to be hit by the connection
-            if (neighbor is not ConnectableDot connectableDot)
-            {
-
-                continue;
-
-            }
-            if (!ConnectionManager.GetElementsToHit<ConnectableDot>().Contains(connectableDot))
-
-                continue;
-
-
-            AdjacentPositionRule adjacenyRule = new();
-            if (adjacenyRule.Validate(boardElement, connectableDot))
-            {
+            //if the neighbor is a connectable dot or it was hit
+            if (ConnectionManager.ToHit.Contains(neighbor))
                 return true;
-            }
-
-
+            
+            
         }
         
         return false;
