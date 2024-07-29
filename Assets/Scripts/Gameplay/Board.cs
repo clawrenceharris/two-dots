@@ -15,6 +15,7 @@ public class Board : MonoBehaviour
     private Tile[,] Tiles;
 
     private DotsGameObjectData[] tilesOnBoard;
+    private DotsGameObjectData[] initialDotsToSpawn;
     private DotsGameObjectData[] dotsToSpawn;
     private DotsGameObjectData[] dotsOnBoard;
     private LineManager lineManager;
@@ -35,6 +36,7 @@ public class Board : MonoBehaviour
         Height = level.height;
         dotsOnBoard = level.dotsOnBoard;
         dotsToSpawn = level.dotsToSpawn;
+        initialDotsToSpawn = level.initialDotsToSpawn;
         Dots = new Dot[level.width, level.height];
         Tiles = new Tile[level.width, level.height];
         lineManager = new LineManager(this);
@@ -47,7 +49,7 @@ public class Board : MonoBehaviour
     {
         InitTiles();
         InitDots();
-        FillBoard();
+        FillBoard(initialDotsToSpawn);
         onBoardCreated?.Invoke(this);
 
     }
@@ -187,7 +189,7 @@ public class Board : MonoBehaviour
     }
 
 
-    private Dot InitRandomDot(int col, int row)
+    private Dot InitRandomDot(int col, int row, DotsGameObjectData[] dotsToSpawn)
     {
 
         int randDot = UnityEngine.Random.Range(0, dotsToSpawn.Length);
@@ -500,27 +502,32 @@ public class Board : MonoBehaviour
 
 
 
-    public bool FillBoard()
+    public bool FillBoard(DotsGameObjectData[] dotsToSpawn = null)
     {
+
         bool dotsDropped = false;
         for (int col = 0; col < Width; col++)
         {
             for (int row = Height - 1; row >= 0; row--)
             {
                 Tile tile = Tiles[col, row];
-                if (tile && tile.TileType.IsBoardMechanicTile())
+                if (tile && tile.TileType.IsBlockable() )
                 {
                     break;
                 }
-                if (!Dots[col, row])
-                {
+                if (!Dots[col, row]){
+                    if(tile == null || !tile.TileType.IsBoardMechanicTile())
+                    {
                     dotsDropped = true;
 
-                    Dot dot = InitRandomDot(col, row);
+                    Dot dot = InitRandomDot(col, row, dotsToSpawn ?? this.dotsToSpawn);
                     DotsGameObjectController.DropDot(dot, row, DotDropSpeed);
 
-                }
+                
 
+                    }
+                }
+                
             }
         }
 
@@ -538,29 +545,31 @@ public class Board : MonoBehaviour
             for (int row = Height - 1; row >= 0; row--)
             {
                 Tile tile = Tiles[col, row];
-                if (tile && tile.TileType.IsBoardMechanicTile())
+                if (tile && tile.TileType.IsBlockable())
                 {
                     break;
 
                 }
                 if (!Dots[col, row])
                 {
-
-                    for (int k = row + 1; k < Height; k++)
-                    {
-                        if (Dots[col, k] != null)
+                    if(tile == null || !tile.TileType.IsBoardMechanicTile()){
+                        for (int k = row + 1; k < Height; k++)
                         {
-                            Dot dot = Dots[col, k];
+                            if (Dots[col, k] != null)
+                            {
+                                Dot dot = Dots[col, k];
 
-                            Dots[col, row] = dot;
-                            Dots[col, k] = null;
-                            DotsGameObjectController.DropDot(dot, row, DotDropSpeed);
-                            dotsDropped = true;
-                            // Update keepGoing based on the result of IsAtBottomOfBoard
-                            break;
+                                Dots[col, row] = dot;
+                                Dots[col, k] = null;
+                                DotsGameObjectController.DropDot(dot, row, DotDropSpeed);
+                                dotsDropped = true;
+                                break;
+                            }
+
                         }
-
                     }
+
+                    
                 }
 
 
@@ -795,4 +804,6 @@ public class Board : MonoBehaviour
             .ToList();
         return tiles;
     }
+
+
 }
