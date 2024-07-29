@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EmptyTileVisualController : VisualController, ITileVisualController
+public class EmptyTileVisualController : TileVisualController 
 {
     private bool hasLeft;
     private bool hasRight;
@@ -16,7 +16,6 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
     private EmptyTile tile;
 
     private EmptyTileVisuals visuals;
-    private Board board;
     public EmptyTileVisualController()
     {
         Board.onBoardCreated += OnBoardCreated;
@@ -24,9 +23,8 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
 
     private void OnBoardCreated(Board board)
     {
-        this.board = board;
         SetUp(board);
-        InitSprite();
+        SetSprite();
 
     }
 
@@ -43,7 +41,7 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
     {
         tile = (EmptyTile)dotsGameObject;
         visuals = dotsGameObject.GetComponent<EmptyTileVisuals>();
-        SetUp(board);
+        base.Init(dotsGameObject);
     }
 
     public override void SetInitialColor()
@@ -282,7 +280,7 @@ public class EmptyTileVisualController : VisualController, ITileVisualController
 
     
 
-    public virtual void InitSprite()
+    public virtual void SetSprite()
     {
         visuals.spriteRenderer.sprite = GetSprite();
            
