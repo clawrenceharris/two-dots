@@ -10,6 +10,8 @@ public class LevelData
     public int width;
     public int height;
     public int moves;
+    public DotsGameObjectData[] initialDotsToSpawn;
+
     public DotsGameObjectData[] dotsToSpawn;
     public DotsGameObjectData[] dotsOnBoard;
     public DotsGameObjectData[] tilesOnBoard;

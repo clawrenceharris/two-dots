@@ -1,157 +1,98 @@
 {
-    "levelNum": 1,
-    "width": 5,
-    "height": 5,
-    "moves": 10,
-    "dotsToSpawn": [
+  "levelNum": 1,
+  "width": 5,
+  "height": 5,
+  "moves": 6,
+  "initialDotsToSpawn": [
+    {
+      "type": "normal",
+      "color": "red"
+    },
+    // {
+    //   "type": "normal",
+    //   "color": "purple"
+    // },
+    {
+      "type": "normal",
+      "color": "red"
+    }
 
+    // {
+    //   "type": "nesting",
+    //   "hitCount": 1
+    // },
+    // {
+    //   "type": "blank"
+    // }
+  ],
+  "dotsToSpawn": [
+    {
+      "type": "normal",
+      "color": "red"
+    },
+    {
+      "type": "normal",
+      "color": "purple"
+    },
+    {
+      "type": "normal",
+      "color": "red"
+    },
 
+    {
+      "type": "blank"
+    },
+    {
+      "type": "blank"
+    },
+    {
+      "type": "clock",
+      "number": 3
+    },
 
-        //{
-        //    "type": "normal",
-        //    "color": "red"
+    {
+      "type": "nesting",
+      "hitCount": 2
+    }
+  ],
+  "dotsOnBoard": [],
 
-        //},
-        //{
-        //    "type": "clock",
-        //    "number": 5
-        //},
-        {
-            "type": "blank"
-        }
-        //{
-        //    "type": "nesting",
-        //    "hitCount": 2
+  "tilesOnBoard": [
+    {
+      "type": "empty",
+      "row": 2,
+      "col": 1
+    },
+    {
+      "type": "empty",
+      "row": 3,
+      "col": 1
+    },
+    {
+      "type": "empty",
+      "row": 3,
+      "col": 0
+    },
 
-        //},
-        //{
-        //    "type": "lotus",
-
-        //    "color": "red"
-        //}
-
-    ],
-    "dotsOnBoard": [
-
-        {
-            "type": "lotus",
-            "color": "red",
-            "col": 0,
-            "row": 0
-        },
-
-        {
-            "type": "lotus",
-            "color": "red",
-            "col": 1,
-            "row": 0
-        },
-        {
-            "type": "lotus",
-            "color": "red",
-            "col": 1,
-            "row": 1
-        },
-        {
-            "type": "lotus",
-            "color": "red",
-            "col": 0,
-            "row": 1
-        }
-    ],
-
-    "tilesOnBoard": [
-        {
-            "type": "ice",
-            "row": 4,
-            "col": 4
-
-        },
-        {
-            "type": "water",
-            "row": 4,
-            "col": 3
-
-        },
-        {
-            "type": "water",
-            "row": 0,
-            "col": 2
-
-        },
-        {
-            "type": "ice",
-            "row": 3,
-            "col": 4
-        },
-        {
-            "type": "ice",
-            "row": 3,
-            "col": 3
-        },
-        {
-            "type": "ice",
-            "row": 2,
-            "col": 4
-        },
-        {
-            "type": "ice",
-            "row": 2,
-            "col": 3
-        }
-        //{
-        //    "type": "empty",
-        //    "row": 3,
-        //    "col": 5
-        //},
-        //{
-        //    "type": "empty",
-        //    "row": 4,
-        //    "col": 0
-        //},
-        //{
-        //    "type": "empty",
-        //    "row": 4,
-        //    "col": 1
-        //},
-        //{
-        //    "type": "empty",
-        //    "row": 3,
-        //    "col": 0
-        //},
-
-        //{
-        //    "type": "one sided block",
-        //    "row": 1,
-        //    "col": 0,
-        //    "directionX": 1,
-        //    "directionY": 0
-        //},
-
-        //{
-        //    "type": "one sided block",
-        //    "row": 0,
-        //    "col": 4,
-        //    "directionX": 0,
-        //    "directionY": 1
-
-        //}
-        //{
-        //    "type": "block",
-        //    "row": 1,
-        //    "col": 0
-
-        //},
-        //{
-        //    "type": "block",
-        //    "row": 1,
-        //    "col": 4
-
-        //}
-
-
-
-
-    ]
-
+    {
+      "type": "empty",
+      "row": 2,
+      "col": 3
+    },
+    {
+      "type": "empty",
+      "row": 3,
+      "col": 3
+    },
+    {
+      "type": "empty",
+      "row": 3,
+      "col": 4
+    },
+    {
+      "type": "water",
+      "row": 0,
+      "col": 0
+    }
+  ]
 }

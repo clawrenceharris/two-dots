@@ -10,24 +10,26 @@ public class LevelDataConverter : JsonConverter<LevelData>
         // Load JSON into a JObject to inspect its properties
         JObject jsonObject = JObject.Load(reader);
         // Deserialize common properties
-        LevelData levelData = new LevelData();
-        levelData.levelNum = (int)jsonObject["levelNum"];
-        levelData.width = (int)jsonObject["width"];
-        levelData.height = (int)jsonObject["height"];
-        levelData.moves = (int)jsonObject["moves"];
+        LevelData levelData = new()
+        {
+            levelNum = (int)jsonObject["levelNum"],
+            width = (int)jsonObject["width"],
+            height = (int)jsonObject["height"],
+            moves = (int)jsonObject["moves"]
+        };
 
-        // Deserialize dotsToSpawn array
+        // Deserialize arrays
         JArray dotsToSpawnArray = (JArray)jsonObject["dotsToSpawn"];
         levelData.dotsToSpawn = DeserializeDotsArray(dotsToSpawnArray);
-        // Deserialize dotsOnBoard array
+
         JArray dotsOnBoardArray = (JArray)jsonObject["dotsOnBoard"];
         levelData.dotsOnBoard = DeserializeDotsArray(dotsOnBoardArray);
 
         
+        JArray initialDotsToSpawn = (JArray)jsonObject["initialDotsToSpawn"];
+        levelData.initialDotsToSpawn = DeserializeDotsArray(initialDotsToSpawn);
 
         
-
-        // Deserialize tilesOnBoard array
         JArray tilesOnBoardArray = (JArray)jsonObject["tilesOnBoard"];
         levelData.tilesOnBoard = DeserializeTilesArray(tilesOnBoardArray);
 
