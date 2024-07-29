@@ -29,7 +29,7 @@ public class Connection
     {
         foreach (ConnectableDot dot in ConnectedDots)
         {
-            if (!dot.DotType.CanConnectToAnyDot())
+            if (!dot.DotType.IsBlank())
             {
                 return false;
             }
@@ -43,8 +43,9 @@ public class Connection
         dot.Connect(dot);
         ConnectedDots.AddLast(dot);
 
-        //change the connection's color to match the dot's color
-        Color = dot.Color;
+        //change the connection's color to match the dot's color if it is not blank
+        if(!dot.DotType.IsBlank())
+            Color = dot.Color;
 
         
 
