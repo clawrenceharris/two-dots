@@ -62,17 +62,15 @@ public class MoveClockDotsCommand : Command
                     yield return clockDot.Hit(HitType.Connection, null);
 
                 }
-                CoroutineHandler.StartStaticCoroutine(clockDot.DoMove(path,() =>
+                CoroutineHandler.StartStaticCoroutine(clockDot.DoMove(path), () =>
                 {
-
-                }), () =>
-                {
-                    int startCol = path[0].x;
-                    int startRow = path[0].y;
-                    int endCol = path[^1].x;
-                    int endRow = path[^1].y;
-                    clockDot.Column = endCol;
-                    clockDot.Row = endRow;
+                    if(path.Count > 0){
+                        int startCol = path[0].x;
+                        int startRow = path[0].y;
+                        int endCol = path[^1].x;
+                        int endRow = path[^1].y;
+                        clockDot.Column = endCol;
+                        clockDot.Row = endRow;
 
                     Dot dot = board.GetDotAt<Dot>(endCol, endRow);
                     if (dot != null && dot is not ClockDot)
@@ -84,7 +82,8 @@ public class MoveClockDotsCommand : Command
                     if (clockDot.Column != startCol || clockDot.Row != startRow)
                     {
                         onCommandExecuting?.Invoke(this);
-                    }
+                    }                    }
+                   
                 });
 
                 

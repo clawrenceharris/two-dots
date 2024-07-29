@@ -30,7 +30,9 @@ public class HitCommand : Command
                     ongoingCoroutines++;
                     CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
                         onComplete?.Invoke();
-                    }),() => ongoingCoroutines--);
+                    }),() => ongoingCoroutines--);                    
+                
+                        
                 }
             }
         }
@@ -50,12 +52,13 @@ public class HitCommand : Command
 
         foreach (IHittable hittable in hittables)
         {
-
+  
             Hit(hittable, board, () =>
             {
                 //hit any normal tiles at the same position as the current hittable
                 IBoardElement b = (IBoardElement)hittable;
                 IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
+               
                 Hit(tile, board);
             });
             

@@ -58,13 +58,12 @@ public class ConnectLotusDotsCommand : Command
                     visitedDots.Add(neighbor);
 
 
-                    if (!neighbor.DotType.IsLotusDot())
-                    {
-                        neighbor.Select();
-                        ConnectionManager.ConnectDot(neighbor);
+                    
+                    neighbor.Select();
+                    ConnectionManager.ConnectDot(neighbor);
 
-                    }
-
+                    
+                   
 
                     yield return LineManager.DrawLine(currentDot, neighbor);
 

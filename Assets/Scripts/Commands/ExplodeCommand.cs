@@ -69,7 +69,7 @@ public class ExplodeCommand : Command
                             if(hittable != null)
                                 CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () =>
                                 {
-                                    hitCount++;
+                                    
                                     //hit any normal tiles at the same position as the current hittable
                                     IBoardElement b = (IBoardElement)hittable;
                                     IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
@@ -80,7 +80,7 @@ public class ExplodeCommand : Command
                                     }
 
 
-                                }));
+                                }),()=>hitCount++);
 
                         }));
 

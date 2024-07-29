@@ -7,11 +7,8 @@ public class ClearClockDotsCommand : Command
     public override CommandType CommandType => CommandType.ClearClockDots;
     public override IEnumerator Execute(Board board)
     {
-        if(ConnectionManager.Connection == null)
-        {
-            yield break;
-        }
-        List<ClockDot> clockDots = ConnectionManager.Connection.FindDotsOfType<ClockDot>();
+        
+        List<ClockDot> clockDots = board.FindDotsOfType<ClockDot>();
         int onGoingCorotuines = 0;
         foreach(ClockDot clockDot in clockDots)
         {
