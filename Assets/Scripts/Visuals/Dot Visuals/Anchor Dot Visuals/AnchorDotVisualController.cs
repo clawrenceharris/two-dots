@@ -3,7 +3,7 @@
 public class AnchorDotVisualController : DotVisualController
 {
     private AnchorDot dot;
-    private DotVisuals visuals;
+    private AnchorDotVisuals visuals;
 
     public override T GetGameObject<T>() => dot as T;
 
@@ -11,7 +11,7 @@ public class AnchorDotVisualController : DotVisualController
     public override void Init(DotsGameObject dotsGameObject)
     {
         dot = (AnchorDot)dotsGameObject;
-        visuals = dotsGameObject.GetComponent<DotVisuals>();
+        visuals = dotsGameObject.GetComponent<AnchorDotVisuals>();
         base.Init(dotsGameObject);
     }
 
