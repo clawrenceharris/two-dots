@@ -9,7 +9,7 @@ public interface IHittable
     HitType HitType { get; }
     IEnumerator Hit(HitType hitType, Action onHitComplete = null);
 
-    bool WasHit { get; }
+    bool WasHit { get; set; }
    
     /// <summary>
     /// Number of hits made on the dot

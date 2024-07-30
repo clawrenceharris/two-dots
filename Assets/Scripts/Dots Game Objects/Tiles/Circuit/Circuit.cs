@@ -1,18 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Circuit : MonoBehaviour
+public class Circuit :  HittableTile
 {
-    // Start is called before the first frame update
-    void Start()
+ 
+    public override Dictionary<HitType, IHitRule> HitRules => new(){{HitType.Circuit, new HitBySamePositionRule()}};
+
+    public override int HitsToClear => int.MaxValue;
+
+    public override TileType TileType => TileType.Circuit;
+
+    public bool IsOn { get; private set; }
+
+    public override void Hit(HitType hitType)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void InitDisplayController()
     {
-        
+        visualController = new CircuitVisualController();
+        visualController.Init(this);
     }
+
+    
 }

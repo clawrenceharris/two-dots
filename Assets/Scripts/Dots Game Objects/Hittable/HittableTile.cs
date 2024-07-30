@@ -1,15 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
-using DG.Tweening;
-using System.Collections.Generic;
 
-public abstract class Dot : DotsGameObject, IHittable
+public abstract class HittableTile : Tile, IHittable
 {
-
-    
-    public new DotVisualController VisualController => GetVisualController<DotVisualController>();
-    public abstract DotType DotType { get; }
 
     private readonly HittableBase hittable = new();
 
@@ -21,7 +16,7 @@ public abstract class Dot : DotsGameObject, IHittable
 
 
     public  abstract int HitsToClear { get; }
-    public bool WasHit { get => hittable.WasHit;  set => hittable.WasHit = value; }
+    public bool WasHit { get => hittable.WasHit; set => hittable.WasHit = value; }
 
     public override void Init(int column, int row)
     {
@@ -49,10 +44,6 @@ public abstract class Dot : DotsGameObject, IHittable
     
     public abstract void Hit(HitType hitType);
 
-    public virtual void Pulse()
-    {
-        VisualController.Pulse();
-    }
-
+    
 
 }

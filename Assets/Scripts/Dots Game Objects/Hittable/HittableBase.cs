@@ -34,7 +34,7 @@ public class HittableBase : IHittable
             onHitComplete?.Invoke();
 
         }
-        CoroutineHandler.StartStaticCoroutine(VisualController.DoHitAnimation(hitType));
+        CoroutineHandler.StartStaticCoroutine(VisualController.Hit(hitType));
         yield return null;
     }
 
@@ -43,7 +43,7 @@ public class HittableBase : IHittable
     public IEnumerator Clear()
     {
         onCleared?.Invoke(hittable);
-        yield return VisualController.DoClearAnimation();
+        yield return VisualController.Clear();
 
     }
 
