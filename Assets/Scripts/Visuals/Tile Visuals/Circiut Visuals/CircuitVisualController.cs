@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Playables;
 using UnityEngine;
 
 public class CircuitVisualController : TileVisualController, IHittableVisualController
@@ -47,8 +48,9 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
 
     public override void SetInitialColor()
     {
-        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
-        visuals.OnSprite.color = new Color(255,255, 255, 0.8f);
+        Color bgColor = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        visuals.spriteRenderer.color = bgColor;
+        visuals.OnSprite.color = ColorUtils.LightenColor(bgColor,0.6f);;
     }
 
     public IEnumerator Clear()
