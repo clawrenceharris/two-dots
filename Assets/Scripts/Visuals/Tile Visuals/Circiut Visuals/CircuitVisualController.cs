@@ -21,12 +21,12 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
     protected override void SetUp()
     {
         base.SetUp();
-        InitSprite();
+        SetSprite();
     }
 
     
     
-    private void InitSprite(){
+    private void SetSprite(){
         if(!tile.IsOn){
             visuals.OffSprite.enabled =true;
             visuals.OnSprite.enabled =false;
@@ -38,17 +38,10 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
         }    
     }
     
+
     
     public IEnumerator Hit(HitType hitType){
-        if(tile.IsOn){
-            visuals.OffSprite.enabled =true;
-            visuals.OnSprite.enabled =false;
-        }
-        else{
-            visuals.OffSprite.enabled =false;
-            visuals.OnSprite.enabled =true;
-
-        }    
+        SetSprite();
         yield return hittableVisualController.Hit(hitType);
     }
 

@@ -16,6 +16,13 @@ public class Circuit :  HittableTile
 
     public override void Hit(HitType hitType)
     {
+        if(IsOn){
+            IsOn = false;
+        }
+        else{
+            IsOn = true;
+
+        }
         
     }
 
