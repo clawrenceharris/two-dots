@@ -18,21 +18,44 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
 
     }
 
-    public IEnumerator Hit(HitType hitType){
-        if(tile.IsOn){
-            visuals.spriteRenderer.sprite = visuals.OffSprite;
+    protected override void SetUp()
+    {
+        base.SetUp();
+        InitSprite();
+    }
 
+    
+    
+    private void InitSprite(){
+        if(!tile.IsOn){
+            visuals.OffSprite.enabled =true;
+            visuals.OnSprite.enabled =false;
         }
         else{
-            visuals.spriteRenderer.sprite = visuals.OnSprite;
+            visuals.OffSprite.enabled =false;
+            visuals.OnSprite.enabled =true;
 
+        }    
+    }
+    
+    
+    public IEnumerator Hit(HitType hitType){
+        if(tile.IsOn){
+            visuals.OffSprite.enabled =true;
+            visuals.OnSprite.enabled =false;
         }
+        else{
+            visuals.OffSprite.enabled =false;
+            visuals.OnSprite.enabled =true;
+
+        }    
         yield return hittableVisualController.Hit(hitType);
     }
 
     public override void SetInitialColor()
     {
-        
+        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        visuals.OnSprite.color = new Color(255,255, 255, 0.8f);
     }
 
     public IEnumerator Clear()

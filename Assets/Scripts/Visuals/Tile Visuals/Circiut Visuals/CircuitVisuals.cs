@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CircuitVisuals : HittableTileVisuals
 {
-    public Sprite OffSprite;
+    public SpriteRenderer OffSprite;
 
-    public Sprite OnSprite;
+    public SpriteRenderer OnSprite;
 }
