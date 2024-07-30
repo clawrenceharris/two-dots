@@ -27,7 +27,7 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
     
     
     private void SetSprite(){
-        if(!tile.IsOn){
+        if(!tile.IsActive){
             visuals.OffSprite.enabled =true;
             visuals.OnSprite.enabled =false;
         }
