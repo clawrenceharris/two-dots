@@ -69,10 +69,10 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         
     }
 
-    public override IEnumerator DoHitAnimation(HitType hitType)
+    public override IEnumerator Hit(HitType hitType)
     {
         if (dot.HitCount >= dot.HitsToClear)
-            yield return base.DoHitAnimation(hitType);
+            yield return base.Hit(hitType);
         else
             yield return ScaleNumbers();
 

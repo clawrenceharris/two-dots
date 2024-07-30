@@ -6,6 +6,6 @@ public interface IHittableVisualController
    
     
 
-    IEnumerator DoHitAnimation(HitType hitType);
-    IEnumerator DoClearAnimation();
+    IEnumerator Hit(HitType hitType);
+    IEnumerator Clear();
 }

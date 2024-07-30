@@ -19,12 +19,12 @@ public class HittableVisualController : IHittableVisualController
     }
 
 
-    public IEnumerator DoHitAnimation(HitType hitType)
+    public IEnumerator Hit(HitType hitType)
     {
         yield return null;
     }
 
-    public virtual IEnumerator DoClearAnimation()
+    public virtual IEnumerator Clear()
     {
         DotsGameObject dotsGameObject = (DotsGameObject)hittable;
         yield return dotsGameObject.transform.DOScale(Vector2.zero, visuals.ClearDuration);

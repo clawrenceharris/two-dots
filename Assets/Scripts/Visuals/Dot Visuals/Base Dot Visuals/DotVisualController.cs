@@ -22,14 +22,14 @@ public abstract class DotVisualController : VisualController, IDotVisualControll
 
     
 
-    public virtual IEnumerator DoClearAnimation()
+    public virtual IEnumerator Clear()
     {
-        yield return hittableVisualController.DoClearAnimation();
+        yield return hittableVisualController.Clear();
     }
 
-    public virtual IEnumerator DoHitAnimation(HitType hitType)
+    public virtual IEnumerator Hit(HitType hitType)
     {
-        yield return hittableVisualController.DoHitAnimation(hitType);
+        yield return hittableVisualController.Hit(hitType);
     }
 
     public IEnumerator Pulse()

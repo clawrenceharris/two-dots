@@ -64,7 +64,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
     }
 
-    public override IEnumerator DoHitAnimation(HitType hitType)
+    public override IEnumerator Hit(HitType hitType)
     {
         yield break;
     }
