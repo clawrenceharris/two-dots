@@ -25,13 +25,13 @@ public class BlockVisualController : TileVisualController, IHittableVisualContro
         visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
     }
 
-    public IEnumerator DoHitAnimation(HitType hitType)
+    public IEnumerator Hit(HitType hitType)
     {
-       yield return hittableVisualController.DoHitAnimation(hitType);
+       yield return hittableVisualController.Hit(hitType);
     }
 
-    public IEnumerator DoClearAnimation()
+    public IEnumerator Clear()
     {
-        yield return hittableVisualController.DoClearAnimation();
+        yield return hittableVisualController.Clear();
     }
 }

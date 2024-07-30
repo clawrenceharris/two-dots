@@ -10,14 +10,14 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
     private readonly HittableVisualController hittableVisualController = new();
 
    
-    public IEnumerator DoClearAnimation()
+    public IEnumerator Clear()
     {
-        yield return hittableVisualController.DoClearAnimation();
+        yield return hittableVisualController.Clear();
     }
 
-    public IEnumerator DoHitAnimation(HitType hitType)
+    public IEnumerator Hit(HitType hitType)
     {
-        yield return hittableVisualController.DoHitAnimation(hitType);
+        yield return hittableVisualController.Hit(hitType);
     }
 
     public override T GetGameObject<T>() => tile as T;

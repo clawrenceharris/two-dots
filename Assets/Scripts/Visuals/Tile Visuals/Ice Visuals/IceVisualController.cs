@@ -46,17 +46,17 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
         }
     }
 
-    public IEnumerator DoHitAnimation(HitType hitType)
+    public IEnumerator Hit(HitType hitType)
     {
         SetSprite();
         if(tile.HitCount >= tile.HitsToClear)
         {
-            yield return DoClearAnimation();
+            yield return Clear();
         }
     }
 
-    public IEnumerator DoClearAnimation()
+    public IEnumerator Clear()
     {
-        yield return hittableVisualController.DoClearAnimation();
+        yield return hittableVisualController.Clear();
     }
 }
