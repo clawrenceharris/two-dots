@@ -167,7 +167,7 @@ public class WaterVisualController : TileVisualController
         visuals.Water.enabled = true;
         visuals.spriteRenderer.enabled = true;
     }
-    public IEnumerator FillWater(Water endTile, Board board){
+    public IEnumerator FillWater(Water endTile, int pathCount){
         
         Vector2 startPos = tile.transform.position;
         Vector2 endPos = endTile.transform.position;
@@ -189,7 +189,7 @@ public class WaterVisualController : TileVisualController
         waterExtension.SpriteRenderer.color = ColorSchemeManager.CurrentColorScheme.water;
         waterExtension.transform.localRotation = Quaternion.Euler(0, 0, 0);
         waterExtension.transform.localScale = new Vector2(0, 1);
-        float moveDuration = 0.4f;
+        float moveDuration = 0.2f;
         // float scaleDuration = moveDuration / 2;
         
         // float timePerUnit = moveDuration / path.Count;        

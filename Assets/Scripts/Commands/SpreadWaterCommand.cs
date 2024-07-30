@@ -114,7 +114,7 @@ private List<Water> GetWaterPath(Water startingTile, Vector2Int direction, Board
                     filledTiles.Add(startTile);
                     ongoingCoroutines++;
 
-                    yield return CoroutineHandler.StartStaticCoroutine(startTile.GetVisualController<WaterVisualController>().FillWater(endTile, board),()=>{
+                    yield return CoroutineHandler.StartStaticCoroutine(startTile.GetVisualController<WaterVisualController>().FillWater(endTile, path.Count),()=>{
 
                         ongoingCoroutines--;
                     List<Water> neighbors = board.GetTileNeighbors<Water>(endTile.Column, endTile.Row);
@@ -161,25 +161,28 @@ private List<Water> GetWaterPath(Water startingTile, Vector2Int direction, Board
        
         yield return new WaitUntil(() => ongoingCoroutines == 0);
         ongoingCoroutines = 0;
+        for(int col = 0; col < board.Width; col++){
 
-        // for(int row = 0; row < board.Height; row++){
-        //     for(int col = 0; col < board.Width; col++){
-        //         Water waterTile = waterTiles.FirstOrDefault((waterTile)=> waterTile.Column == col && waterTile.Row == row);
-        //         if(waterTile){
-        //             CoroutineHandler.StartStaticCoroutine(FillWaterHoles(waterTile, board));     
-        //         }
+            for(int row = 0; row < board.Height; row++){
+                
+                Water waterTile = waterTiles.FirstOrDefault((waterTile)=> waterTile.Column == col && waterTile.Row == row);
+                if(waterTile){
+                    foreach (Vector2Int direction in directions)
+
+                        CoroutineHandler.StartStaticCoroutine(FillWaterHoles(waterTile,direction, board));     
+                }
        
         
 
-        //     }
+            }
            
 
            
-        // }
-        foreach(Water waterTile in waterTiles){
-            foreach (Vector2Int direction in directions)
-                CoroutineHandler.StartStaticCoroutine(FillWaterHoles(waterTile, direction, board));     
         }
+        // foreach(Water waterTile in waterTiles){
+        //     foreach (Vector2Int direction in directions)
+        //         CoroutineHandler.StartStaticCoroutine(FillWaterHoles(waterTile, direction, board));     
+        // }
         yield return new WaitUntil(() => ongoingCoroutines == 0);
         foreach(Water visitedTile in visitedTiles){
             visitedTile.GetVisualController<WaterVisualController>().UpdateWaterSprites(board);
