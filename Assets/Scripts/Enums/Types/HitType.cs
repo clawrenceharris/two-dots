@@ -20,5 +20,6 @@ public enum HitType
     MonsterDot,
     LotusDot,
     Water,
+    Circuit,
 }
 

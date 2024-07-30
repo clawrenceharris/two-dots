@@ -24,4 +24,5 @@ public enum TileType
     Snow,
     Block,
     Zapper,
+    Circuit,
 }
