@@ -19,13 +19,15 @@ public class ClearCommand : Command
 
         foreach (IHittable hittable in hittables)
         {
-            if (hittable != null && hittable.HitCount >= hittable.HitsToClear)
+            if(hittable.WasHit)
+                hittable.WasHit = false;
+
+            if (hittable.HitCount >= hittable.HitsToClear)
             {
                 DidExecute = true;
                 
 
                 CoroutineHandler.StartStaticCoroutine(hittable.Clear());
-
             }
         }
 
