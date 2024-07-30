@@ -17,7 +17,7 @@ public class TileDataFactory
 
         JToken directionX = itemObject["directionX"];
         JToken directionY = itemObject["directionY"];
-        JToken number = itemObject["number"];
+        JToken isActive = itemObject["isActive"];
         DotsGameObjectData dotData = new(type)
         {
             hitCount = hitCount != null ? (int)hitCount : 0,
@@ -32,7 +32,9 @@ public class TileDataFactory
                 dotData.SetProperty("DirectionX", (int)directionX);
                 dotData.SetProperty("DirectionY", (int)directionY);
                 break;
-            
+            case "circuit":
+                dotData.SetProperty("IsActive", (bool)isActive);
+                break;
         };
         return dotData;
     }

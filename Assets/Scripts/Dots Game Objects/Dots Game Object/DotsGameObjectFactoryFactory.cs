@@ -50,7 +50,13 @@ public class DotFactory
             }
         }
 
-        
+        if(dotsGameObject is ISwitchable switchable)
+        {
+            bool isActive = data.GetProperty<bool>("IsActive");
+            switchable.IsActive = isActive;
+
+           
+        }
 
         return (T)dotsGameObject;
     }
