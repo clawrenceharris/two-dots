@@ -23,14 +23,12 @@ public class GameAssets : MonoBehaviour
     public Block Block;
     public OneSidedBlock OneSidedBlock;
     public Water Water;
-
+    public Circuit Circuit;
     [Header("Lines")]
     public ConnectorLine Line;
 
     [Header("Sprites")]
     public Sprite[] Numbers;
-
-   
 
     public static GameAssets Instance { get; private set; }
 

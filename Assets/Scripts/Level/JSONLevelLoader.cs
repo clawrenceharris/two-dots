@@ -45,7 +45,7 @@ public class JSONLevelLoader
             "empty" => GameAssets.Instance.EmptyTile,
             "ice" => GameAssets.Instance.Ice,
             "water" => GameAssets.Instance.Water,
-
+            "circuit" => GameAssets.Instance.Circuit,
             _ => throw new ArgumentException("'" + type + "' is not a valid Json game object type"),
         };
     }
@@ -63,7 +63,7 @@ public class JSONLevelLoader
             "one sided block" => TileType.OneSidedBlock,
             "empty" => TileType.EmptyTile,
             "water" => TileType.Water,
-
+            "circuit" => TileType.Circuit,
             _ => TileType.None,
         };
     }
@@ -106,7 +106,7 @@ public class JSONLevelLoader
             TileType.Block => "block",
             TileType.OneSidedBlock => "one sided block",
             TileType.Water => "water",
-
+            TileType.Circuit => "circuit",
             _ => throw new ArgumentException(),
         };
     }
