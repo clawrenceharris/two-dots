@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using System.Collections;
+using System.Collections.Generic;
 public class EmptyTileVisualController : TileVisualController 
 {
     private bool hasLeft;
@@ -23,8 +24,7 @@ public class EmptyTileVisualController : TileVisualController
 
     private void OnBoardCreated(Board board)
     {
-        SetUp(board);
-        SetSprite();
+        SetSprite(board);
 
     }
 
@@ -47,242 +47,74 @@ public class EmptyTileVisualController : TileVisualController
     public override void SetInitialColor()
     {
         Color bgColor = ColorSchemeManager.CurrentColorScheme.backgroundColor;
-        visuals.spriteRenderer.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.5f);
+        visuals.spriteRenderer.color = new Color(bgColor.r, bgColor.g, bgColor.b, 0.9f);
     }
-    private void SetUp(Board board)
+    
+
+    
+
+
+
+    private Sprite GetSprite( bool hasRight, bool hasLeft, bool hasTop, bool hasBottom )
     {
+
         
-            
-        if (board.GetTileAt(tile.Column, tile.Row + 1))
-        {
 
-            hasTop = true;
-        }
+        if (hasLeft && hasRight && hasTop && hasBottom) return visuals.FullSprite;
+        if (hasLeft && hasRight && !hasTop && !hasBottom) return visuals.HorizontalEdgeSprite;
+        if (hasTop && hasBottom && !hasLeft && !hasRight) return visuals.VerticalEdgeSprite;
+        
+        if (hasLeft && hasRight && hasBottom && !hasTop) return visuals.TopEdgeSprite;
+        if (hasLeft && hasRight && hasTop && !hasBottom) return visuals.BottomEdgeSprite;
+        
+        if (!hasLeft && hasRight && hasBottom && hasTop) return visuals.LeftEdgeSprite;
+        if (hasLeft && !hasRight && hasBottom && hasTop) return visuals.RightEdgeSprite;
+        
+        if (hasLeft && !hasRight && !hasTop && hasBottom) return visuals.TopRightCornerSprite;
+        if (!hasLeft && hasRight && !hasTop && hasBottom) return visuals.TopLeftCornerSprite;
+        if (hasLeft && !hasRight && hasTop && !hasBottom) return visuals.BottomRightCornerSprite;
+        if (!hasLeft && hasRight && hasTop && !hasBottom) return visuals.BottomLeftCornerSprite;
 
-        if (board.GetTileAt(tile.Column, tile.Row - 1))
-        {
+        if (!hasLeft && hasRight && !hasTop && !hasBottom) return visuals.LeftEndSprite;
+        if (hasLeft && !hasRight && !hasTop && !hasBottom) return visuals.RightEndSprite;
+        if (!hasLeft && !hasRight && hasTop && !hasBottom) return visuals.BottomEndSprite;
+        if (!hasLeft && !hasRight && !hasTop && hasBottom) return visuals.TopEndSprite;
 
-            hasBottom = true;
-        }
-
-
-        if (board.GetTileAt(tile.Column + 1, tile.Row ))
-                
-        {
-
-            hasRight = true;
-        }
-        if (board.GetTileAt(tile.Column - 1, tile.Row))
-
-        {
-            hasLeft = true;
-        }
-
-        if (board.IsAtLeftOfBoard(tile.Column, tile.Row))
-        {
-            isLeft = true;
-        }
-
-        if(board.IsAtTopOfBoard(tile.Column, tile.Row))
-        {
-            isTop = true;
-        }
-
-        if(board.IsAtBottomOfBoard(tile.Column, tile.Row))
-        {
-            isBottom = true;
-        }
-        if(board.IsAtRightOfBoard(tile.Column, tile.Row))
-        {
-            isRight = true;
-        }
-       
+        // Default to FullSprite if no other condition matches
+        return visuals.IsolatedSprite;
 
     }
 
-    //------ sprite logic-------------//
-    #region
-    private bool IsCenter()
-    {
-       
-        return hasRight && hasLeft && hasTop && hasBottom;
-
-    }
-    private bool IsLeftBottom()
-    {
-        return hasLeft && hasBottom  && !hasRight;
-    }
-    private bool IsRightBottom()
-    {
-        return hasRight && hasBottom && !hasTop && !hasLeft;
-
-    }
-    private bool IsBottom()
-    {
-        return hasBottom && !hasRight && !hasLeft && !hasTop;
-    }
-
-    private bool IsTop()
-    {
-        return hasTop && !hasRight && !hasLeft && !hasBottom;
-    }
-    private bool IsRightTop()
-    {
-        return hasRight && hasTop && !hasBottom && !hasLeft;
-
-    }
-    private bool IsLeftTop()
-    {
-        return hasLeft && hasTop && !hasBottom && !hasRight;
-    }
-   
-
-    private bool IsSingle()
-    {
-        return !hasLeft && !hasRight && !hasTop && !hasBottom;
-    }
 
     
 
-    private bool IsLeftTopBottom()
+    public virtual void SetSprite(Board board)
     {
-        return hasLeft && hasBottom && hasTop && !hasRight;
-    }
-    private bool IsLeft()
-    {
-        return hasLeft && !hasBottom && !hasTop && !hasRight;
-    }
-    private bool IsRight()
-    {
-        return hasRight && !hasBottom && !hasTop && !hasLeft;
-    }
-    private bool IsRightTopBottom()
-    {
-        return hasRight && hasBottom && hasTop && !hasLeft;
-    }
+        List<EmptyTile> neighbors = board.GetTileNeighbors<EmptyTile>(tile.Column, tile.Row, false);
+        foreach(EmptyTile neighbor in neighbors){
+            //If this water tile has another water tile to the left of it
+            if(tile.Column == neighbor.Column + 1){
+                hasLeft = true;
+            }
 
-    private bool IsLeftRightTop()
-    {
-        return hasTop && !hasBottom && hasLeft && hasRight;
-    }
-    private bool IsLeftRightBottom()
-    {
-        return hasBottom && !hasTop && hasLeft && hasRight;
-    }
+            //If this water tile has another water tile to the right of it
+            if(tile.Column == neighbor.Column - 1){
+                hasRight = true;
+            }
 
-    
-    #endregion
+            //If this water tile has another water tile below it
+             if(tile.Row == neighbor.Row + 1){
+                hasBottom = true;
+            }
 
-
-
-    private Sprite GetSprite()
-    {
-
-        //if (IsCenter())
-        //{
-        //    return visuals.Center;
-        //}
-
-        if (IsLeftBottom())
-        {
-
-            return visuals.LeftBottom;
-
-        }
-        if (IsBottom())
-        {
-
-            return visuals.Bottom;
-
-        }
-        if (IsTop())
-        {
-            return visuals.Top;
-        }
-        if (IsLeft())
-        {
-            return visuals.Left;
-
-        }
-        if (IsRight())
-        {
-            return visuals.Right;
-        }
-        if (IsRightBottom())
-        {
-            return visuals.RightBottom;
-
-        }
-        if (IsRightTop())
-        {
-            return visuals.RightTop;
-
-        }
-        if (IsLeftTop())
-        {
-            return visuals.LeftTop;
+            //If this water tile has another water tile above it
+             if(tile.Row == neighbor.Row - 1){
+                hasTop = true;
+            }
 
         }
 
-
-
-
-        //else if (IsSingle())
-        //{
-        //    return visuals.Single;
-
-
-        //}
-
-        //else if (IsLeftTopBottom())
-        //{
-
-        //    return visuals.LeftTopBottom;
-
-        //}
-
-        //else if (IsRightTopBottom())
-        //{
-        //    return visuals.RightTopBottom;
-
-        //}
-
-        //else if (IsLeftRightBottom())
-        //{
-        //    return visuals.LeftRightBottom;
-
-        //}
-
-        //else if (IsLeftRightTop())
-        //{
-        //    return visuals.LeftRightTop;
-
-        //}
-
-
-        else
-        {
-            return null;
-            
-        }
-
-    }
-
-
-    private bool ShouldFlipY()
-    {
-        if (isBottom)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    
-
-    public virtual void SetSprite()
-    {
-        visuals.spriteRenderer.sprite = GetSprite();
+        visuals.spriteRenderer.sprite = GetSprite(hasRight, hasLeft, hasTop, hasBottom );
            
     }
 
