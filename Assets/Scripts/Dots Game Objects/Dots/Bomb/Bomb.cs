@@ -50,12 +50,11 @@ public class Bomb : Dot, IExplodable
         float duration = 0.2f;
         DotsGameObject dotsGameObject = (DotsGameObject)hittable;
 
-        //set the color the bomb color
+        //set the color to the bomb color
         dotsGameObject.VisualController.SetColor(ColorSchemeManager.CurrentColorScheme.bombLight);
         yield return new WaitForSeconds(duration);
 
-        //undo previous set color 
-       
+        //undo previous color change    
         dotsGameObject.VisualController.SetInitialColor();
 
         
@@ -79,7 +78,7 @@ public class Bomb : Dot, IExplodable
     
                 if (hittable != null && !Hits.Contains(hittable))
                 {
-                    Hits.Add(hittable);
+                    // Hits.Add(hittable);
                     CoroutineHandler.StartStaticCoroutine(bomb.VisualController.DoLineAnimation(hittable, () =>
                     {
                         CoroutineHandler.StartStaticCoroutine(ChangeHittablesColor(hittable),() => counter++);

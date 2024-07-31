@@ -20,7 +20,7 @@ public class Board : MonoBehaviour
     private DotsGameObjectData[] dotsOnBoard;
     private LineManager lineManager;
 
-    public static float offset = 1.9f;
+    public static float offset = 2.5f;
     public static event Action<DotsGameObject> onObjectSpawned;
     public static float DotDropSpeed { get; private set; } = 0.3f;
     public List<Dot> ClearedDots { get; private set; } = new();
