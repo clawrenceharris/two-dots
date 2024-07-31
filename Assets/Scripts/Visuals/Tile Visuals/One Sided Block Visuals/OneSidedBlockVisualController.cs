@@ -10,10 +10,7 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
     private readonly HittableVisualController hittableVisualController = new();
 
    
-    public IEnumerator Clear()
-    {
-        yield return hittableVisualController.Clear();
-    }
+    
 
     public IEnumerator Hit(HitType hitType)
     {
@@ -67,6 +64,10 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
         tile.transform.rotation = rotation;
     }
 
+    public IEnumerator Clear(float duration)
+    {
+        yield return hittableVisualController.Clear(duration);
+    }
     
 
 }

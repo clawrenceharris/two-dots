@@ -22,9 +22,9 @@ public abstract class DotVisualController : VisualController, IDotVisualControll
 
     
 
-    public virtual IEnumerator Clear()
+    public virtual IEnumerator Clear(float duration)
     {
-        yield return hittableVisualController.Clear();
+        yield return hittableVisualController.Clear(duration);
     }
 
     public virtual IEnumerator Hit(HitType hitType)

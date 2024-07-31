@@ -51,12 +51,12 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
         SetSprite();
         if(tile.HitCount >= tile.HitsToClear)
         {
-            yield return Clear();
+            yield return Clear(visuals.ClearDuration);
         }
     }
 
-    public IEnumerator Clear()
+    public IEnumerator Clear(float duration)
     {
-        yield return hittableVisualController.Clear();
+        yield return hittableVisualController.Clear(duration);
     }
 }

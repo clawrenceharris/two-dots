@@ -38,9 +38,13 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
 
         }    
     }
-    
 
-    
+
+    public override void SetColor(Color color)
+    {
+        base.SetColor(color);
+        visuals.OnSprite.color = color;
+    }
     public IEnumerator Hit(HitType hitType){
         SetSprite();
         yield return hittableVisualController.Hit(hitType);
@@ -53,8 +57,8 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
         visuals.OnSprite.color = ColorUtils.LightenColor(bgColor,0.6f);;
     }
 
-    public IEnumerator Clear()
+    public IEnumerator Clear(float duration)
     {
-        yield return hittableVisualController.Clear();
+        yield return hittableVisualController.Clear(duration);
     }
 }

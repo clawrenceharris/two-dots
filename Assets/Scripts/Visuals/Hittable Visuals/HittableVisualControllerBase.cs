@@ -11,7 +11,7 @@ public class HittableVisualController : IHittableVisualController
 
     private IHittableVisuals visuals;
     private IHittable hittable;
-
+    
     public void Init(IHittable hittable, IHittableVisuals visuals)
     {
         this.visuals = visuals;
@@ -24,12 +24,11 @@ public class HittableVisualController : IHittableVisualController
         yield return null;
     }
 
-    public virtual IEnumerator Clear()
+   
+    public IEnumerator Clear(float duration)
     {
         DotsGameObject dotsGameObject = (DotsGameObject)hittable;
-        yield return dotsGameObject.transform.DOScale(Vector2.zero, visuals.ClearDuration);
+        yield return dotsGameObject.transform.DOScale(Vector2.zero, duration);
        
     }
-
-   
 }

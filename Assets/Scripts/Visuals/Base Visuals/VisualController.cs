@@ -19,8 +19,7 @@ public abstract class VisualController : IVisualController
     /// </summary>
     /// <typeparam name="T">A game object of type Visuals</typeparam>
     /// <returns>The Visuals game object</returns>
-    public abstract T GetVisuals<T>()
-        where T : class;
+    public abstract T GetVisuals<T>() where T : class;
 
     /// <summary>
     /// Returns the Two Dots game object that this visual
@@ -30,10 +29,7 @@ public abstract class VisualController : IVisualController
     /// <returns>The Two Dots game object</returns>
     public abstract T GetGameObject<T>() where T : class;
 
-    public DotsGameObject GetGameObject()
-    {
-        return GetGameObject<DotsGameObject>();
-    }
+   
 
     public bool TryGetGameObject<T>(out T dotsGameObject)
         where T : class
@@ -106,4 +102,8 @@ public abstract class VisualController : IVisualController
         }
     }
 
+    public T GetDotsGameObject<T>()
+    {
+        throw new NotImplementedException();
+    }
 }

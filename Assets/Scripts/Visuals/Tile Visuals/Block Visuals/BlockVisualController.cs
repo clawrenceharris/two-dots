@@ -30,8 +30,8 @@ public class BlockVisualController : TileVisualController, IHittableVisualContro
        yield return hittableVisualController.Hit(hitType);
     }
 
-    public IEnumerator Clear()
+    public IEnumerator Clear(float duration)
     {
-        yield return hittableVisualController.Clear();
+        yield return hittableVisualController.Clear(duration);
     }
 }

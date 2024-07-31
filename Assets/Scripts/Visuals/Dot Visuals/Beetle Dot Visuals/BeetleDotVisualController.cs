@@ -161,13 +161,12 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         }
     }
 
-    public override IEnumerator Clear()
+    public override IEnumerator Clear(float duration)
     {
         bool isBombHit = dot.HitType == HitType.BombExplosion;
         float startFlapAngle = isBombHit ? 20f : 45f;
         float endFlapAngle = isBombHit ? 15f : 0;
 
-        float duration = visuals.hittableVisuals.ClearDuration;
         float elapsedTime = 0f;
         float amplitude = 1f;
         float frequency = 0.1f;
@@ -177,7 +176,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         Vector3 startPosition = dot.transform.position;
         Vector3 unitDirection = direction.normalized;
 
-        CoroutineHandler.StartStaticCoroutine(base.Clear());
+        CoroutineHandler.StartStaticCoroutine(base.Clear(duration));
 
         while (elapsedTime < duration * speed)
         {

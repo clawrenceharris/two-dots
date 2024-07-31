@@ -4,7 +4,7 @@
 
 public class HittableVisuals : IHittableVisuals
 {
-    public static float defaultClearDuration = 0.4f;
+    public const float defaultClearDuration = 0.4f;
     [SerializeField] private float hitDuration;
     [SerializeField] private float clearDuration;
 

@@ -7,5 +7,6 @@ public interface IHittableVisualController
     
 
     IEnumerator Hit(HitType hitType);
-    IEnumerator Clear();
+    IEnumerator Clear(float duration);
+    
 }
