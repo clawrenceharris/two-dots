@@ -8,14 +8,14 @@ using Unity.VisualScripting;
 
 public class BombDotVisualController : DotVisualController, IHittableVisualController
 {
-    private BombDot dot;
+    private Bomb dot;
     private BombDotVisuals visuals;
     public override T GetGameObject<T>() => dot as T;
 
     public override T GetVisuals<T>() => visuals as T;
     public override void Init(DotsGameObject dotsGameObject)
     {
-        dot = (BombDot)dotsGameObject;
+        dot = (Bomb)dotsGameObject;
         visuals = dotsGameObject.GetComponent<BombDotVisuals>();
         base.Init(dotsGameObject);
 

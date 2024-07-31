@@ -149,10 +149,10 @@ public class Board : MonoBehaviour
     
     public void SpawnBomb(int col, int row)
     {
-        if(Dots[col, row] is BombDot){
+        if(Dots[col, row] is Bomb){
             return;
         }
-        BombDot bomb = Instantiate(GameAssets.Instance.Bomb);
+        Bomb bomb = Instantiate(GameAssets.Instance.Bomb);
         bomb.transform.position = new Vector2(col, row) * offset;
         bomb.transform.parent = transform;
         Dots[col, row] = bomb;

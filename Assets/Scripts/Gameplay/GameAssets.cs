@@ -8,7 +8,7 @@ public class GameAssets : MonoBehaviour
     public Dot NormalDot;
    
     public NestingDot NestingDot;
-    public BombDot Bomb;
+    public Bomb Bomb;
     public ClockDot ClockDot;
     public AnchorDot AnchorDot;
     public BlankDot BlankDot;

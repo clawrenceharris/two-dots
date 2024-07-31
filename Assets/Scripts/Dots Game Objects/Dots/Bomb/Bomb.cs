@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
-public class BombDot : Dot, IExplodable
+public class Bomb : Dot, IExplodable
 {
     
     
@@ -65,7 +65,7 @@ public class BombDot : Dot, IExplodable
     
     public IEnumerator Explode(List<IHittable> toHit, Action<IHittable> onComplete)
     {
-        List<IHittable> hittables = new(toHit.Where(hittable => hittable is not BombDot));
+        List<IHittable> hittables = new(toHit.Where(hittable => hittable is not Bomb));
 
         bombExplosionManager.AssignHittablesToBombs(hittables);
         
