@@ -18,7 +18,6 @@ public class Board : MonoBehaviour
     private DotsGameObjectData[] initialDotsToSpawn;
     private DotsGameObjectData[] dotsToSpawn;
     private DotsGameObjectData[] dotsOnBoard;
-    private LineManager lineManager;
 
     public static float offset = 2.5f;
     public static event Action<DotsGameObject> onObjectSpawned;
@@ -26,7 +25,6 @@ public class Board : MonoBehaviour
     public List<Dot> ClearedDots { get; private set; } = new();
 
     public static event Action<Board> onBoardCreated;
-    public static event Action onDotsDropped;
 
 
     public void Init(LevelData level)
@@ -39,7 +37,6 @@ public class Board : MonoBehaviour
         initialDotsToSpawn = level.initialDotsToSpawn;
         Dots = new Dot[level.width, level.height];
         Tiles = new Tile[level.width, level.height];
-        lineManager = new LineManager(this);
         tilesOnBoard = level.tilesOnBoard;
         SetUpBoard();
 
@@ -73,11 +70,7 @@ public class Board : MonoBehaviour
         CommandInvoker.onCommandsEnded += OnCommandsEnded;
     }
 
-    private void Update()
-    {
-        lineManager.UpdateLines();
-    }
-
+   
     private void OnCommandsEnded()
     {
         foreach(IHittable hittable in ClearedDots)

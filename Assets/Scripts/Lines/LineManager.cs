@@ -1,26 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.U2D;
 
 /// <summary>
 /// Manages the drawing and removal of lines between dots in the game.
 /// </summary>
-public class LineManager
+public class LineManager : MonoBehaviour
 {
-    private static List<ConnectorLine> lines;
-    private readonly Board board;
+    private static List<ConnectorLine> lines = new();
+    private Board board;
     private ConnectorLine currentLine;
     public static Vector2 LineScale { get; private set; } = new Vector2(1f, 0.3f);
 
+    
     public LineManager(Board board)
     {
-        this.board = board;
-        lines = new List<ConnectorLine>();
-        SubscribeToEvents();
+       
     }
 
+    private void Awake(){
+        board = FindObjectOfType<Board>();
+    }
+
+    private void Start(){
+        SubscribeToEvents();    
+
+    }
     
     private void SubscribeToEvents()
     {
@@ -64,13 +72,13 @@ public class LineManager
         }
         currentLine.endPos = new Vector2(dot.Column, dot.Row) * Board.offset;
 
-        currentLine = DrawLine(dot);
+        currentLine = CreateLine(dot);
         lines.Add(currentLine);
 
     }
-
+   
     /// <summary>
-    /// Updates the appearance of lines.
+    /// Updates the appearance of all lines.
     /// </summary>
     public void UpdateLines()
     {
@@ -86,18 +94,20 @@ public class LineManager
             }
         }
 
-        //update the current line's end position
+        //Update the current line's end position if it isn't a square
         if (currentLine && !IsSquare())
         {
             currentLine.endPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
     }
 
-    
+     private void Update(){
+       UpdateLines(); 
+    }
     private void OnDotSelected(ConnectableDot dot)
     {
         //draw line when we select a dot
-        currentLine = DrawLine(dot);
+        currentLine = CreateLine(dot);
         lines.Add(currentLine);
 
     }
@@ -156,11 +166,11 @@ public class LineManager
     /// Draws a line at the given start position.
     /// </summary>
     /// <param name="startPos">The position of the dot where the line should start.</param>
-    private ConnectorLine DrawLine(ConnectableDot dot)
+    private ConnectorLine CreateLine(ConnectableDot dot)
     {
 
         ConnectorLine line = LinePool.Instance.Get();
-        line.transform.parent = board.transform;
+        line.transform.parent = transform;
         line.SpriteRenderer.color = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
         line.startPos = new Vector2(dot.Column, dot.Row) * Board.offset;
         line.initialScale = LineScale;
