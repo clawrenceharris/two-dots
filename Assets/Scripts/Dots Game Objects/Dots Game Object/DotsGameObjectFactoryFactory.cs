@@ -19,7 +19,7 @@ public class DotFactory
         if (dotsGameObject is IColorable colorable)
         {
             string color = data.GetProperty<string>("Color");
-            colorable.Color = JSONLevelLoader.FromJSONColor(color);
+            colorable.Color = JSONLevelLoader.FromJsonColor(color);
         }
 
         if (dotsGameObject is INumerable numberable)
@@ -46,7 +46,7 @@ public class DotFactory
 
             for (int i = 0; i < colors.Length; i++)
             {
-                multicolored.Colors[i] = JSONLevelLoader.FromJSONColor(colors[i]);
+                multicolored.Colors[i] = JSONLevelLoader.FromJsonColor(colors[i]);
             }
         }
 

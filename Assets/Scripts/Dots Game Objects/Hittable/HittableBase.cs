@@ -15,7 +15,7 @@ public class HittableBase : IHittable
     public static event Action<IHittable> onHit;
 
     public Dictionary<HitType, IHitRule> HitRules { get => hittable.HitRules; }
-    public DotsGameObject DotsGameObject => (DotsGameObject)hittable;
+    private DotsGameObject DotsGameObject => (DotsGameObject)hittable;
     public IHittableVisualController VisualController => DotsGameObject.GetVisualController<IHittableVisualController>();
    
     public void Init(IHittable hittable)
@@ -41,10 +41,16 @@ public class HittableBase : IHittable
 
 
     public IEnumerator Clear()
-    {
-        onCleared?.Invoke(hittable);
-        yield return VisualController.Clear();
-
+    {  
+        IVisualController visualController = DotsGameObject.GetVisualController<IVisualController>();
+        float duration = visualController.GetVisuals<IHittableVisuals>().ClearDuration;
+        yield return Clear(duration);    
     }
+
+    public IEnumerator Clear(float duration){
+        onCleared?.Invoke(hittable);
+        yield return VisualController.Clear(duration);    
+    }
+
 
 }

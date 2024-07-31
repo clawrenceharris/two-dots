@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : Tile, IHittable
+public class Block : HittableTile
 {
 
     public override TileType TileType => TileType.Block;
-    public int HitsToClear => 1;
+    public override int HitsToClear => 1;
 
-    public Dictionary<HitType, IHitRule> HitRules
+    public override Dictionary<HitType, IHitRule> HitRules
     {
         get
         {
@@ -19,34 +19,11 @@ public class Block : Tile, IHittable
 
     public new BlockVisualController VisualController => GetVisualController<BlockVisualController>();
 
-    private readonly HittableBase hittable = new();
 
 
-    public HitType HitType { get => hittable.HitType; }
 
-    public int HitCount { get => hittable.HitCount; set => hittable.HitCount = value; }
-
-
-    public bool WasHit { get => hittable.WasHit; set => hittable.WasHit = value; }
-
-    public override void Init(int column, int row)
+    public override void Hit(HitType hitType)
     {
-        base.Init(column, row);
-        hittable.Init(this);
-
-    }
-
-
-    public IEnumerator Clear()
-    {
-        yield return hittable.Clear();
-
-    }
-
-    public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
-    {
-
-        yield return hittable.Hit(hitType, onHitComplete);
         HitCount++;
 
     }

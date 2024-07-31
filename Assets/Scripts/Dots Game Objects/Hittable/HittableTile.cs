@@ -25,13 +25,18 @@ public abstract class HittableTile : Tile, IHittable
     }
 
 
-    public virtual IEnumerator Clear()
+    public IEnumerator Clear()
     {
         
         yield return hittable.Clear();
 
     }
 
+    public IEnumerator Clear(float duration)
+    {
+        yield return hittable.Clear(duration);
+
+    }
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
 

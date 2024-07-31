@@ -30,10 +30,16 @@ public abstract class Dot : DotsGameObject, IHittable
     }
 
 
-    public virtual IEnumerator Clear()
+   public virtual IEnumerator Clear()
     {
         
         yield return hittable.Clear();
+
+    }
+
+    public IEnumerator Clear(float duration)
+    {
+        yield return hittable.Clear(duration);
 
     }
 
