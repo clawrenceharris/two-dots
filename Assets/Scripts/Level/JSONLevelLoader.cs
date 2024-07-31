@@ -69,7 +69,7 @@ public class JSONLevelLoader
     }
 
    
-    public static DotColor FromJSONColor(string color)
+    public static DotColor FromJsonColor(string color)
     {
         return color switch
         {
