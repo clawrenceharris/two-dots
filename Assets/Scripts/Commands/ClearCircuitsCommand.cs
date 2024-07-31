@@ -24,14 +24,13 @@ public class ClearCircuitsCommand : Command
                 
                 //circuits should be cleared if all circuits in the group are active
                 bool shouldClear = circuitGroup.All((circuit)=> circuit.IsActive);  
-                Debug.Log("Count: " + circuitGroup.Count);
                 foreach(Circuit circuitToClear in circuitGroup){
                     visitedCircuits.Add(circuit);
                     if(shouldClear)
                     {
                         Dot dotToRemove = board.GetDotAt(circuit.Column, circuit.Row);
-                        CoroutineHandler.StartStaticCoroutine(dotToRemove.Clear(0));
                         CoroutineHandler.StartStaticCoroutine(circuitToClear.Clear());
+                        CoroutineHandler.StartStaticCoroutine(dotToRemove.Clear(0));
                         
                         board.SpawnBomb(circuit.Column, circuit.Row);
                     }    

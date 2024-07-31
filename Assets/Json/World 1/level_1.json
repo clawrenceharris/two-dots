@@ -12,6 +12,10 @@
     {
       "type": "normal",
       "color": "red"
+    },
+    {
+      "type": "clock",
+      "number": 2
     }
   ],
   "dotsToSpawn": [
@@ -49,8 +53,15 @@
   "tilesOnBoard": [
     {
       "type": "circuit",
-      "row": 0,
+      "isActive": false,
+      "row": 3,
       "col": 2
+    },
+    {
+      "type": "circuit",
+      "isActive": true,
+      "row": 3,
+      "col": 3
     }
   ]
 }

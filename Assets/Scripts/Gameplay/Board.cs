@@ -149,6 +149,9 @@ public class Board : MonoBehaviour
     
     public void SpawnBomb(int col, int row)
     {
+        if(Dots[col, row] is BombDot){
+            return;
+        }
         BombDot bomb = Instantiate(GameAssets.Instance.Bomb);
         bomb.transform.position = new Vector2(col, row) * offset;
         bomb.transform.parent = transform;
@@ -817,7 +820,7 @@ public class Board : MonoBehaviour
         return tiles;
     }
 
-    public List<T> FindGroupOfType<T>(T start, bool isValidNeighbor = false) where T : DotsGameObject{
+    public List<T> FindGroupOfType<T>(T start, bool isValidNeighbor = true) where T : DotsGameObject{
        
        
 
@@ -849,23 +852,25 @@ public class Board : MonoBehaviour
                 neighbors = GetDotNeighbors<T>(current.Column, current.Row, false);
             }
             else if(typeof(T) == typeof(Tile) || typeof(T).IsSubclassOf(typeof(Tile))){
-            Debug.Log("NEIGHBOR COUNT:" + neighbors.Count);
                 neighbors = GetTileNeighbors<T>(current.Column, current.Row, false);
             }
             foreach (T neighbor in neighbors)
-            {
-                neighbor.Debug(Color.red);
+            {                
+                
                 if (!visited.Contains(neighbor))
                 {
-                    
-                        group.Add(neighbor);
+                    if(!isValidNeighbor){
+                        continue;
+                    } 
+                    else{
                         // Add the neighbor to the queue for further exploration
                         queue.Enqueue(neighbor);
-                    
-
-                    visited.Add(neighbor);
+                        group.Add(neighbor);                    
+                    } 
+                   
 
                 }
+                visited.Add(neighbor);
             }
         }
 
