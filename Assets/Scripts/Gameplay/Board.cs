@@ -20,7 +20,7 @@ public class Board : MonoBehaviour
     private DotsGameObjectData[] dotsOnBoard;
     private LineManager lineManager;
 
-    public static float offset = 2.2f;
+    public static float offset = 1.9f;
     public static event Action<DotsGameObject> onObjectSpawned;
     public static float DotDropSpeed { get; private set; } = 0.3f;
     public List<Dot> ClearedDots { get; private set; } = new();
@@ -88,21 +88,32 @@ public class Board : MonoBehaviour
     private void OnCleared(IHittable hittable)
     {
         DotsGameObject dotsGameObject = (DotsGameObject)hittable;
+        DotsGameObject replacement = null;
         if (dotsGameObject is Dot dot)
         {
             ////replace the dot that is being cleared with its replacement dot
-            Dot replacement = InitDotsGameObject<Dot>(dot.ReplacementDot);
-
-            Dots[dot.Column, dot.Row] = replacement;
+            replacement = InitDotsGameObject<Dot>(dot.ReplacementDot);
+            if(replacement == null){
+                Dots[dot.Column, dot.Row] = null;
+            }
             ClearedDots.Add(dot);
 
         }
         if (dotsGameObject is Tile tile)
         {
-            Tiles[tile.Column, tile.Row] = null;
+            replacement = InitDotsGameObject<Dot>(tile.ReplacementDot);
+            if(replacement == null){
+                Tiles[tile.Column, tile.Row] = null;
+            }
 
         }
-
+        
+        if(replacement is Dot replacementDot){
+            Dots[dotsGameObject.Column, dotsGameObject.Row] = replacementDot;
+        }
+        else if(replacement is Tile replacementTile){
+            Tiles[dotsGameObject.Column, dotsGameObject.Row] = replacementTile;
+        }
     }
 
    
@@ -136,7 +147,7 @@ public class Board : MonoBehaviour
 
 
     
-    public void CreateBomb(int col, int row)
+    public void SpawnBomb(int col, int row)
     {
         BombDot bomb = Instantiate(GameAssets.Instance.Bomb);
         bomb.transform.position = new Vector2(col, row) * offset;
@@ -410,7 +421,7 @@ public class Board : MonoBehaviour
         }
         return neighbors.Where((neighbor) => neighbor != null).ToList();
     }
-
+    
 
     /// <summary>
     /// Returns a board element at the given column and row
@@ -440,7 +451,8 @@ public class Board : MonoBehaviour
         }
         return null;
     }
-
+    
+    
     public Dot GetClearedDotAt(int col, int row)
     {
         if (col >= 0 && col < Width && row >= 0 && row < Height)
@@ -496,7 +508,7 @@ public class Board : MonoBehaviour
             Tiles[col, row] = tile;
         }
 
-
+        
     }
 
 
@@ -803,6 +815,61 @@ public class Board : MonoBehaviour
             .OfType<T>()
             .ToList();
         return tiles;
+    }
+
+    public List<T> FindGroupOfType<T>(T start, bool isValidNeighbor = false) where T : DotsGameObject{
+       
+       
+
+        // Set to keep track of visited objects to avoid revisiting them
+        HashSet<T> visited = new();
+
+        // Queue for breadth-first search traversal
+        Queue<T> queue = new();
+        
+        List<T> neighbors = new();
+        
+        List<T> group = new();
+
+        // Enqueue the starting dot
+        queue.Enqueue(start);
+
+        // Perform breadth-first search
+        while (queue.Count > 0)
+        {
+            T current = queue.Dequeue();
+
+            group.Add(start);
+
+            visited.Add(current);
+
+            // Set neighbors of the current dots game object
+            if(typeof(T) == typeof(Dot)|| typeof(T).IsSubclassOf(typeof(Dot))){
+
+                neighbors = GetDotNeighbors<T>(current.Column, current.Row, false);
+            }
+            else if(typeof(T) == typeof(Tile) || typeof(T).IsSubclassOf(typeof(Tile))){
+            Debug.Log("NEIGHBOR COUNT:" + neighbors.Count);
+                neighbors = GetTileNeighbors<T>(current.Column, current.Row, false);
+            }
+            foreach (T neighbor in neighbors)
+            {
+                neighbor.Debug(Color.red);
+                if (!visited.Contains(neighbor))
+                {
+                    
+                        group.Add(neighbor);
+                        // Add the neighbor to the queue for further exploration
+                        queue.Enqueue(neighbor);
+                    
+
+                    visited.Add(neighbor);
+
+                }
+            }
+        }
+
+        return group;
     }
 
 
