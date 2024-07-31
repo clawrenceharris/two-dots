@@ -101,7 +101,7 @@ public class Square
         foreach (Dot dot in DotsInSquare)
         {
             dot.gameObject.SetActive(false);
-            board.CreateBomb(dot.Column, dot.Row);
+            board.SpawnBomb(dot.Column, dot.Row);
         }
     }
 
