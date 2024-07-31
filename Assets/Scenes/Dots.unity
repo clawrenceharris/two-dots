@@ -522,6 +522,7 @@ MonoBehaviour:
   Block: {fileID: 6330128674848982776, guid: 5a9bc18603c1144f3ab2789a05000ab8, type: 3}
   OneSidedBlock: {fileID: 5648905683831243604, guid: 226b9a5c2147644af84249074fe13998, type: 3}
   Water: {fileID: 9075911083045837443, guid: 1f0363d82e56e40fc8fb25a1cc869530, type: 3}
+  Circuit: {fileID: 2189124011709015015, guid: d8cdaad4c74bb4fb19c97a0f08cc7196, type: 3}
   Line: {fileID: 1009829332854879936, guid: e66051827bad04f24bb7b902ae159a41, type: 3}
   Numbers:
   - {fileID: 21300000, guid: 4e90cf8faa34743d4be779c763ef5881, type: 3}
