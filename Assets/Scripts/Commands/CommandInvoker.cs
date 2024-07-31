@@ -164,7 +164,7 @@ public class CommandInvoker
 
             Enqueue(new BoardCommand());
             Enqueue(new ClearClockDotsCommand());
-
+            Enqueue(new ClearCircuitsCommand());
 
             yield return ExecuteNextCommand((didExecute) =>
             {

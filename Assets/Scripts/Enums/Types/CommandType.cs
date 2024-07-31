@@ -18,7 +18,7 @@ public enum CommandType
     GemExplode,
     Board,
     ClearClockDots,
-
+    ClearCircuits,
     Explosion,
 
     BombExplode,
