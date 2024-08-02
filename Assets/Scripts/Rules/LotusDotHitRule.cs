@@ -14,20 +14,34 @@ public class LotusDotHitRule : IHitRule
     /// <returns>Whether the lotus dot can be connected to</returns>
     public bool Validate(IHittable hittable, Board board)
     {
-        if (hittable is not IColorable lotusDot || hittable is not IBoardElement b)
+        if (hittable is not LotusDot dot)
         {
             return false;
         }
+        if(IsInConnection(dot)){
+            return true;
+        }
 
-        List<ConnectableDot> neighbors = board.GetDotNeighbors<ConnectableDot>(b.Column, b.Row, false);
+        if(HasValidNeighbor(dot, board)){
+            return true;
+        }
 
+        return false;
+        
+    }
+
+    private bool HasValidNeighbor(LotusDot dot, Board board){
+    
+    
+        List<ConnectableDot> neighbors = board.GetDotNeighbors<ConnectableDot>(dot.Column, dot.Row, false);
+        
         foreach (ConnectableDot neighbor in neighbors)
         {
             if (!neighbor)
             {
                 continue;
             }
-            if (neighbor.Color == lotusDot.Color)
+            if (neighbor.Color == dot.Color)
             {
                 return true;
             }
@@ -35,8 +49,12 @@ public class LotusDotHitRule : IHitRule
             {
                 return true;
             }
+            
         }
-
         return false;
+
+    }
+    private bool IsInConnection(LotusDot dot){
+        return ConnectionManager.ToHit.Contains(dot);
     }
 }
