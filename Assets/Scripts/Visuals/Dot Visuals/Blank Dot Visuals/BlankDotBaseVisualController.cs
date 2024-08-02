@@ -5,7 +5,7 @@ using DG.Tweening;
 using System;
 using System.Linq;
 
-public abstract class BlankDotBaseVisualController : ColorableDotVisualController
+public abstract class BlankDotBaseVisualController : ColorableDotVisualController, IPreviewableVisualController
 {
     
     
@@ -44,20 +44,28 @@ public abstract class BlankDotBaseVisualController : ColorableDotVisualControlle
 
     }
 
-    public virtual IEnumerator PreviewHit(PreviewHitType hitType)
+    public virtual IEnumerator DoHitPreviewAnimation()
     {
         BlankDotBase dot = GetGameObject<BlankDotBase>();
-        while (ConnectionManager.ToHit.Contains(dot) && DotTouchIO.IsInputActive)
-        {
-            dot.UpdateColor();
-            yield return null;
-        }
-        yield return AnimateDeselectionEffect();
+       
+        dot.UpdateColor();
+        yield return null;
+        
 
 
     }
 
+    public virtual IEnumerator DoClearPreviewAnimation()
+    {
+        yield break;
+
+
+    }
+
+    public virtual IEnumerator DoIdleAnimation()
+    {
+       yield break;
+    }
+
    
-
-
 }

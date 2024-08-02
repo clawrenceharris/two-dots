@@ -71,12 +71,77 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
 
 
-    public override IEnumerator PreviewHit(PreviewHitType hitType)
-    {
-        CoroutineHandler.StartStaticCoroutine(base.PreviewHit(hitType));
+    
 
-        if(dot.InitialNumber - dot.TempNumber == dot.HitsToClear)
-            CoroutineHandler.StartStaticCoroutine(PreviewClear());
+    private void StopHitPreview(){
+        visuals.clockDotPreview.SetActive(false);
+        visuals.clockDotPreview.transform.SetParent(dot.transform);
+        visuals.clockDotPreview.transform.position = dot.transform.position;
+    }
+    
+    public override IEnumerator AnimateDeselectionEffect()
+    {
+        if (!ConnectionManager.ConnectedDots.Contains(dot))
+
+            yield return base.AnimateDeselectionEffect();
+    }
+    public IEnumerator DoMove(List<Vector2Int> path, Action onMoved)
+    {
+        float duration = ClockDotVisuals.moveDuration;
+        float moveDuration = duration / path.Count;
+        foreach (var pos in path)
+        {
+            dot.transform.DOMove(new Vector2(pos.x, pos.y) * Board.offset, moveDuration);
+            yield return new WaitForSeconds(moveDuration - moveDuration /2);
+            onMoved?.Invoke();
+        }
+
+        yield return base.AnimateDeselectionEffect();
+
+    }
+
+    
+     public override IEnumerator DoClearPreviewAnimation()
+    {
+        StopHitPreview();
+
+        float elapsedTime = 0f;
+        Vector3 originalRotation = dot.transform.eulerAngles;
+        // Adjust these variables to control the shaking animation
+        float shakeDuration = 0.6f;
+        float shakeIntensity = 15f;
+        float shakeSpeed = 20f;
+        while (elapsedTime < shakeDuration)
+        {
+            // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
+            float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
+
+            // Apply the rotation
+            dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
+
+            // Increment the elapsed time
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        // Reset rotation to original position after the shaking animation is finished
+        dot.transform.eulerAngles = Vector2.zero;
+
+    }
+    public IEnumerator ScaleNumbers()
+    {
+        float scaleDuration = 0.2f;
+
+        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one * 1.8f, scaleDuration);
+        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one * 1.8f, scaleDuration);
+
+        yield return new WaitForSeconds(scaleDuration);
+        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one, scaleDuration);
+        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one, scaleDuration);
+    }
+
+    private void MoveClockDotPreviews(){
 
         List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
 
@@ -103,67 +168,27 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
                 if(lastAvailableDot.DotType.IsBasicDot() || lastAvailableDot.DotType.IsClockDot())
                     clockDot.VisualController.visuals.clockDotPreview.transform.DOMove(lastAvailableDot.transform.position, 0.5f);
                 
-                yield return null;
             }
         }
     }
-
-   
-    public IEnumerator PreviewClear()
+    public override IEnumerator DoHitPreviewAnimation()
     {
-        while (dot.IsPreviewing)
-        {
+        CoroutineHandler.StartStaticCoroutine(base.DoHitPreviewAnimation());
+        int connectionCount = ConnectionManager.ToHit.Count;
 
-            float elapsedTime = 0f;
-            Vector3 originalRotation = dot.transform.eulerAngles;
-            // Adjust these variables to control the shaking animation
-            float shakeDuration = 0.6f;
-            float shakeIntensity = 15f;
-            float shakeSpeed = 20f;
-            while (elapsedTime < shakeDuration && dot.IsPreviewing)
-            {
-                // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
-                float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
+        dot.TempNumber = Mathf.Clamp(dot.CurrentNumber - connectionCount, 0, int.MaxValue);
 
-                // Apply the rotation
-                dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
+        UpdateNumbers(dot.TempNumber);
+        MoveClockDotPreviews();
+        
 
-                // Increment the elapsed time
-                elapsedTime += Time.deltaTime;
-
-                yield return null;
-            }
-
-            // Reset rotation to original position after the shaking animation is finished
-            dot.transform.eulerAngles = Vector2.zero;
-
-        }
-    }
-    public override IEnumerator AnimateDeselectionEffect()
-    {
-        if (!ConnectionManager.ConnectedDots.Contains(dot))
-
-            yield return base.AnimateDeselectionEffect();
-    }
-    public IEnumerator DoMove(List<Vector2Int> path, Action onMoved)
-    {
-        float duration = ClockDotVisuals.moveDuration;
-        float moveDuration = duration / path.Count;
-        foreach (var pos in path)
-        {
-            dot.transform.DOMove(new Vector2(pos.x, pos.y) * Board.offset, moveDuration);
-            yield return new WaitForSeconds(moveDuration - moveDuration /2);
-            onMoved?.Invoke();
-        }
-
-        yield return base.AnimateDeselectionEffect();
-
+        yield return ScaleNumbers();
     }
 
-    public void StopPreview()
+    public override IEnumerator DoIdleAnimation()
     {
-        visuals.clockDotPreview.SetActive(false);
-        visuals.clockDotPreview.transform.SetParent(dot.transform);
-        visuals.clockDotPreview.transform.position = dot.transform.position;
+        StopHitPreview();
+        yield break;
+;
     }
 }

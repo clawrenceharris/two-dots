@@ -6,6 +6,13 @@ public class NumerableVisualController : INumerableVisualController
 
 {
     private INumerableVisuals visuals;
+    
+
+    public IEnumerator DoIdleAnimation()
+    {
+        throw new NotImplementedException();
+    }
+
     public void Init(INumerable numerable, INumerableVisuals visuals)
     {
         this.visuals = visuals;

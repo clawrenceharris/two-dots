@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IDirectionalVisualController
+public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IDirectionalVisualController, IPreviewableVisualController
 {
     private MonsterDot dot;
     private MonsterDotVisuals visuals;
@@ -30,14 +30,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
          numerableVisualController.UpdateNumbers(amount);
     }
 
-    public IEnumerator PreviewHit(PreviewHitType hitType)
-    {
-
-        UpdateNumbers(dot.TempNumber);
-        yield return ScaleNumbers();
-        
-
-    }
+    
 
     public IEnumerator ScaleNumbers()
     {
@@ -51,11 +44,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one, scaleDuration);
     }
 
-    public IEnumerator PreviewClear()
-    {
-        yield break;
-    }
-
+   
     public IEnumerator DoMove(int col, int row)
     {
         for(int i = 0; i < visuals.sprites.Length; i++)
@@ -71,10 +60,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
 
     public override IEnumerator Hit(HitType hitType)
     {
-        if (dot.HitCount >= dot.HitsToClear)
-            yield return base.Hit(hitType);
-        else
-            yield return ScaleNumbers();
+        yield return ScaleNumbers();
 
     }
 
@@ -86,5 +72,25 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     public override void SetInitialColor()
     {
         visuals.spriteRenderer.color = ColorSchemeManager.FromDotColor(dot.Color); ;
+    }
+
+    public IEnumerator DoClearPreviewAnimation()
+    {
+        yield break;
+    }
+
+    public IEnumerator DoHitPreviewAnimation()
+    {
+        int connectionCount = ConnectionManager.ToHit.Count;
+
+        dot.TempNumber = Mathf.Clamp(dot.CurrentNumber - connectionCount, 0, int.MaxValue);
+
+        UpdateNumbers(dot.TempNumber);
+        yield return ScaleNumbers();
+    }
+
+    public IEnumerator DoIdleAnimation()
+    {
+        throw new System.NotImplementedException();
     }
 }
