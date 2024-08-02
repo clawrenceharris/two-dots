@@ -112,8 +112,7 @@ public class LevelManager : MonoBehaviour
         new CommandInvoker(board);
         new ConnectionManager(board);
         new DotsGameObjectController(board);
-        new PreviewManager(board);
-
+        
         Level = JSONLevelLoader.ReadJsonFile(levelNum);
         LinePool.Instance.FillPool(Level.width * Level.height);
 
