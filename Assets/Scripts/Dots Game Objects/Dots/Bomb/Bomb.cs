@@ -14,7 +14,7 @@ public class Bomb : Dot, IExplodable
     public Dictionary<HitType, IExplosionRule> ExplosionRules => new() { { HitType.BombExplosion, new BombExplosionRule() } };
     public override int HitsToClear => 1;
     public static BombExplosionManager bombExplosionManager = new();
-    public override Dictionary<HitType, IHitRule> HitRules => new();
+    public override IHitRule HitRule => null;
 
     public static List<IHittable> Hits { get; } = new();// the list of hittables all Bomb objects have hit
 
@@ -38,11 +38,7 @@ public class Bomb : Dot, IExplodable
     }
 
 
-    private void OnDisable()
-    {
-        Hits.Clear();
-        BombExplosionManager.bombs.Remove(this);
-    }
+    
 
 
     public IEnumerator ChangeHittablesColor(IHittable hittable)
@@ -110,6 +106,9 @@ public class Bomb : Dot, IExplodable
             onComplete?.Invoke(hittable);
 
         }
+
+        BombExplosionManager.bombs.Clear();
+        Hits.Clear();
 
     }
 

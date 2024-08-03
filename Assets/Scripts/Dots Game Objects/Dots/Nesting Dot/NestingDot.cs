@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class NestingDot : Dot
+public class NestingDot : Dot, IPreviewable
 {
     public override DotType DotType => DotType.NestingDot;
 
@@ -23,10 +24,7 @@ public class NestingDot : Dot
 
     public override int HitsToClear => 3;
 
-    public override Dictionary<HitType, IHitRule> HitRules =>
-        new(){{HitType.NestingDot, new HitByNeighborsRule()}};
-
-    public bool IsPreviewing { get; private set; }
+    public override IHitRule HitRule => new HitByNeighborsRule();
 
 
     public override void Hit(HitType hitType)
@@ -39,15 +37,29 @@ public class NestingDot : Dot
         visualController.Init(this);
     }
 
-    public override IEnumerator Clear()
+    public void OnConnectionChanged(LinkedList<ConnectableDot> connectedDots)
     {
-        IsPreviewing = false;
-        return base.Clear();
+        throw new NotImplementedException();
     }
 
-
-    public IEnumerator StartPreview(PreviewHitType hitType)
+    public bool ShouldPreview(PreviewableState state, Board board)
     {
-        yield break;
+        if(state == PreviewableState.PreviewingClear){
+            return HitCount == HitsToClear -1;
+        }
+       
+        return false;
+        
+    }
+
+    public bool ShouldPreviewClear(Board board)
+    {
+        return  HitCount == HitsToClear -1;
+;
+    }
+
+    public bool ShouldPreviewHit(Board board)
+    {
+        return HitRule.Validate(this, board);
     }
 }

@@ -7,16 +7,8 @@ public class AnchorDot : Dot
 {
     public override DotType DotType => DotType.AnchorDot;
 
-    public override Dictionary<HitType, IHitRule> HitRules {
-        get
-        {
-            return new()
-            {
-                { HitType.AnchorDot, new HitByBottomOfBoardRule() }
-            };
-        }
-    }
-    private new AnchorDotVisualController VisualController => GetVisualController<AnchorDotVisualController>();
+    public override IHitRule HitRule =>  new HitByBottomOfBoardRule();
+
 
     public override int HitsToClear => 1;
 

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public interface IPreviewable : IHittable
 {
-    bool IsPreviewing { get;}
-    List<IHitRule> PreviewHitRules { get; }
-
-    IEnumerator StartPreview(PreviewHitType hitType);
-    void StopPreview();
+   
+    bool ShouldPreviewClear(Board board);
+    // void OnConnectionChanged(LinkedList<ConnectableDot> connectedDots);
+    //  void UpdateState(PreviewableState state);
+    bool ShouldPreviewHit(Board board);
 }

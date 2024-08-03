@@ -10,7 +10,12 @@ public class ClockDot : BlankDotBase, INumerable
     private readonly NumerableBase numerable = new();
     public int InitialNumber { get => numerable.InitialNumber; set => numerable.InitialNumber = value; }
     public int CurrentNumber { get => numerable.CurrentNumber;}
+
+    public override int PreviewableHitCount => TempNumber;
+    public override int PreviewableHitsToClear => 0;
     public new ClockDotVisualController VisualController => GetVisualController<ClockDotVisualController>();
+   
+   
     public override DotsGameObjectData ReplacementDot
     {
         get
@@ -74,29 +79,12 @@ public class ClockDot : BlankDotBase, INumerable
         numerable.Hit(hitType);
     }
 
-    public override IEnumerator StartPreview(PreviewHitType hitType)
+
+
+    public override bool ShouldPreviewClear(Board board)
     {
-
-        int connectionCount = ConnectionManager.ToHit.Count;
-
-        TempNumber = Mathf.Clamp(CurrentNumber - connectionCount, 0, int.MaxValue);
-
-
-
-        yield return base.StartPreview(hitType);
-
+        return TempNumber == 0;
     }
-
-
-    public override void StopPreview()
-    {
-        base.StopPreview();
-        VisualController.StopPreview();
-    }
-
-
-
-
 
 
 }

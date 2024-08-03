@@ -22,9 +22,12 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     public int DirectionX { get; set; }
     public int DirectionY { get; set; }
-    public bool IsPreviewing { get; private set; }
 
-    public List<IHitRule> PreviewHitRules => new() { new HitByConnectionRule()};
+    public List<IHitRule> PreviewHitRules => throw new NotImplementedException();
+
+    public int PreviewableHitCount => TempNumber;
+
+    public int PreviewableHitsToClear => 0;
 
     public override void Init(int column, int row)
     {
@@ -50,7 +53,6 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     }
     public override IEnumerator Clear()
     {
-        IsPreviewing = false;
 
         return base.Clear();
     }
@@ -67,20 +69,8 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     }
 
-    public IEnumerator StartPreview(PreviewHitType hitType)
-    {
-        int connectionCount = ConnectionManager.ToHit.Count;
-
-        TempNumber = Mathf.Clamp(CurrentNumber - connectionCount, 0, int.MaxValue);
-
-        yield return VisualController.PreviewHit(hitType);
-    }
-
-    public IEnumerator PreviewClear()
-    {
-        yield break;
-    }
-
+   
+   
     public void ChangeDirection(int directionX, int directionY)
     {
         directional.ChangeDirection(directionX, directionY);
@@ -96,8 +86,15 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
         VisualController.UpdateNumbers(CurrentNumber);
     }
 
-    public void StopPreview()
+    
+   
+    public bool ShouldPreviewClear(Board board)
     {
-       IsPreviewing = false;
+        return TempNumber == 0;
+    }
+
+    public bool ShouldPreviewHit(Board board)
+    {
+        return HitRule.Validate(this, board);
     }
 }

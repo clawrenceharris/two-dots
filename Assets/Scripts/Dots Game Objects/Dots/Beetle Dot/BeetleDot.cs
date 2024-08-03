@@ -49,9 +49,6 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
         }
     }
 
-    public bool IsPreviewing { get; private set; }
-
-    public List<IHitRule> PreviewHitRules => new() { new HitByConnectionRule()};
 
     public override void Init(int column, int row)
     {
@@ -68,13 +65,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
 
     }
 
-    public override IEnumerator Clear()
-    {
-        IsPreviewing = false;
-
-        return base.Clear();
-    }
-
+    
     public override void Hit(HitType hitType)
     {
         HitCount++;
@@ -92,17 +83,9 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
         directional.ChangeDirection(directionX, directionY);
     }
 
-    public IEnumerator StartPreview(PreviewHitType hitType)
-    {
-        
-        yield return VisualController.PreviewHit(hitType);
-      
-    }
+    
 
-    public IEnumerator PreviewClear()
-    {
-       yield return VisualController.PreviewClear();
-    }
+    
 
     public IEnumerator TrySwap(Action onComplete = null)
     {
@@ -128,8 +111,30 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
         //do nothing
     }
 
-    public void StopPreview()
+    
+    public bool ShouldPreview(PreviewableState state, Board board)
     {
-        IsPreviewing = false;
+        if(state == PreviewableState.Idling){
+            return true;
+        }
+
+        if(state == PreviewableState.PreviewingHit){
+            return new HitByConnectionRule().Validate(this, board);
+        }
+        if(state == PreviewableState.PreviewingClear){
+            return HitCount == HitsToClear -1;
+        }
+        return false;
+    }
+
+
+    public bool ShouldPreviewClear(Board board)
+    {
+        return HitCount == HitsToClear -1;
+    }
+
+    public bool ShouldPreviewHit(Board board)
+    {
+        return HitRule.Validate(this, board);
     }
 }
