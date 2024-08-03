@@ -9,13 +9,9 @@ public class Block : HittableTile
     public override TileType TileType => TileType.Block;
     public override int HitsToClear => 1;
 
-    public override Dictionary<HitType, IHitRule> HitRules
-    {
-        get
-        {
-           return new() { {  HitType.BlockTile, new HitByNeighborsRule()} };
-        }
-    } 
+    public override IHitRule HitRule => new HitByNeighborsRule();
+        
+     
 
     public new BlockVisualController VisualController => GetVisualController<BlockVisualController>();
 

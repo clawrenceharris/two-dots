@@ -12,14 +12,14 @@ public interface IHittable
     bool WasHit { get; set; }
    
     /// <summary>
-    /// Number of hits made on the dot
+    /// Number of hits made on the object
     /// </summary>
     int HitCount { get; set; }
     /// <summary>
-    /// Number of hits required to clear the dot
+    /// Number of hits required to clear the object
     /// </summary>
     int HitsToClear { get; }
-    Dictionary<HitType, IHitRule> HitRules { get; }
+    IHitRule HitRule { get; }
     IEnumerator Clear();
 
 

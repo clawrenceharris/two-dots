@@ -4,20 +4,16 @@ using UnityEngine;
 using System;
 
 
-public class Ice : Tile, IHittable
+public class Ice : HittableTile
 {
     public override TileType TileType => TileType.Ice;
 
     public new IceVisualController VisualController => GetVisualController<IceVisualController>();
     private readonly HittableBase hittable = new();
 
-    public HitType HitType { get => hittable.HitType;}
-    public bool WasHit { get => hittable.WasHit; set => hittable.WasHit = value; }
-    public int HitCount { get => hittable.HitCount; set => hittable.HitCount = value; }
+    public override int HitsToClear => 3;
 
-    public int HitsToClear => 3;
-
-    public Dictionary<HitType, IHitRule> HitRules => new() { { HitType.Connection, new HitBySamePositionRule() } };
+    public override IHitRule HitRule => new HitBySamePositionRule();
 
     public override void Init(int column, int row)
     {
@@ -30,15 +26,11 @@ public class Ice : Tile, IHittable
         visualController.Init(this);
     }
 
-    public IEnumerator Clear()
-    {
-       yield return hittable.Clear();
-    }
+    
 
-    public IEnumerator Hit(HitType hitType, Action onHitComplete = null)
+    public override void Hit(HitType hitType)
     {
         HitCount++;
-        yield return hittable.Hit(hitType, onHitComplete);
     }
 
     

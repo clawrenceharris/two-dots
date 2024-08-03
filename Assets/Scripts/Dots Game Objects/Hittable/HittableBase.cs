@@ -14,7 +14,7 @@ public class HittableBase : IHittable
     public static event Action<IHittable> onCleared;
     public static event Action<IHittable> onHit;
 
-    public Dictionary<HitType, IHitRule> HitRules { get => hittable.HitRules; }
+    public  IHitRule HitRule { get => hittable.HitRule; }
     private DotsGameObject DotsGameObject => (DotsGameObject)hittable;
     public IHittableVisualController VisualController => DotsGameObject.GetVisualController<IHittableVisualController>();
    

@@ -5,14 +5,9 @@ using UnityEngine;
 
 public abstract class ConnectableDot : Dot, IConnectable, IColorable
 {
-    public override Dictionary<HitType, IHitRule> HitRules =>
-        new ()
-        {
+    public override IHitRule HitRule => new HitByConnectionRule();
             
-            {
-                HitType.Connection, new HitByConnectionRule()
-            }
-        };
+        
 
 
     public new ColorableDotVisualController VisualController => GetVisualController<ColorableDotVisualController>();

@@ -6,7 +6,7 @@ using UnityEngine;
 public class Circuit :  HittableTile, ISwitchable
 {
     
-    public override Dictionary<HitType, IHitRule> HitRules => new(){{HitType.Circuit, new HitBySamePositionRule()}};
+    public override  IHitRule HitRule =>new HitBySamePositionRule();
 
    
     public override int HitsToClear => int.MaxValue;

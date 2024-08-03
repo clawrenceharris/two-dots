@@ -6,7 +6,7 @@ public class NumerableBase : INumerable
 {
 
     public int CurrentNumber { get; private set; }
-    public int TempNumber { get; set; }
+    public int TempNumber { get; set; } = -1;
     public int InitialNumber { get; set; }
     private INumerable numerable;
     public DotsGameObject GetGameObject() => (DotsGameObject)numerable;
@@ -54,6 +54,7 @@ public class NumerableBase : INumerable
             UpdateCurrentNumber(TempNumber);
 
         };
+
 
     }
 }

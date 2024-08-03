@@ -8,7 +8,7 @@ public abstract class HittableTile : Tile, IHittable
 
     private readonly HittableBase hittable = new();
 
-    public abstract Dictionary<HitType, IHitRule> HitRules { get; }
+    public abstract IHitRule HitRule { get; }
 
     public HitType HitType { get => hittable.HitType; protected set => hittable.HitType = value; }
 
