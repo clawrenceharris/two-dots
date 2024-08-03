@@ -9,16 +9,13 @@ public class ClearClockDotsCommand : Command
     {
         
         List<ClockDot> clockDots = board.FindDotsOfType<ClockDot>();
-        int onGoingCorotuines = 0;
         foreach(ClockDot clockDot in clockDots)
         {
             if (clockDot.CurrentNumber == 0)
             {
-                onGoingCorotuines++;
-                CoroutineHandler.StartStaticCoroutine(clockDot.Clear(), () => onGoingCorotuines--) ;
+                CoroutineHandler.StartStaticCoroutine(clockDot.Clear());
             }
         }
-        yield return new WaitUntil(() => onGoingCorotuines == 0);
         yield return base.Execute(board);
     }
 

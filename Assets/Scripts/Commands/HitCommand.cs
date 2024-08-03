@@ -21,20 +21,17 @@ public class HitCommand : Command
         {
             return;
         }
-        foreach (HitType hitType in hittable.HitRules.Keys)
-        {
-            if (hittable.HitRules.TryGetValue(hitType, out var rule))
+            
+            if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
             {
-                if (rule.Validate(hittable, board))
-                {
-                    ongoingCoroutines++;
-                    CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
-                        onComplete?.Invoke();
-                    }),() => ongoingCoroutines--);                    
-                
-                        
-                }
-            }
+                ongoingCoroutines++;
+                CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.None, () => {
+                    onComplete?.Invoke();
+                }),() => ongoingCoroutines--);                    
+            
+                    
+            
+        
         }
     }
 

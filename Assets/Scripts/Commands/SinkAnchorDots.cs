@@ -15,16 +15,14 @@ public class SinkAnchorDotsCommand : Command
         foreach(AnchorDot anchorDot in anchorDots)
         {
 
-            foreach(HitType hitType in anchorDot.HitRules.Keys)
-            {
-                if(anchorDot.HitRules.TryGetValue(hitType, out var rule)){
-                    if(rule.Validate(anchorDot, board))
-                    {
-                        DidExecute = true;
-                        CoroutineHandler.StartStaticCoroutine(anchorDot.Hit(hitType, null));
+            
+            if(anchorDot.HitRule.Validate(anchorDot, board)){
+                
+                DidExecute = true;
+                CoroutineHandler.StartStaticCoroutine(anchorDot.Hit(HitType.AnchorDot, null));
 
-                    }
-                }
+                
+            
             }
         }
         if (DidExecute)
