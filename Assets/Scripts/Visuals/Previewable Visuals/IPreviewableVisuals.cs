@@ -9,4 +9,6 @@ public interface IPreviewableVisualController
     IEnumerator DoHitPreviewAnimation();
 
     IEnumerator DoClearPreviewAnimation();
+
+   
 }
