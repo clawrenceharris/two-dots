@@ -21,7 +21,7 @@ public class Board : MonoBehaviour
 
     public static float offset = 2.5f;
     public static event Action<DotsGameObject> onObjectSpawned;
-    public static float DotDropSpeed { get; private set; } = 0.3f;
+    public static float DotDropSpeed { get; private set; } = 0.5f;
     public List<Dot> ClearedDots { get; private set; } = new();
 
     public static event Action<Board> onBoardCreated;
