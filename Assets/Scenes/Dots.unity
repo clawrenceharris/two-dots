@@ -320,17 +320,17 @@ MonoBehaviour:
       audioClips:
       - {fileID: 8300000, guid: 80897b741d07b4af4b5269f0caa0aa82, type: 3}
       maxPlaysAtOnce: 1
-    commandType: 9
+    commandType: 12
   - commandExecutionAudio:
       audioClips:
       - {fileID: 8300000, guid: 66f7f1f83348f4afeb99e11355e3b230, type: 3}
       maxPlaysAtOnce: 1
-    commandType: 3
+    commandType: 4
   - commandExecutionAudio:
       audioClips:
       - {fileID: 8300000, guid: a3b0d0f9d6ce34f7a9ba2aece648a83f, type: 3}
       maxPlaysAtOnce: 3
-    commandType: 8
+    commandType: 11
   - commandExecutionAudio:
       audioClips:
       - {fileID: 8300000, guid: 1e354fab3eb424443b6cfe588556dd7a, type: 3}
