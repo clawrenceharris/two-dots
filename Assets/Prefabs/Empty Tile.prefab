@@ -111,7 +111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 8567817409825067955}
-  sprite: {fileID: 21300000, guid: 6e8fda4aa8ff846158e554d60537416e, type: 3}
   TopRightCornerSprite: {fileID: 21300000, guid: 6e8fda4aa8ff846158e554d60537416e, type: 3}
   TopLeftCornerSprite: {fileID: 21300000, guid: 6a25e52eade004330ae964bedf722692, type: 3}
   BottomRightCornerSprite: {fileID: 21300000, guid: 37963ec4a68bf4ca8b870c9b0a47db21, type: 3}
@@ -127,4 +126,4 @@ MonoBehaviour:
   TopEndSprite: {fileID: 21300000, guid: d8d031d9b063a45f9b5d50b28ba79920, type: 3}
   BottomEndSprite: {fileID: 21300000, guid: 25437dc5be7d54c0db884788e6126543, type: 3}
   FullSprite: {fileID: 21300000, guid: 5a267142a120846ceba67affdf14fd3e, type: 3}
-  IsolatedSprite: {fileID: 0}
+  IsolatedSprite: {fileID: 21300000, guid: d8d031d9b063a45f9b5d50b28ba79920, type: 3}

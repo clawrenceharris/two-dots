@@ -465,6 +465,7 @@ PrefabInstance:
     - {fileID: 5651903629060155388, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
     - {fileID: 8835873053324184676, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
     - {fileID: 8453581469220893231, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+    - {fileID: 8972423242829497690, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 981695197725732803, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
@@ -492,6 +493,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8539122926316644213, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1339387377695013001}
+    - targetCorrespondingSourceObject: {fileID: 8539122926316644213, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 434328056635539949}
   m_SourcePrefab: {fileID: 100100000, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
 --- !u!4 &524472633177910155 stripped
 Transform:
@@ -556,6 +560,18 @@ MonoBehaviour:
   middle: {fileID: 6865684550561447720}
   shadow: {fileID: 7387436768553865744}
   clockDotPreview: {fileID: 439542304532555247}
+--- !u!114 &434328056635539949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8960453033303663421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eeb5ab5e657a4728924143964310ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4584587409611949380
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -590,7 +606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8176588032779031793, guid: 4de092c3584b73646aa282e06f86e497, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.06
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 8176588032779031793, guid: 4de092c3584b73646aa282e06f86e497, type: 3}
       propertyPath: m_LocalPosition.y
@@ -677,7 +693,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8176588032779031793, guid: 4de092c3584b73646aa282e06f86e497, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.04
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8176588032779031793, guid: 4de092c3584b73646aa282e06f86e497, type: 3}
       propertyPath: m_LocalPosition.y
