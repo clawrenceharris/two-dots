@@ -40,7 +40,8 @@ public class CoroutineHandler : MonoBehaviour
 
     public static void StopStaticCoroutine(Coroutine coroutine)
     {
-        instance.StopCoroutine(coroutine);
+        if(coroutine != null)
+            instance.StopCoroutine(coroutine);
     }
 
 
