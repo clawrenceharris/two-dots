@@ -1,6 +1,6 @@
 {
   "levelNum": 1,
-  "width": 5,
+  "width": 6,
   "height": 5,
   "moves": 6,
   "initialDotsToSpawn": [
@@ -8,14 +8,27 @@
       "type": "normal",
       "color": "red"
     },
-
     {
       "type": "normal",
       "color": "red"
     },
     {
+      "type": "normal",
+      "color": "blue"
+    },
+    {
+      "type": "normal",
+      "color": "green"
+    },
+    {
+      "type": "blank"
+    },
+    {
+      "type": "blank"
+    },
+    {
       "type": "clock",
-      "number": 4
+      "number": 8
     }
   ],
   "dotsToSpawn": [
@@ -24,14 +37,36 @@
       "color": "red"
     },
     {
-      "type": "normal",
-      "color": "purple"
+      "type": "lotus",
+      "color": "red"
+    },
+    {
+      "type": "lotus",
+      "color": "green"
     },
     {
       "type": "normal",
       "color": "red"
     },
-
+    {
+      "type": "normal",
+      "color": "blue"
+    },
+    {
+      "type": "anchor"
+    },
+    {
+      "type": "normal",
+      "color": "blue"
+    },
+    {
+      "type": "normal",
+      "color": "green"
+    },
+    {
+      "type": "normal",
+      "color": "green"
+    },
     {
       "type": "blank"
     },
@@ -40,17 +75,21 @@
     },
     {
       "type": "clock",
-      "number": 3
+      "number": 8
     },
 
     {
-      "type": "nesting",
-      "hitCount": 2
+      "type": "nesting"
     }
   ],
   "dotsOnBoard": [],
 
   "tilesOnBoard": [
+    {
+      "type": "water",
+      "row": 2,
+      "col": 2
+    },
     {
       "type": "circuit",
       "isActive": false,
@@ -59,9 +98,42 @@
     },
     {
       "type": "circuit",
-      "isActive": true,
-      "row": 3,
+      "isActive": false,
+      "row": 1,
+      "col": 2
+    },
+
+    {
+      "type": "circuit",
+      "isActive": false,
+      "row": 2,
+      "col": 1
+    },
+    {
+      "type": "circuit",
+      "isActive": false,
+      "row": 2,
       "col": 3
+    },
+    {
+      "type": "empty",
+      "row": 4,
+      "col": 5
+    },
+    {
+      "type": "empty",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "type": "empty",
+      "row": 4,
+      "col": 0
+    },
+    {
+      "type": "empty",
+      "row": 0,
+      "col": 5
     }
   ]
 }
