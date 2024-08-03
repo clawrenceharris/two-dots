@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEngine;
 
 public class NumerableVisualController : INumerableVisualController
 
@@ -21,6 +22,7 @@ public class NumerableVisualController : INumerableVisualController
 
     public void UpdateNumbers(int number)
     {
+       number = Mathf.Clamp(number, 0, 99);
         string numberStr = number.ToString();
         if (numberStr.Length == 1)
         {

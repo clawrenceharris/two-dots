@@ -12,6 +12,8 @@ public class DotVisuals : Visuals, IHittableVisuals
     public float ClearDuration => hittableVisuals.ClearDuration;
     public float HitDuration => hittableVisuals.HitDuration;
 
+    public static float DefaultDotSize;
+
 
 
 

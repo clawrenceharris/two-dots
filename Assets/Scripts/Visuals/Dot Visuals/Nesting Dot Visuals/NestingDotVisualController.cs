@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
-public class NestingDotVisualController : DotVisualController
+public class NestingDotVisualController : DotVisualController, IPreviewableVisualController
 {
     private NestingDotVisuals visuals;
     private NestingDot dot;
@@ -113,7 +113,19 @@ public class NestingDotVisualController : DotVisualController
         yield return visuals.spriteRenderer.DOColor(Color.black, duration);
     }
 
-    public IEnumerator PreviewClear()
+    
+
+    public IEnumerator DoIdleAnimation()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerator DoHitPreviewAnimation()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerator DoClearPreviewAnimation()
     {
         while (dot.HitCount == 2)
         {

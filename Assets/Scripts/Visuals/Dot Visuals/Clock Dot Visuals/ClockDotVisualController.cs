@@ -20,9 +20,61 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
         numerableVisualController.Init(dot, visuals.numerableVisuals);
         base.Init(dotsGameObject);
+
+        ConnectionManager.onDotConnected += OnDotConnected;
+        ConnectionManager.onDotDisconnected += OnDotDisconnected;
+        ConnectionManager.onDotConnected += MoveClockDotPreviews;
+        ConnectionManager.onDotDisconnected += MoveClockDotPreviews;
+        ConnectionManager.onConnectionEnded += OnConnectionEnded;
+
+    }
+
+    private void OnDotConnected(ConnectableDot dot)
+    {
+        if(!ConnectionManager.ConnectedDots.Contains(this.dot)){
+            return;
+        }
+        
+        //if the Clock dot is already at 0 then exit
+        else if(this.dot.TempNumber == 0){
+            return;
+        }
+        else{
+            OnConnectionChanged();
+        }
+
     }
 
 
+    private void OnConnectionChanged(){
+        List<IHittable> toHit = ConnectionManager.ToHit;
+
+        dot.TempNumber = Mathf.Clamp(dot.CurrentNumber - toHit.Count, 0, int.MaxValue);
+        
+        UpdateNumbers(dot.TempNumber);
+        
+
+        CoroutineHandler.StartStaticCoroutine(ScaleNumbers());
+    }
+    private void OnDotDisconnected(ConnectableDot dot){
+        if(!ConnectionManager.ConnectedDots.Contains(this.dot)){
+            return;
+        }
+        else{
+            OnConnectionChanged();
+        }
+        
+        
+    }
+
+    private void OnConnectionEnded(LinkedList<ConnectableDot> connectedDots){
+        if(!connectedDots.Contains(dot)){
+            return;
+        }
+        visuals.clockDotPreview.SetActive(false);
+        visuals.clockDotPreview.transform.SetParent(dot.transform);
+        visuals.clockDotPreview.transform.position = dot.transform.position;
+    }
     protected override void SetUp()
     {
         UpdateNumbers(dot.CurrentNumber);
@@ -73,12 +125,6 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
     
 
-    private void StopHitPreview(){
-        visuals.clockDotPreview.SetActive(false);
-        visuals.clockDotPreview.transform.SetParent(dot.transform);
-        visuals.clockDotPreview.transform.position = dot.transform.position;
-    }
-    
     public override IEnumerator AnimateDeselectionEffect()
     {
         if (!ConnectionManager.ConnectedDots.Contains(dot))
@@ -103,7 +149,6 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     
      public override IEnumerator DoClearPreviewAnimation()
     {
-        StopHitPreview();
 
         float elapsedTime = 0f;
         Vector3 originalRotation = dot.transform.eulerAngles;
@@ -141,7 +186,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one, scaleDuration);
     }
 
-    private void MoveClockDotPreviews(){
+    private void MoveClockDotPreviews(ConnectableDot _){
 
         List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
 
@@ -171,23 +216,14 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
             }
         }
     }
-    public override IEnumerator DoHitPreviewAnimation()
-    {
-        CoroutineHandler.StartStaticCoroutine(base.DoHitPreviewAnimation());
-        int connectionCount = ConnectionManager.ToHit.Count;
 
-        dot.TempNumber = Mathf.Clamp(dot.CurrentNumber - connectionCount, 0, int.MaxValue);
 
-        UpdateNumbers(dot.TempNumber);
-        MoveClockDotPreviews();
-        
-
-        yield return ScaleNumbers();
-    }
+    
+    
+    
 
     public override IEnumerator DoIdleAnimation()
     {
-        StopHitPreview();
         yield break;
 ;
     }
