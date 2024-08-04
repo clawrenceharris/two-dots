@@ -21,32 +21,23 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         numerableVisualController.Init(dot, visuals.numerableVisuals);
         base.Init(dotsGameObject);
 
-        ConnectionManager.onDotConnected += OnDotConnected;
-        ConnectionManager.onDotDisconnected += OnDotDisconnected;
+        ConnectionManager.onDotConnected += OnConnectionChanged;
+        ConnectionManager.onDotDisconnected += OnConnectionChanged;
         ConnectionManager.onDotConnected += MoveClockDotPreviews;
         ConnectionManager.onDotDisconnected += MoveClockDotPreviews;
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
 
     }
 
-    private void OnDotConnected(ConnectableDot dot)
-    {
+    
+
+
+    private void OnConnectionChanged(ConnectableDot _){
         if(!ConnectionManager.ConnectedDots.Contains(this.dot)){
             return;
         }
-        
-        //if the Clock dot is already at 0 then exit
-        else if(this.dot.TempNumber == 0){
-            return;
-        }
        
-        OnConnectionChanged();
-        
 
-    }
-
-
-    private void OnConnectionChanged(){
         List<IHittable> toHit = ConnectionManager.ToHit;
 
         dot.TempNumber = Mathf.Clamp(dot.CurrentNumber - toHit.Count, 0, int.MaxValue);
@@ -56,16 +47,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
         CoroutineHandler.StartStaticCoroutine(ScaleNumbers());
     }
-    private void OnDotDisconnected(ConnectableDot dot){
-        if(!ConnectionManager.ConnectedDots.Contains(this.dot)){
-            return;
-        }
-       
-        OnConnectionChanged();
-        
-        
-        
-    }
+   
 
     private void OnConnectionEnded(LinkedList<ConnectableDot> connectedDots){
         if(!connectedDots.Contains(dot)){
