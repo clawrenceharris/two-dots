@@ -28,6 +28,7 @@ public class PreviewableStateManager : MonoBehaviour
     private void Awake(){
         DotsGameObject = GetComponent<DotsGameObject>();
         Board = GetComponentInParent<Board>();
+        HittableBase.onCleared += OnCleared;
     }
 
     private void Start()
@@ -50,6 +51,14 @@ public class PreviewableStateManager : MonoBehaviour
         if (currentState != null && currentCoroutine == null){
             
             currentCoroutine = StartCoroutine(currentState.UpdateState(this));
+        }
+    }
+
+    private void OnCleared(IHittable hittable){
+        DotsGameObject dotsGameObject = (DotsGameObject)hittable;
+        if(dotsGameObject == DotsGameObject){
+            StopCoroutine(currentCoroutine);
+            
         }
     }
     

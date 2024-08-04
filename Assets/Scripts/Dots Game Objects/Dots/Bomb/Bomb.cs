@@ -38,7 +38,10 @@ public class Bomb : Dot, IExplodable
     }
 
 
-    
+    private void OnDisable()
+    {
+        BombExplosionManager.bombs.Remove(this);
+    }
 
 
     public IEnumerator ChangeHittablesColor(IHittable hittable)
@@ -107,7 +110,6 @@ public class Bomb : Dot, IExplodable
 
         }
 
-        BombExplosionManager.bombs.Clear();
         Hits.Clear();
 
     }

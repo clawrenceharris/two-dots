@@ -39,9 +39,9 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         else if(this.dot.TempNumber == 0){
             return;
         }
-        else{
-            OnConnectionChanged();
-        }
+       
+        OnConnectionChanged();
+        
 
     }
 
@@ -60,9 +60,9 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         if(!ConnectionManager.ConnectedDots.Contains(this.dot)){
             return;
         }
-        else{
-            OnConnectionChanged();
-        }
+       
+        OnConnectionChanged();
+        
         
         
     }
@@ -116,21 +116,6 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
     }
 
-    public override IEnumerator Hit(HitType hitType)
-    {
-        yield break;
-    }
-
-
-
-    
-
-    public override IEnumerator AnimateDeselectionEffect()
-    {
-        if (!ConnectionManager.ConnectedDots.Contains(dot))
-
-            yield return base.AnimateDeselectionEffect();
-    }
     public IEnumerator DoMove(List<Vector2Int> path, Action onMoved)
     {
         float duration = ClockDotVisuals.moveDuration;
@@ -142,12 +127,11 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
             onMoved?.Invoke();
         }
 
-        yield return base.AnimateDeselectionEffect();
 
     }
 
     
-     public override IEnumerator DoClearPreviewAnimation()
+    public override IEnumerator DoClearPreviewAnimation()
     {
 
         float elapsedTime = 0f;
@@ -172,8 +156,8 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
         // Reset rotation to original position after the shaking animation is finished
         dot.transform.eulerAngles = Vector2.zero;
-
     }
+    
     public IEnumerator ScaleNumbers()
     {
         float scaleDuration = 0.2f;

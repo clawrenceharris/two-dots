@@ -31,12 +31,15 @@ public class ClearCircuitsCommand : Command
                         Dot dotToRemove = board.GetDotAt(circuit.Column, circuit.Row);
                         CoroutineHandler.StartStaticCoroutine(circuitToClear.Clear());
                         CoroutineHandler.StartStaticCoroutine(dotToRemove.Clear(0));
-                        
+                        DidExecute = true;
                         board.SpawnBomb(circuit.Column, circuit.Row);
                     }    
                 
                 }
             }
+        }
+        if(DidExecute){
+            onCommandExecuting?.Invoke(this);
         }
         yield return base.Execute(board);
     }

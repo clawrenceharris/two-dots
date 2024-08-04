@@ -1,25 +1,25 @@
 {
   "levelNum": 1,
   "width": 6,
-  "height": 5,
+  "height": 6,
   "moves": 6,
   "initialDotsToSpawn": [
-    {
-      "type": "normal",
-      "color": "red"
-    },
-    {
-      "type": "normal",
-      "color": "red"
-    },
-    {
-      "type": "normal",
-      "color": "blue"
-    },
-    {
-      "type": "normal",
-      "color": "green"
-    },
+    // {
+    //   "type": "normal",
+    //   "color": "red"
+    // },
+    // {
+    //   "type": "normal",
+    //   "color": "red"
+    // },
+    // {
+    //   "type": "normal",
+    //   "color": "blue"
+    // },
+    // {
+    //   "type": "normal",
+    //   "color": "green"
+    // },
     {
       "type": "blank"
     },
@@ -33,41 +33,6 @@
   ],
   "dotsToSpawn": [
     {
-      "type": "normal",
-      "color": "red"
-    },
-    {
-      "type": "lotus",
-      "color": "red"
-    },
-    {
-      "type": "lotus",
-      "color": "green"
-    },
-    {
-      "type": "normal",
-      "color": "red"
-    },
-    {
-      "type": "normal",
-      "color": "blue"
-    },
-    {
-      "type": "anchor"
-    },
-    {
-      "type": "normal",
-      "color": "blue"
-    },
-    {
-      "type": "normal",
-      "color": "green"
-    },
-    {
-      "type": "normal",
-      "color": "green"
-    },
-    {
       "type": "blank"
     },
     {
@@ -76,10 +41,6 @@
     {
       "type": "clock",
       "number": 8
-    },
-
-    {
-      "type": "nesting"
     }
   ],
   "dotsOnBoard": [],
@@ -89,51 +50,31 @@
       "type": "water",
       "row": 2,
       "col": 2
-    },
-    {
-      "type": "circuit",
-      "isActive": false,
-      "row": 3,
-      "col": 2
-    },
-    {
-      "type": "circuit",
-      "isActive": false,
-      "row": 1,
-      "col": 2
-    },
-
-    {
-      "type": "circuit",
-      "isActive": false,
-      "row": 2,
-      "col": 1
-    },
-    {
-      "type": "circuit",
-      "isActive": false,
-      "row": 2,
-      "col": 3
-    },
-    {
-      "type": "empty",
-      "row": 4,
-      "col": 5
-    },
-    {
-      "type": "empty",
-      "row": 0,
-      "col": 0
-    },
-    {
-      "type": "empty",
-      "row": 4,
-      "col": 0
-    },
-    {
-      "type": "empty",
-      "row": 0,
-      "col": 5
     }
+    // {
+    //   "type": "circuit",
+    //   "isActive": false,
+    //   "row": 3,
+    //   "col": 2
+    // },
+    // {
+    //   "type": "circuit",
+    //   "isActive": false,
+    //   "row": 1,
+    //   "col": 2
+    // },
+
+    // {
+    //   "type": "circuit",
+    //   "isActive": false,
+    //   "row": 2,
+    //   "col": 1
+    // },
+    // {
+    //   "type": "circuit",
+    //   "isActive": false,
+    //   "row": 2,
+    //   "col": 3
+    // }
   ]
 }

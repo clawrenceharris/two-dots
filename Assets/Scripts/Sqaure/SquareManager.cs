@@ -15,6 +15,7 @@ public class SquareManager
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
 
         Command.onCommandExecuted += OnCommandExecuted;
+        ConnectionManager.onConnectionEnded += OnConnectionEnded;
     }
 
     
@@ -61,6 +62,9 @@ public class SquareManager
 
     }
 
+    private void OnConnectionEnded(LinkedList<ConnectableDot> dots){
+        Square.DeselectDotsFromSquare();
+    }
    
     
     public static bool CheckForSquare()
@@ -291,9 +295,9 @@ public void DeselectDotsFromSquare()
         {
             Dot dot = board.GetDotAt<Dot>(col, row);
 
-            if (dot is ConnectableDot connectableDot && ShouldBeHit(dot))
+            if (dot is ConnectableDot connectableDot)
             {
-                if(!ConnectionManager.ToHit.Contains(connectableDot))
+                if(!ConnectionManager.ConnectedDots.Contains(connectableDot))
                     connectableDot.Deselect();
             }
 
