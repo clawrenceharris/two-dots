@@ -24,13 +24,7 @@ public class MoveClockDotsCommand : Command
 
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
 
-        Dictionary<ConnectableDot, Vector2Int> originalPositions = new();
-
-        foreach (ConnectableDot dot in connectedDots)
-        {
-           
-            originalPositions.TryAdd(dot, new Vector2Int(dot.Column, dot.Row));
-        }
+        
         DidExecute = true;
 
         int clockDotsMoved = 0;
@@ -46,7 +40,6 @@ public class MoveClockDotsCommand : Command
                 int j = connectedDots.Count - count;
 
                 lastAvailableDot = connectedDots[j];
-
                 
                 //while this current dot is not a basic dot
                 while (!lastAvailableDot.DotType.IsBasicDot() && !lastAvailableDot.DotType.IsClockDot())
@@ -54,8 +47,8 @@ public class MoveClockDotsCommand : Command
                     //assign the last available dot to be the dot before this one
                     lastAvailableDot = connectedDots[Mathf.Clamp(j - 1, 0, connectedDots.Count - 1)];
                 }
-
-                List<Vector2Int> path = GetPath(i, connectedDots.IndexOf(lastAvailableDot));
+                    List<Vector2Int> path = GetPath(i, connectedDots.LastIndexOf(lastAvailableDot));
+                
 
                 for(int k = 0; k <= clockDot.InitialNumber - clockDot.TempNumber; k++)
                 {
@@ -72,17 +65,18 @@ public class MoveClockDotsCommand : Command
                         clockDot.Column = endCol;
                         clockDot.Row = endRow;
 
-                    Dot dot = board.GetDotAt<Dot>(endCol, endRow);
-                    if (dot != null && dot is not ClockDot)
-                        board.DestroyDotsGameObject(dot);
-                    board.Remove(clockDot, startCol, startRow);
-                    board.Put(clockDot, endCol, endRow);
-                    clockDotsMoved++;
+                        Dot dot = board.GetDotAt<Dot>(endCol, endRow);
+                        if (dot != null && dot is not ClockDot)
+                            board.DestroyDotsGameObject(dot);
+                        board.Remove(clockDot, startCol, startRow);
+                        board.Put(clockDot, endCol, endRow);
+                        clockDotsMoved++;
 
-                    if (clockDot.Column != startCol || clockDot.Row != startRow)
-                    {
-                        onCommandExecuting?.Invoke(this);
-                    }                    }
+                        if (clockDot.Column != startCol || clockDot.Row != startRow)
+                        {
+                            onCommandExecuting?.Invoke(this);
+                        }                    
+                }
                    
                 });
 
@@ -122,6 +116,7 @@ public class MoveClockDotsCommand : Command
         {
             if (originalPositions.TryGetValue(connectedDots[k], out Vector2Int originalPosition))
             {
+                
                 path.Add(originalPosition);
             }
         }
