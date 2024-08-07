@@ -21,5 +21,6 @@ public enum HitType
     LotusDot,
     Water,
     Circuit,
+    DotHit,
 }
 

@@ -22,16 +22,13 @@ public class HitCommand : Command
             return;
         }
             
-            if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
-            {
-                ongoingCoroutines++;
-                CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.None, () => {
-                    onComplete?.Invoke();
-                }),() => ongoingCoroutines--);                    
-            
-                    
-            
-        
+        if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
+        {
+            ongoingCoroutines++;
+            CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.None, () => {
+                onComplete?.Invoke();
+            }),() => ongoingCoroutines--);                    
+    
         }
     }
 
@@ -55,8 +52,8 @@ public class HitCommand : Command
                 //hit any normal tiles at the same position as the current hittable
                 IBoardElement b = (IBoardElement)hittable;
                 IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-               
                 Hit(tile, board);
+                
             });
             
         }

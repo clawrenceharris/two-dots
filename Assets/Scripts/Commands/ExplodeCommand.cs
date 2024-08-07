@@ -62,28 +62,41 @@ public class ExplodeCommand : Command
                     // Start the coroutine to apply the explosion effect and subsequent hit effects
 
 
-                    if(explodable == explodables.Last())
+                    if(explodable == explodables.Last()){
+
+                       
                         CoroutineHandler.StartStaticCoroutine(
                         explodable.Explode(hittables, (hittable) =>
                         {
                             if(hittable != null)
                                 CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () =>
                                 {
-                                    
-                                    //hit any normal tiles at the same position as the current hittable
+                                    //hit any background tiles at the same position as the current hittable
                                     IBoardElement b = (IBoardElement)hittable;
+
                                     IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
                                     if(tile != null)
                                     {
-                                        CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType));
+                                        //hit the tile once if the hittable takes one hit to 
+                                        // clear in one hit and twice if it takes more than one hit to clear
+                                        int hitCount = hittable.HitsToClear > 1 ? 2 : 1;
 
+                                        for(int i = 0; i < hitCount; i++){
+                                             //hit background tile with dot hit
+                                            CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.DotHit));
+
+                                        }
+                                       
                                     }
-
+                                   
 
                                 }),()=>hitCount++);
 
                         }));
 
+
+                    }
+                        
                     
 
 

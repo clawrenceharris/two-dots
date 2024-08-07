@@ -1,80 +1,94 @@
 {
   "levelNum": 1,
-  "width": 6,
+  "width": 7,
   "height": 6,
-  "moves": 6,
+  "moves": 5,
   "initialDotsToSpawn": [
+    {
+      "type": "normal",
+      "color": "green"
+    },
+    {
+      "type": "normal",
+      "color": "green"
+    }
     // {
-    //   "type": "normal",
-    //   "color": "red"
-    // },
-    // {
-    //   "type": "normal",
-    //   "color": "red"
-    // },
-    // {
-    //   "type": "normal",
-    //   "color": "blue"
+    //   "type": "monster",
+    //   "color": "red",
+    //   "number": 5
     // },
     // {
     //   "type": "normal",
     //   "color": "green"
     // },
-    {
-      "type": "blank"
-    },
-    {
-      "type": "blank"
-    },
-    {
-      "type": "clock",
-      "number": 8
-    }
+    // {
+    //   "type": "normal",
+    //   "color": "green"
+    // },
+    // {
+    //   "type": "blank"
+    // },
+
+    // {
+    //   "type": "clock",
+    //   "number": 4
+    // },
+    // {
+    //   "type": "clock",
+    //   "number": 4
+    // }
   ],
   "dotsToSpawn": [
+    // {
+    //   "type": "nesting",
+    //   "hitCount": 1
+    // },
+    // {
+    //   "type": "lotus",
+    //   "color": "red"
+    // },
+
+    // {
+    //   "type": "normal",
+    //   "color": "green"
+    // },
+    // {
+    //   "type": "normal",
+    //   "color": "green"
+    // },
+    // {
+    //   "type": "blank"
+    // },
     {
-      "type": "blank"
-    },
-    {
-      "type": "blank"
+      "type": "normal",
+      "color": "red"
     },
     {
       "type": "clock",
-      "number": 8
+      "number": 10
     }
   ],
-  "dotsOnBoard": [],
+  "dotsOnBoard": [
+    {
+      "type": "clock",
+      "number": 5,
+      "row": 1,
+      "col": 2
+    },
+    {
+      "type": "clock",
+      "number": 5,
+      "row": 0,
+      "col": 2
+    }
+  ],
 
   "tilesOnBoard": [
     {
-      "type": "water",
-      "row": 2,
+      "type": "circuit",
+      "isActive": false,
+      "row": 1,
       "col": 2
     }
-    // {
-    //   "type": "circuit",
-    //   "isActive": false,
-    //   "row": 3,
-    //   "col": 2
-    // },
-    // {
-    //   "type": "circuit",
-    //   "isActive": false,
-    //   "row": 1,
-    //   "col": 2
-    // },
-
-    // {
-    //   "type": "circuit",
-    //   "isActive": false,
-    //   "row": 2,
-    //   "col": 1
-    // },
-    // {
-    //   "type": "circuit",
-    //   "isActive": false,
-    //   "row": 2,
-    //   "col": 3
-    // }
   ]
 }

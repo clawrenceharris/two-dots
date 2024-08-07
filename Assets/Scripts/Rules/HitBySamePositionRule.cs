@@ -11,16 +11,12 @@ public class HitBySamePositionRule : IHitRule
             return false;
         }
 
-        List<Dot> dots = board.GetDots();
-        foreach (Dot dot in dots)
-        {
-            //if the dot is at the same position as the target hittable
-            if (dot.Column == b.Column && dot.Row == b.Row)
-            {
-                //return true if the hittable was just hit
-                return dot.WasHit;
-            }
+        Dot dot = board.GetDotAt<Dot>(b.Column, b.Row);
+        if(dot != null){
+            return dot.WasHit;
         }
+            
+        
 
         
 
