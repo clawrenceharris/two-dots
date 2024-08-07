@@ -50,7 +50,6 @@ public class SquareManager
 
     private void OnDotDisconnected(ConnectableDot dot)
     {
-        //if no square was made we dont want to do anything 
         if (Square == null)
         {
             return;
@@ -63,6 +62,11 @@ public class SquareManager
     }
 
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots){
+        if (Square == null)
+        {
+            return;
+        }
+        
         Square.DeselectDotsFromSquare();
     }
    
@@ -88,228 +92,7 @@ public class SquareManager
     }
 
 }
-public class Square
-{
-    public List<IHittable> ToHit { get; private set; }
-    protected Board board;
-    public List<Dot> DotsInSquare { get; private set; } = new();
-    public Square(Board board)
-    {
-        this.board = board;
-        ToHit = new(ConnectionManager.ConnectedDots );
-    }
-    public void ActivateBombsInsideSquare()
-    {
 
-        DotsInSquare = FindDotsInsideSquare();
-        foreach (Dot dot in DotsInSquare)
-        {
-            dot.gameObject.SetActive(false);
-            board.SpawnBomb(dot.Column, dot.Row);
-        }
-    }
-
-    public void DeactivateBombsInsideSquare()
-    {
-
-        foreach (Dot dot in DotsInSquare)
-        {
-            dot.gameObject.SetActive(true);
-
-            //get the bomb that is at this dot's position on the board
-            //then destroy it
-            Dot bomb = board.GetDotAt<Dot>(dot.Column, dot.Row);
-            Object.Destroy(bomb.gameObject);
-
-            //put the original dot back
-            board.Put(dot, dot.Column, dot.Row);
-
-        }
-
-    }
-
-    private List<Dot> FindDotsInsideSquare()
-    {
-        LinkedList<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots;
-        HashSet<Dot> dotsInSquare = new();
-        List<ConnectableDot> square = GetImmediateBombSquare();
-        if (connectedDots.Count < 9)
-        {
-            return new();
-        }
-        for (int col = 0; col < board.Width; col++)
-        {
-            for (int row = 0; row < board.Height; row++)
-            {
-                Dot dot = board.GetDotAt<Dot>(col, row);
-                //Make sure dot is not in the square and not on edge of board because there is no need to fill these
-                if (dot && !square.Contains(dot) && !board.IsOnEdgeOfBoard(dot.Column, dot.Row))
-                {
-                    //Add each valid and unique dot found in the flood fill to the dots in square set and disregard dots within the current connection
-                    dotsInSquare.UnionWith(BoundaryFill(dot, square).Where((dot) => !connectedDots.Contains(dot)));
-                }
-            }
-        }
-
-        return dotsInSquare.ToList();
-
-    }
-
-    // Method to get the connected dots that directly
-    // surround the inner dots to turn into bombs 
-    private List<ConnectableDot> GetImmediateBombSquare()
-    {
-        LinkedList<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots;
-
-        LinkedListNode<ConnectableDot> tail = connectedDots.Last.Previous;
-        List<ConnectableDot> square = new();
-
-        //loops through the connected dots starting at the last
-        //dot in the connection and stops when it reaches a duplicate of the last connected dot. 
-        while (tail != null)
-        {
-            square.Add(tail.Value);
-            if (tail.Value == connectedDots.Last.Value)
-            {
-
-                return square;
-            }
-
-            tail = tail.Previous;
-        }
-        square.Clear();
-        return square;
-    }
-
-    private List<Dot> BoundaryFill(Dot startDot, List<ConnectableDot> square)
-    {
-
-        List<Dot> dotsInSquare = new();
-
-        // Set to keep track of visited dots to avoid revisiting them
-        HashSet<Dot> visitedDots = new();
-
-        // Queue for breadth-first search traversal
-        Queue<Dot> queue = new();
-
-        // Enqueue the starting dot
-        queue.Enqueue(startDot);
-
-        // Perform breadth-first search
-        while (queue.Count > 0)
-        {
-            Dot currentDot = queue.Dequeue();
-
-            dotsInSquare.Add(currentDot);
-
-            visitedDots.Add(currentDot);
-
-            // Get neighbors of the current dot
-            List<Dot> neighbors = board.GetDotNeighbors<Dot>(currentDot.Column, currentDot.Row, true);
-
-            foreach (Dot neighbor in neighbors)
-            {
-
-                // Check if the neighbor is valid and has not been visited yet
-                if (neighbor != null && !visitedDots.Contains(neighbor))
-                {
-                    // Check if the neighbor is on the edge of the board
-                    if (board.IsOnEdgeOfBoard(neighbor.Column, neighbor.Row) &&
-                        !square.Contains(neighbor))
-                    {
-                        // Clear the list of dots in the square and return an empty list
-                        // indicating that no dots are inside the square
-                        dotsInSquare.Clear();
-                        return dotsInSquare;
-                    }
-
-                    // Check if the neighbor is inside the square (not in the connection)
-                    else if (!square.Contains(neighbor))
-                    {
-                        // Add the neighbor to the queue for further exploration
-                        queue.Enqueue(neighbor);
-                    }
-
-                    visitedDots.Add(neighbor);
-
-                }
-            }
-        }
-
-        return dotsInSquare;
-    }
-
-
-
-    // Returns whether the dot should be hit based on color, dot type, etc
-    protected virtual bool ShouldBeHit(IHittable hittable)
-    {
-
-        if(hittable is not ConnectableDot dot)
-        {
-            return false;
-        }
-        return
-
-            //the dot is not going to be a bomb
-            !DotsInSquare.Contains(hittable) &&
-
-            (dot.DotType.ShouldBeHitBySquare() ||
-            ToHit.Contains(hittable) ||
-            //the dot's color is the same as the connection color
-            dot.Color == ConnectionManager.Connection.Color);
-
-    }
-
-    /// <summary>
-    /// Selects the dots that would be hit by the square, and
-    /// adds them to a list so we don't have to loop through all dots again to hit them
-    /// </summary>
-    public void SelectAndAddDotsForSquare()
-    {
-        for (int col = 0; col < board.Width; col++)
-        {
-            for (int row = 0; row < board.Height; row++)
-            {
-                Dot dot = board.GetDotAt<Dot>(col, row);
-
-                if (dot is ConnectableDot connectableDot && ShouldBeHit(connectableDot))
-                {
-                    ToHit.Add(connectableDot);
-                    connectableDot.Select();
-                }
-
-            }
-        }
-    }
-
-
-/// <summary>
-/// Deselects the dots that would of been hit by the square.
-/// </summary>
-public void DeselectDotsFromSquare()
-{
-    for (int col = 0; col < board.Width; col++)
-    {
-        for (int row = 0; row < board.Height; row++)
-        {
-            Dot dot = board.GetDotAt<Dot>(col, row);
-
-            if (dot is ConnectableDot connectableDot)
-            {
-                if(!ConnectionManager.ConnectedDots.Contains(connectableDot))
-                    connectableDot.Deselect();
-            }
-
-        }
-    }
-}
-
-
-
-    
-
-}
 
 
 
