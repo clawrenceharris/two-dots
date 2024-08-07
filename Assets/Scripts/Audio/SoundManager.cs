@@ -84,9 +84,9 @@ public class SoundManager : MonoBehaviour
         ConnectionManager.onDotSelected += OnDotSelected;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
         Board.onObjectSpawned += OnSpawned;
-        HittableBase.onCleared += OnCleared;
+        DotsGameObjectEvents.onCleared += OnCleared;
 
-        HittableBase.onHit += OnHit;
+        DotsGameObjectEvents.onHit += OnHit;
         Connection.onSquareMade += OnSquareMade;
         Command.onCommandExecuting += OnCommandExecuting;
 
@@ -195,7 +195,7 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    private void OnHit(IHittable hittable)
+    private void OnHit(DotsGameObject hittable)
     {
         Audio sound = null;
         if (hittable is Tile tile)
@@ -281,14 +281,14 @@ public class SoundManager : MonoBehaviour
         int index = GetIndex();
         audioSource.PlayOneShot(connectionSounds[index]);
     }
-    private void OnCleared(IHittable hittable)
+    private void OnCleared(DotsGameObject dotsGameObject)
     {
         Audio sound = null;
-        if (hittable is Tile tile)
+        if (dotsGameObject is Tile tile)
         {
             sound = GetTileClearedSound(tile);
         }
-        if (hittable is Dot dot)
+        if (dotsGameObject is Dot dot)
         {
             sound = GetDotClearedSound(dot);
 
