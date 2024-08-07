@@ -56,13 +56,7 @@ public class LevelManager : MonoBehaviour
 
     }
 
-    private IEnumerator ExecuteCommands()
-    {
-        yield return new WaitForSeconds(0.8f);
-
-        yield return CommandInvoker.Instance.ExecuteCommands();
-    }
-
+    
 
     private void OnDisable()
     {
@@ -111,7 +105,6 @@ public class LevelManager : MonoBehaviour
     {
         new CommandInvoker(board);
         new ConnectionManager(board);
-        new DotsGameObjectController(board);
         
         Level = JSONLevelLoader.ReadJsonFile(levelNum);
         LinePool.Instance.FillPool(Level.width * Level.height);
