@@ -75,8 +75,8 @@ public class ConnectLotusDotsCommand : Command
             }
             
         }
-
         ongoingConnections--;
+
     }
 
     /// <summary>
@@ -132,7 +132,8 @@ public class ConnectLotusDotsCommand : Command
 
         //remove the lines
         LineManager.RemoveAllLines();
-
+        List<ConnectableDot> dots = new(ConnectionManager.ConnectedDots);
+        
         yield return base.Execute(board);
     }
 

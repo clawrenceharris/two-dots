@@ -66,7 +66,7 @@ public class Connection
         //remove the last dot from the connections list
         ConnectedDots.Remove(ConnectedDots.Last);
 
-
+        //dont disconnect the dot if it is still connected
         if (!ConnectedDots.Contains(dot))
         {
             dot.Disconnect();
@@ -102,8 +102,6 @@ public class Connection
 
     public void EndConnection()
     {
-        List<ConnectableDot> connectedDots = new(ConnectedDots);
-
         ConnectedDots.Clear();
 
         IsSquare = false;

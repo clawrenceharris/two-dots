@@ -37,16 +37,8 @@ public class LotusDotHitRule : IHitRule
         
         foreach (ConnectableDot neighbor in neighbors)
         {
-            if (!neighbor)
-            {
-                continue;
-            }
-            if (neighbor.Color == dot.Color)
-            {
-                return true;
-            }
-            if (neighbor.DotType.IsMoonstoneDot())
-            {
+            
+            if (new LotusDotConnectionRule().Validate(dot, neighbor, board)){
                 return true;
             }
             

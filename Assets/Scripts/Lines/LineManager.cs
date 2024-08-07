@@ -10,6 +10,7 @@ using UnityEngine.U2D;
 /// </summary>
 public class LineManager : MonoBehaviour
 {
+    private static bool  isAutoConnecting;
     private static List<ConnectorLine> lines = new();
     private Board board;
     private ConnectorLine currentLine;
@@ -66,7 +67,7 @@ public class LineManager : MonoBehaviour
     
     private void OnDotConnected(ConnectableDot dot)
     {
-        if (!currentLine)
+        if (!currentLine || isAutoConnecting)
         {
             return;
         }
@@ -140,7 +141,7 @@ public class LineManager : MonoBehaviour
         line.initialScale = LineScale;
         line.transform.localScale = line.initialScale;
         line.endPos = endObject.transform.position;
-        line.SpriteRenderer.color = ColorSchemeManager.FromDotColor(end.Color);
+        line.SpriteRenderer.color = ColorSchemeManager.FromDotColor(start.Color);
         line.SpriteRenderer.sortingLayerName = "Line";
 
         line.update = AutoConnectLine;
@@ -152,6 +153,7 @@ public class LineManager : MonoBehaviour
 
     private static void AutoConnectLine(ConnectorLine line, Vector2 startPos, Vector2 endPos)
     {
+        isAutoConnecting = true;
         float distance = Vector2.Distance(startPos, endPos);
         float scaleXOffset = 1f;
         float newXScale = line.initialScale.x + distance - scaleXOffset;
@@ -183,6 +185,7 @@ public class LineManager : MonoBehaviour
     
     public static void RemoveAllLines()
     {
+        isAutoConnecting = false;
         foreach (ConnectorLine line in lines)
         {
             LinePool.Instance.Return(line);

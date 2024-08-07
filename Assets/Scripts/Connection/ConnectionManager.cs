@@ -106,15 +106,15 @@ public class ConnectionManager
     private bool IsDotDisconnected(ConnectableDot dot)
     {
 
-            // If there are less than 2 dots in the connection, it's not disconnected
-            if (ConnectedDots.Count < 2)
-                return false;
+        // If there are less than 2 dots in the connection, it's not disconnected
+        if (ConnectedDots.Count < 2)
+            return false;
 
-            // Get the second-to-last node
-            var secondToLastNode = ConnectedDots.Last.Previous;
-            //If the dot is the second-to-last dot it is disconnected
-            return secondToLastNode.Value == dot;
-        
+        // Get the second-to-last node
+        var secondToLastNode = ConnectedDots.Last.Previous;
+        //If the dot is the second-to-last dot it is disconnected
+        return secondToLastNode.Value == dot;
+    
 
     }
 
@@ -136,7 +136,7 @@ public class ConnectionManager
         else
         {
             Connection.ConnectDot(dot);
-
+            onDotConnected?.Invoke(dot);
         }
     }
     private void OnDotConnected(ConnectableDot dot)
@@ -177,9 +177,6 @@ public class ConnectionManager
 
     }
 
-
-
-
     private void OnConnectionEnded()
     {
         
@@ -219,13 +216,6 @@ public class ConnectionManager
 
     }
 
-    public static void EndConnection()
-    {
-        onConnectionEnded?.Invoke(ConnectedDots);
-        foreach (ConnectableDot dot in ConnectedDots)
-        {
-            dot.Disconnect();
-        }
-    }
+    
 }
 
