@@ -11,12 +11,10 @@ public class ClockDot : BlankDotBase, INumerable
     public int InitialNumber { get => numerable.InitialNumber; set => numerable.InitialNumber = value; }
     public int CurrentNumber { get => numerable.CurrentNumber;}
 
-    public override int PreviewableHitCount => TempNumber;
-    public override int PreviewableHitsToClear => 0;
     public new ClockDotVisualController VisualController => GetVisualController<ClockDotVisualController>();
    
    
-    public override DotsGameObjectData ReplacementDot
+    public override DotsGameObjectData Replacement
     {
         get
         {
@@ -66,17 +64,17 @@ public class ClockDot : BlankDotBase, INumerable
         VisualController.UpdateNumbers(CurrentNumber);
     }
 
-    
+
     public IEnumerator DoMove(List<Vector2Int> path, Action onMoved = null)
     {
         yield return VisualController.DoMove(path, onMoved);
         
         name = "(" + Column + ", " + Row + ")"; 
     }
-   
     public override void Hit(HitType hitType)
     {
         numerable.Hit(hitType);
+        
     }
 
 

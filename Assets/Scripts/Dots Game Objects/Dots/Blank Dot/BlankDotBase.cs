@@ -9,9 +9,6 @@ public abstract class BlankDotBase : ConnectableDot, IConnectable, IPreviewable
 
     public override DotType DotType { get; }
     private new BlankDotBaseVisualController VisualController => GetVisualController<BlankDotBaseVisualController>();
-    public virtual int PreviewableHitCount {get; protected set;}
-
-    public virtual int PreviewableHitsToClear => HitsToClear;
 
     public override void Init(int column, int row)
     {

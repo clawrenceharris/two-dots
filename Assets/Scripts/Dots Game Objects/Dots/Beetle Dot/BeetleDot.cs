@@ -36,7 +36,7 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
     public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
 
 
-    public override DotsGameObjectData ReplacementDot
+    public override DotsGameObjectData Replacement
     {
         get
         {
@@ -109,22 +109,6 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
     public override void Deselect()
     {
         //do nothing
-    }
-
-    
-    public bool ShouldPreview(PreviewableState state, Board board)
-    {
-        if(state == PreviewableState.Idling){
-            return true;
-        }
-
-        if(state == PreviewableState.PreviewingHit){
-            return new HitByConnectionRule().Validate(this, board);
-        }
-        if(state == PreviewableState.PreviewingClear){
-            return HitCount == HitsToClear -1;
-        }
-        return false;
     }
 
 

@@ -42,7 +42,6 @@ public abstract class Dot : DotsGameObject, IHittable
         yield return hittable.Clear(duration);
 
     }
-
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
 

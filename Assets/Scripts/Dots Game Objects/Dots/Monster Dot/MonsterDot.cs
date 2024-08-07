@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, IPreviewable, IDirectional
+public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, IDirectional
 {
 
     private readonly NumerableBase numerable = new();
@@ -23,11 +23,8 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     public int DirectionX { get; set; }
     public int DirectionY { get; set; }
 
-    public List<IHitRule> PreviewHitRules => throw new NotImplementedException();
 
-    public int PreviewableHitCount => TempNumber;
 
-    public int PreviewableHitsToClear => 0;
 
     public override void Init(int column, int row)
     {
@@ -51,21 +48,18 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
         int targetRow = DirectionY + Row;
         yield return VisualController.DoMove(targetCol, targetRow);
     }
-    public override IEnumerator Clear()
-    {
-
-        return base.Clear();
-    }
+    
 
     public override void Hit(HitType hitType)
     {
+        
         numerable.Hit(hitType);
         HitCount = InitialNumber - TempNumber;
 
     }
     public override void Disconnect()
     {
-        VisualController.UpdateNumbers(CurrentNumber);
+        numerable.Disconnect();
 
     }
 
@@ -83,18 +77,10 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     public override void Deselect()
     {
-        VisualController.UpdateNumbers(CurrentNumber);
+        // VisualController.UpdateNumbers(CurrentNumber);
     }
 
     
    
-    public bool ShouldPreviewClear(Board board)
-    {
-        return TempNumber == 0;
-    }
-
-    public bool ShouldPreviewHit(Board board)
-    {
-        return HitRule.Validate(this, board);
-    }
+    
 }

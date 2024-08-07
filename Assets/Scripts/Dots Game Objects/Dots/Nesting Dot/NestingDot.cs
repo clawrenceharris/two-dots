@@ -8,7 +8,7 @@ public class NestingDot : Dot, IPreviewable
 {
     public override DotType DotType => DotType.NestingDot;
 
-    public override DotsGameObjectData ReplacementDot
+    public override DotsGameObjectData Replacement
     {
         get
         {
