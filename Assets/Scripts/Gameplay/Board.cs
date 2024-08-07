@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-
+using DG.Tweening;
 
 public class Board : MonoBehaviour
 {
@@ -21,7 +21,7 @@ public class Board : MonoBehaviour
 
     public static float offset = 2.5f;
     public static event Action<DotsGameObject> onObjectSpawned;
-    public static float DotDropSpeed { get; private set; } = 0.5f;
+    public static float DotDropSpeed { get; private set; } = 0.45f;
     public List<Dot> ClearedDots { get; private set; } = new();
 
     public static event Action<Board> onBoardCreated;
@@ -51,13 +51,26 @@ public class Board : MonoBehaviour
 
     }
 
-    public bool HasDot(DotType dotType)
+    public bool HasAny<T>()
     {
-        foreach (Dot dot in Dots)
-        {
-            if (dot && dot.DotType == dotType)
+        if(typeof(T) == typeof(Dot) || typeof(T).IsSubclassOf(typeof(Dot))){
+            foreach (Dot dot in Dots)
             {
-                return true;
+                if (dot is T)
+                {
+                    Debug.Log("BYEEEE");
+                    return true;
+                }
+            }
+        }
+           
+        else if(typeof(T) == typeof(Tile) || typeof(T).IsSubclassOf(typeof(Tile))){
+            foreach (Tile tile in Tiles)
+            {
+                if (tile is T)
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -66,7 +79,7 @@ public class Board : MonoBehaviour
 
     private void Start()
     {
-        HittableBase.onCleared += OnCleared;
+        DotsGameObjectEvents.onCleared += OnCleared;
         CommandInvoker.onCommandsEnded += OnCommandsEnded;
     }
 
@@ -78,14 +91,13 @@ public class Board : MonoBehaviour
         ClearedDots.Clear();
     }
 
-    private void OnCleared(IHittable hittable)
+    private void OnCleared(DotsGameObject dotsGameObject)
     {
-        DotsGameObject dotsGameObject = (DotsGameObject)hittable;
         DotsGameObject replacement = null;
         if (dotsGameObject is Dot dot)
         {
-            ////replace the dot that is being cleared with its replacement dot
-            replacement = InitDotsGameObject<Dot>(dot.ReplacementDot);
+            /// replace the dot that is being cleared with its replacement dot
+            replacement = InitDotsGameObject<Dot>(dotsGameObject.Replacement);
             if(replacement == null){
                 Dots[dot.Column, dot.Row] = null;
             }
@@ -94,19 +106,14 @@ public class Board : MonoBehaviour
         }
         if (dotsGameObject is Tile tile)
         {
-            replacement = InitDotsGameObject<Dot>(tile.ReplacementDot);
+            replacement = InitDotsGameObject<Tile>(dotsGameObject.Replacement);
             if(replacement == null){
                 Tiles[tile.Column, tile.Row] = null;
             }
 
         }
         
-        if(replacement is Dot replacementDot){
-            Dots[dotsGameObject.Column, dotsGameObject.Row] = replacementDot;
-        }
-        else if(replacement is Tile replacementTile){
-            Tiles[dotsGameObject.Column, dotsGameObject.Row] = replacementTile;
-        }
+        
     }
 
    
@@ -116,13 +123,18 @@ public class Board : MonoBehaviour
         Destroy(dotsGameObject.gameObject);
     }
 
+    private void DropDot(Dot dot, int row){
+        dot.Row = row;
+        dot.transform.DOMoveY(row * offset, DotDropSpeed).SetEase(Ease.OutBounce);
+                
+    }
     
     private void InitDots()
     {
         for (int i = 0; i < dotsOnBoard.Length; i++)
         {
             Dot dot = InitDotsGameObject<Dot>(dotsOnBoard[i]);
-            DotsGameObjectController.DropDot(dot, dot.Row, DotDropSpeed);
+            DropDot(dot, dot.Row);
 
 
         }
@@ -506,7 +518,7 @@ public class Board : MonoBehaviour
 
         
     }
-
+    
 
 
 
@@ -526,12 +538,10 @@ public class Board : MonoBehaviour
                 if (!Dots[col, row]){
                     if(tile == null || !tile.TileType.IsBoardMechanicTile())
                     {
-                    dotsDropped = true;
+                        dotsDropped = true;
 
-                    Dot dot = InitRandomDot(col, row, dotsToSpawn ?? this.dotsToSpawn);
-                    DotsGameObjectController.DropDot(dot, row, DotDropSpeed);
-
-                
+                        Dot dot = InitRandomDot(col, row, dotsToSpawn ?? this.dotsToSpawn);
+                        DropDot(dot, row);
 
                     }
                 }
@@ -569,7 +579,7 @@ public class Board : MonoBehaviour
 
                                 Dots[col, row] = dot;
                                 Dots[col, k] = null;
-                                DotsGameObjectController.DropDot(dot, row, DotDropSpeed);
+                                DropDot(dot, row);
                                 dotsDropped = true;
                                 break;
                             }
