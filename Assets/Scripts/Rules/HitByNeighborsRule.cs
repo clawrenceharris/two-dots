@@ -6,7 +6,7 @@ public class HitByNeighborsRule : IHitRule
 {
     public bool Validate(IHittable hittable, Board board)
     {
-        if(hittable is not IBoardElement boardElement)
+        if(hittable == null || hittable is not IBoardElement boardElement)
         {
             return false;
         }
