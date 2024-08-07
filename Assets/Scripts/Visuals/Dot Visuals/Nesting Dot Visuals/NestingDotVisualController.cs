@@ -17,6 +17,7 @@ public class NestingDotVisualController : DotVisualController, IPreviewableVisua
     {
         dot = (NestingDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
+        color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
         base.Init(dotsGameObject);
     }
 
@@ -26,11 +27,11 @@ public class NestingDotVisualController : DotVisualController, IPreviewableVisua
         {
             if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer)) {
                 if(child.name != "Nesting Dot Highlight")
-                    spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+                    spriteRenderer.color = color;
                 
             }
         }
-        visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        visuals.spriteRenderer.color = color;
 
     }
     protected override void SetUp()
@@ -39,19 +40,16 @@ public class NestingDotVisualController : DotVisualController, IPreviewableVisua
         RemoveLayers(0f);
         
     }
-    public IEnumerator PreviewHit(PreviewHitType hitType)
-    {
-        yield break;
-    }
+   
 
     public override IEnumerator Hit(HitType hitType)
     {
         
         if(dot.HitCount < dot.HitsToClear)
         {
-            UpdateDotScale();
             float duration = visuals.hittableVisuals.HitDuration;
             RemoveLayers(duration);
+            
             yield return null;
         }
         
@@ -110,29 +108,28 @@ public class NestingDotVisualController : DotVisualController, IPreviewableVisua
         float randomness = 20; 
         dot.transform.DOShakePosition(duration, new Vector3(strength, strength, 0), vibrato, randomness, false, true);
 
-        yield return visuals.spriteRenderer.DOColor(Color.black, duration);
+        visuals.spriteRenderer.DOColor(Color.black, duration);
+        yield return new WaitForSeconds(duration);
     }
 
     
 
     public IEnumerator DoIdleAnimation()
     {
-        throw new NotImplementedException();
+        yield break;
     }
 
     public IEnumerator DoHitPreviewAnimation()
     {
-        throw new NotImplementedException();
+        yield break;
     }
 
     public IEnumerator DoClearPreviewAnimation()
     {
-        while (dot.HitCount == 2)
-        {
-            yield return DoShakeAnimation();
-            dot.transform.position = new Vector2(dot.Column, dot.Row) * Board.offset;
-            yield return new WaitForSeconds(1.5f);
-
-        }
+        float duration = 0.8f;
+        yield return DoShakeAnimation();
+        dot.transform.position = new Vector2(dot.Column, dot.Row) * Board.offset;
+        yield return visuals.spriteRenderer.DOColor(color, duration);
+        yield return new WaitForSeconds(2f);
     }
 }

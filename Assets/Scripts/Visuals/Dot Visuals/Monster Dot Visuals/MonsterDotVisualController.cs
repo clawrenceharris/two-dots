@@ -20,7 +20,8 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         directionalVisualController.Init(dot, visuals.directionalVisuals);
         numerableVisualController.Init(dot, visuals.numerableVisuals);
         base.Init(dotsGameObject);
-
+        ConnectionManager.onDotConnected += OnConnectionChanged;
+        ConnectionManager.onDotDisconnected += OnConnectionChanged;
     }
 
     
@@ -31,18 +32,11 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     }
 
     
-
-    public IEnumerator ScaleNumbers()
-    {
-        float scaleDuration = 0.2f;
-
-        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one * 1.8f, scaleDuration);
-        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one * 1.8f, scaleDuration);
-
-        yield return new WaitForSeconds(scaleDuration);
-        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one, scaleDuration);
-        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one, scaleDuration);
+    private void OnConnectionChanged(ConnectableDot _){
+       
+        numerableVisualController.UpdateNumberByConnectionCount(dot);
     }
+   
 
    
     public IEnumerator DoMove(int col, int row)
@@ -58,12 +52,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         
     }
 
-    public override IEnumerator Hit(HitType hitType)
-    {
-        yield return ScaleNumbers();
-
-    }
-
+    
     public IEnumerator DoRotateAnimation()
     {
         yield break;
@@ -81,16 +70,12 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
 
     public IEnumerator DoHitPreviewAnimation()
     {
-        int connectionCount = ConnectionManager.ToHit.Count;
-
-        dot.TempNumber = Mathf.Clamp(dot.CurrentNumber - connectionCount, 0, int.MaxValue);
-
-        UpdateNumbers(dot.TempNumber);
-        yield return ScaleNumbers();
+        yield break;
     }
 
     public IEnumerator DoIdleAnimation()
     {
-        throw new System.NotImplementedException();
+        //TODO: Blinking animation
+        yield break;
     }
 }

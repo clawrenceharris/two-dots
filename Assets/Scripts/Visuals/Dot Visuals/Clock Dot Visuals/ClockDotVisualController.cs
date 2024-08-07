@@ -33,19 +33,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
 
 
     private void OnConnectionChanged(ConnectableDot _){
-        if(!ConnectionManager.ConnectedDots.Contains(this.dot)){
-            return;
-        }
-       
-
-        List<IHittable> toHit = ConnectionManager.ToHit;
-
-        dot.TempNumber = Mathf.Clamp(dot.CurrentNumber - toHit.Count, 0, int.MaxValue);
-        
-        UpdateNumbers(dot.TempNumber);
-        
-
-        CoroutineHandler.StartStaticCoroutine(ScaleNumbers());
+        numerableVisualController.UpdateNumberByConnectionCount(dot);
     }
    
 
@@ -102,7 +90,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     {
         float duration = ClockDotVisuals.moveDuration;
         float moveDuration = duration / path.Count;
-        foreach (var pos in path)
+        foreach (Vector2Int pos in path)
         {
             dot.transform.DOMove(new Vector2(pos.x, pos.y) * Board.offset, moveDuration);
             yield return new WaitForSeconds(moveDuration - moveDuration /2);
@@ -140,18 +128,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
         dot.transform.eulerAngles = Vector2.zero;
     }
     
-    public IEnumerator ScaleNumbers()
-    {
-        float scaleDuration = 0.2f;
-
-        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one * 1.8f, scaleDuration);
-        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one * 1.8f, scaleDuration);
-
-        yield return new WaitForSeconds(scaleDuration);
-        visuals.numerableVisuals.Digit1.transform.DOScale(Vector2.one, scaleDuration);
-        visuals.numerableVisuals.Digit2.transform.DOScale(Vector2.one, scaleDuration);
-    }
-
+    
     private void MoveClockDotPreviews(ConnectableDot _){
 
         List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
