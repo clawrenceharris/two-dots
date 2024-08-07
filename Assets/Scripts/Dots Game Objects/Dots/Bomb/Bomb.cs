@@ -77,7 +77,7 @@ public class Bomb : Dot, IExplodable
     
                 if (hittable != null && !Hits.Contains(hittable))
                 {
-                    // Hits.Add(hittable);
+                    Hits.Add(hittable);
                     CoroutineHandler.StartStaticCoroutine(bomb.VisualController.DoLineAnimation(hittable, () =>
                     {
                         CoroutineHandler.StartStaticCoroutine(ChangeHittablesColor(hittable),() => counter++);
@@ -111,7 +111,7 @@ public class Bomb : Dot, IExplodable
         }
 
         Hits.Clear();
-
+        BombExplosionManager.bombs.Clear();
     }
 
     
