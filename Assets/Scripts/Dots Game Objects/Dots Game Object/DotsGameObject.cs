@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class DotsGameObject : MonoBehaviour, IBoardElement
 {
 
-    public virtual DotsGameObjectData ReplacementDot => null;
+    public  virtual DotsGameObjectData Replacement => null;
     
     public int Column { get; set; }
     public int Row { get; set; }

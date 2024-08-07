@@ -11,8 +11,7 @@ public class HittableBase : IHittable
     public int HitCount { get; set; }
     public IHittable hittable;
     public int HitsToClear { get => hittable.HitsToClear; }
-    public static event Action<IHittable> onCleared;
-    public static event Action<IHittable> onHit;
+   
 
     public  IHitRule HitRule { get => hittable.HitRule; }
     private DotsGameObject DotsGameObject => (DotsGameObject)hittable;
@@ -26,16 +25,16 @@ public class HittableBase : IHittable
 
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
-        onHit?.Invoke(hittable);
+        DotsGameObjectEvents.NotifyHit(DotsGameObject);
 
         HitType = hitType;
         WasHit = true;
+        
         if(hittable.HitCount <= hittable.HitsToClear){
             onHitComplete?.Invoke();
 
         }
-        CoroutineHandler.StartStaticCoroutine(VisualController.Hit(hitType));
-        yield return null;
+        yield return VisualController.Hit(hitType);
     }
 
 
@@ -46,11 +45,13 @@ public class HittableBase : IHittable
         float duration = visualController.GetVisuals<IHittableVisuals>().ClearDuration;
         yield return Clear(duration);    
     }
-
+    
     public IEnumerator Clear(float duration){
-        onCleared?.Invoke(hittable);
+        DotsGameObjectEvents.NotifyCleared(DotsGameObject);
         yield return VisualController.Clear(duration);    
     }
+    
+    
 
 
 }

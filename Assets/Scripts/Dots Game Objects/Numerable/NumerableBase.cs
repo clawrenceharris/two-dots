@@ -40,21 +40,20 @@ public class NumerableBase : INumerable
     public void Hit(HitType hitType)
     {
 
-        if (hitType.IsConnection())
-        {
-            UpdateCurrentNumber(TempNumber);
 
-        }
-
-
-        else if (hitType.IsExplosion())
+        
+        if (hitType.IsExplosion())
         {
             //set current number to be one less than the current number
-            TempNumber = Mathf.Clamp(CurrentNumber - 1, 0, int.MaxValue);
+            TempNumber = Mathf.Clamp(CurrentNumber - 1, 0, 99);
             UpdateCurrentNumber(TempNumber);
-
+            return;
         };
+        UpdateCurrentNumber(TempNumber);
 
+    }
 
+    public void Disconnect(){
+        VisualController.UpdateNumbers(CurrentNumber);
     }
 }
