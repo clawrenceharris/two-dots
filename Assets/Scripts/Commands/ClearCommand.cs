@@ -19,8 +19,7 @@ public class ClearCommand : Command
 
         foreach (IHittable hittable in hittables)
         {
-            if(hittable.WasHit)
-                hittable.WasHit = false;
+            
 
             if (hittable.HitCount >= hittable.HitsToClear)
             {

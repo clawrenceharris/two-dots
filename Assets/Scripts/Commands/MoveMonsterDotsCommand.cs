@@ -10,8 +10,8 @@ public class MoveMonsterDotsCommand : MoveCommand
 
     //Dictionary that maps each movable monster dot to a dot to move to 
     private readonly Dictionary<MonsterDot, Dot> dotsToMoveTo = new();
-
-
+    private int ongoingCoroutines;
+    private readonly List<NormalDot> replacementDots = new();
     public override bool CanMove(Dot targetDot)
     {
         //if the dot is null or it is a monster dot 
@@ -28,19 +28,13 @@ public class MoveMonsterDotsCommand : MoveCommand
         }
         return true;
     }
-    public override IEnumerator Execute(Board board)
-    {
-        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveMonsterDotsCommand));
 
+    private void MoveMonsterDots(Board board){
         List<MonsterDot> monsterDots = board.FindElementsOfType<MonsterDot>();
-        List<NormalDot> replacementDots = new();
+
         int monsterDotCount = 0;
 
-        if(monsterDots.Where((dot)=> !dot.WasHit).Count() > 0)
-        {
-            onCommandExecuting?.Invoke(this);
-
-        }
+    
 
         foreach (MonsterDot monsterDot in monsterDots)
         {
@@ -51,20 +45,22 @@ public class MoveMonsterDotsCommand : MoveCommand
                 monsterDot.Column + monsterDot.DirectionX,
                 monsterDot.Row + monsterDot.DirectionY);
 
-            if (monsterDot.WasHit)
+            if (monsterDot.WasHit == true)
             {
-//                monsterDot.WasHit = false;
+                monsterDot.WasHit = false;
                 continue;
+
             }
 
-            //if the monster dot can move
-            if (CanMove(dotToMoveTo))
+            //if the monster dot can move add it to the dictionary
+            else if (CanMove(dotToMoveTo))
             {
                 DidExecute = true;
 
-                //then add it to the dictionary
+                
                 dotsToMoveTo.TryAdd(monsterDot, dotToMoveTo);
             }
+
             
         }
 
@@ -72,9 +68,10 @@ public class MoveMonsterDotsCommand : MoveCommand
         {
             if (dotsToMoveTo.TryGetValue(monsterDot, out var dotToMoveTo))
             {
-
+                ongoingCoroutines++;
                 CoroutineHandler.StartStaticCoroutine(monsterDot.DoMove(),() =>
                 {
+                    onCommandExecuting?.Invoke(this);
                     monsterDotCount++;
 
                     int startCol = monsterDot.Column;
@@ -84,9 +81,7 @@ public class MoveMonsterDotsCommand : MoveCommand
 
                     Dot dot = board.GetDotAt(endCol, endRow); //get the dot to move to
 
-                    board.Put(monsterDot, endCol, endRow);
 
-                    board.Remove(monsterDot, startCol, startRow);
 
                     //Set dot data that will be used to spawn a dot at the monster's start position
                     DotsGameObjectData data = new(JSONLevelLoader.ToJsonDotType(DotType.NormalDot))
@@ -96,17 +91,30 @@ public class MoveMonsterDotsCommand : MoveCommand
                     };
                     data.SetProperty("Color", JSONLevelLoader.ToJsonColor(monsterDot.Color));
 
-                    NormalDot repacementDot = board.InitDotsGameObject<NormalDot>(data);
+                    NormalDot replacementDot = board.InitDotsGameObject<NormalDot>(data);
 
-                    replacementDots.Add(repacementDot);
+                    replacementDots.Add(replacementDot);
                     board.DestroyDotsGameObject(dot);
-
+                    board.Put(replacementDot, startCol, startRow);
+                    board.Put(monsterDot, endCol, endRow);
                     monsterDot.Column = endCol;
                     monsterDot.Row = endRow;
+                    ongoingCoroutines--;
+
                 });
             }
         }
-        yield return new WaitUntil(() => monsterDotCount == dotsToMoveTo.Count);
+    }
+    public override IEnumerator Execute(Board board)
+    {
+
+        if(!board.HasAny<MonsterDot>()){
+            yield break;
+        }   
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveMonsterDotsCommand));
+        
+        MoveMonsterDots(board);
+        yield return new WaitUntil(() => ongoingCoroutines == 0);
 
         foreach(NormalDot dot in replacementDots)
         {
