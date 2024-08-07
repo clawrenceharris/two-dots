@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 2
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a163ed744313241f994179ffe04dfe51, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,7 +155,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 2
+  m_SortingLayer: -3
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: f80fac22bd9dd4b23983f218e400e392, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -239,7 +239,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1239392859
-  m_SortingLayer: 2
+  m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 49d0e9edd3c8741caa8d2b35249f6e6b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -342,6 +342,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6432543078332248584}
+    - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2997138479204454036}
   m_SourcePrefab: {fileID: 100100000, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
 --- !u!4 &1019265678563060695 stripped
 Transform:
@@ -375,8 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f318aa6b7fce41f9933b7ddcd4fcd5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  row: 0
-  column: 0
 --- !u!114 &6432543078332248584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,9 +392,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7042503334726736847}
   hittableVisuals:
+    hitDuration: 0
     clearDuration: 0
   outerDot: {fileID: 4974334867245958176}
+  bombHitSprite: {fileID: 0}
   nestingDotTop: {fileID: 7845775649337258509}
   nestingDotBottom: {fileID: 2421772789560536524}
   nestingDotBottomSprite: {fileID: 4463504198251220756}
   nestingDotTopSprite: {fileID: 1090832818109188376}
+--- !u!114 &2997138479204454036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8447496296866440033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eeb5ab5e657a4728924143964310ef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

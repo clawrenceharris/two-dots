@@ -211,6 +211,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 5224356030327197459}
   hittableVisuals:
     hitDuration: 0
-    clearDuration: 0.4
+    clearDuration: 0.5
   outerDot: {fileID: 7796637422996918524}
   bombHitSprite: {fileID: 0}
