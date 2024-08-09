@@ -114,7 +114,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         int rand = Random.Range(0, coroutines.Length);
 
         yield return coroutines[rand];
-        yield return new WaitForSeconds(6 * PreviewableStateManager.indexes.GetValueOrDefault(dot));
+        yield return new WaitForSeconds(6);
 
 
     }
