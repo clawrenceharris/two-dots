@@ -23,27 +23,27 @@ public class BombDotVisualController : DotVisualController, IHittableVisualContr
    
     public override void SetInitialColor()
     {
-        for (int i = 0; i  < visuals.bombSprites.Length; i++)
+        for (int i = 0; i  < visuals.BombSprites.Length; i++)
         {
             if(i % 2 == 0)
-                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
+                visuals.BombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombLight;
             else
-                visuals.bombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
+                visuals.BombSprites[i].color = ColorSchemeManager.CurrentColorScheme.bombDark;
 
         }
     }
 
     public override void SetColor(Color color)
     {
-        for(int i = 0; i < visuals.bombSprites.Length; i++)
-            visuals.bombSprites[i].color = color;
+        for(int i = 0; i < visuals.BombSprites.Length; i++)
+            visuals.BombSprites[i].color = color;
     }
 
 
     public IEnumerator DoLineAnimation(IHittable hittable, Action callback = null)
     {
 
-        float duration = BombDotVisuals.bombHitDuration;
+        float duration = visuals.ExplodeDuration;
         Vector3 startPos = dot.transform.position;
         DotsGameObject dotsGameObject = (DotsGameObject)hittable;
         Vector3 targetPosition = new Vector3(dotsGameObject.Column, dotsGameObject.Row) * Board.offset;

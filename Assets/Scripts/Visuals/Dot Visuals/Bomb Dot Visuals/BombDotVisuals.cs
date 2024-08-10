@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombDotVisuals : ExplodableVisuals
+public class BombDotVisuals : DotVisuals, IExplodableVisuals
 {
-    public SpriteRenderer[] bombSprites;
-    public GameObject line;
-    public static float bombHitDuration = 0.1f;
-    public Sprite lineSprite;
+    public ExplodableVisuals ExplodableVisuals;
+    public SpriteRenderer[] BombSprites;
+    public float ExplodeDuration => ExplodableVisuals.ExplodeDuration;
 }
