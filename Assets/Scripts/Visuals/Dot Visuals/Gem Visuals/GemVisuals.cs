@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GemVisuals : DotVisuals, IExplodableVisuals
 {
-    private float explodeDuration; 
-    public float ExplodeDuration => explodeDuration;
+    public ExplodableVisuals explodableVisuals;
+    public float ExplodeDuration => explodableVisuals.ExplodeDuration;
 
     public SpriteRenderer GemTop;
 
@@ -20,5 +20,8 @@ public class GemVisuals : DotVisuals, IExplodableVisuals
     public SpriteRenderer GemTopRight;
 
     public SpriteRenderer GemBottomRight;
+
+    public SpriteRenderer VerticalRay;
+    public SpriteRenderer HorizontalRay;
 
 }

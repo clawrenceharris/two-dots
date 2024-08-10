@@ -31,14 +31,26 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
     {
         dot = (Gem)dotsGameObject;
         visuals = dotsGameObject.GetComponent<GemVisuals>();   
-
+        color = ColorSchemeManager.FromDotColor(dot.Color);
         base.Init(dotsGameObject);
+
+        ConnectionManager.onConnectionEnded += OnConnectionEnded;
     }
 
+    protected override void SetUp()
+    {
+        base.SetUp();
+        
+        float initialScaleX = visuals.HorizontalRay.transform.localScale.x;
+        float spriteWidth = visuals.HorizontalRay.sprite.bounds.size.x;
+        float yScaleFactor = Screen.width / spriteWidth;
+        visuals.HorizontalRay.transform.localScale = new Vector2(initialScaleX, yScaleFactor);
+        visuals.VerticalRay.transform.localScale = new Vector2(initialScaleX, yScaleFactor);
+    }
     public override void SetInitialColor()
     {
         base.SetInitialColor();
-        SetColor(ColorSchemeManager.FromDotColor(dot.Color));
+        SetColor(color);
     }
 
     public override void SetColor(Color color)
@@ -52,6 +64,33 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
         visuals.GemRight.color = ColorUtils.LightenColor(color, 0.48f);
         visuals.GemTopRight.color = ColorUtils.LightenColor(color, 0.7f);
         visuals.GemBottom.color = ColorUtils.DarkenColor(color, 0.3f);
+        visuals.HorizontalRay.color = color;
+        visuals.VerticalRay.color = color;
+    }
+    private void ShowRays(){
+
+        visuals.HorizontalRay.enabled = true;     
+        visuals.VerticalRay.enabled = true;     
+
+        
+    }
+    private void HideRays(){
+        
+        visuals.HorizontalRay.enabled = false;     
+        visuals.VerticalRay.enabled = false;
+    }
+    public override IEnumerator Clear(float duration)
+    {
+        HideRays();
+
+        return base.Clear(duration);
+    }
+    private void OnConnectionEnded(LinkedList<ConnectableDot> dots){
+        HideRays();
     }
 
+    public void Explode(){
+        ShowRays();
+    }
+    
 }
