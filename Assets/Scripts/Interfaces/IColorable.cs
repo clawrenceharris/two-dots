@@ -3,5 +3,6 @@ using System.Collections.Generic;
 
 public interface IColorable
 {
-    public DotColor Color { get; set; }
+    DotColor Color { get; set; }
+    void Select();
 }

@@ -150,6 +150,10 @@ public class Square
             {
                 bool isOnEdge = board.IsOnEdgeOfBoard(neighbor.Column, neighbor.Row);
                 bool isInSquare = square.Contains(neighbor);
+                
+                if(visitedDots.Contains(neighbor)){
+                    continue;
+                }
                 // If the neighbor is on the edge and not part of the square we know that it cant be inside the square
                 if (isOnEdge && !isInSquare)
                 {
@@ -161,7 +165,7 @@ public class Square
                 // otherwise continue checking the other neighbors of the current dot
                 if (!isInSquare)
                 {
-                    // 
+                    
                     queue.Enqueue(neighbor);
                 }
                 
@@ -176,25 +180,43 @@ public class Square
     }
 
 
-
-    // Returns whether the dot should be hit based on color, dot type, etc
-    protected virtual bool ShouldBeHit(IHittable hittable)
-    {
-
-        if(hittable is not ConnectableDot dot)
-        {
+    private bool ShouldHitDot(Dot dot){
+        if(dot is not IColorable colorable){
             return false;
         }
-        return
 
-            //the dot is not going to be a bomb
-            !DotsInSquare.Contains(hittable) &&
-            // and the dot is hittable by square
-            (dot.DotType.ShouldBeHitBySquare() ||
-            //or the dot is in the connection
-            ConnectionManager.ConnectedDots.Contains(hittable) ||
-            //or the dot's color is the same as the connection color
-            dot.Color == ConnectionManager.Connection.Color);
+        if(dot.DotType.ShouldBeHitBySquare() ||colorable.Color == ConnectionManager.Connection.Color){
+            return true;
+        }
+        return false;
+    }
+    private bool ShouldHitTile(Tile tile){
+        if(tile is not IColorable colorable){
+            return false;
+        }
+
+        if(tile.TileType.ShouldBeHitBySquare() ||colorable.Color == ConnectionManager.Connection.Color){
+            return true;
+        }
+        return false;
+    }
+    /// <summary>
+    /// Returns whether the hittable object should be hit based on color, type, 
+    /// and position
+    /// </summary>
+    /// <param name="hittable">The hittable object to check</param>
+    /// <returns></returns>
+    protected virtual bool ShouldHit(IHittable hittable)
+    {
+        if(DotsInSquare.Contains(hittable) ){
+            return false;
+        }
+        else if(hittable is Dot dot)
+            return ShouldHitDot(dot);
+        else if(hittable is Tile tile){
+            return ShouldHitTile(tile);
+        }
+        return false;
 
     }
 
@@ -210,10 +232,10 @@ public class Square
             {
                 Dot dot = board.GetDotAt<Dot>(col, row);
 
-                if (dot is ConnectableDot connectableDot && ShouldBeHit(connectableDot))
+                if (dot is IColorable colorDot && ShouldHit(dot))
                 {
-                    ToHit.Add(connectableDot);
-                    connectableDot.Select();
+                    ToHit.Add(dot);
+                    colorDot.Select();
                 }
 
             }
