@@ -38,16 +38,20 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
     public override void SetInitialColor()
     {
         base.SetInitialColor();
-        Color baseColor = ColorSchemeManager.FromDotColor(dot.Color);
-        visuals.spriteRenderer.color = ColorUtils.LightenColor(baseColor, 0.1f);;
-        visuals.GemTopLeft.color = baseColor;
-        visuals.GemBottomRight.color = baseColor;
-        visuals.GemBottomLeft.color = ColorUtils.DarkenColor(baseColor, 0.4f);
-        visuals.GemLeft.color = ColorUtils.DarkenColor(baseColor, 0.3f);
-        visuals.GemTop.color = ColorUtils.LightenColor(baseColor, 0.48f);
-        visuals.GemRight.color = ColorUtils.LightenColor(baseColor, 0.48f);
-        visuals.GemTopRight.color = ColorUtils.LightenColor(baseColor, 0.7f);
-        visuals.GemBottom.color = ColorUtils.DarkenColor(baseColor, 0.3f);
+        SetColor(ColorSchemeManager.FromDotColor(dot.Color));
     }
-   
+
+    public override void SetColor(Color color)
+    {
+        visuals.spriteRenderer.color = ColorUtils.LightenColor(color, 0.1f);;
+        visuals.GemTopLeft.color = color;
+        visuals.GemBottomRight.color = color;
+        visuals.GemBottomLeft.color = ColorUtils.DarkenColor(color, 0.4f);
+        visuals.GemLeft.color = ColorUtils.DarkenColor(color, 0.3f);
+        visuals.GemTop.color = ColorUtils.LightenColor(color, 0.48f);
+        visuals.GemRight.color = ColorUtils.LightenColor(color, 0.48f);
+        visuals.GemTopRight.color = ColorUtils.LightenColor(color, 0.7f);
+        visuals.GemBottom.color = ColorUtils.DarkenColor(color, 0.3f);
+    }
+
 }
