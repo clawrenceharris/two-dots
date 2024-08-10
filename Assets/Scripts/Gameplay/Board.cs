@@ -735,25 +735,22 @@ public class Board : MonoBehaviour
 
    
 
-    public List<T> GetDotsAndTilesAt<T>(int col, int row)
+    public List<T> GetDotsGameObjectAt<T>(int col, int row)
     {
-        List<T> dotsAndTiles = new();
-        foreach(Tile tile in Tiles)
+        List<T> dotsGameObjects = new();
+        List<DotsGameObject> allDotsGameObjects = new();
+        allDotsGameObjects.AddRange(GetDots());
+        allDotsGameObjects.AddRange(GetTiles());
+        
+        foreach(DotsGameObject dotsGameObject in allDotsGameObjects)
         {
-            if(tile && tile.Column == col && tile.Row == row && tile is T t)
+            if(dotsGameObject.Column == col && dotsGameObject.Row == row && dotsGameObject is T t)
             {
-                dotsAndTiles.Add(t);
+                dotsGameObjects.Add(t);
             }
         }
-        foreach (Dot dot in Dots)
-        {
-
-            if (dot && dot.Column == col && dot.Row == row && dot is T t)
-            {
-                dotsAndTiles.Add(t);
-            }
-        }
-        return dotsAndTiles;
+       
+        return dotsGameObjects;
         
        
     }
@@ -798,11 +795,11 @@ public class Board : MonoBehaviour
     }
     public List<Dot> GetDots()
     {
-        return Dots.OfType<Dot>().ToList();
+        return Dots.OfType<Dot>().Where(dot => dot != null).ToList();
     }
     public List<Tile> GetTiles()
     {
-        return Tiles.OfType<Tile>().ToList();
+        return Tiles.OfType<Tile>().Where(tile => tile != null).ToList();
     }
     public List<T> FindElementsOfType<T>()
         where T : class
