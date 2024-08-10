@@ -46,6 +46,9 @@ TagManager:
   - name: Line
     uniqueID: 1023218459
     locked: 0
+  - name: Outer Dot
+    uniqueID: 2823050207
+    locked: 0
   - name: Dot
     uniqueID: 1239392859
     locked: 0
