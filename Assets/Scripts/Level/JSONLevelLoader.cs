@@ -35,7 +35,7 @@ public class JSONLevelLoader
             case "beetle": return GameAssets.Instance.BeetleDot;
             case "monster": return GameAssets.Instance.MonsterDot;
             case "lotus": return GameAssets.Instance.LotusDot;
-
+            case "gem": return GameAssets.Instance.Gem;
         };
 
         //tiles
@@ -94,6 +94,7 @@ public class JSONLevelLoader
             DotType.AnchorDot => "anchor",
             DotType.NestingDot => "nesting",
             DotType.BeetleDot => "beetle",
+            DotType.Gem => "gem",
             _ => throw new ArgumentException(),
         };
     }

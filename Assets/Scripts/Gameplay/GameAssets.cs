@@ -5,8 +5,9 @@ using UnityEngine;
 public class GameAssets : MonoBehaviour
 {
     [Header("Dots")]
-    public Dot NormalDot;
+    public NormalDot NormalDot;
    
+    public Gem Gem;
     public NestingDot NestingDot;
     public Bomb Bomb;
     public ClockDot ClockDot;
@@ -49,7 +50,7 @@ public class GameAssets : MonoBehaviour
             DotType.NestingDot => NestingDot,
             DotType.BeetleDot => BeetleDot,
             DotType.LotusDot => LotusDot,
-
+            DotType.Gem => Gem,
             _ => null,
         };
     }

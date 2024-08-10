@@ -10,7 +10,13 @@
     },
     {
       "type": "normal",
-      "color": "green"
+      "color": "red"
+    },
+    {
+      "type": "gem",
+      "color": "yellow",
+      "directionX": 1,
+      "directionY": 1
     }
     // {
     //   "type": "monster",
