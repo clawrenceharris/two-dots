@@ -7,6 +7,7 @@ public enum CommandType
 {
     SinkAnchorDots,
     ConnectLotusDots,
+    GemExplode,
 
     Hit,
 
@@ -15,7 +16,6 @@ public enum CommandType
 
     SpreadWater,
 
-    GemExplode,
     Board,
     ClearClockDots,
     ClearCircuits,
