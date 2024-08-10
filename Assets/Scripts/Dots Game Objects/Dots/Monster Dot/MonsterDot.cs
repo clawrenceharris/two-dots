@@ -7,21 +7,24 @@ using UnityEngine;
 public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, IDirectional, IPreviewable
 {
 
-    private readonly NumerableBase numerable = new();
 
     public override DotType DotType => DotType.MonsterDot;
-    private readonly DirectionalBase directional = new();
     public new MonsterDotVisualController VisualController => GetVisualController<MonsterDotVisualController>();
+    public override int HitsToClear => numerable.InitialNumber;
+
+    private readonly NumerableBase numerable = new();
+
     public int TempNumber { get => numerable.TempNumber; set => numerable.TempNumber = value; }
 
     public int CurrentNumber => numerable.CurrentNumber;
 
     public int InitialNumber { get => numerable.InitialNumber; set => numerable.InitialNumber = value; }
 
-    public override int HitsToClear => numerable.InitialNumber;
 
-    public int DirectionX { get; set; }
-    public int DirectionY { get; set; }
+    private readonly DirectionalBase directional = new();
+
+    public int DirectionX { get => directional.DirectionX; set => directional.DirectionX = value; }
+    public int DirectionY { get => directional.DirectionY; set => directional.DirectionY = value; }
 
 
 
