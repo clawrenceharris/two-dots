@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExplodableVisuals : Visuals, IHittableVisuals
+[System.Serializable]
+public class ExplodableVisuals : IExplodableVisuals
 {
     public HittableVisuals hittableVisuals;
-    public float ExplodeDuration = 0.7f;
-    public float HitDuration => hittableVisuals.HitDuration;
+    [SerializeField]private float explodeDuration;
 
-    public float ClearDuration => hittableVisuals.ClearDuration;
+    public float ExplodeDuration => explodeDuration;
 }
