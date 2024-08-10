@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gem : Dot, IExplodable, IColorable, IDirectional
+public class Gem : Dot, IExplodable, IColorable
 {
+
     public override DotType DotType => DotType.Gem;
 
     public override IHitRule HitRule => new HitBySquareRule();
 
-    public override int HitsToClear => 1;
+    public override int HitsToClear => 2;
 
     public IExplosionRule ExplosionRule => new GemExplosionRule();
 
@@ -18,42 +19,36 @@ public class Gem : Dot, IExplodable, IColorable, IDirectional
     public int HitsToExplode => 1;
 
     public DotColor Color { get; set; }
-   private readonly DirectionalBase directional = new();
 
-    public int DirectionX { get => directional.DirectionX; set => directional.DirectionX = value; }
-    public int DirectionY { get => directional.DirectionY; set => directional.DirectionY = value; }
-
-
-    public override void Init(int column, int row)
-    {
-        base.Init(column, row);
-        directional.Init(this);
-        
-    }
-    public void ChangeDirection(int directionX, int directionY)
-    {
-        
-    }
+    public new GemVisualController VisualController => GetVisualController<GemVisualController>();
+   
 
     public IEnumerator Explode(List<IHittable> toHit, Action<IHittable> onComplete)
-    {
-        yield break;
+    { 
+        foreach (IHittable hittable in toHit)
+        {
+            yield return new WaitForSeconds(0.05f);
+            onComplete?.Invoke(hittable);
+        }
+        
+
     }
 
-    public Vector3 GetRotation()
-    {
-        return Vector3.one;
-    }
-
+  
     public override void Hit(HitType hitType)
     {
-       
+       HitCount++;
     }
 
     public override void InitDisplayController()
     {
         visualController = new GemVisualController();
         visualController.Init(this);
+    }
+
+    public void Select()
+    {
+        StartCoroutine(VisualController.AnimateSelectionEffect());
     }
 }
 

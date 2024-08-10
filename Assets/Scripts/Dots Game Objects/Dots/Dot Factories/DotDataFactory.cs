@@ -54,8 +54,6 @@ public class DotDataFactory
                 break;
             case "gem":
                 dotData.SetProperty("Color", (string)color);
-                dotData.SetProperty("DirectionX", (int)directionX);
-                dotData.SetProperty("DirectionY", (int)directionY);
                 break;
 
         };
