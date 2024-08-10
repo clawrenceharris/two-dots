@@ -37,7 +37,12 @@ public static class GameTypeExtensions
     public static bool ShouldBeHitBySquare(this DotType type)
     {
         
-        return type == DotType.MoonStoneDot || type == DotType.GeoidDot;   
+        return type == DotType.MoonStoneDot;   
+    }
+    public static bool ShouldBeHitBySquare(this TileType type)
+    {
+        
+        return false;   
     }
 
     
@@ -47,7 +52,7 @@ public static class GameTypeExtensions
     }
     public static bool IsExplosion(this HitType type)
     {
-        return type == HitType.BombExplosion || type == HitType.GemExplosion;
+        return type == HitType.BombExplosion || type == HitType.GemExplosion || type == HitType.Explosion;
     }
 
     public static bool IsColorable(this DotType type)
