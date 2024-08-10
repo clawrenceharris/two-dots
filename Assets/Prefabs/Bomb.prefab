@@ -139,14 +139,14 @@ MonoBehaviour:
   hittableVisuals:
     hitDuration: 0
     clearDuration: 0.4
-  explodeDuration: 0.7
-  bombSprites:
-  - {fileID: 1716833105892258884}
-  - {fileID: 6722489279500980237}
-  - {fileID: 982398389764484874}
-  - {fileID: 8147211790846465351}
-  line: {fileID: 935950358824313196, guid: e66051827bad04f24bb7b902ae159a41, type: 3}
-  lineSprite: {fileID: 21300000, guid: a3964ccd7cbe3423ca0c0915ce097fe6, type: 3}
+  outerDot: {fileID: 0}
+  bombHitSprite: {fileID: 0}
+  ExplodableVisuals:
+    hittableVisuals:
+      hitDuration: 0
+      clearDuration: 0
+    explodeDuration: 0.1
+  BombSprites: []
 --- !u!1 &4044538420008121860
 GameObject:
   m_ObjectHideFlags: 0

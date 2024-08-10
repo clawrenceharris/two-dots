@@ -740,6 +740,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Gem Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: m_SortingLayer
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1471917089
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2303686786482766387, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
     - {fileID: 6747493730836354960, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
