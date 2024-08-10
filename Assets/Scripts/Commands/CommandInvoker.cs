@@ -155,7 +155,7 @@ public class CommandInvoker
 
             Enqueue(new SinkAnchorDotsCommand());
             Enqueue(new ConnectLotusDotsCommand());
-
+            Enqueue(new ExplodeGemsCommand());
             Enqueue(new HitCommand());
             Enqueue(new MoveClockDotsCommand());
 

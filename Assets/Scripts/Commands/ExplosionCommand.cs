@@ -30,7 +30,7 @@ public class ExplosionCommand : Command
         {
 
 
-            CommandInvoker.Instance.Enqueue(new ExplodeCommand(group, group.First().ExplosionType.ToCommandType()));
+            CommandInvoker.Instance.Enqueue(new ExplodeCommand(group.ToList(), group.First().ExplosionType.ToCommandType()));
             
             DidExecute = true;
             

@@ -15,19 +15,19 @@ public class ExplodeCommand : Command
     /// <summary>
     /// A grouping of IExplodable elements by their ExplosionType.
     /// </summary>
-    public readonly IGrouping<ExplosionType, IExplodable> explodables;
+    public readonly List<IExplodable> explodables;
 
    
     private readonly CommandType commandType;
 
     public override CommandType CommandType => commandType;
 
-    public ExplodeCommand(IGrouping<ExplosionType, IExplodable> explodables, CommandType commandType)
+    public ExplodeCommand(List<IExplodable> explodables, CommandType commandType)
     {
         this.explodables = explodables;
         this.commandType = commandType;
     }
-
+    
 
     /// <summary>
     /// Executes the explode command on the specified board.
@@ -77,13 +77,14 @@ public class ExplodeCommand : Command
                             {
                                 //hit the tile once if the hittable takes one hit to 
                                 // clear in one hit and twice if it takes more than one hit to clear
-                                int hitCount = hittable.HitsToClear > 1 ? 2 : 1;
+                                CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.Explosion,() =>{
+                                    if(hittable is Dot dot && !dot.DotType.IsBasicDot()){
+                                        CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.DotHit));
+                                    }
+                                }));
+                               
 
-                                for(int i = 0; i < hitCount; i++){
-                                    //hit background tile with dot hit
-                                    CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.DotHit));
-
-                                }
+                                
                             
                             }
                         
