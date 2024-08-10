@@ -42,75 +42,62 @@ public class ExplodeCommand : Command
 
         List<IHittable> hittables = new();// List to store elements that were hit
         List<Coroutine> coroutines = new();
-        int hitCount = 0;
+        int ongoingCoroutines = 0;
 
         onCommandExecuting?.Invoke(this);
 
         foreach (IExplodable explodable in explodables)
         {
-            foreach (HitType hitType in explodable.ExplosionRules.Keys)
-            {
-                if (explodable.ExplosionRules.TryGetValue(hitType, out IExplosionRule rule))
+            
+                
+            // Validate the explosion rule and get the list of elements to hit
+            List<IHittable> toHit = explodable.ExplosionRule.Validate(explodable, board);
+            DidExecute = true;
+
+            // Add the elements to the hit list
+            hittables.AddRange(toHit.Where(hittable => hittable != null));
+
+            // Start the coroutine to apply the explosion effect and subsequent hit effects
+
+
+            if(explodable == explodables.Last()){
+
+                ongoingCoroutines++;
+                CoroutineHandler.StartStaticCoroutine(
+                explodable.Explode(hittables, (hittable) =>
                 {
-                    // Validate the explosion rule and get the list of elements to hit
-                    List<IHittable> toHit = rule.Validate(explodable, board);
-                    DidExecute = true;
-
-                    // Add the elements to the hit list
-                    hittables.AddRange(toHit.Where(hittable => hittable != null));
-
-                    // Start the coroutine to apply the explosion effect and subsequent hit effects
-
-
-                    if(explodable == explodables.Last()){
-
-                       
-                        CoroutineHandler.StartStaticCoroutine(
-                        explodable.Explode(hittables, (hittable) =>
+                    if(hittable != null)
+                        CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.Explosion, () =>
                         {
-                            if(hittable != null)
-                                CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () =>
-                                {
-                                    //hit any background tiles at the same position as the current hittable
-                                    IBoardElement b = (IBoardElement)hittable;
+                            //hit any background tiles at the same position as the current hittable
+                            IBoardElement b = (IBoardElement)hittable;
 
-                                    IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-                                    if(tile != null)
-                                    {
-                                        //hit the tile once if the hittable takes one hit to 
-                                        // clear in one hit and twice if it takes more than one hit to clear
-                                        int hitCount = hittable.HitsToClear > 1 ? 2 : 1;
+                            IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
+                            if(tile != null)
+                            {
+                                //hit the tile once if the hittable takes one hit to 
+                                // clear in one hit and twice if it takes more than one hit to clear
+                                int hitCount = hittable.HitsToClear > 1 ? 2 : 1;
 
-                                        for(int i = 0; i < hitCount; i++){
-                                             //hit background tile with dot hit
-                                            CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.DotHit));
+                                for(int i = 0; i < hitCount; i++){
+                                    //hit background tile with dot hit
+                                    CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.DotHit));
 
-                                        }
-                                       
-                                    }
-                                   
-
-                                }),()=>hitCount++);
+                                }
+                            
+                            }
+                        
 
                         }));
 
-
-                    }
-                        
-                    
-
-
-                }
-
-                
-           
+                }),()=>ongoingCoroutines--); 
 
             }
         }
         
 
         // Wait until all hit effects have been processed
-        yield return new WaitUntil(() => hitCount == hittables.Count);
+        yield return new WaitUntil(() => ongoingCoroutines == 0);
 
 
 

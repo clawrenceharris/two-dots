@@ -5,8 +5,8 @@ using System;
 
 public interface IExplodable : IHittable, IBoardElement
 {
-    Dictionary<HitType, IExplosionRule> ExplosionRules { get; }
-    //IEnumerator Explode(Dictionary<IExplodable, List<IHittable>> explodables, Action<IHittable> onComplete);
+    IExplosionRule ExplosionRule { get; }
+
     IEnumerator Explode(List<IHittable> toHit, Action<IHittable> onComplete);
 
     ExplosionType ExplosionType { get; }

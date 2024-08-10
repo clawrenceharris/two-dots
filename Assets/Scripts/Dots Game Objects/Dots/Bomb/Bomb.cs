@@ -11,7 +11,7 @@ public class Bomb : Dot, IExplodable
     public override DotType DotType => DotType.Bomb;
    
 
-    public Dictionary<HitType, IExplosionRule> ExplosionRules => new() { { HitType.BombExplosion, new BombExplosionRule() } };
+    public IExplosionRule ExplosionRule => new BombExplosionRule();
     public override int HitsToClear => 1;
     public static BombExplosionManager bombExplosionManager = new();
     public override IHitRule HitRule => null;
