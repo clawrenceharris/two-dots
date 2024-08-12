@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, IDirectional
+public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, IDirectional, IPreviewable
 {
 
     private readonly NumerableBase numerable = new();
@@ -75,12 +75,13 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
         return directional.GetRotation();
     }
 
-    public override void Deselect()
+    public bool ShouldPreviewClear(Board board)
     {
-        // VisualController.UpdateNumbers(CurrentNumber);
+       return false;
     }
 
-    
-   
-    
+    public bool ShouldPreviewHit(Board board)
+    {
+        return false;
+    }
 }
