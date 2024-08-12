@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 
-public class BeetleDotVisualController : ColorableDotVisualController, IDirectionalVisualController
+public class BeetleDotVisualController : ColorableDotVisualController, IDirectionalVisualController, IPreviewableVisualController
 {
     private List<GameObject> wingsLayer1;
     private List<GameObject> wingsLayer2;
@@ -71,10 +71,6 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
     }
 
-    public override IEnumerator AnimateSelectionEffect()
-    {
-        return base.AnimateSelectionEffect();
-    }
 
     public override void SetColor(Color color)
     {
@@ -235,28 +231,18 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         yield return new WaitForSeconds(flapDuration);  
     }
 
-
-    public IEnumerator PreviewHit(PreviewHitType hitType)
+    private IEnumerator DoShakeAnimation()
     {
-        float startFlapAngle = 45f;
-        float endFlapAngle = 0f;
-        while (DotTouchIO.IsInputActive && ConnectionManager.ToHit.Contains(dot) || dot.HitCount >= dot.HitsToClear) {
+        float duration = 0.8f;
+        float strength = 0.1f; 
+        int vibrato = 10; //number of shakes
+        float randomness = 20; 
+        dot.transform.DOShakePosition(duration, new Vector3(strength, strength, 0), vibrato, randomness, false, true);
 
-            yield return FlapWings(startFlapAngle, endFlapAngle);
-
-        }
-        visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-
+        visuals.spriteRenderer.DOColor(Color.black, duration);
+        yield return new WaitForSeconds(duration);
     }
 
-    public IEnumerator PreviewClear()
-    {
-        yield break;
-    }
-
-
-    
     public override IEnumerator Hit(HitType hitType)
     {
         float hitDuration = visuals.hittableVisuals.HitDuration;
@@ -403,5 +389,28 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         yield return new WaitForSeconds(0.5f);
 
 
+    }
+
+    public IEnumerator DoIdleAnimation()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerator DoHitPreviewAnimation()
+    {
+        float startFlapAngle = 45f;
+        float endFlapAngle = 0f;
+        yield return FlapWings(startFlapAngle, endFlapAngle);
+
+        
+        // visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        // visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+
+    }
+
+    public IEnumerator DoClearPreviewAnimation()
+    {
+        yield return DoShakeAnimation();
+        yield return new WaitForSeconds(4);
     }
 }

@@ -17,8 +17,8 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     {
         dot = (MonsterDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
-        directionalVisualController.Init(dot, visuals.directionalVisuals);
-        numerableVisualController.Init(dot, visuals.numerableVisuals);
+        directionalVisualController.Init(dot, visuals.DirectionalVisuals);
+        numerableVisualController.Init(dot, visuals.NumerableVisuals);
         base.Init(dotsGameObject);
         ConnectionManager.onDotConnected += OnConnectionChanged;
         ConnectionManager.onDotDisconnected += OnConnectionChanged;
@@ -41,12 +41,12 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
    
     public IEnumerator DoMove(int col, int row)
     {
-        for(int i = 0; i < visuals.sprites.Length; i++)
+        for(int i = 0; i < visuals.AllSprites.Length; i++)
         {
-            visuals.sprites[i].sortingOrder += 100;
+            visuals.AllSprites[i].sortingOrder += 100;
 
         }
-        yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, MonsterDotVisuals.moveDuration);
+        yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, MonsterDotVisuals.MoveDuration);
 
         yield return new WaitForSeconds(0.8f);
         
@@ -59,8 +59,11 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     }
 
     public override void SetInitialColor()
-    {
-        visuals.spriteRenderer.color = ColorSchemeManager.FromDotColor(dot.Color); ;
+    {   
+        Color color = ColorSchemeManager.FromDotColor(dot.Color);
+        visuals.spriteRenderer.color =  color;
+        visuals.EyeLids.color = color;
+
     }
 
     public IEnumerator DoClearPreviewAnimation()
@@ -73,9 +76,52 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         yield break;
     }
 
+    private IEnumerator DoBlinkingAnimation(){
+        float[] durations = {1f, 3f};
+        float intervalDuration = durations[Random.Range(0, durations.Length)];
+        Sprite[] frames = visuals.BlinkAnimationFrames;
+        for(int i = 0; i < 2; i++){
+            foreach(Sprite frame in frames){
+                visuals.EyeLids.sprite = frame;
+                yield return new WaitForSeconds(0.1f);
+            }
+            yield return new WaitForSeconds(intervalDuration);
+        }
+        
+    }
+
+    private IEnumerator DoRightEyeAnimation(){
+        yield return new WaitForSeconds(0.8f);
+        Sprite[] rightEyeFrames = visuals.RightEyeAnimationFrames;
+        foreach(Sprite frame in rightEyeFrames){
+            visuals.RightEye.sprite = frame;
+            yield return new WaitForSeconds(0.1f);
+        }
+        
+    }
+    private IEnumerator DoLeftEyeAnimation(){
+        yield return new WaitForSeconds(0.8f);
+        Sprite[] leftEyeFrames = visuals.LeftEyeAnimationFrames;
+        foreach(Sprite frame in leftEyeFrames){
+            visuals.LeftEye.sprite = frame;
+            yield return new WaitForSeconds(0.1f);
+        }
+        
+    }
     public IEnumerator DoIdleAnimation()
     {
-        //TODO: Blinking animation
-        yield break;
+        IEnumerator[] coroutines = {DoEyeAnimation(), DoBlinkingAnimation() };
+        int rand = Random.Range(0, coroutines.Length);
+
+        yield return coroutines[rand];
+        yield return new WaitForSeconds(6 * PreviewableStateManager.indexes.GetValueOrDefault(dot));
+
+
+    }
+
+    private IEnumerator DoEyeAnimation()
+    {
+        CoroutineHandler.StartStaticCoroutine(DoLeftEyeAnimation());
+        yield return CoroutineHandler.StartStaticCoroutine(DoRightEyeAnimation());
     }
 }

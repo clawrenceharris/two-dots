@@ -5,17 +5,24 @@ using UnityEngine;
 
 public class MonsterDotVisuals : DotVisuals, INumerableVisuals, IDirectionalVisuals
 {
-    public NumerableVisuals numerableVisuals;
-    public SpriteRenderer[] sprites;
-    public SpriteRenderer Digit1 => numerableVisuals.Digit1;
+    public NumerableVisuals NumerableVisuals;
+    public SpriteRenderer Digit1 => NumerableVisuals.Digit1;
 
-    public SpriteRenderer Digit2 => numerableVisuals.Digit2;
+    public SpriteRenderer Digit2 => NumerableVisuals.Digit2;
 
 
-    public DirectionalVisuals directionalVisuals;
-    internal static float moveDuration = 0.6f;
+    public SpriteRenderer EyeLids;
 
-    public float RotationDuration => directionalVisuals.RotationDuration;
+    public DirectionalVisuals DirectionalVisuals;
+    public static float MoveDuration = 0.6f;
+    public Sprite[] LeftEyeAnimationFrames;
+    public Sprite[] RightEyeAnimationFrames;
+    public SpriteRenderer LeftEye;
+    public SpriteRenderer RightEye;
+    public Sprite[] BlinkAnimationFrames;
+    public SpriteRenderer[] AllSprites;
 
-    public Ease RotationEase => directionalVisuals.RotationEase;
+    public float RotationDuration => DirectionalVisuals.RotationDuration;
+
+    public Ease RotationEase => DirectionalVisuals.RotationEase;
 }
