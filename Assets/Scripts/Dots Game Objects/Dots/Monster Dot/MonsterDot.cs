@@ -84,4 +84,9 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     {
         return false;
     }
+
+    public override void Deselect()
+    {
+        throw new NotImplementedException();
+    }
 }
