@@ -5,12 +5,17 @@ using DG.Tweening;
 using System;
 using System.Linq;
 
-public abstract class BlankDotBaseVisualController : ColorableDotVisualController, IPreviewableVisualController
+public abstract class BlankDotBaseVisualController : ColorableDotVisualController
 {
-    
-    
 
-    
+    public override void Init(DotsGameObject dotsGameObject)
+    {
+        base.Init(dotsGameObject);
+        ConnectionManager.onDotConnected += OnDotConnected;
+        ConnectionManager.onDotDisconnected += OnDotDisconnected;
+    }
+
+
     public void SetInnerColor(Color color)
     {
         GetVisuals<BlankDotVisuals>().innerDot.color = color;
@@ -44,28 +49,19 @@ public abstract class BlankDotBaseVisualController : ColorableDotVisualControlle
 
     }
 
-    public virtual IEnumerator DoHitPreviewAnimation()
-    {
+    public void OnDotConnected(ConnectableDot _){
         BlankDotBase dot = GetGameObject<BlankDotBase>();
-       
-        dot.UpdateColor();
-        yield return null;
-        
-
-
+        if(ConnectionManager.ConnectedDots.Contains(dot)){
+            dot.UpdateColor();
+        }
     }
-
-    public virtual IEnumerator DoClearPreviewAnimation()
-    {
-        yield break;
-
-
+     public void OnDotDisconnected(ConnectableDot _){
+        BlankDotBase dot = GetGameObject<BlankDotBase>();
+        if(ConnectionManager.ConnectedDots.Contains(dot)){
+            dot.UpdateColor();
+        }
     }
-
-    public virtual IEnumerator DoIdleAnimation()
-    {
-       yield break;
-    }
+    
 
    
 }

@@ -5,7 +5,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 
-public class ClockDotVisualController : BlankDotBaseVisualController, INumerableVisualController, IHittableVisualController
+public class ClockDotVisualController : BlankDotBaseVisualController, 
+INumerableVisualController, 
+IHittableVisualController,
+IPreviewableVisualController
 {
     public static Dictionary<Dot, GameObject> ClockDotPreviews { get; private set; } = new();
     private ClockDot dot;
@@ -101,7 +104,7 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     }
 
     
-    public override IEnumerator DoClearPreviewAnimation()
+    public IEnumerator DoClearPreviewAnimation()
     {
 
         float elapsedTime = 0f;
@@ -165,9 +168,14 @@ public class ClockDotVisualController : BlankDotBaseVisualController, INumerable
     
     
 
-    public override IEnumerator DoIdleAnimation()
+    public IEnumerator DoIdleAnimation()
     {
         yield break;
 ;
+    }
+
+    public IEnumerator DoHitPreviewAnimation()
+    {
+       yield break;
     }
 }
