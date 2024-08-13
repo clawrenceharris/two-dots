@@ -42,7 +42,7 @@ public class ExplodeCommand : Command
 
         List<IHittable> hittables = new();// List to store elements that were hit
         List<Coroutine> coroutines = new();
-        int ongoingCoroutines = 0;
+        int hitCount = 0;
 
         onCommandExecuting?.Invoke(this);
 
@@ -57,16 +57,15 @@ public class ExplodeCommand : Command
             // Add the elements to the hit list
             hittables.AddRange(toHit.Where(hittable => hittable != null));
 
-            // Start the coroutine to apply the explosion effect and subsequent hit effects
 
-
+            
             if(explodable == explodables.Last()){
-
-                ongoingCoroutines++;
+                // Start the coroutine to apply the explosion effect and subsequent hit effects
                 CoroutineHandler.StartStaticCoroutine(
                 explodable.Explode(hittables, (hittable) =>
                 {
-                    if(hittable != null)
+                    hitCount++;
+                    if(hittable != null){
                         CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.Explosion, () =>
                         {
                             //hit any background tiles at the same position as the current hittable
@@ -82,23 +81,19 @@ public class ExplodeCommand : Command
                                         CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.DotHit));
                                     }
                                 }));
-                               
-
-                                
-                            
+        
                             }
-                        
-
+                    
                         }));
-
-                }),()=>ongoingCoroutines--); 
+                    }
+                })); 
 
             }
         }
         
 
         // Wait until all hit effects have been processed
-        yield return new WaitUntil(() => ongoingCoroutines == 0);
+        yield return new WaitUntil(() => hitCount == hittables.Count);
 
 
 

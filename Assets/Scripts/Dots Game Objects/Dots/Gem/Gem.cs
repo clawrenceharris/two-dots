@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gem : Dot, IExplodable, IColorable
+public class Gem : Dot, IExplodable, IColorable, IPreviewable
 {
 
     public override DotType DotType => DotType.Gem;
@@ -25,9 +25,10 @@ public class Gem : Dot, IExplodable, IColorable
 
     public IEnumerator Explode(List<IHittable> toHit, Action<IHittable> onComplete)
     { 
+        yield return new WaitForSeconds(0.7f);
+        yield return VisualController.Explode();
         foreach (IHittable hittable in toHit)
         {
-            yield return new WaitForSeconds(0.05f);
             onComplete?.Invoke(hittable);
         }
         
@@ -49,6 +50,16 @@ public class Gem : Dot, IExplodable, IColorable
     public void Select()
     {
         StartCoroutine(VisualController.AnimateSelectionEffect());
+    }
+
+    public bool ShouldPreviewClear(Board board)
+    {
+        return HitRule.Validate(this, board);
+    }
+
+    public bool ShouldPreviewHit(Board board)
+    {
+        return HitRule.Validate(this, board);
     }
 }
 

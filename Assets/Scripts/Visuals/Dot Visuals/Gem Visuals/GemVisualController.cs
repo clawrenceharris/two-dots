@@ -1,27 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class GemVisualController : ColorableDotVisualController, IPreviewableVisualController
 {
     private Gem dot;
-
+    private Board board;
     private GemVisuals visuals;
-
-    public IEnumerator DoClearPreviewAnimation()
-    {
-        yield break;
-    }
-
-    public IEnumerator DoHitPreviewAnimation()
-    {
-        yield break;
-    }
-
-    public IEnumerator DoIdleAnimation()
-    {
-        yield break;
-    }
 
     public override T GetGameObject<T>() => dot as T;
    
@@ -31,26 +17,34 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
     {
         dot = (Gem)dotsGameObject;
         visuals = dotsGameObject.GetComponent<GemVisuals>();   
-        color = ColorSchemeManager.FromDotColor(dot.Color);
         base.Init(dotsGameObject);
 
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
+        ConnectionManager.onDotDisconnected += OnDotDisconnected;
+        Connection.onSquareMade += OnSquareMade;
+        Board.onBoardCreated += OnBoardCreated;
     }
-
+       
+    private void OnBoardCreated(Board board){
+        this.board = board;
+    } 
+    
     protected override void SetUp()
     {
         base.SetUp();
-        
+        Camera camera = Camera.main;
         float initialScaleX = visuals.HorizontalRay.transform.localScale.x;
-        float spriteWidth = visuals.HorizontalRay.sprite.bounds.size.x;
-        float yScaleFactor = Screen.width / spriteWidth;
-        visuals.HorizontalRay.transform.localScale = new Vector2(initialScaleX, yScaleFactor);
-        visuals.VerticalRay.transform.localScale = new Vector2(initialScaleX, yScaleFactor);
+        float width = camera.orthographicSize * 2 * camera.aspect;
+        float height = camera.orthographicSize * 2;
+        visuals.HorizontalRay.transform.localScale = new Vector2(initialScaleX, width * 2);
+        visuals.VerticalRay.transform.localScale = new Vector2(initialScaleX, height * 2);
+        
     }
-    public override void SetInitialColor()
+
+     public override void SetInitialColor()
     {
         base.SetInitialColor();
-        SetColor(color);
+        SetColor(ColorSchemeManager.FromDotColor(dot.Color));
     }
 
     public override void SetColor(Color color)
@@ -67,10 +61,42 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
         visuals.HorizontalRay.color = color;
         visuals.VerticalRay.color = color;
     }
+    public IEnumerator DoClearPreviewAnimation()
+    {
+        yield return DoPreviewAnimation();
+    }
+    private IEnumerator DoPreviewAnimation(){
+        float duration = 0.8f;
+        float strength = 0.08f; 
+        int vibrato = 10; //number of shakes
+        float randomness = 2; 
+        dot.transform.DOShakePosition(duration, new Vector3(strength,strength, 0), vibrato, randomness, false, true);
+
+        yield return new WaitForSeconds(duration /2);
+    }
+    public IEnumerator DoHitPreviewAnimation()
+    {
+        yield break;
+    }
+
+    public IEnumerator DoIdleAnimation()
+    {
+        yield break;
+    }
+
+    
+
+    
+   
     private void ShowRays(){
 
         visuals.HorizontalRay.enabled = true;     
         visuals.VerticalRay.enabled = true;     
+        visuals.HorizontalRay.transform.SetParent(null);
+        visuals.VerticalRay.transform.SetParent(null);
+
+        visuals.HorizontalRay.transform.position = new Vector2(board.Width / 2 * Board.offset, visuals.HorizontalRay.transform.position.y);
+        visuals.VerticalRay.transform.position = new Vector2(visuals.VerticalRay.transform.position.x, board.Height / 2 * Board.offset);
 
         
     }
@@ -85,12 +111,27 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
 
         return base.Clear(duration);
     }
+
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots){
         HideRays();
     }
 
-    public void Explode(){
+    private void OnSquareMade(Square square){
+        if(dot.HitRule.Validate(dot, null)){
+            SetColor(ColorUtils.LightenColor(ColorSchemeManager.FromDotColor(dot.Color), 0.5f));
+            ShowRays();
+        }
+    }
+    private void OnDotDisconnected(ConnectableDot _){
+        
+        SetColor(ColorSchemeManager.FromDotColor(dot.Color));
+        HideRays();
+        
+    }
+
+    public IEnumerator Explode(){
         ShowRays();
+        yield return null;
     }
     
 }
