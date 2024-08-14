@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class ConnectableDot : Dot, IConnectable, IColorable
+public abstract class ConnectableDot : Dot, IConnectable
 {
     public override IHitRule HitRule => new HitByConnectionRule();
             

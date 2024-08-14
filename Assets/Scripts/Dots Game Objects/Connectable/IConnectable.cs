@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public interface IConnectable
+public interface IConnectable : IColorable
 {
     public void Disconnect();
     public void Connect(ConnectableDot dot);
-    public void Select();
     public void Deselect();
 }
