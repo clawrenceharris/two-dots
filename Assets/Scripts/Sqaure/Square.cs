@@ -14,7 +14,7 @@ public class Square
     public Square(Board board)
     {
         this.board = board;
-        ToHit = new(ConnectionManager.ConnectedDots );
+        ToHit = new();
         CommandInvoker.onCommandsEnded += OnCommandsEnded;
     }
 
@@ -181,11 +181,15 @@ public class Square
 
 
     private bool ShouldHitDot(Dot dot){
+        DotColor connectionColor = ConnectionManager.Connection.Color;
+        MatchingColorRule colorRule = new();
+
         if(dot is not IColorable colorable){
             return false;
         }
 
-        if(dot.DotType.ShouldBeHitBySquare() ||colorable.Color == ConnectionManager.Connection.Color){
+        if(dot.DotType.ShouldBeHitBySquare() || 
+            colorRule.Validate(colorable.Color, connectionColor, board)){
             return true;
         }
         return false;
