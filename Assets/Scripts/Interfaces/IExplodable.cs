@@ -7,7 +7,7 @@ public interface IExplodable : IHittable, IBoardElement
 {
     IExplosionRule ExplosionRule { get; }
 
-    IEnumerator Explode(List<IHittable> toHit, Action<IHittable> onComplete);
+    IEnumerator Explode(List<IHittable> toHit, Board board, Action<IHittable> onComplete);
 
     ExplosionType ExplosionType { get; }
     

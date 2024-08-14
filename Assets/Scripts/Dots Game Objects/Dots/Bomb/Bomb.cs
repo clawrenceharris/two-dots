@@ -16,7 +16,10 @@ public class Bomb : Dot, IExplodable
     public static BombExplosionManager bombExplosionManager = new();
     public override IHitRule HitRule => null;
 
-    public static List<IHittable> Hits { get; } = new();// the list of hittables all Bomb objects have hit
+    /// <summary>
+    /// A list of hittables all Bomb objects have already hit
+    /// </summary>
+    public static List<IHittable> Hits { get; } = new();
 
     public ExplosionType ExplosionType => ExplosionType.BombExplosion;
 
@@ -61,7 +64,7 @@ public class Bomb : Dot, IExplodable
 
 
     
-    public IEnumerator Explode(List<IHittable> toHit, Action<IHittable> onComplete)
+    public IEnumerator Explode(List<IHittable> toHit, Board board, Action<IHittable> onComplete)
     {
         List<IHittable> hittables = new(toHit.Where(hittable => hittable is not Bomb));
 

@@ -13,9 +13,9 @@ public class HitCommand : Command
 
     public override CommandType CommandType => CommandType.Hit;
 
-    private int ongoingCoroutines = 0;
+    private static int ongoingCoroutines = 0;
 
-    private void Hit(IHittable hittable, Board board,Action onComplete = null)
+    public static void DoHit(IHittable hittable, Board board, HitType hitType = HitType.None)
     {
         if(hittable == null)
         {
@@ -25,13 +25,17 @@ public class HitCommand : Command
         if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
         {
             ongoingCoroutines++;
-            CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.None, () => {
-                onComplete?.Invoke();
+            CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
+                //hit any normal tiles at the same position as the current hittable
+                IBoardElement b = (IBoardElement)hittable;
+                IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
+                if(tile != null)
+                    CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType, null));
             }),() => ongoingCoroutines--);                    
     
         }
     }
-
+   
     public override IEnumerator Execute(Board board)
     {
         onCommandExecuting?.Invoke(this);
@@ -47,14 +51,7 @@ public class HitCommand : Command
         foreach (IHittable hittable in hittables)
         {
   
-            Hit(hittable, board, () =>
-            {
-                //hit any normal tiles at the same position as the current hittable
-                IBoardElement b = (IBoardElement)hittable;
-                IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-                Hit(tile, board);
-                
-            });
+            DoHit(hittable, board, HitType.None);
             
         }
 
