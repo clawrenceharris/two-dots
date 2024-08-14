@@ -153,7 +153,6 @@ public class CommandInvoker
 
             keepGoing = false;
 
-            Enqueue(new SinkAnchorDotsCommand());
             Enqueue(new ConnectLotusDotsCommand());
             Enqueue(new ExplodeGemsCommand());
             Enqueue(new HitCommand());
