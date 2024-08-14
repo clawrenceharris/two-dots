@@ -23,6 +23,7 @@ public class ExplosionCommand : Command
             yield break;
         }
         var groupedExplodables = explodables
+            .Where(explodable => explodable.HitCount >= explodable.HitsToExplode)
             .GroupBy(e => e.ExplosionType)
             .OrderBy(g => g.Key) // Ensures groups are processed based on ExplosionType priority
             .ToList();

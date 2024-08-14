@@ -5,27 +5,50 @@ using System.Linq;
 
 public class ExplodeGemsCommand : Command
 {
+    private int ongoingCoroutines = 0;
+
+    List<IHittable> visitedGems = new();
+
     public override CommandType CommandType => CommandType.GemExplode;
 
-    public override IEnumerator Execute(Board board)
+    private void ExplodeGem<T>(T hittable, Board board)
+    where T : IHittable
     {
-        int ongoingCoroutines = 0;
+        if(hittable is not Gem gem){
+            return;
+        }
+        // Validate the explosion rule and get the list of elements to hit
+        List<IHittable> toHit = gem.ExplosionRule.Validate(gem, board);
+        
+        CoroutineHandler.StartStaticCoroutine(gem.Hit(HitType.GemExplosion, null));
+
+        ongoingCoroutines++;
+            
+        CoroutineHandler.StartStaticCoroutine(gem.Explode(toHit, board,(hittable)=>{
+            HitCommand.DoHit(hittable, board, HitType.GemExplosion);
+            ExplodeGem(gem, board);
+        }),() => ongoingCoroutines--);
+        
+
+    }
+
+       public override IEnumerator Execute(Board board)
+    {
+        
         List<Gem> gems = board.FindElementsOfType<Gem>();
-        if(gems.Count == 0)
-        {
-            yield break;
-        }
-        List<Gem> gemsToExplode = new();
-
-
+        List<IHittable> hittables = new();
         foreach(Gem gem in gems){
+            
             if(gem.HitRule.Validate(gem, board)){
-                ongoingCoroutines++;
-                
-                gemsToExplode.Add(gem);
+                DidExecute = true;
+                ExplodeGem(gem, board);
             }
+                   
         }
-        yield return new ExplodeCommand(gemsToExplode.OfType<IExplodable>().ToList(), CommandType.GemExplode).Execute(board);
+                  
+      
+        yield return new WaitUntil(() => ongoingCoroutines == 0);
+        
         yield return base.Execute(board);
     }
 }
