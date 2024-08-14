@@ -735,18 +735,38 @@ public class Board : MonoBehaviour
 
    
 
-    public List<T> GetDotsGameObjectAt<T>(int col, int row)
+    public List<T>  GetDotsGameObjectAt<T>(int col, int row)
     {
         List<T> dotsGameObjects = new();
         List<DotsGameObject> allDotsGameObjects = new();
         allDotsGameObjects.AddRange(GetDots());
-        allDotsGameObjects.AddRange(GetTiles());
+        allDotsGameObjects.Concat(GetTiles());
         
         foreach(DotsGameObject dotsGameObject in allDotsGameObjects)
         {
             if(dotsGameObject.Column == col && dotsGameObject.Row == row && dotsGameObject is T t)
             {
                 dotsGameObjects.Add(t);
+            }
+        }
+       
+        return dotsGameObjects;
+        
+       
+    }
+
+    public List<DotsGameObject> GetDotsGameObjectAt(int col, int row)
+    {
+        List<DotsGameObject> dotsGameObjects = new();
+        List<DotsGameObject> allDotsGameObjects = new();
+        allDotsGameObjects.AddRange(GetDots());
+        allDotsGameObjects.AddRange(GetTiles());
+        
+        foreach(DotsGameObject dotsGameObject in allDotsGameObjects)
+        {
+            if(dotsGameObject.Column == col && dotsGameObject.Row == row && dotsGameObject)
+            {
+                dotsGameObjects.Add(dotsGameObject);
             }
         }
        
@@ -777,7 +797,7 @@ public class Board : MonoBehaviour
         {
             neighbors.AddRange(diagonals);
         }
-        return neighbors;
+        return neighbors.Where(neighbor => neighbor != null).ToList();
     }
 
     public List<T> FindTilesOfType<T>()
