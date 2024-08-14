@@ -43,11 +43,13 @@ public class ConnectionManager
 
     public static List<IHittable> ToHit {get
         {
+            List<IHittable> toHit = new(ConnectedDots);
             if (IsSquare)
             {
-                return squareManager.Square.ToHit;
+                toHit.AddRange(squareManager.Square.ToHit);
+                return toHit;
             }
-            return new(ConnectedDots);
+            return toHit;
         }
     }
 
