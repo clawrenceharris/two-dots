@@ -84,11 +84,18 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
         yield break;
     }
 
-    
 
-    
-   
-    private void ShowRays(){
+
+    public override IEnumerator Hit(HitType hitType)
+    {
+        SetColor(ColorUtils.LightenColor(ColorSchemeManager.FromDotColor(dot.Color), 0.2f));
+        ShowRays();
+
+        yield return base.Hit(hitType);
+
+    }
+
+    public void ShowRays(){
 
         visuals.HorizontalRay.enabled = true;     
         visuals.VerticalRay.enabled = true;     
@@ -100,38 +107,40 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
 
         
     }
-    private void HideRays(){
+
+    public override IEnumerator Clear(float duration)
+    {
+        Object.Destroy(visuals.HorizontalRay);
+        Object.Destroy(visuals.VerticalRay);
+        return base.Clear(duration);
+    }
+    public void HideRays(){
         
         visuals.HorizontalRay.enabled = false;     
         visuals.VerticalRay.enabled = false;
     }
-    public override IEnumerator Clear(float duration)
-    {
-        HideRays();
-
-        return base.Clear(duration);
-    }
-
+   
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots){
         HideRays();
     }
 
     private void OnSquareMade(Square square){
         if(dot.HitRule.Validate(dot, null)){
-            SetColor(ColorUtils.LightenColor(ColorSchemeManager.FromDotColor(dot.Color), 0.5f));
+            SetColor(ColorUtils.LightenColor(ColorSchemeManager.FromDotColor(dot.Color), 0.2f));
             ShowRays();
         }
     }
-    private void OnDotDisconnected(ConnectableDot _){
+    private void OnDotDisconnected(ConnectableDot dot){
         
-        SetColor(ColorSchemeManager.FromDotColor(dot.Color));
         HideRays();
         
     }
 
     public IEnumerator Explode(){
-        ShowRays();
-        yield return null;
+       
+
+        yield return new WaitForSeconds(0.5f);
+
     }
     
 }
