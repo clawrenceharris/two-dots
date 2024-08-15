@@ -15,12 +15,9 @@ public class Square
     {
         this.board = board;
         ToHit = new();
-        CommandInvoker.onCommandsEnded += OnCommandsEnded;
     }
 
-    private void OnCommandsEnded(){
-        ToHit.Clear();
-    }
+   
 
     public void ActivateBombsInsideSquare()
     {
@@ -180,21 +177,19 @@ public class Square
     }
 
 
-    private bool ShouldHitDot(Dot dot){
-        DotColor connectionColor = ConnectionManager.Connection.Color;
-        MatchingColorRule colorRule = new();
+    protected virtual bool ShouldHitDot(Dot dot){
 
         if(dot is not IColorable colorable){
             return false;
         }
 
         if(dot.DotType.ShouldBeHitBySquare() || 
-            colorRule.Validate(colorable.Color, connectionColor, board)){
+            colorable.Color == ConnectionManager.Connection.Color){
             return true;
         }
         return false;
     }
-    private bool ShouldHitTile(Tile tile){
+    protected virtual bool ShouldHitTile(Tile tile){
         if(tile is not IColorable colorable){
             return false;
         }
@@ -210,7 +205,7 @@ public class Square
     /// </summary>
     /// <param name="hittable">The hittable object to check</param>
     /// <returns></returns>
-    protected virtual bool ShouldHit(IHittable hittable)
+    private  bool ShouldHit(IHittable hittable)
     {
         if(DotsInSquare.Contains(hittable) ){
             return false;

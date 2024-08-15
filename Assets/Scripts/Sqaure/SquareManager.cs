@@ -14,19 +14,21 @@ public class SquareManager
         this.board = board;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
 
-        Command.onCommandExecuted += OnCommandExecuted;
+        CommandInvoker.onCommandBatchCompleted += OnCommandBatchCompleted;
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
     }
 
-    
-
-    private void OnCommandExecuted(Command command)
+    private void OnCommandBatchCompleted()
     {
-        if (command is ExplodeCommand && Square != null)
-            Square.DotsInSquare.Clear();
+        if(Square == null){
+            return;
+        }
+        Square.ToHit.Clear();
+        Square.DotsInSquare.Clear();
     }
 
-    
+
+   
 
     public bool ProcessSquare()
     {
@@ -35,7 +37,7 @@ public class SquareManager
         if (isSquare)
         {
 
-            Square = new Square(board);
+            Square = DecideSquare();
 
             //activate bombs if any
             Square.ActivateBombsInsideSquare();
@@ -69,7 +71,15 @@ public class SquareManager
         
         Square.DeselectDotsFromSquare();
     }
-   
+    
+    private Square DecideSquare(){
+        if(ConnectionManager.Connection.Color.IsBlank()){
+            return new BlankSquare(board);
+        }
+        else{
+            return new Square(board);
+        }
+    }
     
     public static bool CheckForSquare()
     {
