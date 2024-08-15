@@ -15,7 +15,20 @@ public class HitCommand : Command
 
     private static int ongoingCoroutines = 0;
 
-    public static void DoHit(IHittable hittable, Board board, HitType hitType = HitType.None)
+    /// <summary>
+    /// Hits the given hittable object by first, validating whether the hittable 
+    /// should be hit according to its hit validation rules, 
+    /// then hiting both the desired hittable and any background 
+    /// tile that is in the same position.
+    /// </summary>
+    /// <param name="hittable">The desired hittable object to hit</param>
+    /// <param name="board">The game board</param>
+    /// <param name="hitType">The type of hit to use</param>
+    /// <remarks>
+    /// If you need to do a hit on a hittable object without 
+    /// checking for if the hit is valid, see <seealso cref="DoHitWithoutValidation"/>.
+    /// </remarks>
+    public static void DoHitWithValidation(IHittable hittable, Board board, HitType hitType = HitType.None)
     {
         if(hittable == null)
         {
@@ -35,7 +48,37 @@ public class HitCommand : Command
     
         }
     }
-   
+    /// <summary>
+    /// Hits the given hittable object by hiting both the desired hittable 
+    /// and any background tile that is in the same position. This method 
+    /// skips validation of the  hittable object's hit rules
+    /// </summary>
+    /// <param name="hittable">The desired hittable object to hit</param>
+    /// <param name="board">The game board</param>
+    /// <param name="hitType">The type of hit to use</param>
+    /// 
+    public static IEnumerator DoHitWithoutValidation(IHittable hittable, Board board, HitType hitType = HitType.None)
+    {
+        if(hittable == null)
+        {
+            yield break;;
+        }
+            
+
+        ongoingCoroutines++;
+        yield return CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
+            //hit any normal tiles at the same position as the current hittable
+            IBoardElement b = (IBoardElement)hittable;
+            IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
+            if(tile != null){
+                ongoingCoroutines++;
+                CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType, null), () => ongoingCoroutines--);
+            }
+                
+        }),() => ongoingCoroutines--);                    
+
+        
+    }
     public override IEnumerator Execute(Board board)
     {
         onCommandExecuting?.Invoke(this);
@@ -51,7 +94,7 @@ public class HitCommand : Command
         foreach (IHittable hittable in hittables)
         {
   
-            DoHit(hittable, board, HitType.None);
+            DoHitWithValidation(hittable, board, HitType.None);
             
         }
 

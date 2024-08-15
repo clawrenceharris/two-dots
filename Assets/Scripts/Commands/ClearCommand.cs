@@ -7,7 +7,47 @@ public class ClearCommand : Command
 {
     public override CommandType CommandType => CommandType.Clear;
 
+    public static IEnumerator DoClear(List<IHittable> toClear){
+        foreach (IHittable hittable in toClear)
+        {
+            
+            if (hittable.HitCount >= hittable.HitsToClear)
+            {
+                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+            }
+        }
+        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+    }
 
+    public static IEnumerator DoClear(List<IExplodable> toClear){
+        foreach (IHittable hittable in toClear)
+        {
+            
+            if (hittable.HitCount >= hittable.HitsToClear)
+            {
+                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+            }
+        }
+        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+    }
+
+    public static IEnumerator DoClear(IHittable hittable){
+        if (hittable.HitCount >= hittable.HitsToClear){
+            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+            yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+
+        }
+            
+    }
+
+    public static IEnumerator DoClear(IExplodable hittable){
+        
+         if (hittable.HitCount >= hittable.HitsToExplode){
+            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+            yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+
+        }
+    }
     public override IEnumerator Execute(Board board)
     {
         onCommandExecuting?.Invoke(this);
@@ -16,22 +56,12 @@ public class ClearCommand : Command
 
 
         List<IHittable> hittables = board.FindElementsOfType<IHittable>();
-
-        foreach (IHittable hittable in hittables)
-        {
-            
-
-            if (hittable.HitCount >= hittable.HitsToClear)
-            {
-                DidExecute = true;
-                
-
-                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
-            }
-        }
+        List<IHittable> toClear = hittables.Where(hittable => hittable.HitCount >= hittable.HitsToClear).ToList();    
+        
+        DidExecute = toClear.Count > 0;
+        yield return DoClear(toClear);
 
 
-        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
 
 

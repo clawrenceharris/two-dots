@@ -51,8 +51,7 @@ public class ExplodeCommand : Command
             DidExecute = true;
 
             // Add the elements to the hittables list
-            hittables.AddRange(toHit.Where(hittable => hittable != null));
-
+            hittables.AddRange(toHit);
 
             if(explodable == explodables.Last()){
                 // Start the coroutine to apply the explosion effect and subsequent hit effects
@@ -61,25 +60,7 @@ public class ExplodeCommand : Command
                 explodable.Explode(hittables, board, (hittable) =>
                 {
                     
-                    CoroutineHandler.StartStaticCoroutine(hittable.Hit(HitType.Explosion, () =>
-                    {
-                        //hit any background tiles at the same position as the current hittable
-                        IBoardElement b = (IBoardElement)hittable;
-
-                        IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-                        if(tile != null)
-                        {
-                            //hit the tile once if the hittable takes one hit to 
-                            // clear in one hit and twice if it takes more than one hit to clear
-                            CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.Explosion,() =>{
-                                if(hittable is Dot dot && !dot.DotType.IsBasicDot()){
-                                    CoroutineHandler.StartStaticCoroutine(tile.Hit(HitType.DotHit));
-                                }
-                            }));
-    
-                        }
-                
-                    }));
+                 CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable, board, HitType.Explosion));
                     
                 }), ()=> ongoingCoroutines--); 
 
@@ -90,7 +71,7 @@ public class ExplodeCommand : Command
         // Wait until all hit effects have been processed
         yield return new WaitUntil(() => ongoingCoroutines == 0);
 
-
+        yield return ClearCommand.DoClear(hittables);
 
         
 
