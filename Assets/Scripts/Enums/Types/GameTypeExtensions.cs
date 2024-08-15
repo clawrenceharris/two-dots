@@ -27,7 +27,10 @@ public static class GameTypeExtensions
         return type == DotType.BlankDot || type == DotType.ClockDot || type == DotType.Magnet;
     }
 
-
+    public static bool IsBlank(this DotColor type)
+    {
+        return type == DotColor.Blank;
+    }
     public static bool IsConnectableDot(this DotType type)
     {
         return type == DotType.NormalDot || type.IsBlank() || type == DotType.BeetleDot;
