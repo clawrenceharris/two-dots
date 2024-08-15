@@ -119,6 +119,6 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
 
     public bool ShouldPreviewHit(Board board)
     {
-        return HitRule.Validate(this, board);
+        return HitRule.Validate(this, board) && DotTouchIO.IsInputActive;
     }
 }
