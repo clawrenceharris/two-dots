@@ -6,7 +6,7 @@ using UnityEngine;
 public class GemVisualController : ColorableDotVisualController, IPreviewableVisualController
 {
     private Gem dot;
-    private Board board;
+    private static Board board;
     private GemVisuals visuals;
 
     public override T GetGameObject<T>() => dot as T;
@@ -26,7 +26,7 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
     }
        
     private void OnBoardCreated(Board board){
-        this.board = board;
+        GemVisualController.board = board;
     } 
     
     protected override void SetUp()
@@ -41,7 +41,7 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
         
     }
 
-     public override void SetInitialColor()
+    public override void SetInitialColor()
     {
         base.SetInitialColor();
         SetColor(ColorSchemeManager.FromDotColor(dot.Color));
@@ -121,7 +121,9 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
     }
    
     private void OnConnectionEnded(LinkedList<ConnectableDot> dots){
-        HideRays();
+        if(ConnectionManager.ToHitBySquare.Contains(dot)){
+            HideRays();
+        }
     }
 
     private void OnSquareMade(Square square){
@@ -129,6 +131,14 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
             SetColor(ColorUtils.LightenColor(ColorSchemeManager.FromDotColor(dot.Color), 0.2f));
             ShowRays();
         }
+    }
+
+    public void Unsubscribe(){
+       
+        ConnectionManager.onConnectionEnded -= OnConnectionEnded;
+        ConnectionManager.onDotDisconnected -= OnDotDisconnected;
+        Connection.onSquareMade -= OnSquareMade;
+
     }
     private void OnDotDisconnected(ConnectableDot dot){
         
@@ -138,8 +148,8 @@ public class GemVisualController : ColorableDotVisualController, IPreviewableVis
 
     public IEnumerator Explode(){
        
-
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(visuals.ClearDuration);
+        
 
     }
     
