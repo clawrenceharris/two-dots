@@ -23,14 +23,14 @@ public class Bomb : Dot, IExplodable
 
     public ExplosionType ExplosionType => ExplosionType.BombExplosion;
 
-    public new BombDotVisualController VisualController => GetVisualController<BombDotVisualController>();
+    public new BombVisualController VisualController => GetVisualController<BombVisualController>();
 
     public int HitsToExplode => 0;
 
 
     public override void InitDisplayController()
     {
-        visualController = new BombDotVisualController();
+        visualController = new BombVisualController();
         visualController.Init(this);
     }
 
