@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BombDotVisuals : DotVisuals, IExplodableVisuals
+public class BombVisuals : DotVisuals, IExplodableVisuals
 {
     public ExplodableVisuals ExplodableVisuals;
     public SpriteRenderer[] BombSprites;

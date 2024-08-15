@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 using DG.Tweening;
 using Unity.VisualScripting;
 
-public class BombDotVisualController : DotVisualController, IHittableVisualController
+public class BombVisualController : DotVisualController, IHittableVisualController
 {
     private Bomb dot;
     private BombDotVisuals visuals;

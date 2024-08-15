@@ -6,7 +6,7 @@
   "initialDotsToSpawn": [
     {
       "type": "normal",
-      "color": "green"
+      "color": "red"
     },
     {
       "type": "normal",
@@ -14,10 +14,12 @@
     },
     {
       "type": "gem",
-      "color": "yellow",
-      "directionX": 1,
-      "directionY": 1
-    }
+      "color": "blue"
+    },
+    {
+      "type": "lotus",
+      "color": "blue"
+    },
     // {
     //   "type": "monster",
     //   "color": "red",
@@ -31,9 +33,12 @@
     //   "type": "normal",
     //   "color": "green"
     // },
-    // {
-    //   "type": "blank"
-    // },
+    {
+      "type": "blank"
+    },
+    {
+      "type": "blank"
+    }
 
     // {
     //   "type": "clock",
@@ -72,21 +77,35 @@
     {
       "type": "clock",
       "number": 10
+    },
+
+    {
+      "type": "gem",
+      "color": "blue"
     }
   ],
   "dotsOnBoard": [
     {
-      "type": "clock",
-      "number": 5,
-      "row": 1,
-      "col": 2
+      "type": "gem",
+      "color": "blue",
+      "row": 0,
+      "col": 0
     },
     {
-      "type": "clock",
-      "number": 5,
+      "type": "gem",
+      "color": "blue",
       "row": 0,
       "col": 2
     }
+    // {
+    //   "type": "beetle",
+    //   "color": "blue",
+    //   "directionX": 1,
+    //   "directionY": 0,
+    //   "colors": ["blue", "red", "yellow"],
+    //   "row": 0,
+    //   "col": 3
+    // }
   ],
 
   "tilesOnBoard": [
