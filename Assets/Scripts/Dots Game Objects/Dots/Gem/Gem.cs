@@ -29,7 +29,7 @@ public class Gem : ConnectableDot, IExplodable, IPreviewable
         foreach(IHittable hittable in toHit){
             
             if(!visited.Contains(hittable)){
-                yield return new WaitForSeconds(hittable is Gem ? 0.2f : 0f);
+                yield return new WaitForSeconds(hittable is Gem ? 0.3f : 0f);
                 onComplete?.Invoke(hittable);
                 visited.Add(hittable);
 
