@@ -6,6 +6,7 @@ using System;
 
 public class ExplodeGemsCommand : Command
 {
+    private int ongoingCoroutines;
     public override CommandType CommandType => CommandType.GemExplode;
     private IEnumerator ExplodeGem(Gem gem, Board board, Action<List<IHittable>> onComplete = null)
     {
@@ -18,7 +19,7 @@ public class ExplodeGemsCommand : Command
         CoroutineHandler.StartStaticCoroutine(gem.Hit(HitType.GemExplosion, null));
 
         // Explode the gem and handle any additional gems that need to be exploded
-        
+        ongoingCoroutines++;
         yield return CoroutineHandler.StartStaticCoroutine(gem.Explode(toHit, board, hittable =>
         {
             if (hittable is Gem gem)
@@ -27,12 +28,14 @@ public class ExplodeGemsCommand : Command
                 HitCommand.DoHitWithoutValidation(hittable, board, HitType.GemExplosion);
 
                 // Recursively explode other gems
-                
+                ongoingCoroutines++;
                 CoroutineHandler.StartStaticCoroutine(ExplodeGem(gem, board));
             }
-        }));
+        }),()=>ongoingCoroutines--);
+
+        ongoingCoroutines--;
         
-        // Once done, trigger the onComplete callback (if provided)
+        // Once done, triggers the onComplete callback
         onComplete?.Invoke(hittables);
     }
 
@@ -41,30 +44,35 @@ public class ExplodeGemsCommand : Command
         List<Coroutine> coroutines = new();
         List<Gem> gems = board.FindElementsOfType<Gem>();
         List<IHittable> toHit = new();
-        List<IEnumerator> explodeGemCoroutines = new List<IEnumerator>();
+        List<IEnumerator> explodeGemCoroutines = new();
         foreach (Gem gem in gems)
         {
             if (gem.HitRule.Validate(gem, board) || gem.WasHit)
             {
                 DidExecute = true;
+                ongoingCoroutines++;
                 yield return ExplodeGemCoroutine(gem, board, toHit);
             }
         }
 
-       
-
+        yield return new WaitUntil(()=> ongoingCoroutines == 0);
+        
         // After all explosions, hit all the remaining hittables
         foreach (IHittable hittable in toHit)
         {
-            CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable, board, HitType.GemExplosion),()=>{
-                ClearCommand.DoClear(hittable);
-            });       
+            CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable, board, HitType.GemExplosion));     
         }
-        
+        ClearCommand.DoClear(toHit.Distinct().ToList());
         yield return base.Execute(board);
     }
 
-    // Helper coroutine to explode a gem and collect hittables
+    /// <summary>
+    /// Helper coroutine to explode a gem and collect hittables
+    /// </summary>
+    /// <param name="gem">The starting gem to explode</param>
+    /// <param name="board">The game board</param>
+    /// <param name="toHit">The hittable objects that the gem should hit</param>
+    /// <returns></returns>
     private IEnumerator ExplodeGemCoroutine(Gem gem, Board board, List<IHittable> toHit)
     {
         List<IHittable> visited = new();
@@ -72,7 +80,7 @@ public class ExplodeGemsCommand : Command
         {
             if (collectedHittables != null)
             {
-                toHit.AddRange(collectedHittables.Distinct());
+                toHit.AddRange(collectedHittables);
             }
         });
         
