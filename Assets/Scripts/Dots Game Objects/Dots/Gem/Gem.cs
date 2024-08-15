@@ -11,7 +11,7 @@ public class Gem : Dot, IExplodable, IColorable, IPreviewable
 
     public override IHitRule HitRule => new HitBySquareRule();
 
-    public override int HitsToClear => 2;
+    public override int HitsToClear => 1;
 
     public IExplosionRule ExplosionRule => new GemExplosionRule();
 
@@ -26,26 +26,25 @@ public class Gem : Dot, IExplodable, IColorable, IPreviewable
 
     public IEnumerator Explode(List<IHittable> toHit, Board board, Action<IHittable> onComplete= null)
     { 
-        
+        HitCount++;
         foreach(IHittable hittable in toHit){
             
             if(!visited.Contains(hittable)){
-                yield return new WaitForSeconds(hittable is Gem ? 0.3f : 0f);
+                yield return new WaitForSeconds(hittable is Gem ? 0.2f : 0f);
                 onComplete?.Invoke(hittable);
                 visited.Add(hittable);
-                
 
             }
             
         }
+        CoroutineHandler.StartStaticCoroutine(VisualController.Explode());
+
     }
 
-  
-    public override void Hit(HitType hitType)
-    {
-       HitCount++;
+    private void OnDestroy(){
+        VisualController.Unsubscribe();
     }
-
+   
     public override void InitDisplayController()
     {
         visualController = new GemVisualController();
@@ -65,6 +64,11 @@ public class Gem : Dot, IExplodable, IColorable, IPreviewable
     public bool ShouldPreviewHit(Board board)
     {
         return HitRule.Validate(this, board) && DotTouchIO.IsInputActive;
+    }
+
+    public override void Hit(HitType hitType)
+    {
+        
     }
 }
 
