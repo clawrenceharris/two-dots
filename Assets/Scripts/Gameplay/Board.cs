@@ -58,7 +58,6 @@ public class Board : MonoBehaviour
             {
                 if (dot is T)
                 {
-                    Debug.Log("BYEEEE");
                     return true;
                 }
             }
