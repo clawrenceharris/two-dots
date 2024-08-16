@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class Gem : ConnectableDot, IExplodable, IPreviewable
 {
 
@@ -26,17 +26,19 @@ public class Gem : ConnectableDot, IExplodable, IPreviewable
     public IEnumerator Explode(List<IHittable> toHit, Board board, Action<IHittable> onComplete= null)
     { 
         HitCount++;
-        foreach(IHittable hittable in toHit){
+        // foreach(IHittable hittable in toHit){
             
-            if(!visited.Contains(hittable)){
-                yield return new WaitForSeconds(hittable is Gem ? 0.3f : 0f);
-                onComplete?.Invoke(hittable);
-                visited.Add(hittable);
+        //     if(!visited.Contains(hittable) && hittable is Gem gem){
+        //         onComplete?.Invoke(gem);
+        //         visited.Add(hittable);
 
-            }
+                
+        //     }
             
-        }
+        // }
+
         CoroutineHandler.StartStaticCoroutine(VisualController.Explode());
+        yield return new WaitForSeconds(0.5f);
 
     }
 
@@ -59,7 +61,18 @@ public class Gem : ConnectableDot, IExplodable, IPreviewable
 
     public bool ShouldPreviewHit(Board board)
     {
-        return HitRule.Validate(this, board) && DotTouchIO.IsInputActive;
+        if(board.FindDotsInRow<Gem>(Row).Any((gem)=>gem.HitCount >= gem.HitsToExplode)){
+            return true;
+        }
+
+        if(board.FindDotsInColumn<Gem>(Column).Any((gem)=>gem.HitCount >= gem.HitsToExplode)){
+            return true;
+        }
+        if(HitRule.Validate(this, board) && DotTouchIO.IsInputActive){
+            return true;
+        }
+        return false;
+        
     }
 
     public override void Hit(HitType hitType)
