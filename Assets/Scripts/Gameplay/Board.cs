@@ -896,5 +896,27 @@ public class Board : MonoBehaviour
         return group;
     }
 
+    public List<T> FindDotsInColumn<T>(int col)
+    {
+        List<T> dots = new();
+        for(int row = 0; row < Height; row++){
+            Dot dot = GetDotAt(col, row);
+            if(dot is T t){
+                dots.Add(t);
+            }
+        }
+        return dots;
+    }
 
+    public List<T> FindDotsInRow<T>(int row)
+    {
+        List<T> dots = new();
+        for(int col = 0; col < Width; col++){
+            Dot dot = GetDotAt(col, row);
+            if(dot is T t){
+                dots.Add(t);
+            }
+        }
+        return dots;
+    }
 }
