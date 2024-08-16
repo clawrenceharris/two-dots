@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-public class Gem : ConnectableDot, IExplodable, IPreviewable
+public abstract class Gem : ConnectableDot, IExplodable, IPreviewable
 {
 
     public override DotType DotType => DotType.Gem;
@@ -26,25 +26,20 @@ public class Gem : ConnectableDot, IExplodable, IPreviewable
     public IEnumerator Explode(List<IHittable> toHit, Board board, Action<IHittable> onComplete= null)
     { 
         HitCount++;
-        // foreach(IHittable hittable in toHit){
+       foreach(IHittable hittable in toHit){
             
-        //     if(!visited.Contains(hittable) && hittable is Gem gem){
-        //         onComplete?.Invoke(gem);
-        //         visited.Add(hittable);
-
-                
-        //     }
+            if(!visited.Contains(hittable) && hittable is Gem g){
+                visited.Add(g);
+                onComplete?.Invoke(g);                
+            }
             
-        // }
+        }
 
-        CoroutineHandler.StartStaticCoroutine(VisualController.Explode());
         yield return new WaitForSeconds(0.5f);
 
     }
 
-    private void OnDestroy(){
-        VisualController.Unsubscribe();
-    }
+    
    
     public override void InitDisplayController()
     {
@@ -77,7 +72,7 @@ public class Gem : ConnectableDot, IExplodable, IPreviewable
 
     public override void Hit(HitType hitType)
     {
-        
+        //do nothing
     }
 
     public override void Deselect()

@@ -35,7 +35,7 @@ public class JSONLevelLoader
             case "beetle": return GameAssets.Instance.BeetleDot;
             case "monster": return GameAssets.Instance.MonsterDot;
             case "lotus": return GameAssets.Instance.LotusDot;
-            case "gem": return GameAssets.Instance.Gem;
+            case "gem": return GameAssets.Instance.SquareGem;
         };
 
         //tiles

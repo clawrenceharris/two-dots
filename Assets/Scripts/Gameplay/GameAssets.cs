@@ -7,7 +7,10 @@ public class GameAssets : MonoBehaviour
     [Header("Dots")]
     public NormalDot NormalDot;
    
-    public Gem Gem;
+    public SquareGem SquareGem;
+
+    public RectangleGem RectangleGem;
+
     public NestingDot NestingDot;
     public Bomb Bomb;
     public ClockDot ClockDot;
@@ -50,7 +53,7 @@ public class GameAssets : MonoBehaviour
             DotType.NestingDot => NestingDot,
             DotType.BeetleDot => BeetleDot,
             DotType.LotusDot => LotusDot,
-            DotType.Gem => Gem,
+            DotType.Gem => SquareGem,
             _ => null,
         };
     }
