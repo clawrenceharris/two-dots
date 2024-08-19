@@ -53,7 +53,7 @@ public class GameAssets : MonoBehaviour
             DotType.NestingDot => NestingDot,
             DotType.BeetleDot => BeetleDot,
             DotType.LotusDot => LotusDot,
-            DotType.Gem => SquareGem,
+            DotType.RectangleGem => SquareGem,
             _ => null,
         };
     }
