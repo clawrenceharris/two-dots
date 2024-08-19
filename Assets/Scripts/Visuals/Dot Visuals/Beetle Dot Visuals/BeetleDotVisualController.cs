@@ -52,7 +52,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
         currentLayerIndex = Mathf.Clamp(dot.HitCount, 0, dot.HitsToClear-1);
 
-        Rotate();
+        UpdateRotation();
         RemoveLayers();
         base.SetUp();
     }
@@ -263,39 +263,14 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
     public IEnumerator DoRotateAnimation()
     {
 
-        Vector3 rotation = GetRotation();
+        Vector3 rotation = dot.GetRotation();
         yield return dot.transform.DOLocalRotate(rotation, visuals.rotationSpeed)
                     .SetEase(visuals.rotationEase);
 
     }
 
-    private Vector3 GetRotation()
-    {
-        Vector3 rotation = Vector3.zero;
-        if (dot.DirectionY < 0)
-        {
-            rotation = new Vector3(0, 0, 180);
-        }
-
-        if (dot.DirectionX < 0)
-        {
-            rotation = new Vector3(0, 0, 90);
-
-        }
-        if (dot.DirectionX > 0)
-        {
-            rotation = new Vector3(0, 0, -90);
-
-        }
-        return rotation;
-    }
-
-    private void Rotate()
-    {
-        Vector3 rotation = GetRotation();
-        dot.transform.localRotation = Quaternion.Euler(rotation);
-    }
-
+    
+    
 
 
     private IEnumerator RemoveWingsCo(int layer, float duration)
@@ -393,7 +368,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
     public IEnumerator DoIdleAnimation()
     {
-        throw new NotImplementedException();
+        yield break;
     }
 
     public IEnumerator DoHitPreviewAnimation()
@@ -412,5 +387,10 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
     {
         yield return DoShakeAnimation();
         yield return new WaitForSeconds(4);
+    }
+
+    public void UpdateRotation()
+    {
+        directionalVisualController.UpdateRotation();
     }
 }
