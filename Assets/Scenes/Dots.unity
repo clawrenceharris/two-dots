@@ -554,7 +554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalDot: {fileID: 2303686786482766387, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   SquareGem: {fileID: 4408851987921481272, guid: 8194b2fb87b7c482db2680d953aaed12, type: 3}
-  RectangleGem: {fileID: 0}
+  RectangleGem: {fileID: 8003743094530666755, guid: 5787b7b11a6e54c218255c4b0f15d9da, type: 3}
   NestingDot: {fileID: 1301763148403125575, guid: 390027d122ca746928a098b53c90c9cd, type: 3}
   Bomb: {fileID: 2723959319491112794, guid: adcfeb753f60d4034b22fe1dd4f10892, type: 3}
   ClockDot: {fileID: 4499002589781983019, guid: 0fafcb1f472894a4598cc40c64faee9e, type: 3}
