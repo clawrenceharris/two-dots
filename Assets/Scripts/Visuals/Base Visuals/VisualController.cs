@@ -46,6 +46,21 @@ public abstract class VisualController : IVisualController
         }
     }
 
+    public bool TryGetVisuals<T>(out T visuals)
+        where T : class
+    {
+        visuals = GetVisuals<T>();
+        if (visuals != null)
+        {
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     protected Sprite sprite;
 
