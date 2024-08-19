@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8832515859074908736}
   - component: {fileID: 8995988499178726376}
   m_Layer: 0
-  m_Name: Gem Left
+  m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,12 +73,12 @@ SpriteRenderer:
   m_SortingLayerID: 1239392859
   m_SortingLayer: -3
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: c3d46e066839a42cab30ac706e5d3cf5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ab58acaa85f9a4e97844a15b069f7d17, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5.64, y: 5.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 8039697417149618199}
   - component: {fileID: 6597275829853747351}
   m_Layer: 0
-  m_Name: Gem Top
+  m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -190,7 +190,7 @@ SpriteRenderer:
   m_SortingLayerID: 1239392859
   m_SortingLayer: -3
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 7e84b6545ddf44b7790300de9153677a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0f29c8d3c5f564334a608fee3490233a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 1187857712344604447}
   - component: {fileID: 8310499516241448391}
   m_Layer: 0
-  m_Name: Gem Bottom Right
+  m_Name: Bottom Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -274,7 +274,7 @@ SpriteRenderer:
   m_SortingLayerID: 1239392859
   m_SortingLayer: -3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 05ba63ca81f7b43b0a9cbb0872b67405, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aead9ac4b512f4b5389c24b5d887d342, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 5263322841825159883}
   - component: {fileID: 8690040045741889229}
   m_Layer: 0
-  m_Name: Gem Top Left
+  m_Name: Top Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -358,7 +358,7 @@ SpriteRenderer:
   m_SortingLayerID: 1239392859
   m_SortingLayer: -3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: a9154b54df3be42638c82c9df04a41c3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b4905a78fa319454f874be81afa8c7d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 2226854312093201949}
   - component: {fileID: 6132579698034925721}
   m_Layer: 0
-  m_Name: Gem Top Right
+  m_Name: Top Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -442,7 +442,7 @@ SpriteRenderer:
   m_SortingLayerID: 1239392859
   m_SortingLayer: -3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 6c3bf62f7b7694ebd92095b990e6e774, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 359ab197dcbcb4d30b86f424dcc29d1f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -632,7 +632,7 @@ GameObject:
   - component: {fileID: 1194152069132519523}
   - component: {fileID: 9195761294471471161}
   m_Layer: 0
-  m_Name: Gem Right
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -694,7 +694,7 @@ SpriteRenderer:
   m_SortingLayerID: 1239392859
   m_SortingLayer: -3
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 8f8fe193a19034ac786114ca2c0613b9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bc2ce1f4b1857465299f221b0f156171, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -716,7 +716,7 @@ GameObject:
   - component: {fileID: 3776805103968408745}
   - component: {fileID: 7190182207441240458}
   m_Layer: 0
-  m_Name: Gem Bottom Left
+  m_Name: Bottom Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -778,12 +778,12 @@ SpriteRenderer:
   m_SortingLayerID: 1239392859
   m_SortingLayer: -3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: f57ba197c76444bd18e374b5f2a8daba, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d6b4f7e825f6f4a65a0d8525e5772aa6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5.64, y: 5.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 6020707663715841026}
   - component: {fileID: 3917287331528684492}
   m_Layer: 0
-  m_Name: Gem Bottom
+  m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -862,12 +862,12 @@ SpriteRenderer:
   m_SortingLayerID: 1239392859
   m_SortingLayer: -3
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 6f59c214dc4f440e99718d967033ed86, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b5bd75f30827c483680a1c78e07b2cff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5.64, y: 5.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -930,12 +930,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9d2c1bda8824b46efa86bca6e525fb96, type: 3}
+      objectReference: {fileID: 21300000, guid: f452c0b8e5a0445218cd204ebaf2325f, type: 3}
     - target: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_SortingOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_Name
@@ -985,13 +997,13 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8045324955386324533}
-    - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8708714826694806504}
     - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4408851987921481272}
+    - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8427025649678362330}
   m_SourcePrefab: {fileID: 100100000, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
 --- !u!212 &1428984078901661788 stripped
 SpriteRenderer:
@@ -1003,39 +1015,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
   m_PrefabInstance: {fileID: 9216613473442644128}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8045324955386324533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2587088626763478813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 100add356e36e43c4b545d0461507f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 3992257719178514355}
-  hittableVisuals:
-    hitDuration: 0
-    clearDuration: 0.4
-  outerDot: {fileID: 1428984078901661788}
-  bombHitSprite: {fileID: 0}
-  explodableVisuals:
-    hittableVisuals:
-      hitDuration: 0
-      clearDuration: 0
-    explodeDuration: 0
-  GemTop: {fileID: 6597275829853747351}
-  GemBottom: {fileID: 3917287331528684492}
-  GemRight: {fileID: 9195761294471471161}
-  GemLeft: {fileID: 8995988499178726376}
-  GemTopLeft: {fileID: 8690040045741889229}
-  GemBottomLeft: {fileID: 7190182207441240458}
-  GemTopRight: {fileID: 6132579698034925721}
-  GemBottomRight: {fileID: 8310499516241448391}
-  VerticalRay: {fileID: 6465091083593504128}
-  HorizontalRay: {fileID: 3114107123179523998}
 --- !u!114 &8708714826694806504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,6 +1039,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e059952946bf548ff9ca840b509fac3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8427025649678362330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2587088626763478813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 100add356e36e43c4b545d0461507f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 3992257719178514355}
+  Sprites:
+  - {fileID: 3992257719178514355}
+  - {fileID: 3917287331528684492}
+  - {fileID: 7190182207441240458}
+  - {fileID: 8310499516241448391}
+  - {fileID: 8995988499178726376}
+  - {fileID: 9195761294471471161}
+  - {fileID: 6597275829853747351}
+  - {fileID: 8690040045741889229}
+  - {fileID: 6132579698034925721}
+  - {fileID: 6465091083593504128}
+  - {fileID: 3114107123179523998}
+  hittableVisuals:
+    hitDuration: 0
+    clearDuration: 0.4
+  outerDot: {fileID: 1428984078901661788}
+  bombHitSprite: {fileID: 0}
+  explodableVisuals:
+    hittableVisuals:
+      hitDuration: 0
+      clearDuration: 0
+    explodeDuration: 0
+  GemTop: {fileID: 6597275829853747351}
+  GemBottom: {fileID: 3917287331528684492}
+  GemRight: {fileID: 9195761294471471161}
+  GemLeft: {fileID: 8995988499178726376}
+  GemTopLeft: {fileID: 8690040045741889229}
+  GemBottomLeft: {fileID: 7190182207441240458}
+  GemTopRight: {fileID: 6132579698034925721}
+  GemBottomRight: {fileID: 8310499516241448391}
+  VerticalRay: {fileID: 6465091083593504128}
+  HorizontalRay: {fileID: 3114107123179523998}
 --- !u!212 &3992257719178514355 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
