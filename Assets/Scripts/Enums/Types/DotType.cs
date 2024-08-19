@@ -18,9 +18,10 @@ public enum DotType
     EnchantedDot,
     Magnet,
     Lantern,
-    Gem,
+    RectangleGem,
     SunDot,
     SeedDot,
     GeoidDot,
     MonsterDot,
+    SquareGem,
 }
