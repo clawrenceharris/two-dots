@@ -29,7 +29,9 @@ public class ClockDot : BlankDotBase, INumerable
 
     public override int HitsToClear =>int.MaxValue;
 
-
+    private void OnDestroy(){
+        VisualController.Unsubscribe();
+    }
     public override void Init(int column, int row)
     { 
         base.Init(column, row);

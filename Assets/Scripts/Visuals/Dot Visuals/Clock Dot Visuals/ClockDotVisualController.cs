@@ -22,8 +22,20 @@ IPreviewableVisualController
         dot = (ClockDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
         numerableVisualController.Init(dot, visuals.numerableVisuals);
+        Subscribe();
         base.Init(dotsGameObject);
 
+        
+    }
+
+    public void Unsubscribe(){
+        ConnectionManager.onDotConnected -= OnConnectionChanged;
+        ConnectionManager.onDotDisconnected -= OnConnectionChanged;
+        ConnectionManager.onDotConnected -= MoveClockDotPreviews;
+        ConnectionManager.onDotDisconnected -= MoveClockDotPreviews;
+        ConnectionManager.onConnectionEnded -= OnConnectionEnded;
+    }
+    private void Subscribe(){
         ConnectionManager.onDotConnected += OnConnectionChanged;
         ConnectionManager.onDotDisconnected += OnConnectionChanged;
         ConnectionManager.onDotConnected += MoveClockDotPreviews;
@@ -32,13 +44,13 @@ IPreviewableVisualController
 
     }
 
-    
-
 
     private void OnConnectionChanged(ConnectableDot _){
+        
+       
         numerableVisualController.UpdateNumberByConnectionCount(dot);
     }
-   
+    
 
     private void OnConnectionEnded(LinkedList<ConnectableDot> connectedDots){
         if(!connectedDots.Contains(dot)){
@@ -52,6 +64,13 @@ IPreviewableVisualController
     {
         UpdateNumbers(dot.CurrentNumber);
         base.SetUp();
+    }
+
+    public override IEnumerator Hit(HitType hitType)
+    {
+        numerableVisualController.Hit(hitType);
+        yield return base.Hit(hitType);
+
     }
 
     public override void SetInitialColor()
@@ -113,19 +132,18 @@ IPreviewableVisualController
         float shakeDuration = 0.6f;
         float shakeIntensity = 15f;
         float shakeSpeed = 20f;
-        while (elapsedTime < shakeDuration)
-        {
-            // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
-            float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
+        
+        // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
+        float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
 
-            // Apply the rotation
-            dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
+        // Apply the rotation
+        dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
 
-            // Increment the elapsed time
-            elapsedTime += Time.deltaTime;
+        // Increment the elapsed time
+        elapsedTime += Time.deltaTime;
 
-            yield return null;
-        }
+        yield return new WaitForSeconds(1);
+        
 
         // Reset rotation to original position after the shaking animation is finished
         dot.transform.eulerAngles = Vector2.zero;
@@ -138,7 +156,6 @@ IPreviewableVisualController
 
         if (ConnectionManager.ConnectedDots.Contains(dot))
         {
-            numerableVisualController.UpdateNumbers(dot.TempNumber);
 
             visuals.clockDotPreview.SetActive(true);
             visuals.clockDotPreview.transform.SetParent(null);
@@ -178,4 +195,6 @@ IPreviewableVisualController
     {
        yield break;
     }
+
+     
 }
