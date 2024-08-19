@@ -6,9 +6,8 @@ public class GemVisuals : DotVisuals, IExplodableVisuals
 {
     public ExplodableVisuals explodableVisuals;
     public float ExplodeDuration => explodableVisuals.ExplodeDuration;
-
     public SpriteRenderer GemTop;
-
+    
     public SpriteRenderer GemBottom;
     public SpriteRenderer GemRight;
     public SpriteRenderer GemLeft;
@@ -23,5 +22,5 @@ public class GemVisuals : DotVisuals, IExplodableVisuals
 
     public SpriteRenderer VerticalRay;
     public SpriteRenderer HorizontalRay;
-
+    
 }
