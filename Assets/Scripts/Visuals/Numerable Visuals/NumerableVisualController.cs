@@ -21,6 +21,7 @@ public class NumerableVisualController : INumerableVisualController
     public void UpdateNumberByConnectionCount(ConnectableDot dot){
         
         if(!ConnectionManager.ConnectedDots.Contains(dot)){
+            UpdateNumbers(numerable.CurrentNumber);
             return;
         }
        
@@ -66,5 +67,11 @@ public class NumerableVisualController : INumerableVisualController
             visuals.Digit2.sprite = GameAssets.Instance.Numbers[int.Parse(numberStr[1].ToString())];
 
         }
+    }
+
+    internal void Hit(HitType hitType)
+    {
+        CoroutineHandler.StartStaticCoroutine(ScaleNumbers());  
+        
     }
 }

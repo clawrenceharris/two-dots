@@ -36,9 +36,13 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
        
         numerableVisualController.UpdateNumberByConnectionCount(dot);
     }
-   
 
-   
+    public override IEnumerator Hit(HitType hitType)
+    {
+        numerableVisualController.Hit(hitType);
+        yield return base.Hit(hitType);
+    }
+
     public IEnumerator DoMove(int col, int row)
     {
         for(int i = 0; i < visuals.AllSprites.Length; i++)
@@ -55,6 +59,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     
     public IEnumerator DoRotateAnimation()
     {
+        //do nothing; no rotation animation needed
         yield break;
     }
 
@@ -123,5 +128,10 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     {
         CoroutineHandler.StartStaticCoroutine(DoLeftEyeAnimation());
         yield return CoroutineHandler.StartStaticCoroutine(DoRightEyeAnimation());
+    }
+
+    public void UpdateRotation()
+    {
+        directionalVisualController.UpdateRotation();
     }
 }

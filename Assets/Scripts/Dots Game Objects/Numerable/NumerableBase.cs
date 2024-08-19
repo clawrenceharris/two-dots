@@ -54,6 +54,7 @@ public class NumerableBase : INumerable
     }
 
     public void Disconnect(){
-        VisualController.UpdateNumbers(CurrentNumber);
+
+        VisualController.UpdateNumbers(TempNumber);
     }
 }
