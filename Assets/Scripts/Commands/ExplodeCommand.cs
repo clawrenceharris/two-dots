@@ -54,26 +54,26 @@ public class ExplodeCommand : Command
             hittables.AddRange(toHit);
 
             if(explodable == explodables.Last()){
-                // Start the coroutine to apply the explosion effect and subsequent hit effects
-                ongoingCoroutines++;
-                CoroutineHandler.StartStaticCoroutine(
-                explodable.Explode(hittables, board, (hittable) =>
-                {
-                    
-                 CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable, board, HitType.Explosion));
-                    
-                }), ()=> ongoingCoroutines--); 
-
+                
             }
         }
-        
+        // Start the coroutine to apply the explosion effect and subsequent hit effects
+        ongoingCoroutines++;
+        CoroutineHandler.StartStaticCoroutine(
+        explodables.First().Explode(hittables, board, (hittable) =>
+        {
+            
+            CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable, board, HitType.Explosion));
+            
+        }), ()=> ongoingCoroutines--); 
+
 
         // Wait until all hit effects have been processed
         yield return new WaitUntil(() => ongoingCoroutines == 0);
 
         yield return ClearCommand.DoClear(hittables);
 
-        
+
 
         yield return base.Execute(board);
     }
