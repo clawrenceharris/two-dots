@@ -22,6 +22,10 @@ public class DirectionalVisualController : IDirectionalVisualController
 
     }
 
-    
-
+    public void UpdateRotation()
+    {
+        DotsGameObject dotsGameObject = (DotsGameObject)directional;
+        Vector3 rotation = directional.GetRotation();
+        dotsGameObject.transform.localRotation = Quaternion.Euler(rotation);
+    }
 }

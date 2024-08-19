@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IDirectionalVisualController
 {
     IEnumerator DoRotateAnimation();
+    public void UpdateRotation();
 }

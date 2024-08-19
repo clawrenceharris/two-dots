@@ -83,22 +83,12 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
         directional.ChangeDirection(directionX, directionY);
     }
 
-    
-
-    
-
     public IEnumerator TrySwap(Action onComplete = null)
     {
        
 
         yield return VisualController.TrySwap();
         onComplete?.Invoke();
-    }
-
-   
-    void IDirectional.ChangeDirection(int directionX, int directionY)
-    {
-       directional.ChangeDirection(directionX, directionY);
     }
 
     public Vector3 GetRotation()
