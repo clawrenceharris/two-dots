@@ -905,7 +905,18 @@ public class Board : MonoBehaviour
                 dots.Add(t);
             }
         }
-        return dots;
+        return dots.Where(dot => dot != null).ToList();
+    }
+
+    public List<Dot> FindDotsInColumn(int col)
+    {
+        List<Dot> dots = new();
+        for(int row = 0; row < Height; row++){
+            Dot dot = GetDotAt(col, row);
+            dots.Add(dot);
+        }
+        
+        return dots.Where(dot => dot != null).ToList();
     }
 
     public List<T> FindDotsInRow<T>(int row)
@@ -917,6 +928,69 @@ public class Board : MonoBehaviour
                 dots.Add(t);
             }
         }
-        return dots;
+        return dots.Where(dot => dot != null).ToList();
+    }
+
+    public List<Dot> FindDotsInRow(int row)
+    {
+        List<Dot> dots = new();
+        for(int col = 0; col < Width; col++){
+            Dot dot = GetDotAt(col, row);
+            dots.Add(dot);
+            
+        }
+        return dots.Where(dot => dot != null).ToList();
+    }
+
+    public List<Tile> FindBoardMechanicTilesInRow(int row)
+    {
+        List<Tile> tiles = new();
+        for(int col = 0; col < Width; col++){
+            Tile tile = GetTileAt(col, row);
+            if(tile.TileType.IsBoardMechanicTile()){
+                tiles.Add(tile);
+            }
+
+            
+        }
+        return tiles.Where(tile => tile != null).ToList();
+    }
+
+    public List<Tile> FindBoardMechanicTilesInColumn(int col)
+    {
+        List<Tile> tiles = new();
+        for(int row = 0; row < Height; row++){
+            Tile tile = GetTileAt(col, row);
+            tiles.Add(tile);
+        }
+        
+        return tiles.Where(tile => tile != null).ToList();
+    }
+
+public List<T> FindBoardMechanicTilesInRow<T>(int row)
+    {
+        List<T> tiles = new();
+        for(int col = 0; col < Width; col++){
+            Tile tile = GetTileAt(col, row);
+            if(tile && tile.TileType.IsBoardMechanicTile()){
+                if(tile is T t)
+                    tiles.Add(t);
+            }
+
+            
+        }
+        return tiles;
+    }
+
+    public List<T> FindBoardMechanicTilesInColumn<T>(int col)
+    {
+        List<T> tiles = new();
+        for(int row = 0; row < Height; row++){
+            Tile tile = GetTileAt(col, row);
+            if(tile is T t)
+                tiles.Add(t);
+        }
+        
+        return tiles;
     }
 }
