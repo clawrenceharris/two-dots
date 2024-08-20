@@ -30,6 +30,9 @@ public abstract class Gem : ConnectableDot, IExplodable, IPreviewable
     }
 
 
+    private void OnDestroy(){
+        VisualController.Unsubscribe();
+    }
     
 
     public bool ShouldPreviewClear(Board board)
