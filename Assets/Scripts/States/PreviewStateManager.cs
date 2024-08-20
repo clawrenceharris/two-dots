@@ -37,8 +37,7 @@ public class PreviewableStateManager : MonoBehaviour
     }
 
     private void OnDestroy(){
-        if(currentCoroutine != null)
-            StopCoroutine(currentCoroutine);
+        StopAllCoroutines();
         
     }
 

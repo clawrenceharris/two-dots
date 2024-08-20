@@ -10,7 +10,7 @@ public class PreviewClearState : IState
             if(!context.Previewable.ShouldPreviewClear(context.Board)){
                 context.ChangeState(new IdleState());
             }
-            yield return CoroutineHandler.StartStaticCoroutine(context.DotsGameObject.GetVisualController<IPreviewableVisualController>().DoClearPreviewAnimation());
+            yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>().DoClearPreviewAnimation();
            
         }
         
