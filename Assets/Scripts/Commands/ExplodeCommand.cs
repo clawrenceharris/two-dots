@@ -18,7 +18,7 @@ public class ExplodeCommand : Command
     private readonly CommandType commandType;
 
     public override CommandType CommandType => commandType;
-
+    private HitType hitType;
     public ExplodeCommand(List<IExplodable> explodables, CommandType commandType)
     {
         this.explodables = explodables;
@@ -63,7 +63,7 @@ public class ExplodeCommand : Command
         explodables.First().Explode(hittables, board, (hittable) =>
         {
             
-            CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable, board, HitType.Explosion));
+            CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable, board, commandType.ToHitType()));
             
         }), ()=> ongoingCoroutines--); 
 

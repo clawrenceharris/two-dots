@@ -109,6 +109,15 @@ public static class GameTypeExtensions
             _ => CommandType.None,
         };
     }
+    public static HitType ToHitType(this CommandType type)
+    {
+        return type switch
+        {
+            CommandType.BombExplode => HitType.BombExplosion,
+            CommandType.GemExplode => HitType.GemExplosion,
+            _ => HitType.None,
+        };
+    }
 }
 
 

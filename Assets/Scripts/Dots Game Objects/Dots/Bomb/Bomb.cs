@@ -121,7 +121,9 @@ public class Bomb : Dot, IExplodable
 
     public override void Hit(HitType hitType)
     {
-        HitCount++;
+        if(hitType == HitType.BombExplosion)
+            HitCount++;
+        
     }
     
 
