@@ -58,7 +58,7 @@ public class MoveClockDotsCommand : Command
 
             ConnectableDot lastAvailableDot = FindLastAvailableDot(clockDotCount);
             int startIndex = connectedDots.IndexOf(startDot);
-            int endIndex = connectedDots.IndexOf(lastAvailableDot);
+            int endIndex = connectedDots.LastIndexOf(lastAvailableDot);
             for (int j = startIndex; j <= endIndex; j++)
             {
                 if(connectedDots.All(dot => !dot.DotType.IsBasicDot())){
