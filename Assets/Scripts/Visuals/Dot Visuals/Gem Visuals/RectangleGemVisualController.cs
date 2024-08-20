@@ -74,7 +74,6 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
         Connection.onSquareMade += OnSquareMade;
-        Board.onBoardCreated += OnBoardCreated;
 
     }
 
@@ -83,7 +82,6 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
         ConnectionManager.onDotDisconnected -= OnDotDisconnected;
         Connection.onSquareMade -= OnSquareMade;
-        Board.onBoardCreated -= OnBoardCreated;
     }
 
     public override SpriteRenderer GetHorizontalRay()

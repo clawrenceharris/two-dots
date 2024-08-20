@@ -5,13 +5,9 @@ using UnityEngine;
 
 public abstract class GemVisualController : ColorableDotVisualController, IPreviewableVisualController
 {
-    private static Board board;
     private GemVisuals Visuals => GetVisuals<GemVisuals>();
     private Gem Dot => GetGameObject<Gem>();
     
-    protected void OnBoardCreated(Board board){
-        GemVisualController.board = board;
-    }
 
 
     public override void Init(DotsGameObject dotsGameObject)
@@ -119,7 +115,7 @@ public abstract class GemVisualController : ColorableDotVisualController, IPrevi
         ray.enabled = true;     
         ray.transform.SetParent(null);
 
-        ray.transform.position = new Vector2(board.Width / 2 * Board.offset, Dot.transform.position.y);
+        ray.transform.position = new Vector2(Board.Width / 2 * Board.offset, Dot.transform.position.y);
 
         
         
@@ -134,7 +130,7 @@ public abstract class GemVisualController : ColorableDotVisualController, IPrevi
         ray.enabled = true;     
         ray.transform.SetParent(null);
 
-        ray.transform.position = new Vector2(ray.transform.position.x, board.Height / 2 * Board.offset);
+        ray.transform.position = new Vector2(ray.transform.position.x, Board.Height / 2 * Board.offset );
 
         
         

@@ -112,9 +112,9 @@ public class ConnectLotusDotsCommand : Command
         ongoingConnections = 0;
         List<LotusDot> lotusDots = board.FindDotsOfType<LotusDot>();
        
-        for(int i = 0; i < board.Width; i++)
+        for(int i = 0; i < Board.Width; i++)
         {
-            for(int j = 0; j < board.Height; j++)
+            for(int j = 0; j < Board.Height; j++)
             {
                 LotusDot lotusDot = board.GetDotAt<LotusDot>(i, j);
 

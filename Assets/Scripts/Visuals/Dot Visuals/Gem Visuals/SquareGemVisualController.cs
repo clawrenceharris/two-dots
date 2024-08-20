@@ -15,7 +15,6 @@ public class SquareGemVisualController : GemVisualController
     {
         dot = (SquareGem)dotsGameObject;
         visuals = dotsGameObject.GetComponent<GemVisuals>();
-       
         base.Init(dotsGameObject);
     }
     
@@ -24,7 +23,6 @@ public class SquareGemVisualController : GemVisualController
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
         ConnectionManager.onDotDisconnected += OnDotDisconnected;
         Connection.onSquareMade += OnSquareMade;
-        Board.onBoardCreated += OnBoardCreated;
     }
 
     public override void Unsubscribe()

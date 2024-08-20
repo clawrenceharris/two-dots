@@ -7,9 +7,8 @@ using DG.Tweening;
 
 public class Board : MonoBehaviour
 {
-    public int Width { get; private set; }
-    public int Height { get; private set; }
-
+    public static int Width { get; private set; }
+    public static int Height { get; private set; }
     private Dot[,] Dots;
 
     private Tile[,] Tiles;

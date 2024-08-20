@@ -161,9 +161,9 @@ private List<Water> GetWaterPath(Water startingTile, Vector2Int direction, Board
        
         yield return new WaitUntil(() => ongoingCoroutines == 0);
         ongoingCoroutines = 0;
-        for(int col = 0; col < board.Width; col++){
+        for(int col = 0; col < Board.Width; col++){
 
-            for(int row = 0; row < board.Height; row++){
+            for(int row = 0; row < Board.Height; row++){
                 
                 Water waterTile = waterTiles.FirstOrDefault((waterTile)=> waterTile.Column == col && waterTile.Row == row);
                 if(waterTile){

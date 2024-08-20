@@ -58,9 +58,9 @@ public class Square
         {
             return new();
         }
-        for (int col = 0; col < board.Width; col++)
+        for (int col = 0; col < Board.Width; col++)
         {
-            for (int row = 0; row < board.Height; row++)
+            for (int row = 0; row < Board.Height; row++)
             {
                 Dot dot = board.GetDotAt<Dot>(col, row);
                 //Make sure dot is not in the square and not on edge of board because there is no need to fill these
@@ -225,9 +225,9 @@ public class Square
     /// </summary>
     public void SelectAndAddDotsForSquare()
     {
-        for (int col = 0; col < board.Width; col++)
+        for (int col = 0; col < Board.Width; col++)
         {
-            for (int row = 0; row < board.Height; row++)
+            for (int row = 0; row < Board.Height; row++)
             {
                 Dot dot = board.GetDotAt<Dot>(col, row);
 

@@ -126,8 +126,8 @@ IPreviewableVisualController
     public IEnumerator DoClearPreviewAnimation()
     {
 
-        float duration = 0.5f; // Time it takes for one full back-and-forth rotation
-        float angle = 45f; // The maximum angle to rotate
+        float duration = 0.2f; // Time it takes for one full back-and-forth rotation
+        float angle = 10f; // The maximum angle to rotate
         float elapsedTime = 0f;
         
         while (true)
