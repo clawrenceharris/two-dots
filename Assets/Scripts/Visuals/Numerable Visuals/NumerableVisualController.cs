@@ -18,27 +18,6 @@ public class NumerableVisualController : INumerableVisualController
         this.numerable = numerable;
     }
     
-    public void UpdateNumberByConnectionCount(ConnectableDot dot){
-        
-        if(!ConnectionManager.ConnectedDots.Contains(dot)){
-            UpdateNumbers(numerable.CurrentNumber);
-            return;
-        }
-       
-        if(ConnectionManager.ConnectedDots.Count == 1){
-            numerable.TempNumber = numerable.CurrentNumber;
-            UpdateNumbers(numerable.TempNumber);
-            return;
-        }
-        List<IHittable> toHit = ConnectionManager.ToHit;
-        numerable.TempNumber = Mathf.Clamp(numerable.CurrentNumber - toHit.Count, 0, int.MaxValue);
-        
-        UpdateNumbers(numerable.TempNumber);
-        
-
-        CoroutineHandler.StartStaticCoroutine(ScaleNumbers());
-    }
-
     public IEnumerator ScaleNumbers()
     {
         float scaleDuration = 0.2f;
@@ -69,7 +48,7 @@ public class NumerableVisualController : INumerableVisualController
         }
     }
 
-    internal void Hit(HitType hitType)
+    public void Hit(HitType hitType)
     {
         CoroutineHandler.StartStaticCoroutine(ScaleNumbers());  
         

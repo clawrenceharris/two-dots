@@ -10,15 +10,24 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     public override DotType DotType => DotType.MonsterDot;
     public new MonsterDotVisualController VisualController => GetVisualController<MonsterDotVisualController>();
-    public override int HitsToClear => numerable.InitialNumber;
 
-    private readonly NumerableBase numerable = new();
+    private NumerableBase numerable;
 
-    public int TempNumber { get => numerable.TempNumber; set => numerable.TempNumber = value; }
+    private NumerableBase Numerable {
+        get {
+            if (numerable == null) {
+                numerable = GetComponent<NumerableBase>();
+            }
+            return numerable;
+        }
+    }
 
-    public int CurrentNumber => numerable.CurrentNumber;
+    public override int HitsToClear => Numerable.InitialNumber;
+    public int TempNumber { get => Numerable.TempNumber; set => Numerable.TempNumber = value; }
 
-    public int InitialNumber { get => numerable.InitialNumber; set => numerable.InitialNumber = value; }
+    public int CurrentNumber => Numerable.CurrentNumber;
+
+    public int InitialNumber { get => Numerable.InitialNumber; set => Numerable.InitialNumber = value; }
 
 
     private readonly DirectionalBase directional = new();
@@ -60,11 +69,7 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
         HitCount = InitialNumber - TempNumber;
 
     }
-    public override void Disconnect()
-    {
-        numerable.Disconnect();
-
-    }
+   
 
    
    

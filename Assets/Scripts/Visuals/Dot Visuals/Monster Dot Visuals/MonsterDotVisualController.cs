@@ -34,7 +34,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     
     private void OnConnectionChanged(ConnectableDot _){
        
-        numerableVisualController.UpdateNumberByConnectionCount(dot);
+       // numerableVisualController.UpdateNumberByConnectionCount(dot);
     }
 
     public override IEnumerator Hit(HitType hitType)
@@ -133,5 +133,10 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     public void UpdateRotation()
     {
         directionalVisualController.UpdateRotation();
+    }
+
+    public IEnumerator ScaleNumbers()
+    {
+       yield return numerableVisualController.ScaleNumbers();
     }
 }

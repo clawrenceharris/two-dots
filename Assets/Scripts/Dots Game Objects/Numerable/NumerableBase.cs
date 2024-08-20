@@ -1,32 +1,43 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class NumerableBase : INumerable
+public class NumerableBase : MonoBehaviour, INumerable
 {
 
     public int CurrentNumber { get; private set; }
     public int TempNumber { get; set; } = -1;
     public int InitialNumber { get; set; }
     private INumerable numerable;
-    public DotsGameObject GetGameObject() => (DotsGameObject)numerable;
-    public T GetGameObject<T>() where T : DotsGameObject => (T)numerable;
+    private DotsGameObject dotsGameObject;
 
-    public INumerableVisualController VisualController
-    {
-        get
-        {
-            DotsGameObject dotsObject = GetGameObject();
-            return dotsObject.GetVisualController<INumerableVisualController>();
+    public bool TryGetGameObject<T>(out T gameObject) where T : class{ 
+        gameObject = default;
+        if(dotsGameObject is T t){
+            gameObject = t;
+            return true;
         }
-    }
 
+        
+        return false;
+    }
+    public INumerableVisualController VisualController => dotsGameObject.GetVisualController<INumerableVisualController>();
+     
    
 
     public void Init(INumerable numerable)
     {
         this.numerable = numerable;
+        dotsGameObject = GetComponent<DotsGameObject>();
+
         UpdateCurrentNumber(InitialNumber);
+        ConnectionManager.onDotConnected += OnConnectionChanged;
+        ConnectionManager.onDotDisconnected += OnConnectionChanged;
+    }
+
+    public void OnDestroy(){
+        ConnectionManager.onDotConnected -= OnConnectionChanged;
+        ConnectionManager.onDotDisconnected -= OnConnectionChanged;
     }
 
     public void UpdateCurrentNumber(int number)
@@ -35,13 +46,36 @@ public class NumerableBase : INumerable
         VisualController.UpdateNumbers(number);
     }
 
+    public void OnConnectionChanged(ConnectableDot dot){
+        if(TryGetGameObject<ConnectableDot>(out var connectableDot)){
+            //if the dot is not in connection
+            if(!ConnectionManager.ConnectedDots.Contains(connectableDot)){
+                //go back to original number 
+                VisualController.UpdateNumbers(numerable.CurrentNumber);
+                return;
+            }
+            // if dot is in connection and it is the only one in the connection 
+            if(ConnectionManager.ConnectedDots.Count == 1){
+                //go back to to the original number
+                VisualController.UpdateNumbers(numerable.CurrentNumber);
+                return;
+            }
+            List<IHittable> toHit = ConnectionManager.ToHit;
+            
+            numerable.TempNumber = Mathf.Clamp(numerable.CurrentNumber - toHit.Count, 0, int.MaxValue);
+            
+            VisualController.UpdateNumbers(numerable.TempNumber);
+            CoroutineHandler.StartStaticCoroutine(VisualController.ScaleNumbers());
+        }
+
+        
+        
+    }
 
 
     public void Hit(HitType hitType)
     {
 
-
-        
         if (hitType.IsExplosion())
         {
             //set current number to be one less than the current number
@@ -53,8 +87,4 @@ public class NumerableBase : INumerable
 
     }
 
-    public void Disconnect(){
-
-        VisualController.UpdateNumbers(TempNumber);
-    }
 }
