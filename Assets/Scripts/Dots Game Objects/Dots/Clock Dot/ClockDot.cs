@@ -48,13 +48,7 @@ public class ClockDot : BlankDotBase, INumerable
         VisualController.Unsubscribe();
     }
    
-    public void UpdateNumberVisuals(int number)
-    {
-       
-        VisualController.UpdateNumbers(number);
-        
-    }
-
+   
     public override void InitDisplayController()
     {
         visualController = new ClockDotVisualController();
@@ -88,7 +82,9 @@ public class ClockDot : BlankDotBase, INumerable
 
     public override bool ShouldPreviewClear(Board board)
     {
-        return TempNumber == 0;
+        return TempNumber == 0 && 
+        ConnectionManager.ToHit.Contains(this) || 
+        CurrentNumber == 0;
     }
 
 
