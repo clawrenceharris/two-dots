@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
+using DG.Tweening.Core.Easing;
 using UnityEngine;
 
-public class LotusDotVisualController : ColorableDotVisualController
+public class LotusDotVisualController : ColorableDotVisualController, IPreviewableVisualController
 {
     private LotusDot dot;
     private LotusDotVisuals visuals;
@@ -28,9 +30,8 @@ public class LotusDotVisualController : ColorableDotVisualController
             sr.color = initialColor;
         }
 
-        visuals.middle.color = ColorUtils.LightenColor(initialColor, 0.5f);
+        visuals.Layer3.color = ColorUtils.LightenColor(initialColor, 0.5f);
 
-        base.SetInitialColor();
     }
 
     public override void SetColor(Color color)
@@ -41,9 +42,53 @@ public class LotusDotVisualController : ColorableDotVisualController
             sr.color = color;
         }
 
-        base.SetColor(color);
+    }
+    
+    public IEnumerator DoIdleAnimation()
+    {
+        yield return new WaitForSeconds(Random.Range(1, 2));
+        int direction = (Random.Range(0, 2) * 2) - 1;
+        IEnumerator[] coroutines = { DoRotate90Animation(direction), DoRotate360Animation(direction) };
+        int rand = Random.Range(0, coroutines.Length);
+
+        yield return coroutines[rand];
+        yield return new WaitForSeconds(Random.Range(2, 4));
+       
+
+    }
+   
+
+    private IEnumerator DoRotate360Animation(int direction)
+    {
+        visuals.Layer1.transform.DOLocalRotate(new Vector3(0, 0, 360 * direction), 8f * 2, RotateMode.LocalAxisAdd)
+    .SetEase(visuals.LotusBounceCurve);
+        visuals.Layer2.transform.DOLocalRotate(new Vector3(0, 0, 360 * direction), 7f * 2, RotateMode.LocalAxisAdd)
+    .SetEase(visuals.LotusBounceCurve); 
+        visuals.Layer3.transform.DOLocalRotate(new Vector3(0, 0, 360 * direction), 6f *2, RotateMode.LocalAxisAdd)
+    .SetEase(visuals.LotusBounceCurve); 
+
+        yield return new WaitForSeconds(8 * 2);
+    }
+   
+     private IEnumerator DoRotate90Animation(int direction)
+    {
+        visuals.Layer1.transform.DORotate(new Vector3(0,0, 90 * direction), 4f, RotateMode.LocalAxisAdd)
+    .SetEase(visuals.LotusBounceCurve); 
+        
+        visuals.Layer2.transform.DORotate(new Vector3(0,0, -90 * direction), 4f, RotateMode.LocalAxisAdd)
+    .SetEase(visuals.LotusBounceCurve);
+        visuals.Layer3.transform.DORotate(new Vector3(0,0, 90 * direction), 4f, RotateMode.LocalAxisAdd)
+    .SetEase(visuals.LotusBounceCurve);
+        yield return new WaitForSeconds(4);
     }
 
+    public IEnumerator DoHitPreviewAnimation()
+    {
+        yield break;
+    }
 
-
+    public IEnumerator DoClearPreviewAnimation()
+    {
+        yield break;
+    }
 }

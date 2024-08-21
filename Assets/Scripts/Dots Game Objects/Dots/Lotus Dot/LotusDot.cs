@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class LotusDot : ConnectableDot
+public class LotusDot : ConnectableDot, IPreviewable
 {
     public override DotType DotType => DotType.LotusDot;
     public override int HitsToClear => 1;
@@ -32,5 +32,13 @@ public class LotusDot : ConnectableDot
         visualController.Init(this);
     }
 
-    
+    public bool ShouldPreviewClear(Board board)
+    {
+        return HitRule.Validate(this, board);
+    }
+
+    public bool ShouldPreviewHit(Board board)
+    {
+        return HitRule.Validate(this, board);
+    }
 }
