@@ -40,31 +40,42 @@ public class NumerableBase : MonoBehaviour, INumerable
         ConnectionManager.onDotDisconnected -= OnConnectionChanged;
     }
 
+    public void UpdateNumberVisuals(int number)
+    {
+        
+        VisualController.UpdateNumbers(number);
+        
+    }
+
     public void UpdateCurrentNumber(int number)
     {
         CurrentNumber = number;
         VisualController.UpdateNumbers(number);
     }
 
+
+
     public void OnConnectionChanged(ConnectableDot dot){
         if(TryGetGameObject<ConnectableDot>(out var connectableDot)){
             //if the dot is not in connection
-            if(!ConnectionManager.ConnectedDots.Contains(connectableDot)){
+            if(!ConnectionManager.ToHit.Contains(connectableDot)){
+
                 //go back to original number 
-                VisualController.UpdateNumbers(numerable.CurrentNumber);
+                UpdateNumberVisuals(numerable.CurrentNumber);
                 return;
             }
             // if dot is in connection and it is the only one in the connection 
             if(ConnectionManager.ConnectedDots.Count == 1){
+                
                 //go back to to the original number
-                VisualController.UpdateNumbers(numerable.CurrentNumber);
+                UpdateNumberVisuals(numerable.CurrentNumber);
                 return;
             }
             List<IHittable> toHit = ConnectionManager.ToHit;
             
             numerable.TempNumber = Mathf.Clamp(numerable.CurrentNumber - toHit.Count, 0, int.MaxValue);
             
-            VisualController.UpdateNumbers(numerable.TempNumber);
+            UpdateNumberVisuals(numerable.TempNumber);
             CoroutineHandler.StartStaticCoroutine(VisualController.ScaleNumbers());
         }
 
