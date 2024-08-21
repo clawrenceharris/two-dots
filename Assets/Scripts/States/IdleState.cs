@@ -6,19 +6,14 @@ using UnityEngine;
 public class IdleState : IState
 {
     
-
-
     public IEnumerator UpdateState(PreviewableStateManager context)
     {
         
-        
-        while (true){
-            if(context.Previewable.ShouldPreviewHit(context.Board)){
-                context.ChangeState(new PreviewHitState());
-            }
-            yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>().DoIdleAnimation();
+        Debug.Log("Executing Idle State");
+        yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>().DoIdleAnimation();
 
-        }   
+        
+
     }
 
     

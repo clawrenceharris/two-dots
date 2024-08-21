@@ -55,7 +55,7 @@ public class NumerableBase : MonoBehaviour, INumerable
 
 
 
-    public void OnConnectionChanged(ConnectableDot dot){
+    public void OnConnectionChanged(ConnectionArgs args){
         if(TryGetGameObject<ConnectableDot>(out var connectableDot)){
             //if the dot is not in connection
             if(!ConnectionManager.ToHit.Contains(connectableDot)){

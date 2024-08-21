@@ -29,15 +29,11 @@ IPreviewableVisualController
     }
 
     public void Unsubscribe(){
-        ConnectionManager.onDotConnected -= OnConnectionChanged;
-        ConnectionManager.onDotDisconnected -= OnConnectionChanged;
         ConnectionManager.onDotConnected -= MoveClockDotPreviews;
         ConnectionManager.onDotDisconnected -= MoveClockDotPreviews;
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
     }
     private void Subscribe(){
-        ConnectionManager.onDotConnected += OnConnectionChanged;
-        ConnectionManager.onDotDisconnected += OnConnectionChanged;
         ConnectionManager.onDotConnected += MoveClockDotPreviews;
         ConnectionManager.onDotDisconnected += MoveClockDotPreviews;
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
@@ -45,12 +41,6 @@ IPreviewableVisualController
     }
 
 
-    private void OnConnectionChanged(ConnectableDot _){
-        
-       
-       // numerableVisualController.UpdateNumberByConnectionCount(dot);
-    }
-    
 
     private void OnConnectionEnded(LinkedList<ConnectableDot> connectedDots){
         if(!connectedDots.Contains(dot)){
@@ -167,7 +157,7 @@ IPreviewableVisualController
     }
     
     
-    private void MoveClockDotPreviews(ConnectableDot _){
+    private void MoveClockDotPreviews(ConnectionArgs args){
 
         List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
 

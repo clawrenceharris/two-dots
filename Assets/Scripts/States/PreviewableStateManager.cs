@@ -7,7 +7,7 @@ using System;
 
 public class PreviewableStateManager : MonoBehaviour
 {
-    private Coroutine currentCoroutine;
+    private IEnumerator currentCoroutine;
     public Board Board {get; set;}
     private IState currentState;
     public DotsGameObject DotsGameObject {get; private set;}
@@ -33,7 +33,7 @@ public class PreviewableStateManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeState(new IdleState());
+        StartCoroutine(UpdateState());    
     }
 
     private void OnDestroy(){
@@ -48,17 +48,46 @@ public class PreviewableStateManager : MonoBehaviour
             StopCoroutine(currentCoroutine);
         
         currentCoroutine = null;
+
         currentState = newState;
     }
-    public void Update(){
-        if (currentState != null && currentCoroutine == null){
-            
-            currentCoroutine = StartCoroutine(currentState.UpdateState(this));
+    
+
+    private IEnumerator UpdateState(){
+        while(true){
+            EvaluateState();
+            if (currentState != null && currentCoroutine == null){
+                
+                currentCoroutine = currentState.UpdateState(this);
+                yield return currentCoroutine;
+            }
         }
+        
     }
     
    
-    
+    private void EvaluateState()
+    {
+        // Evaluate all states and select the highest priority one
+        IState newState;
+        
+        if (Previewable.ShouldPreviewHit(Board))
+        {
+            newState = new PreviewHitState();
+        }
+        else if (Previewable.ShouldPreviewClear(Board))
+        {
+            newState = new PreviewClearState();
+        }
+        else 
+        {
+            newState = new IdleState();
+        }
+
+        
+        ChangeState(newState);
+        
+    }
     
 
     

@@ -251,15 +251,18 @@ public class SoundManager : MonoBehaviour
     {
         audioDistortion.enabled = false;
     }
-    private void OnDotSelected(ConnectableDot dot)
+    private void OnDotSelected(ConnectionArgs args)
     {
+        if(!args.PlaySound){
+            return;
+        }
         int index = GetIndex();
 
         audioSource.PlayOneShot(connectionSounds[index]);
 
     }
 
-    private void OnDotConnected(ConnectableDot dot)
+    private void OnDotConnected(ConnectionArgs args)
     {
         int index = GetIndex();
         audioSource.PlayOneShot(connectionSounds[index]);
@@ -271,14 +274,18 @@ public class SoundManager : MonoBehaviour
         int index = Mathf.Clamp(connectionCount, 0, connectionSounds.Length - 1);
         return index;
     }
-    private void OnDotDisconnected(ConnectableDot dot)
+    private void OnDotDisconnected(ConnectionArgs args)
     {
         if (ConnectionManager.ConnectedDots.Count == 0)
         {
             return;
         }
-
+        if(!args.PlaySound){
+            return;
+        }
+        
         int index = GetIndex();
+        
         audioSource.PlayOneShot(connectionSounds[index]);
     }
     private void OnCleared(DotsGameObject dotsGameObject)

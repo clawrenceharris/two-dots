@@ -20,8 +20,6 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         directionalVisualController.Init(dot, visuals.DirectionalVisuals);
         numerableVisualController.Init(dot, visuals.NumerableVisuals);
         base.Init(dotsGameObject);
-        ConnectionManager.onDotConnected += OnConnectionChanged;
-        ConnectionManager.onDotDisconnected += OnConnectionChanged;
     }
 
     
@@ -32,10 +30,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     }
 
     
-    private void OnConnectionChanged(ConnectableDot _){
-       
-       // numerableVisualController.UpdateNumberByConnectionCount(dot);
-    }
+    
 
     public override IEnumerator Hit(HitType hitType)
     {

@@ -55,22 +55,22 @@ public class ConnectLotusDotsCommand : Command
                
                 else
                 {
-                    visitedDots.Add(neighbor);
 
+                    if(neighbor.DotType.IsLotusDot()){
+                        ConnectionManager.ConnectDot(new ConnectionArgs(dot: neighbor, playSound: false));
+                    }
+                    else{
+                        ConnectionManager.SelectAndConnectDot(new ConnectionArgs(dot: neighbor, playSound: false));
+                    }
 
                     
-                    neighbor.Select();
-                    ConnectionManager.ConnectDot(neighbor);
-
-                    
-                   
-
                     yield return LineManager.DrawLine(currentDot, neighbor);
 
                     // Add the neighbor to the queue for further exploration
                     queue.Enqueue(neighbor);
                     onDotConnected?.Invoke(neighbor);
-
+                    
+                    visitedDots.Add(neighbor);
                 }
             }
             

@@ -65,8 +65,9 @@ public class LineManager : MonoBehaviour
     }
 
     
-    private void OnDotConnected(ConnectableDot dot)
+    private void OnDotConnected(ConnectionArgs args)
     {
+        ConnectableDot dot = args.Dot;
         if (!currentLine || isAutoConnecting)
         {
             return;
@@ -105,8 +106,9 @@ public class LineManager : MonoBehaviour
      private void Update(){
        UpdateLines(); 
     }
-    private void OnDotSelected(ConnectableDot dot)
+    private void OnDotSelected(ConnectionArgs args)
     {
+        ConnectableDot dot = args.Dot;
         //draw line when we select a dot
         currentLine = CreateLine(dot);
         lines.Add(currentLine);
@@ -114,7 +116,7 @@ public class LineManager : MonoBehaviour
     }
 
     
-    private void OnDotDisconnected(Dot dot)
+    private void OnDotDisconnected(ConnectionArgs args)
     {
         //remove line when we disconnect a dot
         RemoveLine();

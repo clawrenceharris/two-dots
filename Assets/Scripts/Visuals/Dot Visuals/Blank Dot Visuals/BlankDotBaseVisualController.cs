@@ -49,13 +49,13 @@ public abstract class BlankDotBaseVisualController : ColorableDotVisualControlle
 
     }
 
-    public void OnDotConnected(ConnectableDot _){
+    public void OnDotConnected(ConnectionArgs args){
         BlankDotBase dot = GetGameObject<BlankDotBase>();
         if(ConnectionManager.ConnectedDots.Contains(dot)){
             dot.UpdateColor();
         }
     }
-     public void OnDotDisconnected(ConnectableDot _){
+     public void OnDotDisconnected(ConnectionArgs args){
         BlankDotBase dot = GetGameObject<BlankDotBase>();
         if(ConnectionManager.ConnectedDots.Contains(dot)){
             dot.UpdateColor();

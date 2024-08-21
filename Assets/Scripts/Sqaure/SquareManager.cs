@@ -50,7 +50,7 @@ public class SquareManager
 
     }
 
-    private void OnDotDisconnected(ConnectableDot dot)
+    private void OnDotDisconnected(ConnectionArgs args)
     {
         if (Square == null)
         {

@@ -5,17 +5,15 @@ using System.Linq;
 public class ConnectionManager
 {
 
-    public static event Action<ConnectableDot> onDotDisconnected;
+    public static event Action<ConnectionArgs> onDotDisconnected;
 
-    public static event Action<ConnectableDot> onDotConnected;
+    public static event Action<ConnectionArgs> onDotConnected;
 
-    public static event Action<ConnectableDot> onDotSelected;
+    public static event Action<ConnectionArgs> onDotSelected;
     public static event Action onSquare;
     private static SquareManager squareManager;
     public static event Action<LinkedList<ConnectableDot>> onConnectionEnded;
     public static Connection Connection { get; private set; }
-    public static List<Connection> Connections { get; private set; } = new();
-
 
     public static LinkedList<ConnectableDot> ConnectedDots
     {
@@ -126,19 +124,34 @@ public class ConnectionManager
         return connectionRule.Validate(ConnectedDots.Last.Value, dot);
     }
 
-    
-    public static void ConnectDot(ConnectableDot dot)
+    public static void SelectAndConnectDot(ConnectionArgs args)
     {
         
         if(Connection == null)
         {
-            dot.Select();
-            Connection = new(dot, squareManager);
+            Connection = new(args.Dot, squareManager);
+            args.Dot.Select();
+            
         }
         else
         {
-            Connection.ConnectDot(dot);
-            onDotConnected?.Invoke(dot);
+            Connection.ConnectDot(args.Dot);
+            onDotConnected?.Invoke(args);
+        }
+    }
+    public static void ConnectDot(ConnectionArgs args)
+    {
+        
+        if(Connection == null)
+        {
+            
+            Connection = new(args.Dot, squareManager);
+            
+        }
+        else
+        {
+            Connection.ConnectDot(args.Dot);
+            onDotConnected?.Invoke(args);
         }
     }
     private void OnDotConnected(ConnectableDot dot)
@@ -155,7 +168,7 @@ public class ConnectionManager
 
             ConnectableDot dotToDisconnect = lastDot.Value;
             Connection.DisconnectDot(dotToDisconnect);
-            onDotDisconnected?.Invoke(dotToDisconnect);
+            onDotDisconnected?.Invoke(new ConnectionArgs(dot));
 
         }
 
@@ -164,7 +177,7 @@ public class ConnectionManager
         {
             Connection.ConnectDot(dot);
             Connection.CheckForSquare();
-            onDotConnected?.Invoke(dot);
+            onDotConnected?.Invoke(new ConnectionArgs(dot));
 
         }
     }
@@ -173,9 +186,8 @@ public class ConnectionManager
     {
 
         Connection = new Connection(dot, squareManager);
-        Connections.Add(Connection);
         dot.Select();
-        onDotSelected?.Invoke(dot);
+        onDotSelected?.Invoke(new ConnectionArgs(dot));
 
     }
 
@@ -191,10 +203,9 @@ public class ConnectionManager
         if (ConnectedDots.Count == 1)
         {
 
-            ConnectableDot last = ConnectedDots.Last.Value;
-            Connection.DisconnectDot(last);
-            Connections.RemoveAt(0);
-            onDotDisconnected?.Invoke(last);
+            ConnectableDot lastDot = ConnectedDots.Last.Value;
+            Connection.DisconnectDot(lastDot);
+            onDotDisconnected?.Invoke(new ConnectionArgs(lastDot));
             return;
         }
         else
@@ -219,5 +230,14 @@ public class ConnectionManager
     }
 
     
+}
+
+public class ConnectionArgs{
+    public ConnectableDot Dot;
+    public bool PlaySound;
+    public ConnectionArgs(ConnectableDot dot, bool playSound = true){
+        Dot = dot; 
+        PlaySound = playSound;
+    }
 }
 

@@ -181,7 +181,7 @@ public abstract class GemVisualController : ColorableDotVisualController, IPrevi
 
     public abstract void Subscribe();
     public abstract void Unsubscribe();
-    protected void OnDotDisconnected(ConnectableDot dot){
+    protected void OnDotDisconnected(ConnectionArgs args){
         
         HideRays();
         
