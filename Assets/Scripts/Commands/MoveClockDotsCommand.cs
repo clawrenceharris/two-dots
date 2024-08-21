@@ -9,11 +9,8 @@ using UnityEngine;
 
 public class MoveClockDotsCommand : Command
 {
-
     public override CommandType CommandType => CommandType.MoveClockDots;
     private readonly List<ClockDot> visitedDots = new();
-    Dictionary<ConnectableDot, Vector2Int> originalPositions = new();
-
     private ConnectableDot FindLastAvailableDot(int clockDotCount){
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
 
@@ -31,14 +28,14 @@ public class MoveClockDotsCommand : Command
         return lastAvailableDot;
     }
     
-    private IEnumerator MoveClockDots( Board board){
+    private IEnumerator MoveClockDots(Board board){
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
         List<ClockDot> clockDotsMoved = new();
-        int ongoingCoroutines = 0;
         
-        ConnectableDot lastClockDot = connectedDots.LastOrDefault((dot)=> dot.DotType.IsClockDot());
+        int ongoingCoroutines = 0;        
         int clockDotCount = 0;
-        if(connectedDots[^1].DotType.IsClockDot() && !ConnectionManager.IsSquare){
+
+        if(!connectedDots[^1].DotType.IsBasicDot() && !ConnectionManager.IsSquare){
             clockDotCount++;
         }
         for (int i = connectedDots.Count -2; i >= 0; i--)
@@ -50,52 +47,21 @@ public class MoveClockDotsCommand : Command
             clockDotCount++;
             
             ConnectableDot startDot = connectedDots[i + 1];
-
+            ConnectableDot endDot = FindLastAvailableDot(clockDotCount);
+            
             List<Vector2Int> path = new()
             {
                 new Vector2Int(connectedDots[i].Column, connectedDots[i].Row)
             };
 
-            ConnectableDot lastAvailableDot = FindLastAvailableDot(clockDotCount);
-            int startIndex = connectedDots.IndexOf(startDot);
-            int endIndex = connectedDots.LastIndexOf(lastAvailableDot);
-            for (int j = startIndex; j <= endIndex; j++)
-            {
-                if(connectedDots.All(dot => !dot.DotType.IsBasicDot())){
-                    break;
-                }
-                
-                // Get the position of the current dot and add it to the path
-                if (originalPositions.TryGetValue(connectedDots[j], out Vector2Int pos))
-                {
-                    path.Add(pos);
-                }
-
-            }
-
-           
-
+            path = path.Concat(GeneratePath(startDot, endDot)).ToList();
+            
             ongoingCoroutines++;      
             CoroutineHandler.StartStaticCoroutine(clockDot.DoMove(path), () =>
             {
-                if(path.Count > 0){
-                    int startCol = path[0].x;
-                    int startRow = path[0].y;
-                    int endCol = path[^1].x;
-                    int endRow = path[^1].y;
-                    clockDot.Column = endCol;
-                    clockDot.Row = endRow;
-                    clockDotsMoved.Add(clockDot);
-                    Dot dot = board.GetDotAt<Dot>(endCol, endRow);
-                    if (dot && dot is not ClockDot)
-                        board.DestroyDotsGameObject(dot);
-                    board.Remove(clockDot, startCol, startRow);
-                    if (clockDot.Column != startCol || clockDot.Row != startRow)
-                    {
-                        onCommandExecuting?.Invoke(this);
-                    }  
-                
-                }
+               
+                clockDotsMoved.Add(clockDot);
+                UpdateClockDotPosition(clockDot, path, board);
                 ongoingCoroutines--;
 
                 
@@ -113,6 +79,26 @@ public class MoveClockDotsCommand : Command
         }
     
     }
+
+    private void UpdateClockDotPosition(ClockDot clockDot, List<Vector2Int> path, Board board){
+         if(path.Count > 0){
+            int startCol = path[0].x;
+            int startRow = path[0].y;
+            int endCol = path[^1].x;
+            int endRow = path[^1].y;
+            clockDot.Column = endCol;
+            clockDot.Row = endRow;
+            Dot dot = board.GetDotAt<Dot>(endCol, endRow);
+            if (dot && dot is not ClockDot)
+                board.DestroyDotsGameObject(dot);
+            board.Remove(clockDot, startCol, startRow);
+            if (clockDot.Column != startCol || clockDot.Row != startRow)
+            {
+                onCommandExecuting?.Invoke(this);
+            }  
+        }
+    }
+
     public override IEnumerator Execute(Board board)
     {
         
@@ -122,12 +108,7 @@ public class MoveClockDotsCommand : Command
         {
             yield break;
         }
-         for (int i = 0; i < connectedDots.Count; i++)
-        {
-
-            originalPositions.TryAdd(connectedDots[i], new Vector2Int(connectedDots[i].Column, connectedDots[i].Row));
-        }       
-        
+       
         Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(MoveClockDotsCommand));
        
         DidExecute = true;
@@ -145,29 +126,29 @@ public class MoveClockDotsCommand : Command
         yield return base.Execute(board);
     }
 
-    private List<Vector2Int> GetPath(int startIndex, int moveCount)
+    private List<Vector2Int> GeneratePath(ConnectableDot startDot, ConnectableDot endDot)
     {
         List<ConnectableDot> connectedDots = ConnectionManager.ConnectedDots.ToList();
         List<Vector2Int> path = new();
         Dictionary<ConnectableDot, Vector2Int> originalPositions = new();
-
         for (int i = 0; i < connectedDots.Count; i++)
         {
 
             originalPositions.TryAdd(connectedDots[i], new Vector2Int(connectedDots[i].Column, connectedDots[i].Row));
-        }
-        Debug.Log("START: " +  startIndex);
-        Debug.Log("MOVE COUNT: " +  moveCount);
-        for (int k = startIndex; k <=  moveCount; k++)
+        }       
+        int startIndex = connectedDots.LastIndexOf(startDot);
+        int endIndex = connectedDots.LastIndexOf(endDot);
+        
+        for (int j = startIndex; j <= endIndex; j++)
         {
-
-            if (originalPositions.TryGetValue(connectedDots[k], out Vector2Int originalPosition))
+            if (originalPositions.TryGetValue(connectedDots[j], out Vector2Int pos))
             {
-                path.Add(originalPosition);
+                path.Add(pos);
             }
 
-        
         }
+
         return path;
     }
+
 }
