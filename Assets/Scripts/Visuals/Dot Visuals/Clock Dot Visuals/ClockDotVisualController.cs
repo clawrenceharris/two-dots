@@ -126,22 +126,44 @@ IPreviewableVisualController
     public IEnumerator DoClearPreviewAnimation()
     {
 
-        float duration = 0.2f; // Time it takes for one full back-and-forth rotation
-        float angle = 10f; // The maximum angle to rotate
-        float elapsedTime = 0f;
+        // float duration = 0.2f; // Time it takes for one full back-and-forth rotation
+        // float angle = 10f; // The maximum angle to rotate
+        // float elapsedTime = 0f;
         
-        while (true)
+        // while (elapsedTime < duration)
+        // {
+        //     // Calculate the rotation for this frame
+        //     float rotationAngle = Mathf.Sin(elapsedTime * Mathf.PI / duration) * angle;
+        //     dot.transform.localRotation = Quaternion.Euler(0f, 0f, rotationAngle);
+
+        //     // Increment the elapsed time
+        //     elapsedTime += Time.deltaTime;
+
+        //     // If you need the loop to stop after some time, add a condition here
+        //     yield return null;
+        // }
+        float elapsedTime = 0f;
+        Vector3 originalRotation = dot.transform.eulerAngles;
+        // Adjust these variables to control the shaking animation
+        float shakeDuration = 0.6f;
+        float shakeIntensity = 15f;
+        float shakeSpeed = 20f;
+        while (elapsedTime < shakeDuration)
         {
-            // Calculate the rotation for this frame
-            float rotationAngle = Mathf.Sin(elapsedTime * Mathf.PI / duration) * angle;
-            dot.transform.localRotation = Quaternion.Euler(0f, 0f, rotationAngle);
+            // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
+            float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
+
+            // Apply the rotation
+            dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
 
             // Increment the elapsed time
             elapsedTime += Time.deltaTime;
 
-            // If you need the loop to stop after some time, add a condition here
             yield return null;
         }
+
+        // Reset rotation to original position after the shaking animation is finished
+        dot.transform.eulerAngles = Vector2.zero;
     }
     
     
