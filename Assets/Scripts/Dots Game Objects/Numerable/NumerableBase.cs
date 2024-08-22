@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-
 public class NumerableBase : MonoBehaviour, INumerable
 {
 
@@ -29,8 +28,7 @@ public class NumerableBase : MonoBehaviour, INumerable
     {
         this.numerable = numerable;
         dotsGameObject = GetComponent<DotsGameObject>();
-
-        UpdateCurrentNumber(InitialNumber);
+        StartCoroutine(UpdateCurrentNumber(InitialNumber));
         ConnectionManager.onDotConnected += OnConnectionChanged;
         ConnectionManager.onDotDisconnected += OnConnectionChanged;
     }
@@ -47,10 +45,11 @@ public class NumerableBase : MonoBehaviour, INumerable
         
     }
 
-    public void UpdateCurrentNumber(int number)
+    public IEnumerator UpdateCurrentNumber(int number)
     {
         CurrentNumber = number;
-        VisualController.UpdateNumbers(number);
+        UpdateNumberVisuals(number);
+        yield return  VisualController.ScaleNumbers();
     }
 
 

@@ -55,7 +55,7 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
 
     public IEnumerator DoMove()
     {
-
+        
         int targetCol = DirectionX + Column;
         int targetRow = DirectionY + Row;
         yield return VisualController.DoMove(targetCol, targetRow);
@@ -96,5 +96,10 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     public override void Deselect()
     {
         
+    }
+
+    public IEnumerator UpdateCurrentNumber(int number)
+    {
+        yield return Numerable.UpdateCurrentNumber(number);
     }
 }

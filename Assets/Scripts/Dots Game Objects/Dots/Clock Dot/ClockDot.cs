@@ -57,10 +57,10 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
 
     
 
-    public void UpdateCurrentNumber(int number)
+    public IEnumerator UpdateCurrentNumber(int number)
     {
         
-        Numerable.UpdateCurrentNumber(number);
+        yield return Numerable.UpdateCurrentNumber(number);
     }
     
     
