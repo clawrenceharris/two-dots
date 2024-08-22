@@ -10,9 +10,9 @@ public abstract class BlankDotBaseVisualController : ColorableDotVisualControlle
 
     public override void Init(DotsGameObject dotsGameObject)
     {
+        Subscribe();
         base.Init(dotsGameObject);
-        ConnectionManager.onDotConnected += OnDotConnected;
-        ConnectionManager.onDotDisconnected += OnDotDisconnected;
+       
     }
 
 
@@ -25,7 +25,15 @@ public abstract class BlankDotBaseVisualController : ColorableDotVisualControlle
     {
         GetVisuals<Visuals>().spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.blank;
     }
+    public virtual void Subscribe(){
+        ConnectionManager.onDotConnected += OnDotConnected;
+        ConnectionManager.onDotDisconnected += OnDotDisconnected;
+    }
 
+    public virtual void Unsubscribe(){
+        ConnectionManager.onDotConnected -= OnDotConnected;
+        ConnectionManager.onDotDisconnected -= OnDotDisconnected;
+    }
     public override IEnumerator AnimateSelectionEffect()
     {
         CoroutineHandler.StartStaticCoroutine(base.AnimateSelectionEffect());

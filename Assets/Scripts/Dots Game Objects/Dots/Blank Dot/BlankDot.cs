@@ -10,7 +10,7 @@ public class BlankDot : BlankDotBase
 
     public override int HitsToClear => 1;
 
-
+    
 
     public override void InitDisplayController()
     {
@@ -21,6 +21,10 @@ public class BlankDot : BlankDotBase
     public override void Hit(HitType hitType)
     {
         HitCount++;
+    }
+
+    private void OnDestroy(){
+        GetVisualController<BlankDotBaseVisualController>().Unsubscribe();
     }
 
    
