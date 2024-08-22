@@ -10,6 +10,7 @@ public class ClearCircuitsCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ClearCircuitsCommand));
         List<Circuit> visitedCircuits = new();
         List<Circuit> allCircuits = board.FindTilesOfType<Circuit>();
         foreach(Circuit circuit in allCircuits){
@@ -39,6 +40,7 @@ public class ClearCircuitsCommand : Command
             }
         }
         if(DidExecute){
+            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ClearCircuitsCommand));
             onCommandExecuting?.Invoke(this);
         }
         yield return base.Execute(board);

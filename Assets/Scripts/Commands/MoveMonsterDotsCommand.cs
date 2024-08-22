@@ -99,6 +99,10 @@ public class MoveMonsterDotsCommand : MoveCommand
                     board.Put(monsterDot, endCol, endRow);
                     monsterDot.Column = endCol;
                     monsterDot.Row = endRow;
+                    ongoingCoroutines++;
+                    CoroutineHandler.StartStaticCoroutine(monsterDot.UpdateCurrentNumber(monsterDot.CurrentNumber + 1), () =>{
+                        ongoingCoroutines--;
+                    });
                     ongoingCoroutines--;
 
                 });

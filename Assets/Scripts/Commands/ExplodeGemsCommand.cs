@@ -39,6 +39,7 @@ public class ExplodeGemsCommand : Command
 
     public override IEnumerator Execute(Board board)
     {
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ExplodeGemsCommand));
         List<IHittable> visited = new();
         List<Gem> gems = board.FindElementsOfType<Gem>();
         foreach (Gem gem in gems)
@@ -59,9 +60,12 @@ public class ExplodeGemsCommand : Command
             CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable,board, HitType.GemExplosion));     
         }
 
-        yield return ClearCommand.DoClear(toHit.Distinct().ToList());
         
-        yield return new WaitForSeconds(0.5f);
+        if(DidExecute){
+            yield return ClearCommand.DoClear(toHit.Distinct().ToList());
+            yield return new WaitForSeconds(0.5f);
+            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ExplodeGemsCommand));
+        }
         yield return base.Execute(board);
     }
 

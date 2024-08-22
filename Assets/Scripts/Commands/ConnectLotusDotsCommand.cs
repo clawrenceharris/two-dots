@@ -92,6 +92,7 @@ public class ConnectLotusDotsCommand : Command
             ongoingConnections++;
             CoroutineHandler.StartStaticCoroutine(ConnectNeighbors(lotusDot, startingDot, direction, board, dot =>
             {
+                DidExecute = true;
                 List<IColorable> neighbors = board.GetDotNeighbors<IColorable>(dot.Column, dot.Row, false);
 
                 if (neighbors.Any((neighbor) => neighbor != null && neighbor.Color == startingDot.Color))
@@ -111,7 +112,7 @@ public class ConnectLotusDotsCommand : Command
     {
         ongoingConnections = 0;
         List<LotusDot> lotusDots = board.FindDotsOfType<LotusDot>();
-       
+        Debug.Log(CommandInvoker.commandCount + " Executing " + nameof(ConnectLotusDotsCommand));
         for(int i = 0; i < Board.Width; i++)
         {
             for(int j = 0; j < Board.Height; j++)
@@ -133,7 +134,9 @@ public class ConnectLotusDotsCommand : Command
         //remove the lines
         LineManager.RemoveAllLines();
         List<ConnectableDot> dots = new(ConnectionManager.ConnectedDots);
-        
+        if(DidExecute){
+            Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ConnectLotusDotsCommand));
+        }
         yield return base.Execute(board);
     }
 
