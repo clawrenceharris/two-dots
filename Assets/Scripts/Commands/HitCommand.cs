@@ -28,23 +28,22 @@ public class HitCommand : Command
     /// If you need to do a hit on a hittable object without 
     /// checking for if the hit is valid, see <seealso cref="DoHitWithoutValidation"/>.
     /// </remarks>
-    public static void DoHitWithValidation(IHittable hittable, Board board, HitType hitType = HitType.None)
+    public static IEnumerator DoHitWithValidation(IHittable hittable, Board board, HitType hitType = HitType.None)
     {
         if(hittable == null)
         {
-            return;
+            yield break;
         }
             
         if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
         {
-            ongoingCoroutines++;
-            CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
+            yield return CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
                 //hit any normal tiles at the same position as the current hittable
                 IBoardElement b = (IBoardElement)hittable;
                 IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
                 if(tile != null)
                     CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType, null));
-            }),() => ongoingCoroutines--);                    
+            }));                    
     
         }
     }
@@ -67,56 +66,21 @@ public class HitCommand : Command
         }
             
 
-        ongoingCoroutines++;
         yield return CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
             //hit any normal tiles at the same position as the current hittable
             IBoardElement b = (IBoardElement)hittable;
             IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
             if(tile != null){
-                ongoingCoroutines++;
-                CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType, null), () => ongoingCoroutines--);
+                CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType, null));
             }
                 
-        }),() => ongoingCoroutines--);                    
+        }));                    
 
         
     }
 
 
-    /// <summary>
-    /// Hits the given hittable object by first, validating whether the hittable 
-    /// should be hit according to its hit validation rules, 
-    /// then hiting both the desired hittable and any background 
-    /// tile that is in the same position.
-    /// </summary>
-    /// <param name="hittable">The desired hittable object to hit</param>
-    /// <param name="board">The game board</param>
-    /// <param name="hitType">The type of hit to use</param>
-    /// <remarks>
-    /// If you need to do a hit on a hittable object without 
-    /// checking for if the hit is valid, see <seealso cref="DoHitWithoutValidation"/>.
-    /// </remarks>
-    public static void DoHitWithValidation(IHittable hittable, int hitCount, Board board, HitType hitType = HitType.None)
-    {
-        if(hittable == null)
-        {
-            return;
-        }
-            
-        if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
-        {
-            ongoingCoroutines++;
-            CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
-                //hit any normal tiles at the same position as the current hittable
-                IBoardElement b = (IBoardElement)hittable;
-                IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-                if(tile != null)
-                    CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType, null));
-            }),() => ongoingCoroutines--);                    
-    
-        }
-    }
-    
+   
     public override IEnumerator Execute(Board board)
     {
         onCommandExecuting?.Invoke(this);
@@ -131,8 +95,10 @@ public class HitCommand : Command
 
         foreach (IHittable hittable in hittables)
         {
-  
-            DoHitWithValidation(hittable, board, HitType.None);
+            ongoingCoroutines++;
+            CoroutineHandler.StartStaticCoroutine(DoHitWithValidation(hittable, board, HitType.None),()=>{
+                ongoingCoroutines--;
+            });
             
         }
 
