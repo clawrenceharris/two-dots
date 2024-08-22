@@ -42,11 +42,19 @@ public abstract class Gem : ConnectableDot, IExplodable, IPreviewable
 
     public bool ShouldPreviewHit(Board board)
     {
-        if(board.FindDotsInRow<Gem>(Row).Any((gem)=>gem.HitCount >= gem.HitsToExplode)){
+        if(board.FindDotsInRow<Gem>(Row)
+            .Any((gem)=>
+            gem.ExplosionRule.Validate(gem, board).Contains(this) && 
+            gem.HitCount >= gem.HitsToExplode))
+        {
             return true;
         }
 
-        if(board.FindDotsInColumn<Gem>(Column).Any((gem)=>gem.HitCount >= gem.HitsToExplode)){
+        if(board.FindDotsInColumn<Gem>(Column)
+            .Any((gem)=>
+            gem.ExplosionRule.Validate(gem, board).Contains(this)&& 
+            gem.HitCount >= gem.HitsToExplode))
+        {
             return true;
         }
         if(HitRule.Validate(this, board) && DotTouchIO.IsInputActive){
