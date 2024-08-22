@@ -12,19 +12,8 @@ public class LineManager : MonoBehaviour
 {
     private static bool  isAutoConnecting;
     private static List<ConnectorLine> lines = new();
-    private Board board;
     private ConnectorLine currentLine;
     public static Vector2 LineScale { get; private set; } = new Vector2(1f, 0.3f);
-
-    
-    public LineManager(Board board)
-    {
-       
-    }
-
-    private void Awake(){
-        board = FindObjectOfType<Board>();
-    }
 
     private void Start(){
         SubscribeToEvents();    
@@ -138,7 +127,7 @@ public class LineManager : MonoBehaviour
         DotsGameObject endObject = (DotsGameObject)end;
         DotsGameObject startObject = (DotsGameObject)start;
 
-        ConnectorLine line = LinePool.Instance.Get();
+        ConnectorLine line = Instantiate(GameAssets.Instance.Line);
         line.startPos = startObject.transform.position;
         line.initialScale = LineScale;
         line.transform.localScale = line.initialScale;
