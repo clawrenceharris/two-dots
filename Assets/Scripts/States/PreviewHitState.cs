@@ -8,10 +8,10 @@ public class PreviewHitState : IState
 
     public virtual IEnumerator UpdateState(PreviewableStateManager context)
     {
-       
-        Debug.Log("Executing Preview Hit State");
-        yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>().DoHitPreviewAnimation();      
-        
+        while(true){
+            Debug.Log("Executing Preview Hit State");
+            yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>().DoHitPreviewAnimation();      
+        }    
        
     }
 }

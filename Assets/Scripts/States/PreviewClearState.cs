@@ -6,8 +6,11 @@ public class PreviewClearState : IState
 
     public IEnumerator UpdateState(PreviewableStateManager context)
     {
-        Debug.Log("Executing Preview Clear State");
-        yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>().DoClearPreviewAnimation();
+        while(true){
+            Debug.Log("Executing Preview Clear State");
+            yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>().DoClearPreviewAnimation();
+       
+        }
        
         
             
