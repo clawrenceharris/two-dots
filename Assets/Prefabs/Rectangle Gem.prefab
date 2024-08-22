@@ -1073,7 +1073,7 @@ MonoBehaviour:
   - {fileID: 6572315815016869211}
   hittableVisuals:
     hitDuration: 0.4
-    clearDuration: 0
+    clearDuration: 0.4
   outerDot: {fileID: 4564224815746990071}
   bombHitSprite: {fileID: 0}
   explodableVisuals:
