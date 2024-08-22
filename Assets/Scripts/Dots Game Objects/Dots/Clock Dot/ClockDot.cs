@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class ClockDot : BlankDotBase, INumerable
+public class ClockDot : BlankDotBase, INumerable, IPreviewable
 {
     public override DotType DotType => DotType.ClockDot;
     private NumerableBase numerable;
@@ -78,14 +78,15 @@ public class ClockDot : BlankDotBase, INumerable
         
     }
 
-
-
-    public override bool ShouldPreviewClear(Board board)
+    public bool ShouldPreviewClear(Board board)
     {
         return TempNumber == 0 && 
         ConnectionManager.ToHit.Contains(this) || 
         CurrentNumber == 0;
     }
 
-
+    public bool ShouldPreviewHit(Board board)
+    {
+        return HitRule.Validate(this, board);
+    }
 }
