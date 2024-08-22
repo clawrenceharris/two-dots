@@ -230,34 +230,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
         yield return new WaitForSeconds(flapDuration);  
     }
-    class ShakeAnimationSettings{
-        public float duration = 1;
-        
-        public Vector3 strength = new Vector3(0.1f, 0.1f, 0); 
-        public int vibrato = 10; //number of shakes
-        public float randomness = 20; 
-        public bool fadeOut = true;
-        public bool snapping = false;
-        public ShakeRandomnessMode shakeRandomnessMode = ShakeRandomnessMode.Harmonic;
-        public Ease ease= Ease.Linear;
-    }
-    private IEnumerator DoShakeAnimation(ShakeAnimationSettings settings)
-    {
-        float duration = settings.duration;
-        Vector3 strength = settings.strength; 
-        int vibrato =settings.vibrato; //number of shakes
-        float randomness = settings.randomness; 
-        bool snapping = settings.snapping; 
-        bool fadeOut = settings.fadeOut; 
-        Ease ease = settings.ease; 
-        ShakeRandomnessMode shakeRandomnessMode = settings.shakeRandomnessMode;
-        dot.transform.DOShakePosition(duration, strength, vibrato, randomness, snapping, fadeOut, shakeRandomnessMode)
-        .SetEase(ease);
-        
-        yield return new WaitForSeconds(duration);
-        
-       
-    }
+    
 
     public override IEnumerator Hit(HitType hitType)
     {
@@ -402,8 +375,8 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
     public IEnumerator DoClearPreviewAnimation()
     {
         
-        yield return DoShakeAnimation(
-            new ShakeAnimationSettings(){
+        yield return visuals.DoShakeAnimation(dot,
+            new Visuals.ShakeAnimationSettings(){
                 vibrato = 16,
                 strength = new Vector3(0.08f, 0.08f) 
             });

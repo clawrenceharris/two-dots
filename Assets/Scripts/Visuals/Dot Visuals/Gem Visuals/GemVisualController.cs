@@ -63,19 +63,19 @@ public abstract class GemVisualController : ColorableDotVisualController, IPrevi
         Visuals.GemBottom.color = ColorUtils.DarkenColor(color, 0.3f);
         
     }
+    
     public IEnumerator DoClearPreviewAnimation()
     {
-        yield return DoPreviewAnimation();
-    }
-    private IEnumerator DoPreviewAnimation(){
-        float duration = 0.8f;
-        float strength = 0.08f; 
-        int vibrato = 10; //number of shakes
-        float randomness = 2; 
-        Dot.transform.DOShakePosition(duration, new Vector3(strength,strength, 0), vibrato, randomness, false, true);
+         yield return Visuals.DoShakeAnimation(Dot,
+            new Visuals.ShakeAnimationSettings(){
+                vibrato = 10,
+                strength = new Vector3(0.08f, 0.08f),
+                randomness = 2,
+                duration = 0.8f
+            });
 
-        yield return new WaitForSeconds(duration /2);
     }
+    
     public IEnumerator DoHitPreviewAnimation()
     {
         yield break;
