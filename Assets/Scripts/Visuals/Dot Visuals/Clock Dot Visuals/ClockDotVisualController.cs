@@ -10,7 +10,6 @@ INumerableVisualController,
 IHittableVisualController,
 IPreviewableVisualController
 {
-    public static Dictionary<Dot, GameObject> ClockDotPreviews { get; private set; } = new();
     private ClockDot dot;
     private  ClockDotVisuals visuals;
     private readonly NumerableVisualController numerableVisualController = new();
@@ -22,22 +21,22 @@ IPreviewableVisualController
         dot = (ClockDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
         numerableVisualController.Init(dot, visuals.numerableVisuals);
-        Subscribe();
         base.Init(dotsGameObject);
 
         
     }
 
-    public void Unsubscribe(){
+    public override void Unsubscribe(){
         ConnectionManager.onDotConnected -= MoveClockDotPreviews;
         ConnectionManager.onDotDisconnected -= MoveClockDotPreviews;
         ConnectionManager.onConnectionEnded -= OnConnectionEnded;
+        base.Unsubscribe();
     }
-    private void Subscribe(){
+    public override void Subscribe(){
         ConnectionManager.onDotConnected += MoveClockDotPreviews;
         ConnectionManager.onDotDisconnected += MoveClockDotPreviews;
         ConnectionManager.onConnectionEnded += OnConnectionEnded;
-
+        base.Subscribe();
     }
 
 
@@ -116,28 +115,11 @@ IPreviewableVisualController
     public IEnumerator DoClearPreviewAnimation()
     {
 
-        // float duration = 0.2f; // Time it takes for one full back-and-forth rotation
-        // float angle = 10f; // The maximum angle to rotate
-        // float elapsedTime = 0f;
-        
-        // while (elapsedTime < duration)
-        // {
-        //     // Calculate the rotation for this frame
-        //     float rotationAngle = Mathf.Sin(elapsedTime * Mathf.PI / duration) * angle;
-        //     dot.transform.localRotation = Quaternion.Euler(0f, 0f, rotationAngle);
-
-        //     // Increment the elapsed time
-        //     elapsedTime += Time.deltaTime;
-
-        //     // If you need the loop to stop after some time, add a condition here
-        //     yield return null;
-        // }
         float elapsedTime = 0f;
         Vector3 originalRotation = dot.transform.eulerAngles;
-        // Adjust these variables to control the shaking animation
         float shakeDuration = 0.6f;
         float shakeIntensity = 15f;
-        float shakeSpeed = 20f;
+        float shakeSpeed = 35f;
         while (elapsedTime < shakeDuration)
         {
             // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
@@ -194,7 +176,29 @@ IPreviewableVisualController
 
     public IEnumerator DoIdleAnimation()
     {
-        yield break;
+        float elapsedTime = 0f;
+        Vector3 originalRotation = dot.transform.eulerAngles;
+        float duration = 1f;
+        float shakeIntensity = 15f;
+        float shakeSpeed = 10f;
+        while (elapsedTime < duration)
+        {
+            // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
+            float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
+
+            // Apply the rotation
+            dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
+
+            // Increment the elapsed time
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        // Reset rotation to original position after the shaking animation is finished
+        dot.transform.DORotate(Vector3.zero, duration /2);
+        yield return new WaitForSeconds(duration /2);
+        yield return new WaitForSeconds(UnityEngine.Random.Range(6, 10))
 ;
     }
 
