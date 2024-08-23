@@ -73,7 +73,11 @@ public class LineManager : MonoBehaviour
     /// </summary>
     public void UpdateLines()
     {
-        if (lines.Count == 0 || ConnectionManager.Connection == null) return;
+        if(isAutoConnecting)
+            return;
+        
+        if (ConnectionManager.Connection == null) 
+            return;
 
         //update the lines' color 
         Color targetColor = ColorSchemeManager.FromDotColor(ConnectionManager.Connection.Color);
@@ -93,7 +97,9 @@ public class LineManager : MonoBehaviour
     }
 
      private void Update(){
-       UpdateLines(); 
+        if(lines.Count > 0){
+            UpdateLines(); 
+        }
     }
     private void OnDotSelected(ConnectionArgs args)
     {
@@ -122,8 +128,9 @@ public class LineManager : MonoBehaviour
 
     
 
-    public static IEnumerator DrawLine(IColorable start, IColorable end)
+    public static void DrawLine(IColorable start, IColorable end)
     {
+        isAutoConnecting = true;
         DotsGameObject endObject = (DotsGameObject)end;
         DotsGameObject startObject = (DotsGameObject)start;
 
@@ -138,7 +145,6 @@ public class LineManager : MonoBehaviour
         line.update = AutoConnectLine;
         lines.Add(line);
 
-        yield return new WaitForSeconds(0.2f);
 
     }
 

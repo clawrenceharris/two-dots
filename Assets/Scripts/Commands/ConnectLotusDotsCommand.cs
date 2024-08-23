@@ -64,8 +64,8 @@ public class ConnectLotusDotsCommand : Command
                     }
 
                     
-                    yield return LineManager.DrawLine(currentDot, neighbor);
-
+                    LineManager.DrawLine(currentDot, neighbor);
+                    yield return new WaitForSeconds(0.3f);
                     // Add the neighbor to the queue for further exploration
                     queue.Enqueue(neighbor);
                     onDotConnected?.Invoke(neighbor);
@@ -133,7 +133,7 @@ public class ConnectLotusDotsCommand : Command
 
         //remove the lines
         LineManager.RemoveAllLines();
-        List<ConnectableDot> dots = new(ConnectionManager.ConnectedDots);
+
         if(DidExecute){
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ConnectLotusDotsCommand));
         }
