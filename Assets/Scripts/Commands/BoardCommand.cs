@@ -30,7 +30,7 @@ public class BoardCommand : Command
         {
             Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(BoardCommand));
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.85f);
 
         }
 
