@@ -8,8 +8,8 @@ using System.Linq;
 public class PreviewableStateManager : MonoBehaviour
 {
     private Coroutine currentCoroutine;
+
     public Board Board {get; set;}
-    private IState currentState;
     public DotsGameObject DotsGameObject {get; private set;}
 
     public IPreviewable Previewable {
@@ -36,74 +36,90 @@ public class PreviewableStateManager : MonoBehaviour
         StopAllCoroutines();
         
     }
-     private List<IState> activeStates = new List<IState>();
-private List<Coroutine> activeCoroutines = new List<Coroutine>();
+    private readonly List<IState> states = new () {
+        new IdleState(), 
+        new PreviewHitState(),
+        new PreviewClearState()
+        };
 
-private void Start()
-{
-    AddState(new IdleState());
-   
-}
+    private void Start(){
+       StartAllStates();
 
-
-
-private void EvaluateStates()
-{
-    // Clear out states that are no longer needed
-    RemoveState<PreviewHitState>(() => !Previewable.ShouldPreviewHit(Board));
-    RemoveState<PreviewClearState>(() => !Previewable.ShouldPreviewClear(Board));
-    RemoveState<IdleState>(() => Previewable.ShouldPreviewHit(Board) || Previewable.ShouldPreviewClear(Board));
-    
-    // Add states based on current conditions
-    if (Previewable.ShouldPreviewHit(Board) && !HasState<PreviewHitState>())
-    {
-        AddState(new PreviewHitState());
     }
-    if (Previewable.ShouldPreviewClear(Board) && !HasState<PreviewClearState>())
+    private bool CheckState(IState targetState)
     {
-        AddState(new PreviewClearState());
-    }
-    if (!Previewable.ShouldPreviewHit(Board) && !Previewable.ShouldPreviewClear(Board) && !HasState<IdleState>())
-    {
-        AddState(new IdleState());
-    }
-}
+        
+       bool shouldExecute = false;
 
-private void AddState(IState newState)
-{
-    activeStates.Add(newState);
-    Coroutine coroutine = StartCoroutine(newState.UpdateState(this));
-    activeCoroutines.Add(coroutine);
-}
-
-private void RemoveState<T>(Func<bool> shouldRemove) where T : IState
-{
-   for (int i = activeStates.Count - 1; i >= 0; i--)
-    {
-        if (activeStates[i] is T && shouldRemove())
+        if (targetState is PreviewHitState && Previewable.ShouldPreviewHit(Board))
         {
-            // Stop the associated coroutine
-            StopCoroutine(activeCoroutines[i]);
-            activeCoroutines.RemoveAt(i);
-            
-            // Remove the state
-            activeStates.RemoveAt(i);
+            shouldExecute = true;
+        }
+        if (targetState is PreviewClearState && Previewable.ShouldPreviewClear(Board))
+        {
+            shouldExecute = true;
+        }
+        if (targetState is IdleState && !Previewable.ShouldPreviewHit(Board))
+        {
+            shouldExecute = true;
+        }
+
+    return shouldExecute;
+    }
+
+    
+
+    
+
+    private bool HasState<T>() where T : IState
+    {
+        return states.Any(s => s is T);
+    }
+
+   
+    private void AddState(IState newState)
+    {
+        // Ensure that only one coroutine runs at a time
+        if (currentCoroutine == null)
+        {
+            // Optionally, stop the current coroutine if you want to interrupt the previous state
+            StopCoroutine(currentCoroutine);
+        }
+
+        states.Add(newState);
+
+        // Start the coroutine and track it
+        
+    }
+
+    
+
+    private void StartAllStates()
+{
+    foreach (IState state in states)
+    {
+        // Start a separate coroutine for each state
+        StartCoroutine(RunState(state));
+    }
+}
+
+private IEnumerator RunState(IState state)
+{
+    
+    while (true)
+    {
+        if (CheckState(state))
+        {
+            yield return state.UpdateState(this);
+        
+        }
+        else
+        {
+            yield return null;
         }
     }
 }
 
-private bool HasState<T>() where T : IState
-{
-    return activeStates.Any(s => s is T);
-}
-
-private void Update()
-{
-    EvaluateStates();
-   
-}
-    
-    
 
     
 }
