@@ -56,7 +56,7 @@ public class SquareManager
         {
             return;
         }
-        Square.DeselectDotsFromSquare();
+        Square.DeselectAndRemoveDotsFromSquare();
         Square.DeactivateBombsInsideSquare();
 
         Square = null;
@@ -69,7 +69,7 @@ public class SquareManager
             return;
         }
         
-        Square.DeselectDotsFromSquare();
+        Square.DeselectAndRemoveDotsFromSquare();
     }
     
     private Square DecideSquare(){

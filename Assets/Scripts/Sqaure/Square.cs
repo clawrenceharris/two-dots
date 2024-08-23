@@ -245,12 +245,13 @@ public class Square
     /// <summary>
     /// Deselects the dots that would of been hit by the square.
     /// </summary>
-    public void DeselectDotsFromSquare()
+    public void DeselectAndRemoveDotsFromSquare()
     {
         foreach(IHittable hittable in ToHit){
             if (hittable is ConnectableDot connectableDot){
                 if(!ConnectionManager.ConnectedDots.Contains(connectableDot))
                     connectableDot.Deselect();
+
             }
         }
     }   
