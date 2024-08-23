@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
-
+using Random = UnityEngine.Random;
+using Unity.VisualScripting;
+using UnityEditor.AnimatedValues;
+using Sequence = DG.Tweening.Sequence;
 public class BeetleDotVisualController : ColorableDotVisualController, IDirectionalVisualController, IPreviewableVisualController
 {
     private List<GameObject> wingsLayer1;
@@ -157,7 +160,30 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
             }
         }
     }
+    private IEnumerator DoWiggleAnimation(){
+        int wiggleCount = Random.Range(2, 4);
+        float[] angles = {2f, 5f, 10f};
+        float wiggleIntensity = angles[Random.Range(0, angles.Length)];
+        float[] durations = {0.2f, 0.5f, 0.7f};
+        float[] speeds = {5f, 8f, 10f};
+        float wiggleSpeed = speeds[Random.Range(0, speeds.Length)];
+        float wiggleDuration = durations[Random.Range(0, durations.Length)];
+        Vector3 originalRotation = dot.transform.eulerAngles;
 
+
+    // Create the wiggle sequence
+    Sequence wiggleSequence = DOTween.Sequence()
+        .Append(dot.transform.DORotate(originalRotation + new Vector3(0, 0, wiggleIntensity), 1f / wiggleSpeed)
+            .SetEase(Ease.InOutSine)) // Move in one direction
+        .Append(dot.transform.DORotate(originalRotation - new Vector3(0, 0, wiggleIntensity), 1f / wiggleSpeed)
+            .SetEase(Ease.InOutSine)) // Move in the other direction
+        .SetLoops(Mathf.FloorToInt(wiggleDuration * wiggleSpeed), LoopType.Yoyo) // Loop back and forth
+        .OnComplete(() => dot.transform.DORotate(originalRotation, 0.5f)); // Return to original rotation
+
+    // Start the sequence
+    wiggleSequence.Play();
+    yield return new WaitForSeconds(wiggleDuration);
+    }
     public override IEnumerator Clear(float duration)
     {
         bool isBombHit = dot.HitType == HitType.BombExplosion;
@@ -220,15 +246,15 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         Vector3 rightWingEndAngle = new(0, 0, endAngle);
         
         // Flap up
-        visuals.leftWings.DOLocalRotate(leftWingStartAngle, duration);
-        visuals.rightWings.DOLocalRotate(rightWingStartAngle, duration);
+        visuals.leftWings.DOLocalRotate(leftWingStartAngle, duration/2);
+        visuals.rightWings.DOLocalRotate(rightWingStartAngle, duration/2);
 
-        yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(duration /2);
 
         // Flap down
-        visuals.leftWings.DOLocalRotate(leftWingEndAngle, duration);
-        visuals.rightWings.DOLocalRotate(rightWingEndAngle, duration);
-        yield return new WaitForSeconds(duration);  
+        visuals.leftWings.DOLocalRotate(leftWingEndAngle, duration/2);
+        visuals.rightWings.DOLocalRotate(rightWingEndAngle, duration/2);
+        yield return new WaitForSeconds(duration/2);  
     }
 
 
@@ -358,24 +384,38 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
 
     }
-
-    public IEnumerator DoIdleAnimation()
-    {
-        float startFlapAngle = UnityEngine.Random.Range(10,45);
+    public IEnumerator DoFlutterWingsAnimation(){
+        float startFlapAngle = Random.Range(10,45);
         float endFlapAngle = 0f;
-        int flapCount = UnityEngine.Random.Range(1,3);
-        float flapDuration = UnityEngine.Random.Range(0.2f,0.7f);
+        int flapCount = Random.Range(1,2);
+        float flapDuration = Random.Range(0.5f,0.9f);
         for(int i = 0; i < flapCount; i++){
             yield return FlapWings(startFlapAngle, endFlapAngle, flapDuration);
         }
-        yield return new WaitForSeconds(UnityEngine.Random.Range(2,6));
+    }
+
+    private IEnumerator DoFlutterAndWiggleAnimation(){
+        CoroutineHandler.StartStaticCoroutine(DoFlutterWingsAnimation());
+        CoroutineHandler.StartStaticCoroutine(DoWiggleAnimation());
+
+        yield return new WaitForSeconds(2);
+    }
+
+    public IEnumerator DoIdleAnimation()
+    {
+       
+        yield return new WaitForSeconds(Random.Range(4, PreviewableStateManager.Count(dot) * 6));
+
+        yield return DoFlutterAndWiggleAnimation();
+
+
     }
 
     public IEnumerator DoHitPreviewAnimation()
     {
         float startFlapAngle = 45f;
         float endFlapAngle = 0f;
-        yield return FlapWings(startFlapAngle, endFlapAngle);
+        yield return FlapWings(startFlapAngle, endFlapAngle, 0.26f);
 
     }
 
