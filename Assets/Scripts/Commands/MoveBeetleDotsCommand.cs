@@ -82,12 +82,12 @@ public class MoveBeetleDotsCommand : MoveCommand
             Dot dotToSwap = board.GetDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
 
             ////skip if the beetle dot was already hit
-            //if (beetleDot.WasHit)
-            //{
-            //    //reset the flag for next move
-            //    beetleDot.WasHit = false;
-            //    continue;
-            //}
+            if (beetleDot.WasHit)
+            {
+               //reset the flag for next move
+               beetleDot.WasHit = false;
+               continue;
+            }
            
             //if the beetle dot can move and not hit
             if (CanMove(dotToSwap))
