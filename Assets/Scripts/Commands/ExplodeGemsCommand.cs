@@ -57,7 +57,7 @@ public class ExplodeGemsCommand : Command
         // After all explosions, hit all the remaining hittables
         foreach (IHittable hittable in toHit)
         {
-            CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable,board, HitType.GemExplosion));     
+            HitCommand.DoHitWithoutValidation(hittable,board, HitType.GemExplosion);     
         }
 
         

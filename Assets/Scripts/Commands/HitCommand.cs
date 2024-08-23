@@ -58,15 +58,15 @@ public class HitCommand : Command
     /// <param name="board">The game board</param>
     /// <param name="hitType">The type of hit to use</param>
     /// 
-    public static IEnumerator DoHitWithoutValidation(IHittable hittable, Board board, HitType hitType = HitType.None)
+    public static void DoHitWithoutValidation(IHittable hittable, Board board, HitType hitType = HitType.None)
     {
         if(hittable == null)
         {
-            yield break;;
+            return;
         }
             
 
-        yield return CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
+        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
             //hit any normal tiles at the same position as the current hittable
             IBoardElement b = (IBoardElement)hittable;
             IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
