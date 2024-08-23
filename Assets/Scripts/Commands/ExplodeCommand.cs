@@ -63,7 +63,7 @@ public class ExplodeCommand : Command
         explodables.First().Explode(hittables, board, (hittable) =>
         {
             
-            CoroutineHandler.StartStaticCoroutine(HitCommand.DoHitWithoutValidation(hittable, board, commandType.ToHitType()));
+            HitCommand.DoHitWithoutValidation(hittable, board, commandType.ToHitType());
             
         }), ()=> ongoingCoroutines--); 
 
@@ -71,7 +71,7 @@ public class ExplodeCommand : Command
         // Wait until all hit effects have been processed
         yield return new WaitUntil(() => ongoingCoroutines == 0);
 
-        yield return ClearCommand.DoClear(hittables);
+        yield return ClearCommand.DoClear(hittables.Distinct().ToList());
 
 
 
