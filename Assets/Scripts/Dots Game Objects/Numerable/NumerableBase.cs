@@ -88,13 +88,10 @@ public class NumerableBase : MonoBehaviour, INumerable
 
         if (hitType.IsExplosion())
         {
-            //set current number to be one less than the current number
+            //set temp number to be one less than the current number
             TempNumber = Mathf.Clamp(CurrentNumber - 1, 0, 99);
-            UpdateCurrentNumber(TempNumber);
-            return;
         };
-        UpdateCurrentNumber(TempNumber);
-
+        StartCoroutine(UpdateCurrentNumber(TempNumber));
     }
 
 }
