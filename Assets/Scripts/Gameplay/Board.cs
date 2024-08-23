@@ -84,9 +84,9 @@ public class Board : MonoBehaviour
    
     private void OnCommandsEnded()
     {
-        foreach(Dot dot in ClearedDots)
-            DestroyDotsGameObject(dot);
-        ClearedDots.Clear();
+        CoroutineHandler.StartStaticCoroutine(DestroyClearedObjects(new(ClearedDots)), ()=>{
+            ClearedDots.Clear();
+        });
     }
 
     private void OnCleared(DotsGameObject dotsGameObject)
@@ -108,6 +108,17 @@ public class Board : MonoBehaviour
         
     }
 
+
+    public IEnumerator DestroyClearedObjects(List<Dot> clearedDots)
+    {
+        foreach(Dot dot in clearedDots){
+            VisualController visualController = dot.VisualController;
+            IHittableVisuals visuals = visualController.GetVisuals<IHittableVisuals>();
+            yield return new WaitForSeconds(visuals.ClearDuration);
+            Destroy(dot.gameObject);
+        }
+
+    }
     
     public void DestroyDotsGameObject(DotsGameObject dotsGameObject)
     {
