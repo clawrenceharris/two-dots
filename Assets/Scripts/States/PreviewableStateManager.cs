@@ -9,7 +9,7 @@ public class PreviewableStateManager : MonoBehaviour
 {
     private Coroutine currentCoroutine;
 
-    public Board Board {get; set;}
+    public static Board Board {get; private set;}
     public DotsGameObject DotsGameObject {get; private set;}
 
     public IPreviewable Previewable {
@@ -31,7 +31,11 @@ public class PreviewableStateManager : MonoBehaviour
         
     }
 
-   
+    public static int Count<T>(T previewable) 
+    where T : class, IPreviewable
+    {
+        return Board.FindDotsOfType<T>().Count;
+    }
     private void OnDestroy(){
         StopAllCoroutines();
         
