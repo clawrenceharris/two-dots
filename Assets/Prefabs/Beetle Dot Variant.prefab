@@ -1971,8 +1971,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6031929684153815446}
+  Sprites: []
   hittableVisuals:
-    hitDuration: 0
+    hitDuration: 0.8
     clearDuration: 5
   outerDot: {fileID: 8576582511116832377}
   bombHitSprite: {fileID: 0}
