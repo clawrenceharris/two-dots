@@ -84,46 +84,31 @@ public class Board : MonoBehaviour
    
     private void OnCommandsEnded()
     {
-        foreach(IHittable hittable in ClearedDots)
-            StartCoroutine(DestroyHittableObject(hittable));
+        foreach(Dot dot in ClearedDots)
+            DestroyDotsGameObject(dot);
         ClearedDots.Clear();
     }
 
     private void OnCleared(DotsGameObject dotsGameObject)
     {
-        DotsGameObject replacement = null;
         if (dotsGameObject is Dot dot)
         {
             /// replace the dot that is being cleared with its replacement dot
-            replacement = InitDotsGameObject<Dot>(dotsGameObject.Replacement);
-            if(replacement == null){
-                Dots[dot.Column, dot.Row] = null;
-            }
+            Dots[dot.Column, dot.Row] = InitDotsGameObject<Dot>(dotsGameObject.Replacement);
             ClearedDots.Add(dot);
 
         }
         if (dotsGameObject is Tile tile)
         {
-            replacement = InitDotsGameObject<Tile>(dotsGameObject.Replacement);
-            if(replacement == null){
-                Tiles[tile.Column, tile.Row] = null;
-            }
-
+            
+            Tiles[tile.Column, tile.Row] = InitDotsGameObject<Tile>(dotsGameObject.Replacement);
+            
         }
         
         
     }
 
-    public IEnumerator DestroyHittableObject(IHittable hittable)
-    {
-        if(hittable is DotsGameObject dotsGameObject){
-            VisualController visualController = dotsGameObject.VisualController;
-            yield return new WaitForSeconds(visualController.GetVisuals<IHittableVisuals>().ClearDuration);
-            Destroy(dotsGameObject.gameObject);
-        }
-       
-    }
-
+    
     public void DestroyDotsGameObject(DotsGameObject dotsGameObject)
     {
         Destroy(dotsGameObject.gameObject);
