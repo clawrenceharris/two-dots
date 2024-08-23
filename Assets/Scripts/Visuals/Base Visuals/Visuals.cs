@@ -21,7 +21,7 @@ public class Visuals : MonoBehaviour
     }
     public IEnumerator DoShakeAnimation(DotsGameObject dotsGameObject, ShakeAnimationSettings settings)
     {
-        Vector3 initialPos = new Vector2(dotsGameObject.Column, dotsGameObject.Row) * Board.offset;
+       
         float duration = settings.duration;
         Vector3 strength = settings.strength; 
         int vibrato =settings.vibrato; //number of shakes
@@ -34,7 +34,6 @@ public class Visuals : MonoBehaviour
         .SetEase(ease);
         
         yield return new WaitForSeconds(duration);
-        dotsGameObject.transform.position = initialPos;
        
     }
 }

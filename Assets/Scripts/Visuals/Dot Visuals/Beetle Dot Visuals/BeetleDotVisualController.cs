@@ -13,6 +13,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
     private BeetleDot dot;
     private BeetleDotVisuals visuals;
     private int currentLayerIndex;
+    private bool isMoving;
     private readonly DirectionalVisualController directionalVisualController = new();
 
     public override T GetGameObject<T>() => dot as T;
@@ -209,28 +210,27 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
 
 
-    private IEnumerator FlapWings(float startFlapAngle, float endFlapAngle)
+    private IEnumerator FlapWings(float startAngle, float endAngle,float duration = 0.16f)
     {
-        float flapDuration = 0.16f;
         
-        Vector3 leftWingStartAngle = new(0, 0, -startFlapAngle);
-        Vector3 rightWingStartAngle = new(0, 0, startFlapAngle);
+        Vector3 leftWingStartAngle = new(0, 0, -startAngle);
+        Vector3 rightWingStartAngle = new(0, 0, startAngle);
 
-        Vector3 leftWingEndAngle = new(0, 0, -endFlapAngle);
-        Vector3 rightWingEndAngle = new(0, 0, endFlapAngle);
+        Vector3 leftWingEndAngle = new(0, 0, -endAngle);
+        Vector3 rightWingEndAngle = new(0, 0, endAngle);
         
         // Flap up
-        visuals.leftWings.DOLocalRotate(leftWingStartAngle, flapDuration);
-        visuals.rightWings.DOLocalRotate(rightWingStartAngle, flapDuration);
+        visuals.leftWings.DOLocalRotate(leftWingStartAngle, duration);
+        visuals.rightWings.DOLocalRotate(rightWingStartAngle, duration);
 
-        yield return new WaitForSeconds(flapDuration);
+        yield return new WaitForSeconds(duration);
 
         // Flap down
-        visuals.leftWings.DOLocalRotate(leftWingEndAngle, flapDuration);
-        visuals.rightWings.DOLocalRotate(rightWingEndAngle, flapDuration);
-        yield return new WaitForSeconds(flapDuration);  
+        visuals.leftWings.DOLocalRotate(leftWingEndAngle, duration);
+        visuals.rightWings.DOLocalRotate(rightWingEndAngle, duration);
+        yield return new WaitForSeconds(duration);  
     }
-    
+
 
     public override IEnumerator Hit(HitType hitType)
     {
@@ -305,6 +305,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
     
     public IEnumerator DoSwap(Dot dotToSwap)
     {
+        isMoving = true;
         float moveDuration = BeetleDotVisuals.moveDuration;
         int dotToSwapCol = dotToSwap.Column;
         int dotToSwapRow = dotToSwap.Row;
@@ -329,12 +330,14 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
         }
 
+        isMoving = false;
+
     }
 
     public IEnumerator TrySwap()
     {
         float offset = 0.3f;
-
+        isMoving = true;
         //Set the small movement based on the beetle dot's current direction
         Vector2 currentDirection = new(dot.DirectionX, dot.DirectionY);
         Vector2 smallMovement = currentDirection * offset;
@@ -351,13 +354,21 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
             .SetEase(Ease.OutCubic);
             });
         yield return new WaitForSeconds(0.5f);
+        isMoving = false;
 
 
     }
 
     public IEnumerator DoIdleAnimation()
     {
-        yield break;
+        float startFlapAngle = UnityEngine.Random.Range(10,45);
+        float endFlapAngle = 0f;
+        int flapCount = UnityEngine.Random.Range(1,3);
+        float flapDuration = UnityEngine.Random.Range(0.2f,0.7f);
+        for(int i = 0; i < flapCount; i++){
+            yield return FlapWings(startFlapAngle, endFlapAngle, flapDuration);
+        }
+        yield return new WaitForSeconds(UnityEngine.Random.Range(2,6));
     }
 
     public IEnumerator DoHitPreviewAnimation()
@@ -366,14 +377,15 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         float endFlapAngle = 0f;
         yield return FlapWings(startFlapAngle, endFlapAngle);
 
-        
-        // visuals.leftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-        // visuals.rightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
-
     }
 
     public IEnumerator DoClearPreviewAnimation()
     {
+        Vector3 initialPos = new Vector2(dot.Column, dot.Row) * Board.offset;
+        dot.transform.position = initialPos;
+        if(isMoving){
+            yield break;
+        }
         
         yield return visuals.DoShakeAnimation(dot,
             new Visuals.ShakeAnimationSettings(){
