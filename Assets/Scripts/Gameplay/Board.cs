@@ -85,7 +85,7 @@ public class Board : MonoBehaviour
     private void OnCommandsEnded()
     {
         foreach(IHittable hittable in ClearedDots)
-            DestroyDotsGameObject((DotsGameObject)hittable);
+            StartCoroutine(DestroyHittableObject(hittable));
         ClearedDots.Clear();
     }
 
@@ -114,7 +114,15 @@ public class Board : MonoBehaviour
         
     }
 
-   
+    public IEnumerator DestroyHittableObject(IHittable hittable)
+    {
+        if(hittable is DotsGameObject dotsGameObject){
+            VisualController visualController = dotsGameObject.VisualController;
+            yield return new WaitForSeconds(visualController.GetVisuals<IHittableVisuals>().ClearDuration);
+            Destroy(dotsGameObject.gameObject);
+        }
+       
+    }
 
     public void DestroyDotsGameObject(DotsGameObject dotsGameObject)
     {
