@@ -28,16 +28,16 @@ public class HitCommand : Command
     /// If you need to do a hit on a hittable object without 
     /// checking for if the hit is valid, see <seealso cref="DoHitWithoutValidation"/>.
     /// </remarks>
-    public static IEnumerator DoHitWithValidation(IHittable hittable, Board board, HitType hitType = HitType.None)
+    public static void DoHitWithValidation(IHittable hittable, Board board, HitType hitType = HitType.None)
     {
         if(hittable == null)
         {
-            yield break;
+            return;
         }
             
         if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
         {
-            yield return CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
+            CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
                 //hit any normal tiles at the same position as the current hittable
                 IBoardElement b = (IBoardElement)hittable;
                 IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
@@ -95,10 +95,8 @@ public class HitCommand : Command
 
         foreach (IHittable hittable in hittables)
         {
-            ongoingCoroutines++;
-            CoroutineHandler.StartStaticCoroutine(DoHitWithValidation(hittable, board, HitType.None),()=>{
-                ongoingCoroutines--;
-            });
+            DoHitWithValidation(hittable, board, HitType.None);
+           
             
         }
 
