@@ -41,14 +41,20 @@ public class HittableBase : IHittable
 
     public IEnumerator Clear()
     {  
-        IVisualController visualController = DotsGameObject.GetVisualController<IVisualController>();
+        VisualController visualController = DotsGameObject.GetVisualController<VisualController>();
         float duration = visualController.GetVisuals<IHittableVisuals>().ClearDuration;
         yield return Clear(duration);    
     }
     
     public IEnumerator Clear(float duration){
+
         DotsGameObjectEvents.NotifyCleared(DotsGameObject);
-        yield return VisualController.Clear(duration);    
+        VisualController visualController = DotsGameObject.GetVisualController<VisualController>();
+        yield return visualController.Animate(new ClearAnimation(){
+            Settings = new AnimationSettings(){
+                Duration = duration
+            }
+        });    
     }
     
     
