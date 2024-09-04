@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 using System.Linq;
+using DG.Tweening;
 
 
 /// <summary>
@@ -61,9 +62,8 @@ public abstract class VisualController : IVisualController
         }
     }
 
-
+    public DotsAnimator Animator {get; protected set;}
     protected Sprite sprite;
-
 
     public abstract void Init(DotsGameObject dotsGameObject);
     
@@ -79,12 +79,16 @@ public abstract class VisualController : IVisualController
 
     }
 
+    protected Coroutine StartCoroutine(IEnumerator coroutine,Action onComplete = null){
+        return CoroutineHandler.StartStaticCoroutine(coroutine, onComplete);
+    }
 
     public virtual void SetColor(Color color)
     {
         GetVisuals<Visuals>().spriteRenderer.color = color;
     }
 
+    
 
     /// <summary>
     /// Disables all sprite renderers on the game object
@@ -120,5 +124,12 @@ public abstract class VisualController : IVisualController
     public T GetDotsGameObject<T>()
     {
         throw new NotImplementedException();
+    }
+
+    public IEnumerator Animate(IAnimation animation, AnimationLayer layer = AnimationLayer.BaseLayer){
+        if(Animator == null){
+            yield break;
+        }
+        yield return Animator.Animate(animation, layer);
     }
 }

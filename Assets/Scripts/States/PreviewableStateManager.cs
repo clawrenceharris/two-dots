@@ -7,24 +7,18 @@ using System.Linq;
 
 public class PreviewableStateManager : MonoBehaviour
 {
-    private Coroutine currentCoroutine;
 
     public static Board Board {get; private set;}
     public DotsGameObject DotsGameObject {get; private set;}
-
+     private IPreviewable previewable;
     public IPreviewable Previewable {
         
         get{
-            if(DotsGameObject is IPreviewable previewable){
-                return previewable;
-            }
-            else{
-                throw new InvalidOperationException("The game object this script is attached to could not be converted to an IPreviewable."+
-            " The game object must have a script that implmenets the IPreviewable interface.");
-            }
+            previewable ??= GetComponent<IPreviewable>();
+            return previewable;
         }
     }
-
+    
     private void Awake(){
         DotsGameObject = GetComponent<DotsGameObject>();
         Board = FindObjectOfType<Board>();
@@ -68,61 +62,34 @@ public class PreviewableStateManager : MonoBehaviour
             shouldExecute = true;
         }
 
-    return shouldExecute;
+        return shouldExecute;
     }
 
     
-
-    
-
-    private bool HasState<T>() where T : IState
-    {
-        return states.Any(s => s is T);
-    }
-
-   
-    private void AddState(IState newState)
-    {
-        // Ensure that only one coroutine runs at a time
-        if (currentCoroutine == null)
-        {
-            // Optionally, stop the current coroutine if you want to interrupt the previous state
-            StopCoroutine(currentCoroutine);
-        }
-
-        states.Add(newState);
-
-        // Start the coroutine and track it
-        
-    }
-
-    
-
     private void StartAllStates()
-{
-    foreach (IState state in states)
     {
-        // Start a separate coroutine for each state
-        StartCoroutine(RunState(state));
+        foreach (IState state in states)
+        {
+            StartCoroutine(RunState(state));
+        }
     }
-}
 
-private IEnumerator RunState(IState state)
-{
-    
-    while (true)
+    private IEnumerator RunState(IState state)
     {
-        if (CheckState(state))
-        {
-            yield return state.UpdateState(this);
         
-        }
-        else
+        while (true)
         {
-            yield return null;
+            if (CheckState(state))
+            {
+                yield return state.UpdateState(this);
+
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
-}
 
 
     
