@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using System.Linq;
 using DG.Tweening;
-
 public class Board : MonoBehaviour
 {
     public static int Width { get; private set; }
@@ -127,8 +126,10 @@ public class Board : MonoBehaviour
 
     private void DropDot(Dot dot, int row){
         dot.Row = row;
-        dot.transform.DOMoveY(row * offset, DotDropSpeed).SetEase(Ease.OutBounce);
-                
+       
+        StartCoroutine(dot.VisualController.Animate(new DropAnimation(){
+            Target = row * offset,
+        }));
     }
     
     private void InitDots()
