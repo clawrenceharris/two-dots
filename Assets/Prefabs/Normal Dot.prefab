@@ -97,6 +97,8 @@ GameObject:
   - component: {fileID: 2303686786482766387}
   - component: {fileID: 6747493730836354960}
   - component: {fileID: 957477070254284822}
+  - component: {fileID: 6579891909780830333}
+  - component: {fileID: 2023748872782733337}
   m_Layer: 0
   m_Name: Normal Dot
   m_TagString: Color Dot
@@ -209,8 +211,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 5224356030327197459}
+  Sprites: []
   hittableVisuals:
     hitDuration: 0
     clearDuration: 0.5
   outerDot: {fileID: 7796637422996918524}
   bombHitSprite: {fileID: 0}
+--- !u!114 &6579891909780830333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6629530070703699901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a06fa82b6d743ba9d32ccc102a778f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers:
+  - LayerName: 0
+    Animatable: {fileID: 2023748872782733337}
+--- !u!114 &2023748872782733337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6629530070703699901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93515d1c78ef84ac6809627eaece4ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

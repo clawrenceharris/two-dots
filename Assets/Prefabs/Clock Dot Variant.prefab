@@ -453,6 +453,26 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8201518515222276277, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+      propertyPath: layers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201518515222276277, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+      propertyPath: layers.Array.data[1].Layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201518515222276277, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+      propertyPath: layers.Array.data[1].LayerName
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8201518515222276277, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+      propertyPath: layers.Array.data[0].Animatable
+      value: 
+      objectReference: {fileID: 4317101978074504838}
+    - target: {fileID: 8201518515222276277, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+      propertyPath: layers.Array.data[1].Animatable
+      value: 
+      objectReference: {fileID: 4317101978074504838}
     - target: {fileID: 8539122926316644213, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
       propertyPath: m_Name
       value: Clock Dot Variant
@@ -466,6 +486,7 @@ PrefabInstance:
     - {fileID: 8835873053324184676, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
     - {fileID: 8453581469220893231, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
     - {fileID: 8972423242829497690, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+    - {fileID: 3932787714648240337, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 981695197725732803, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
@@ -499,6 +520,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8539122926316644213, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7205423123692489125}
+    - targetCorrespondingSourceObject: {fileID: 8539122926316644213, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4586962904021995422}
+    - targetCorrespondingSourceObject: {fileID: 8539122926316644213, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4317101978074504838}
   m_SourcePrefab: {fileID: 100100000, guid: f50e2b3939a3145468b2eb54e9452743, type: 3}
 --- !u!4 &524472633177910155 stripped
 Transform:
@@ -588,7 +615,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888c00815a9d8479ebd38d0ff9e16f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dotsGameObject: {fileID: 0}
+--- !u!114 &4586962904021995422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8960453033303663421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27a06fa82b6d743ba9d32ccc102a778f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layers:
+  - Layer: 0
+    Animatable: {fileID: 0}
+--- !u!114 &4317101978074504838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8960453033303663421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d9902cce4e374674961693dadc87c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4584587409611949380
 PrefabInstance:
   m_ObjectHideFlags: 0
