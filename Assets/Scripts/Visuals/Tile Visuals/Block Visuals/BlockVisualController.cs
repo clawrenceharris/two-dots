@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class BlockVisualController : TileVisualController, IHittableVisualController
+public class BlockVisualController : TileVisualController
 {
     private Block tile;
     private HittableTileVisuals visuals;
-    private readonly HittableVisualController hittableVisualController = new();
 
     public override T GetGameObject<T>() => tile as T;
 
@@ -15,7 +14,6 @@ public class BlockVisualController : TileVisualController, IHittableVisualContro
     {
         tile = (Block)dotsGameObject;
         visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
-        hittableVisualController.Init(tile, visuals);
         base.Init(dotsGameObject);
 
     }
@@ -25,13 +23,6 @@ public class BlockVisualController : TileVisualController, IHittableVisualContro
         visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
     }
 
-    public IEnumerator Hit(HitType hitType)
-    {
-       yield return hittableVisualController.Hit(hitType);
-    }
-
-    public IEnumerator Clear(float duration)
-    {
-        yield return hittableVisualController.Clear(duration);
-    }
+   
+    
 }

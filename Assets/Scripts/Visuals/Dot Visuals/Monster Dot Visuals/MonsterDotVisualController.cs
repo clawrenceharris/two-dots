@@ -29,14 +29,6 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
          numerableVisualController.UpdateNumbers(amount);
     }
 
-    
-    
-
-    public override IEnumerator Hit(HitType hitType)
-    {
-        numerableVisualController.Hit(hitType);
-        yield return base.Hit(hitType);
-    }
 
     public IEnumerator DoMove(int col, int row)
     {

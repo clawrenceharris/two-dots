@@ -23,7 +23,7 @@ public class HittableBase : IHittable
     }
 
 
-    public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
+    public virtual void Hit(HitType hitType, Action onHitComplete = null)
     {
         DotsGameObjectEvents.NotifyHit(DotsGameObject);
 
@@ -34,27 +34,26 @@ public class HittableBase : IHittable
             onHitComplete?.Invoke();
 
         }
-        yield return VisualController.Hit(hitType);
     }
 
 
 
-    public IEnumerator Clear()
+    public void Clear()
     {  
         VisualController visualController = DotsGameObject.GetVisualController<VisualController>();
         float duration = visualController.GetVisuals<IHittableVisuals>().ClearDuration;
-        yield return Clear(duration);    
+        Clear(duration);    
     }
     
-    public IEnumerator Clear(float duration){
+    public void Clear(float duration){
 
         DotsGameObjectEvents.NotifyCleared(DotsGameObject);
         VisualController visualController = DotsGameObject.GetVisualController<VisualController>();
-        yield return visualController.Animate(new ClearAnimation(){
+        CoroutineHandler.StartStaticCoroutine(visualController.Animate(new ClearAnimation(){
             Settings = new AnimationSettings(){
                 Duration = duration
             }
-        });    
+        }));    
     }
     
     

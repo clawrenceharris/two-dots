@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEditor.Playables;
 using UnityEngine;
 
-public class CircuitVisualController : TileVisualController, IHittableVisualController
+public class CircuitVisualController : TileVisualController
 {
-    private readonly HittableVisualController hittableVisualController = new();
     private Circuit tile;
     private CircuitVisuals visuals;
     public override T GetGameObject<T>() => tile as T;
@@ -14,7 +13,6 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
     public override void Init(DotsGameObject dotsGameObject){
         tile = (Circuit)dotsGameObject;
         visuals = dotsGameObject.GetComponent<CircuitVisuals>();
-        hittableVisualController.Init(tile, visuals);
         base.Init(dotsGameObject);
 
     }
@@ -22,12 +20,12 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
     protected override void SetUp()
     {
         base.SetUp();
-        SetSprite();
+        UpdateSprite();
     }
 
     
     
-    private void SetSprite(){
+    public void UpdateSprite(){
         if(!tile.IsActive){
             visuals.OffSprite.enabled =true;
             visuals.OnSprite.enabled =false;
@@ -45,11 +43,7 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
         base.SetColor(color);
         visuals.OnSprite.color = color;
     }
-    public IEnumerator Hit(HitType hitType){
-        SetSprite();
-        yield return hittableVisualController.Hit(hitType);
-    }
-
+   
     public override void SetInitialColor()
     {
         Color bgColor = ColorSchemeManager.CurrentColorScheme.backgroundColor;
@@ -57,8 +51,5 @@ public class CircuitVisualController : TileVisualController, IHittableVisualCont
         visuals.OnSprite.color = ColorUtils.LightenColor(bgColor,0.6f);;
     }
 
-    public IEnumerator Clear(float duration)
-    {
-        yield return hittableVisualController.Clear(duration);
-    }
+   
 }

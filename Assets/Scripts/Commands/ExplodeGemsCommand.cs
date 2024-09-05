@@ -16,7 +16,7 @@ public class ExplodeGemsCommand : Command
         // Validate the explosion rule and get the list of elements to hit
         List<IHittable> toHit = gem.ExplosionRule.Validate(gem, board);
         this.toHit.AddRange(toHit);
-        yield return CoroutineHandler.StartStaticCoroutine(gem.Hit(HitType.GemExplosion, null));
+        gem.Hit(HitType.GemExplosion, null);
         // Start hitting the gem
         ongoingCoroutines++;
         yield return new WaitForSeconds(0.2f);

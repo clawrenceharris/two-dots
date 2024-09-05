@@ -1,12 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using DG.Tweening;
-using Unity.VisualScripting;
 
-public class BombVisualController : DotVisualController, IHittableVisualController
+public class BombVisualController : DotVisualController
 {
     private Bomb dot;
     private BombVisuals visuals;

@@ -37,13 +37,12 @@ public class HitCommand : Command
             
         if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
         {
-            CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
+            hittable.Hit(hitType, () => {
                 //hit any normal tiles at the same position as the current hittable
                 IBoardElement b = (IBoardElement)hittable;
                 IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-                if(tile != null)
-                    CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType, null));
-            }));                    
+                tile?.Hit(hitType, null);
+            });                    
     
         }
     }
@@ -66,15 +65,13 @@ public class HitCommand : Command
         }
             
 
-        CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
-            //hit any normal tiles at the same position as the current hittable
+        hittable.Hit(hitType, () => {
+            //if any, hit normal tiles at the same position as the current hittable
             IBoardElement b = (IBoardElement)hittable;
             IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-            if(tile != null){
-                CoroutineHandler.StartStaticCoroutine(tile.Hit(hitType, null));
-            }
+            tile?.Hit(hitType, null);
                 
-        }));                    
+        });                    
 
         
     }

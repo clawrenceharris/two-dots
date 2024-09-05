@@ -65,20 +65,10 @@ public abstract class GemVisualController : ColorableDotVisualController
     }
     
 
-
-    public override IEnumerator Hit(HitType hitType)
-    {
-        SetColor(ColorUtils.LightenColor(ColorSchemeManager.FromDotColor(Dot.Color), 0.2f));
-        ShowRays();
-
-
-        yield return base.Hit(hitType);
-
-    }
     public abstract SpriteRenderer GetHorizontalRay();
     public abstract SpriteRenderer GetVerticalRay();
     
-    private void ShowRays(){
+    public void ShowRays(){
         ShowHorizontalRay();
         ShowVerticalRay();
     

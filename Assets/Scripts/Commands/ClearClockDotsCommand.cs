@@ -14,7 +14,7 @@ public class ClearClockDotsCommand : Command
             if (clockDot.CurrentNumber == 0)
             {
                 DidExecute = true;
-                CoroutineHandler.StartStaticCoroutine(clockDot.Clear());
+                clockDot.Clear();
             }
         }
         if(DidExecute){

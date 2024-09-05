@@ -157,7 +157,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
     }
     
 
-    public override IEnumerator Hit(HitType hitType)
+    public IEnumerator Hit(HitType hitType)
     {
         float hitDuration = visuals.hittableVisuals.HitDuration;
         currentLayerIndex = Mathf.Clamp(currentLayerIndex + 1, 0, dot.HitsToClear - 1);

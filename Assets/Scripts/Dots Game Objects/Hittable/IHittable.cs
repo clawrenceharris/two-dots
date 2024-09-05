@@ -7,7 +7,7 @@ using System;
 public interface IHittable
 {
     HitType HitType { get; }
-    IEnumerator Hit(HitType hitType, Action onHitComplete = null);
+    void Hit(HitType hitType, Action onHitComplete = null);
 
     bool WasHit { get; set; }
    
@@ -20,7 +20,7 @@ public interface IHittable
     /// </summary>
     int HitsToClear { get; }
     IHitRule HitRule { get; }
-    IEnumerator Clear();
+    void Clear();
 
 
 }

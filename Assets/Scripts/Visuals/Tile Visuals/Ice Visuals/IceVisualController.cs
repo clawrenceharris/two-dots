@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceVisualController : TileVisualController, IHittableVisualController
+public class IceVisualController : TileVisualController
 {
     private Ice tile;
     private IceVisuals visuals;
    
-    private readonly HittableVisualController hittableVisualController = new();
     public override T GetGameObject<T>() => tile as T;
     public override T GetVisuals<T>() => visuals as T;
 
@@ -15,16 +14,15 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
     {
         tile = (Ice)dotsGameObject;
         visuals = dotsGameObject.GetComponent<IceVisuals>();
-        hittableVisualController.Init(tile, visuals);
         base.Init(dotsGameObject);
     }
 
     protected override void SetUp()
     {
         base.SetUp();
+        UpdateSprite();
         tile.transform.localScale = Vector2.one * (Board.offset - Board.offset /5);
 
-        SetSprite();
     }
 
     public override void SetInitialColor()
@@ -33,7 +31,7 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
     }
 
 
-    private void SetSprite()
+    public void UpdateSprite()
     {
         if (tile.HitCount == 1)
         {
@@ -46,17 +44,5 @@ public class IceVisualController : TileVisualController, IHittableVisualControll
         }
     }
 
-    public IEnumerator Hit(HitType hitType)
-    {
-        SetSprite();
-        if(tile.HitCount >= tile.HitsToClear)
-        {
-            yield return Clear(visuals.ClearDuration);
-        }
-    }
-
-    public IEnumerator Clear(float duration)
-    {
-        yield return hittableVisualController.Clear(duration);
-    }
+  
 }

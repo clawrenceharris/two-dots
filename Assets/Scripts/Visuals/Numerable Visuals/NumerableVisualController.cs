@@ -48,9 +48,5 @@ public class NumerableVisualController : INumerableVisualController
         }
     }
 
-    public void Hit(HitType hitType)
-    {
-        CoroutineHandler.StartStaticCoroutine(ScaleNumbers());  
-        
-    }
+    
 }

@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using System;
 
 public class ClockDotVisualController : BlankDotBaseVisualController, 
-INumerableVisualController, 
-IHittableVisualController
+INumerableVisualController
 {
     private ClockDot dot;
     private  ClockDotVisuals visuals;
@@ -54,12 +53,6 @@ IHittableVisualController
         base.SetUp();
     }
 
-    public override IEnumerator Hit(HitType hitType)
-    {
-        numerableVisualController.Hit(hitType);
-        yield return base.Hit(hitType);
-
-    }
 
     public override void SetInitialColor()
     {

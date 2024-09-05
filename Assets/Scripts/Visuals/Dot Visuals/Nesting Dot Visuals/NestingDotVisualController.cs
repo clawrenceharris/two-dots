@@ -42,23 +42,11 @@ public class NestingDotVisualController : DotVisualController
     }
    
 
-    public override IEnumerator Hit(HitType hitType)
-    {
-        
-        if(dot.HitCount < dot.HitsToClear)
-        {
-            float duration = visuals.hittableVisuals.HitDuration;
-            RemoveLayers(duration);
-            
-            yield return null;
-        }
-        
-    }
+    
     private void RemoveLayers(float duration)
     {
         for(int i = 0; i < dot.HitCount; i++)
         {
-            UpdateDotScale();
 
             visuals.nestingDotBottom.transform.DOMoveY(dot.transform.position.y - Board.offset, duration)
             .OnComplete(() =>
@@ -86,7 +74,7 @@ public class NestingDotVisualController : DotVisualController
 
     }
     
-    private void UpdateDotScale()
+    public void DecreaseScale()
     {
         if (dot.HitCount == 1)
             dot.transform.localScale = Vector2.one * 1.3f;

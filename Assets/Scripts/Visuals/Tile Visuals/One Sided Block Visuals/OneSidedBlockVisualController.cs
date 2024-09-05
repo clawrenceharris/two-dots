@@ -3,19 +3,12 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class OneSidedBlockVisualController : TileVisualController, IHittableVisualController
+public class OneSidedBlockVisualController : TileVisualController
 {
     private OneSidedBlock tile;
     private HittableTileVisuals visuals;
-    private readonly HittableVisualController hittableVisualController = new();
 
    
-    
-
-    public IEnumerator Hit(HitType hitType)
-    {
-        yield return hittableVisualController.Hit(hitType);
-    }
 
     public override T GetGameObject<T>() => tile as T;
 
@@ -25,7 +18,6 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
     {
         tile = (OneSidedBlock)dotsGameObject;
         visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
-        hittableVisualController.Init(tile, visuals);
         base.Init(dotsGameObject);
     }
 
@@ -64,10 +56,6 @@ public class OneSidedBlockVisualController : TileVisualController, IHittableVisu
         tile.transform.rotation = rotation;
     }
 
-    public IEnumerator Clear(float duration)
-    {
-        yield return hittableVisualController.Clear(duration);
-    }
-    
+   
 
 }

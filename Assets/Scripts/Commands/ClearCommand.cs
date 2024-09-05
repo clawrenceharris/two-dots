@@ -13,7 +13,7 @@ public class ClearCommand : Command
             
             if (hittable.HitCount >= hittable.HitsToClear)
             {
-                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+                hittable.Clear();
             }
         }
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
@@ -25,7 +25,7 @@ public class ClearCommand : Command
             
             if (hittable.HitCount >= hittable.HitsToClear)
             {
-                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+                hittable.Clear();
             }
         }
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
@@ -33,7 +33,7 @@ public class ClearCommand : Command
 
     public static IEnumerator DoClear(IHittable hittable){
         if (hittable.HitCount >= hittable.HitsToClear){
-            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+            hittable.Clear();
             yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
         }
@@ -42,8 +42,8 @@ public class ClearCommand : Command
 
     public static IEnumerator DoClear(IExplodable hittable){
         
-         if (hittable.HitCount >= hittable.HitsToExplode){
-            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
+         if(hittable.HitCount >= hittable.HitsToExplode){
+            hittable.Clear();
             yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
         }
