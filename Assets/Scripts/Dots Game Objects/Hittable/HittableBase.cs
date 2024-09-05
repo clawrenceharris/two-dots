@@ -15,7 +15,6 @@ public class HittableBase : IHittable
 
     public  IHitRule HitRule { get => hittable.HitRule; }
     private DotsGameObject DotsGameObject => (DotsGameObject)hittable;
-    public IHittableVisualController VisualController => DotsGameObject.GetVisualController<IHittableVisualController>();
    
     public void Init(IHittable hittable)
     {
