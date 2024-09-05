@@ -81,8 +81,6 @@ public abstract class GemVisualController : ColorableDotVisualController
             return;
         }
         ray.enabled = true;     
-        ray.transform.SetParent(null);
-
         ray.transform.position = new Vector2(Board.Width / 2 * Board.offset, Dot.transform.position.y);
 
         
@@ -96,8 +94,6 @@ public abstract class GemVisualController : ColorableDotVisualController
             return;
         }
         ray.enabled = true;     
-        ray.transform.SetParent(null);
-
         ray.transform.position = new Vector2(ray.transform.position.x, Board.Height / 2 * Board.offset );
 
         
@@ -105,17 +101,7 @@ public abstract class GemVisualController : ColorableDotVisualController
         
     }
 
-    private void DestroyRays(){
-        SpriteRenderer hRay = GetHorizontalRay();
-        SpriteRenderer vRay = GetVerticalRay();
-
-        if(hRay){
-            Object.Destroy(hRay);
-        }
-        if(vRay){
-            Object.Destroy(vRay);  
-        }
-    }
+    
    
     private void HideRays(){
         SpriteRenderer vRay = GetVerticalRay();
@@ -130,12 +116,8 @@ public abstract class GemVisualController : ColorableDotVisualController
         
         
     }
-       protected void OnConnectionEnded(LinkedList<ConnectableDot> dots){
-            if(Dot.WasHit)
-                DestroyRays();
-            
-            else
-                HideRays();
+    protected void OnConnectionEnded(LinkedList<ConnectableDot> dots){    
+        HideRays();
         
     }
 
