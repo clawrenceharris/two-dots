@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: -3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8284cde49b2774c099dfbf2eef679a28, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.60784316}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.34901962}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 7384442583282996616}
   - component: {fileID: 5776717803765892242}
   m_Layer: 0
-  m_Name: Beetle Dot White Wing Right (3)
+  m_Name: White Wing Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,7 +194,7 @@ Transform:
   m_GameObject: {fileID: 877524595802536473}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.10100007, y: 0.018000009, z: 0}
+  m_LocalPosition: {x: 0.065, y: 0.018000009, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -242,7 +242,7 @@ SpriteRenderer:
   m_SortingLayer: -3
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 5771e2cbc3b7a4d8ca9e070079e2f2db, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.60784316}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.34901962}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -637,7 +637,7 @@ GameObject:
   - component: {fileID: 3286017742464189770}
   - component: {fileID: 8532178909544791777}
   m_Layer: 0
-  m_Name: Beetle Dot White Wing Right
+  m_Name: White Wing Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -652,7 +652,7 @@ Transform:
   m_GameObject: {fileID: 2561304822658147802}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.108999975, y: 0.015000001, z: 0}
+  m_LocalPosition: {x: -0.046, y: 0.015000001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -700,7 +700,7 @@ SpriteRenderer:
   m_SortingLayer: -3
   m_SortingOrder: 7
   m_Sprite: {fileID: 21300000, guid: 8284cde49b2774c099dfbf2eef679a28, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.60784316}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.34901962}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -942,7 +942,7 @@ GameObject:
   - component: {fileID: 2475618911144318931}
   - component: {fileID: 1592602273389861278}
   m_Layer: 0
-  m_Name: Beetle Dot White Wing Right (5)
+  m_Name: White Wing Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1005,7 +1005,7 @@ SpriteRenderer:
   m_SortingLayer: -3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5771e2cbc3b7a4d8ca9e070079e2f2db, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.60784316}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.34901962}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1194,7 +1194,7 @@ GameObject:
   - component: {fileID: 4687725145932725509}
   - component: {fileID: 4705821077366460001}
   m_Layer: 0
-  m_Name: Beetle Dot White Wing Right (4)
+  m_Name: White Wing Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1278,7 +1278,7 @@ GameObject:
   - component: {fileID: 3532364932995922526}
   - component: {fileID: 3234074599791456259}
   m_Layer: 0
-  m_Name: 'Beetle Dot Left Shadow '
+  m_Name: 'Left Shadow '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1362,7 +1362,7 @@ GameObject:
   - component: {fileID: 3328542180943619135}
   - component: {fileID: 625296942729802444}
   m_Layer: 0
-  m_Name: Beetle Dot Right Shadow
+  m_Name: Right Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1766,7 +1766,7 @@ GameObject:
   - component: {fileID: 7891090343858703272}
   - component: {fileID: 1071094623808257658}
   m_Layer: 0
-  m_Name: Beetle Dot Left Shadow
+  m_Name: Left Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1850,7 +1850,7 @@ GameObject:
   - component: {fileID: 8337423108304380651}
   - component: {fileID: 944580608047463362}
   m_Layer: 0
-  m_Name: 'Beetle Dot Left Shadow '
+  m_Name: 'Left Shadow '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2173,11 +2173,11 @@ MonoBehaviour:
   rightWingLayer1: {fileID: 3486266184288131690}
   rightWingLayer2: {fileID: 1000969558112632331}
   rightWingLayer3: {fileID: 2969042392531368742}
+  sprites: []
   rightWings: {fileID: 8187732682292148997}
   leftWings: {fileID: 1787027141210881331}
   rotationEase: 9
   rotationSpeed: 0.2
-  ShakeAnimation: {fileID: 0}
 --- !u!114 &7727196983814474946
 MonoBehaviour:
   m_ObjectHideFlags: 0
