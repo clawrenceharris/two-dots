@@ -7,8 +7,7 @@ using System;
 
 public class ClockDotVisualController : BlankDotBaseVisualController, 
 INumerableVisualController, 
-IHittableVisualController,
-IPreviewableVisualController
+IHittableVisualController
 {
     private ClockDot dot;
     private  ClockDotVisuals visuals;
@@ -101,10 +100,37 @@ IPreviewableVisualController
     {
         float duration = ClockDotVisuals.moveDuration;
         float moveDuration = duration / path.Count;
+        
+         var settings = new AnimationSettings{
+            Duration = moveDuration
+        };
         foreach (Vector2Int pos in path)
         {
-            dot.transform.DOMove(new Vector2(pos.x, pos.y) * Board.offset, moveDuration);
-            yield return new WaitForSeconds(moveDuration - moveDuration /2);
+            if(pos == path.Last()){
+                AnimationCurve  curve = new(
+                    new Keyframe(0f, 0f, 0f, 0f),        // Start point
+                    new Keyframe(0.3f, 0.7f, 0f, 0f),    // Peak with higher value for more elasticity
+                    new Keyframe(0.7f, 0.3f, 0f, 0f),    // Bounce back to a lower value
+                    new Keyframe(1f, 1f, 0f, 0f)         // End point
+                );
+
+                settings.Curve = curve;
+                StartCoroutine(Animate(new MoveAnimation{
+                    Target = new Vector2(pos.x, pos.y) * Board.offset,
+                    Settings = settings,
+                    
+                }));
+            }
+            else{
+                AnimationCurve curve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
+                settings.Curve = curve;
+                StartCoroutine(Animate(new MoveAnimation{
+                    Target = new Vector2(pos.x, pos.y) * Board.offset,
+                    Settings = settings
+                }));
+            }
+            
+            yield return new WaitForSeconds(moveDuration);
             onMoved?.Invoke();
         }
 
@@ -112,36 +138,18 @@ IPreviewableVisualController
     }
 
     
-    public IEnumerator DoClearPreviewAnimation()
-    {
-
-        float elapsedTime = 0f;
-        Vector3 originalRotation = dot.transform.eulerAngles;
-        float shakeDuration = 0.6f;
-        float shakeIntensity = 15f;
-        float shakeSpeed = 35f;
-        while (elapsedTime < shakeDuration)
-        {
-            // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
-            float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
-
-            // Apply the rotation
-            dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
-
-            // Increment the elapsed time
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-
-        // Reset rotation to original position after the shaking animation is finished
-        dot.transform.eulerAngles = Vector2.zero;
-    }
+    
     
     
     private void MoveClockDotPreviews(ConnectionArgs args){
 
         List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
+        var settings = new AnimationSettings{
+            Ease = Ease.OutElastic,
+            Amplitude =0.5f,
+            Period = 1.5f,
+            Duration = 0.5f
+        };
 
         if (ConnectionManager.ConnectedDots.Contains(dot))
         {
@@ -162,51 +170,18 @@ IPreviewableVisualController
                 count++;
 
                 lastAvailableDot = connectedDots[^count];
-                if(lastAvailableDot.DotType.IsBasicDot() || lastAvailableDot.DotType.IsClockDot())
-                    clockDot.VisualController.visuals.clockDotPreview.transform.DOMove(lastAvailableDot.transform.position, 0.5f);
+                if(lastAvailableDot.DotType.IsBasicDot() || lastAvailableDot.DotType.IsClockDot()){
+
+                }
+                    clockDot.VisualController.Animate(new MoveAnimation{
+                        Target = lastAvailableDot.transform.position,
+                        Settings = settings
+                    });
                 
             }
         }
     }
-
-
     
-    
-    
-
-    public IEnumerator DoIdleAnimation()
-    {
-        float elapsedTime = 0f;
-        Vector3 originalRotation = dot.transform.eulerAngles;
-        float duration = 1f;
-        float shakeIntensity = 15f;
-        float shakeSpeed = 10f;
-        while (elapsedTime < duration)
-        {
-            // Calculate the amount to rotate by interpolating between -shakeIntensity and shakeIntensity
-            float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
-
-            // Apply the rotation
-            dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
-
-            // Increment the elapsed time
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-
-        // Reset rotation to original position after the shaking animation is finished
-        dot.transform.DORotate(Vector3.zero, duration /2);
-        yield return new WaitForSeconds(duration /2);
-        yield return new WaitForSeconds(UnityEngine.Random.Range(6, 10))
-;
-    }
-
-    public IEnumerator DoHitPreviewAnimation()
-    {
-       yield break;
-    }
-
     public IEnumerator ScaleNumbers()
     {
         yield return numerableVisualController.ScaleNumbers();

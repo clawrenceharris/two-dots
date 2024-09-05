@@ -16,4 +16,5 @@ public class ClockDotVisuals : BlankDotVisuals, INumerableVisuals
 
     public SpriteRenderer Digit2 => numerableVisuals.Digit2;
 
+    
 }

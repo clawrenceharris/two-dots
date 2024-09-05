@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
-public class NestingDotVisualController : DotVisualController, IPreviewableVisualController
+public class NestingDotVisualController : DotVisualController
 {
     private NestingDotVisuals visuals;
     private NestingDot dot;
@@ -23,10 +23,10 @@ public class NestingDotVisualController : DotVisualController, IPreviewableVisua
 
     public override void SetInitialColor()
     {
-        foreach(Transform child in dot.transform)
+        foreach(Transform child in visuals.spriteRenderer.transform)
         {
             if (child.TryGetComponent<SpriteRenderer>(out var spriteRenderer)) {
-                if(child.name != "Nesting Dot Highlight")
+                if(child.name != "Highlight")
                     spriteRenderer.color = color;
                 
             }
@@ -100,36 +100,13 @@ public class NestingDotVisualController : DotVisualController, IPreviewableVisua
 
 
     
-    private IEnumerator DoShakeAnimation()
-    {
-        float duration = 0.8f;
-        float strength = 0.1f; 
-        int vibrato = 10; //number of shakes
-        float randomness = 20; 
-        dot.transform.DOShakePosition(duration, new Vector3(strength, strength, 0), vibrato, randomness, false, true);
-
-        visuals.spriteRenderer.DOColor(Color.black, duration);
-        yield return new WaitForSeconds(duration);
-    }
-
-    
 
     public IEnumerator DoIdleAnimation()
     {
         yield break;
     }
 
-    public IEnumerator DoHitPreviewAnimation()
-    {
-        yield break;
-    }
+   
 
-    public IEnumerator DoClearPreviewAnimation()
-    {
-        float duration = 0.8f;
-        yield return DoShakeAnimation();
-        dot.transform.position = new Vector2(dot.Column, dot.Row) * Board.offset;
-        yield return visuals.spriteRenderer.DOColor(color, duration);
-        yield return new WaitForSeconds(2f);
-    }
+    
 }

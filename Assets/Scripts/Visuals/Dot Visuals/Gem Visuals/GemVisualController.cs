@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public abstract class GemVisualController : ColorableDotVisualController, IPreviewableVisualController
+public abstract class GemVisualController : ColorableDotVisualController
 {
     private GemVisuals Visuals => GetVisuals<GemVisuals>();
     private Gem Dot => GetGameObject<Gem>();
@@ -64,28 +64,6 @@ public abstract class GemVisualController : ColorableDotVisualController, IPrevi
         
     }
     
-    public IEnumerator DoClearPreviewAnimation()
-    {
-         yield return Visuals.DoShakeAnimation(Dot,
-            new Visuals.ShakeAnimationSettings(){
-                vibrato = 10,
-                strength = new Vector3(0.08f, 0.08f),
-                randomness = 2,
-                duration = 0.8f
-            });
-
-    }
-    
-    public IEnumerator DoHitPreviewAnimation()
-    {
-        yield break;
-    }
-
-    public IEnumerator DoIdleAnimation()
-    {
-        yield break;
-    }
-
 
 
     public override IEnumerator Hit(HitType hitType)
@@ -148,11 +126,7 @@ public abstract class GemVisualController : ColorableDotVisualController, IPrevi
             Object.Destroy(vRay);  
         }
     }
-    public override IEnumerator Clear(float duration)
-    {
-        DestroyRays();
-        yield return base.Clear(duration);
-    }
+   
     private void HideRays(){
         SpriteRenderer vRay = GetVerticalRay();
         SpriteRenderer hRay = GetHorizontalRay();
@@ -167,9 +141,12 @@ public abstract class GemVisualController : ColorableDotVisualController, IPrevi
         
     }
        protected void OnConnectionEnded(LinkedList<ConnectableDot> dots){
-        if(ConnectionManager.ToHitBySquare.Contains(Dot)){
-            HideRays();
-        }
+            if(Dot.WasHit)
+                DestroyRays();
+            
+            else
+                HideRays();
+        
     }
 
     protected void OnSquareMade(Square square){
