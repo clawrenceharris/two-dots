@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
     public int score;
     public static bool DidMove { get; private set; }
     [SerializeField] private ColorScheme[] colorSchemes;
+    
     public bool IsTutorial
     {
         get
@@ -101,17 +102,16 @@ public class LevelManager : MonoBehaviour
 
     
 
-    public void StartLevel(int levelNum)
+    public void StartLevel(LevelData level)
     {
         new CommandInvoker(board);
         new ConnectionManager(board);
-        
-        Level = JSONLevelLoader.ReadJsonFile(levelNum);
-        LinePool.Instance.FillPool(Level.width * Level.height);
+        Level = level;
+        LinePool.Instance.FillPool(level.width * level.height);
 
-        board.Init(Level);
+        board.Init(level);
         
-        colorSchemeManager.SetColorScheme(Level.levelNum - 1);
+        colorSchemeManager.SetColorScheme(level.levelNum - 1);
 
     }
 
@@ -127,7 +127,8 @@ public class LevelManager : MonoBehaviour
     public void StartNextLevel()
     {
         OnLevelEnd?.Invoke();
-        StartLevel(Level.levelNum + 1);
+        LevelData level = JSONLevelLoader.LoadLevelData(Level.levelNum + 1);
+        StartLevel(level);
 
     }
 
@@ -135,7 +136,7 @@ public class LevelManager : MonoBehaviour
     public void Restart()
     {
         OnLevelRestart?.Invoke();
-        StartLevel(Level.levelNum);
+        StartLevel(Level);
 
     }
 

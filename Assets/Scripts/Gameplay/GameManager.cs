@@ -20,7 +20,7 @@ public class Game : MonoBehaviour
     [SerializeField] private int worldIndex;
     public int WorldIndex { get { return worldIndex; }}
     public static int TotalAmountOfLevels { get; private set; }
-
+    [SerializeField]private TextAsset startingLevel;
     
     private void Awake()
     {
@@ -38,8 +38,8 @@ public class Game : MonoBehaviour
         }
         SetTotalAmountOfLevels();
         levelManager = FindObjectOfType<LevelManager>();
-
-        levelManager.StartLevel(1);
+        LevelData level = JSONLevelLoader.LoadLevelData(startingLevel);
+        levelManager.StartLevel(level);
     }
 
     private void SetTotalAmountOfLevels()

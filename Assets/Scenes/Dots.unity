@@ -1055,6 +1055,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worlds: []
   worldIndex: 0
+  startingLevel: {fileID: 4900000, guid: 8556cb4da27724fcb9800c5d18812c46, type: 3}
 --- !u!4 &1997816106
 Transform:
   m_ObjectHideFlags: 0

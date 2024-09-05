@@ -3,12 +3,22 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 using System;
+using UnityEditor;
 
 public class JSONLevelLoader
 {
-    
+    public static LevelData LoadLevelData(TextAsset textAsset){
 
-    public static LevelData ReadJsonFile(int levelNum)
+        var settings = new JsonSerializerSettings
+        {
+            Converters = { new LevelDataConverter() }
+        };
+        LevelData level = JsonConvert.DeserializeObject<LevelData>(textAsset.text, settings);
+        return level;
+    }
+
+    
+    public static LevelData LoadLevelData(int levelNum)
     {
         string path = Application.dataPath + "/Json/World " + (Game.Instance.WorldIndex + 1) + "/level_" + levelNum + ".json";
         string json = File.ReadAllText(path);
@@ -20,7 +30,6 @@ public class JSONLevelLoader
         LevelData level = JsonConvert.DeserializeObject<LevelData>(json, settings);
         return level;
     }
-
     public static DotsGameObject FromJsonType(string type)
     {
         //dots
