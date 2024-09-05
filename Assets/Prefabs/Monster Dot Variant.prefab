@@ -365,6 +365,22 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 1239392859
       objectReference: {fileID: 0}
+    - target: {fileID: 6579891909780830333, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: layers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6579891909780830333, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: layers.Array.data[1].Layer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6579891909780830333, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: layers.Array.data[0].Animatable
+      value: 
+      objectReference: {fileID: 341954389197306499}
+    - target: {fileID: 6579891909780830333, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: layers.Array.data[1].Animatable
+      value: 
+      objectReference: {fileID: 341954389197306499}
     - target: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_Name
       value: Monster Dot Variant
@@ -372,6 +388,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2303686786482766387, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
     - {fileID: 957477070254284822, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+    - {fileID: 2023748872782733337, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2818817833734586123, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -399,6 +416,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6538672991231829088}
+    - targetCorrespondingSourceObject: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 341954389197306499}
   m_SourcePrefab: {fileID: 100100000, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
 --- !u!4 &678933214075584760 stripped
 Transform:
@@ -455,41 +475,8 @@ MonoBehaviour:
     digit1: {fileID: 5698075958798445826}
     digit2: {fileID: 9160932169022976453}
   EyeLids: {fileID: 6600877886434558629}
-  LeftEyeAnimationFrames:
-  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
-  - {fileID: 21300000, guid: 7ed4aecd0f072465d9e3f258879b0406, type: 3}
-  - {fileID: 21300000, guid: ca0bc510342e749e0b1697e5522d99ee, type: 3}
-  - {fileID: 21300000, guid: 7d8519cf8db1a4af7997bfbac5250472, type: 3}
-  - {fileID: 21300000, guid: ca0bc510342e749e0b1697e5522d99ee, type: 3}
-  - {fileID: 21300000, guid: 7ed4aecd0f072465d9e3f258879b0406, type: 3}
-  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
-  - {fileID: 21300000, guid: ebb5b5ca0e63946fc96764c860194a0c, type: 3}
-  - {fileID: 21300000, guid: 865b610925efc46d1841dfe42600cbaf, type: 3}
-  - {fileID: 21300000, guid: ed460f4c7840f4b8ba045c3f8e9ac1eb, type: 3}
-  - {fileID: 21300000, guid: 865b610925efc46d1841dfe42600cbaf, type: 3}
-  - {fileID: 21300000, guid: ebb5b5ca0e63946fc96764c860194a0c, type: 3}
-  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
-  RightEyeAnimationFrames:
-  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
-  - {fileID: 21300000, guid: ebb5b5ca0e63946fc96764c860194a0c, type: 3}
-  - {fileID: 21300000, guid: 865b610925efc46d1841dfe42600cbaf, type: 3}
-  - {fileID: 21300000, guid: ed460f4c7840f4b8ba045c3f8e9ac1eb, type: 3}
-  - {fileID: 21300000, guid: 865b610925efc46d1841dfe42600cbaf, type: 3}
-  - {fileID: 21300000, guid: ebb5b5ca0e63946fc96764c860194a0c, type: 3}
-  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
-  - {fileID: 21300000, guid: 7ed4aecd0f072465d9e3f258879b0406, type: 3}
-  - {fileID: 21300000, guid: ca0bc510342e749e0b1697e5522d99ee, type: 3}
-  - {fileID: 21300000, guid: 7d8519cf8db1a4af7997bfbac5250472, type: 3}
-  - {fileID: 21300000, guid: ca0bc510342e749e0b1697e5522d99ee, type: 3}
-  - {fileID: 21300000, guid: 7ed4aecd0f072465d9e3f258879b0406, type: 3}
-  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
   LeftEye: {fileID: 7923965157436285034}
   RightEye: {fileID: 8904855326878655865}
-  BlinkAnimationFrames:
-  - {fileID: 21300000, guid: 6ab7060cf28d34e3b989a67193558621, type: 3}
-  - {fileID: 21300000, guid: 2a001657e394242b9b767194661c1733, type: 3}
-  - {fileID: 21300000, guid: 6ab7060cf28d34e3b989a67193558621, type: 3}
-  - {fileID: 0}
   AllSprites:
   - {fileID: 7418231137940222176}
   - {fileID: 5698075958798445826}
@@ -521,6 +508,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888c00815a9d8479ebd38d0ff9e16f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &341954389197306499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8246847050288318542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ea1f2f2a9884849a65a5636d008060, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftEyeAnimation:
+  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
+  - {fileID: 21300000, guid: 7ed4aecd0f072465d9e3f258879b0406, type: 3}
+  - {fileID: 21300000, guid: ca0bc510342e749e0b1697e5522d99ee, type: 3}
+  - {fileID: 21300000, guid: 7d8519cf8db1a4af7997bfbac5250472, type: 3}
+  - {fileID: 21300000, guid: ca0bc510342e749e0b1697e5522d99ee, type: 3}
+  - {fileID: 21300000, guid: 7ed4aecd0f072465d9e3f258879b0406, type: 3}
+  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
+  - {fileID: 21300000, guid: ebb5b5ca0e63946fc96764c860194a0c, type: 3}
+  - {fileID: 21300000, guid: 865b610925efc46d1841dfe42600cbaf, type: 3}
+  - {fileID: 21300000, guid: ed460f4c7840f4b8ba045c3f8e9ac1eb, type: 3}
+  - {fileID: 21300000, guid: 865b610925efc46d1841dfe42600cbaf, type: 3}
+  - {fileID: 21300000, guid: ebb5b5ca0e63946fc96764c860194a0c, type: 3}
+  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
+  RightEyeAnimation:
+  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
+  - {fileID: 21300000, guid: ebb5b5ca0e63946fc96764c860194a0c, type: 3}
+  - {fileID: 21300000, guid: 865b610925efc46d1841dfe42600cbaf, type: 3}
+  - {fileID: 21300000, guid: ed460f4c7840f4b8ba045c3f8e9ac1eb, type: 3}
+  - {fileID: 21300000, guid: 865b610925efc46d1841dfe42600cbaf, type: 3}
+  - {fileID: 21300000, guid: ebb5b5ca0e63946fc96764c860194a0c, type: 3}
+  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
+  - {fileID: 21300000, guid: 7ed4aecd0f072465d9e3f258879b0406, type: 3}
+  - {fileID: 21300000, guid: ca0bc510342e749e0b1697e5522d99ee, type: 3}
+  - {fileID: 21300000, guid: 7d8519cf8db1a4af7997bfbac5250472, type: 3}
+  - {fileID: 21300000, guid: ca0bc510342e749e0b1697e5522d99ee, type: 3}
+  - {fileID: 21300000, guid: 7ed4aecd0f072465d9e3f258879b0406, type: 3}
+  - {fileID: 21300000, guid: 323c59444973044deb2c0766b9bc1a4c, type: 3}
+  BlinkAnimation:
+  - {fileID: 21300000, guid: 6ab7060cf28d34e3b989a67193558621, type: 3}
+  - {fileID: 21300000, guid: 2a001657e394242b9b767194661c1733, type: 3}
+  - {fileID: 21300000, guid: 6ab7060cf28d34e3b989a67193558621, type: 3}
+  - {fileID: 0}
 --- !u!1001 &6668286118874281561
 PrefabInstance:
   m_ObjectHideFlags: 0
