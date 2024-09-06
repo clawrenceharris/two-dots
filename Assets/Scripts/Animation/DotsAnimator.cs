@@ -83,5 +83,11 @@ public class DotsAnimator : MonoBehaviour
             }
         }
     }
+
+    public T GetAnimationComponent<T>(global::AnimationLayer layer)
+    where T : DotsAnimationComponent
+    {
+        return layers.Find(item => item.Layer == layer).Animatable as T;
+    }
 }
 

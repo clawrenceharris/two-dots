@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -6,6 +7,7 @@ using Random = UnityEngine.Random;
 public class BeetleDotAnimation : DotsAnimationComponent{
     
     private BeetleDot Dot => (BeetleDot)DotsGameObject;
+    private BeetleDotVisuals Visuals => DotsGameObject.VisualController.GetVisuals<BeetleDotVisuals>();
 
    
     public override IEnumerator PreviewClear()
@@ -55,23 +57,25 @@ public class BeetleDotAnimation : DotsAnimationComponent{
         while (isInfinite || flapsCompleted < loops)
         {
             // Flap up
-            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().leftWings.DOLocalRotate(leftWingStartAngle, duration / 2)
+            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().ActiveLeftWings.DOLocalRotate(leftWingStartAngle, duration / 2)
             .SetEase(ease));
-            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().rightWings.DOLocalRotate(rightWingStartAngle, duration / 2)
+            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().ActiveRightWings.DOLocalRotate(rightWingStartAngle, duration / 2)
             .SetEase(ease));
 
             yield return new WaitForSeconds(duration / 2);
 
             // Flap down
-            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().leftWings.DOLocalRotate(leftWingEndAngle, duration / 2)
+            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().ActiveLeftWings.DOLocalRotate(leftWingEndAngle, duration / 2)
             .SetEase(ease));
-            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().rightWings.DOLocalRotate(rightWingEndAngle, duration / 2)
+            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().ActiveRightWings.DOLocalRotate(rightWingEndAngle, duration / 2)
             .SetEase(ease));
 
             yield return new WaitForSeconds(duration / 2);
 
             flapsCompleted++;
         }
+        Visuals.ActiveLeftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Visuals.ActiveRightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
         
          
@@ -122,14 +126,41 @@ public class BeetleDotAnimation : DotsAnimationComponent{
 
         yield return new WaitForSeconds(2);
     }
+     
+    
 
-   
 
-   public override IEnumerator Clear(AnimationSettings settings)
+  
+    public override IEnumerator Hit(AnimationSettings settings)
     {
-        bool isBombHit = Dot.HitType.IsExplosion();
-        float startFlapAngle = isBombHit ? 20f : 45f;
-        float endFlapAngle = isBombHit ? 15f : 0f;
+        float duration = 1f;
+        float rotationDuration = duration / 2;
+        BeetleDotVisuals.WingLayer wingLayer = Visuals.WingLayers[^1];
+     
+        Vector3 leftWingAngle = new(0, 0, -90);
+        Vector3 rightWingAngle = new(0, 0, 90);
+
+        
+        wingLayer.LeftWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + leftWingAngle, rotationDuration);
+        wingLayer.RightWing.transform.DOLocalRotate(Dot.transform.rotation.eulerAngles + rightWingAngle, rotationDuration);
+        
+        wingLayer.RightWing.transform.DOMove(Dot.transform.position + new Vector3(Dot.DirectionY, -Dot.DirectionX) * 1.7f, duration);
+        wingLayer.LeftWing.transform.DOMove(Dot.transform.position + new Vector3(-Dot.DirectionY, Dot.DirectionX)  * 1.7f, duration);
+
+        wingLayer.RightWing.transform.DOScale(Vector2.zero, duration);
+        wingLayer.LeftWing.transform.DOScale(Vector2.zero, duration);
+
+
+        wingLayer.RightWing.DOFade(0, duration);
+        wingLayer.LeftWing.DOFade(0, duration);
+        yield return new WaitForSeconds(duration);
+    }
+
+    public override IEnumerator Clear(AnimationSettings settings)
+    {
+        bool isExplosion = Dot.HitType.IsExplosion();
+        float startFlapAngle = isExplosion ? 20f : 45f;
+        float endFlapAngle = isExplosion ? 15f : 0f;
         float duration = settings.Duration;
         float elapsedTime = 0f;
         float amplitude = 1f;
