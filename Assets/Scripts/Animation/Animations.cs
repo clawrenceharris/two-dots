@@ -70,6 +70,15 @@ public class ClearAnimation : IAnimation{
         yield return animatable.Clear(Settings);
     }
 }
+
+public class HitAnimation : IAnimation{
+    public AnimationSettings Settings {get; set;}
+    public IEnumerator Animate(DotsAnimationComponent animatable)
+    {
+        yield return animatable.Hit(Settings);
+    }
+}
+
 public class PreviewHitAnimation : IAnimation{
     
     public IEnumerator Animate(DotsAnimationComponent animatable)

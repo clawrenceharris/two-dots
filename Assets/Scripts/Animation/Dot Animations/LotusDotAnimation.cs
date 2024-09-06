@@ -35,11 +35,11 @@ public class LotusDotAnimation : DotsAnimationComponent{
 
     private IEnumerator DoRotate360Animation(int direction)
     {
-        Visuals.Layer1.transform.DOLocalRotate(new Vector3(0, 0, 360 * direction), 8f * 2, RotateMode.LocalAxisAdd)
+        Visuals.Layer1.transform.DOLocalRotate(new Vector3(0, 0, 180 * direction), 8f * 2, RotateMode.LocalAxisAdd)
     .SetEase(lotusCurve);
-        Visuals.Layer2.transform.DOLocalRotate(new Vector3(0, 0, 360 * direction), 7f * 2, RotateMode.LocalAxisAdd)
+        Visuals.Layer2.transform.DOLocalRotate(new Vector3(0, 0, 180 * direction), 7f * 2, RotateMode.LocalAxisAdd)
     .SetEase(lotusCurve); 
-        Visuals.Layer3.transform.DOLocalRotate(new Vector3(0, 0, 360 * direction), 6f *2, RotateMode.LocalAxisAdd)
+        Visuals.Layer3.transform.DOLocalRotate(new Vector3(0, 0, 180 * direction), 6f *2, RotateMode.LocalAxisAdd)
     .SetEase(lotusCurve); 
 
         yield return new WaitForSeconds(8 * 2);
