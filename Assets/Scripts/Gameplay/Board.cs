@@ -195,7 +195,7 @@ public class Board : MonoBehaviour
 
         if (data != null)
         {
-            dotsGameObject = DotFactory.CreateDotsGameObject<T>(data);
+            dotsGameObject = DotsFactory.CreateDotsGameObject<T>(data);
             dotsGameObject.transform.position = new Vector2(data.col, data.row) * offset;
             dotsGameObject.transform.parent = transform;
             dotsGameObject.name = data.type + " (" + data.col + ", " + data.col + ")";
@@ -218,7 +218,7 @@ public class Board : MonoBehaviour
 
         DotsGameObjectData dotData = dotsToSpawn[randDot];
 
-        Dot dot = DotFactory.CreateDotsGameObject<Dot>(dotData);
+        Dot dot = DotsFactory.CreateDotsGameObject<Dot>(dotData);
 
         dot.transform.parent = transform;
         dot.name = dotData.type + " (" + col + ", " + row + ")";
