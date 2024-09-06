@@ -42,7 +42,7 @@ public class ClockDotAnimation : DotsAnimationComponent
         yield return new WaitForSeconds(UnityEngine.Random.Range(6, 10));
     }
 
-    public override IEnumerator PreviewHit()
+    public override IEnumerator PreviewClear()
     {
         float elapsedTime = 0f;
         Vector3 originalRotation = Dot.transform.eulerAngles;
