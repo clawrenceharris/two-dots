@@ -30,26 +30,23 @@ public abstract class Dot : DotsGameObject, IHittable
     }
 
 
-   public virtual void Clear()
+   public virtual IEnumerator Clear()
     { 
-        hittable.Clear();
+        yield return hittable.Clear();
     }
 
-    public void Clear(float duration)
+    public IEnumerator Clear(float duration)
     {
-        hittable.Clear(duration);
+        yield return hittable.Clear(duration);
 
     }
-    public virtual void Hit(HitType hitType, Action onHitComplete = null)
+    public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
 
         Hit(hitType);
-        hittable.Hit(hitType, onHitComplete);
+        yield return hittable.Hit(hitType, onHitComplete);
     }
 
-
-   
-    
     public abstract void Hit(HitType hitType);
 
     public virtual void Pulse()
