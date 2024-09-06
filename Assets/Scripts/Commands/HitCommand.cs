@@ -13,7 +13,6 @@ public class HitCommand : Command
 
     public override CommandType CommandType => CommandType.Hit;
 
-    private static int ongoingCoroutines = 0;
 
     /// <summary>
     /// Hits the given hittable object by first, validating whether the hittable 
@@ -37,12 +36,12 @@ public class HitCommand : Command
             
         if (hittable.HitRule != null && hittable.HitRule.Validate(hittable, board))
         {
-            hittable.Hit(hitType, () => {
+            CoroutineHandler.StartStaticCoroutine(hittable.Hit(hitType, () => {
                 //hit any normal tiles at the same position as the current hittable
                 IBoardElement b = (IBoardElement)hittable;
                 IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
                 CoroutineHandler.StartStaticCoroutine(tile?.Hit(hitType, null));
-            });                    
+            }));                    
     
         }
     }
@@ -65,13 +64,13 @@ public class HitCommand : Command
         }
             
 
-        hittable.Hit(hitType, () => {
+       CoroutineHandler.StartStaticCoroutine( hittable.Hit(hitType, () => {
             //if any, hit normal tiles at the same position as the current hittable
             IBoardElement b = (IBoardElement)hittable;
             IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
             CoroutineHandler.StartStaticCoroutine(tile?.Hit(hitType, null));
                 
-        });                    
+        }));                    
 
         
     }
@@ -97,13 +96,7 @@ public class HitCommand : Command
             
         }
 
-       
-
-
-
-        //wait until all hit coroutines have finished
-        yield return new WaitUntil(() => ongoingCoroutines == 0);
-
+    
         yield return base.Execute(board);
 
     }

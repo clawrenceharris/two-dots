@@ -13,7 +13,7 @@ public class ClearCommand : Command
             
             if (hittable.HitCount >= hittable.HitsToClear)
             {
-                hittable.Clear();
+                CoroutineHandler.StartStaticCoroutine(hittable.Clear());
             }
         }
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);

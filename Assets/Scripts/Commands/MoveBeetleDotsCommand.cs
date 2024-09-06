@@ -64,16 +64,6 @@ public class MoveBeetleDotsCommand : MoveCommand
         List<BeetleDot> beetleDots = board.FindElementsOfType<BeetleDot>();
         int beetleDotCount = 0;
 
-        if (beetleDots.Where((dot) => !dot.WasHit).Count() > 0)
-        {
-            onCommandExecuting?.Invoke(this);
-
-        }
-        else
-        {
-            yield break;
-        }
-
 
         // Perform the swap for each beetle dot in the dictionary
         foreach (BeetleDot beetleDot in beetleDots)
@@ -84,6 +74,7 @@ public class MoveBeetleDotsCommand : MoveCommand
             ////skip if the beetle dot was already hit
             if (beetleDot.WasHit)
             {
+                beetleDot.Debug(Color.blue);
                //reset the flag for next move
                beetleDot.WasHit = false;
                continue;
@@ -92,6 +83,8 @@ public class MoveBeetleDotsCommand : MoveCommand
             //if the beetle dot can move and not hit
             if (CanMove(dotToSwap))
             {
+                beetleDot.Debug(Color.green);
+                NotifyCommandExecuting(this);
                 DidExecute = true;
 
                 //then add it to the dictionary to be swapped
