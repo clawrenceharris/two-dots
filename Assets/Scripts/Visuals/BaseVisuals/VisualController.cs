@@ -15,19 +15,20 @@ public abstract class VisualController : IVisualController
     protected Color color;
 
     /// <summary>
-    /// Returns the Visuals game object that is attached to
-    /// the Dots game object of which this visual controller acts on
+    /// Retrieves the <see cref="Visuals"/> component attached to the 
+    /// <see cref="DotsGameObject"/> that this visual controller manages.
     /// </summary>
-    /// <typeparam name="T">A game object of type Visuals</typeparam>
-    /// <returns>The Visuals game object</returns>
+    /// <typeparam name="T">A reference type/></typeparam>
+    /// <returns>A Visuals game object of type <typeparamref name="T"/>.</returns>
     public abstract T GetVisuals<T>() where T : class;
 
     /// <summary>
-    /// Returns the Two Dots game object that this visual
-    /// controller is associated with
+    /// Retrieves the game object managed by this visual controller and attempts to 
+    /// cast it to the specified type <typeparamref name="T"/>. 
+    /// If the game object cannot be cast to the specified type, it returns <c>null</c>.
     /// </summary>
-    /// <typeparam name="T">A game object of type DotsGameObject</typeparam>
-    /// <returns>The Two Dots game object</returns>
+    /// <typeparam name="T">The type to which the managed game object should be cast.</typeparam>
+    /// <returns>An object of type <typeparamref name="T"/> if the cast is successful; otherwise, <c>null</c>.</returns>
     public abstract T GetGameObject<T>() where T : class;
 
    
@@ -62,7 +63,7 @@ public abstract class VisualController : IVisualController
         }
     }
 
-    public DotsAnimator Animator {get; protected set;}
+    protected DotsAnimator animator;
     protected Sprite sprite;
 
     public abstract void Init(DotsGameObject dotsGameObject);
@@ -127,9 +128,9 @@ public abstract class VisualController : IVisualController
     }
 
     public IEnumerator Animate(IAnimation animation, AnimationLayer layer = AnimationLayer.BaseLayer){
-        if(Animator == null){
+        if(animator == null){
             yield break;
         }
-        yield return Animator.Animate(animation, layer);
+        yield return animator.Animate(animation, layer);
     }
 }

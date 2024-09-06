@@ -7,6 +7,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
 {
     private MonsterDot dot;
     private MonsterDotVisuals visuals;
+    private SpriteManager spriteManager;
     private readonly DirectionalVisualController directionalVisualController = new();
     private readonly NumerableVisualController numerableVisualController = new();
     public override T GetGameObject<T>() => dot as T;
@@ -17,6 +18,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     {
         dot = (MonsterDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
+        spriteManager = dotsGameObject.GetComponent<SpriteManager>();   
         directionalVisualController.Init(dot, visuals.DirectionalVisuals);
         numerableVisualController.Init(dot, visuals.NumerableVisuals);
         base.Init(dotsGameObject);
@@ -32,15 +34,12 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
 
     public IEnumerator DoMove(int col, int row)
     {
-        for(int i = 0; i < visuals.AllSprites.Length; i++)
-        {
-            visuals.AllSprites[i].sortingOrder += 100;
-
-        }
+        
+        spriteManager.BringSpritesToTop();
         yield return dot.transform.DOMove(new Vector2(col, row) * Board.offset, MonsterDotVisuals.MoveDuration);
 
         yield return new WaitForSeconds(0.8f);
-        
+        spriteManager.BringSpritesBack();
     }
 
     

@@ -17,7 +17,6 @@ public class MonsterDotVisuals : DotVisuals, INumerableVisuals, IDirectionalVisu
     public static float MoveDuration = 0.6f;
     public SpriteRenderer LeftEye;
     public SpriteRenderer RightEye;
-    public SpriteRenderer[] AllSprites;
 
     public float RotationDuration => DirectionalVisuals.RotationDuration;
 
