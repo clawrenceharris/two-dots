@@ -99,8 +99,9 @@ GameObject:
   - component: {fileID: 957477070254284822}
   - component: {fileID: 6579891909780830333}
   - component: {fileID: 2023748872782733337}
+  - component: {fileID: 8670703253560651672}
   m_Layer: 0
-  m_Name: Normal Dot
+  m_Name: NormalDot
   m_TagString: Color Dot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layers:
-  - LayerName: 0
+  - Layer: 0
     Animatable: {fileID: 2023748872782733337}
 --- !u!114 &2023748872782733337
 MonoBehaviour:
@@ -244,3 +245,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93515d1c78ef84ac6809627eaece4ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8670703253560651672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6629530070703699901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a0889c1b72b4dd7876568d81486cc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSortingOrder: 0
+  sortingOrder: 0

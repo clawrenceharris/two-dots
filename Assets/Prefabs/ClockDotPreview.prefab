@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 524472633177910155}
   - component: {fileID: 7555240099833715603}
   m_Layer: 0
-  m_Name: Clock Dot Preview
+  m_Name: ClockDotPreview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

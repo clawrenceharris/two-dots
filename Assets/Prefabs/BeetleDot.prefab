@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 3212968937752267505}
   - component: {fileID: 318908160909679498}
   m_Layer: 0
-  m_Name: Left Wing Layer 1
+  m_Name: Left Wing Layer 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -770,7 +770,7 @@ GameObject:
   - component: {fileID: 5633704780186032157}
   - component: {fileID: 2924625010476529036}
   m_Layer: 0
-  m_Name: Right Wing Layer 3
+  m_Name: Right Wing Layer 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -856,7 +856,7 @@ GameObject:
   - component: {fileID: 4040285003299596336}
   - component: {fileID: 6987961834894658620}
   m_Layer: 0
-  m_Name: Right Wing Layer 1
+  m_Name: Right Wing Layer 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1446,7 +1446,7 @@ GameObject:
   - component: {fileID: 7081792166548744187}
   - component: {fileID: 1275438299152516774}
   m_Layer: 0
-  m_Name: Left Wing Layer 3
+  m_Name: Left Wing Layer 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2071,7 +2071,7 @@ PrefabInstance:
       objectReference: {fileID: 1052824061767117065}
     - target: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_Name
-      value: Beetle Dot
+      value: BeetleDot
       objectReference: {fileID: 0}
     - target: {fileID: 6904294175992406759, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: clearDuration
@@ -2080,6 +2080,10 @@ PrefabInstance:
     - target: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_SortingOrder
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670703253560651672, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: baseSortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2303686786482766387, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -2174,10 +2178,17 @@ MonoBehaviour:
   rightWingLayer2: {fileID: 1000969558112632331}
   rightWingLayer3: {fileID: 2969042392531368742}
   sprites: []
-  rightWings: {fileID: 8187732682292148997}
-  leftWings: {fileID: 1787027141210881331}
+  ActiveRightWings: {fileID: 8187732682292148997}
+  ActiveLeftWings: {fileID: 1787027141210881331}
   rotationEase: 9
   rotationSpeed: 0.2
+  WingLayers:
+  - LeftWing: {fileID: 1275438299152516774}
+    RightWing: {fileID: 2924625010476529036}
+  - LeftWing: {fileID: 4127337358718649202}
+    RightWing: {fileID: 5451360227085682791}
+  - LeftWing: {fileID: 318908160909679498}
+    RightWing: {fileID: 6987961834894658620}
 --- !u!114 &7727196983814474946
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1579182424907695932}
   m_Layer: 0
-  m_Name: number
+  m_Name: Number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

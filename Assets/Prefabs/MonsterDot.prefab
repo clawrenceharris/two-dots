@@ -383,7 +383,11 @@ PrefabInstance:
       objectReference: {fileID: 341954389197306499}
     - target: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_Name
-      value: Monster Dot Variant
+      value: MonsterDot
+      objectReference: {fileID: 0}
+    - target: {fileID: 8670703253560651672, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+      propertyPath: baseSortingOrder
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2303686786482766387, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -465,7 +469,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7418231137940222176}
-  Sprites: []
+  Sprites:
+  - {fileID: 7418231137940222176}
+  - {fileID: 5698075958798445826}
+  - {fileID: 9160932169022976453}
+  - {fileID: 6600877886434558629}
+  - {fileID: 8904855326878655865}
+  - {fileID: 7923965157436285034}
   hittableVisuals:
     hitDuration: 0
     clearDuration: 0.4
@@ -477,13 +487,6 @@ MonoBehaviour:
   EyeLids: {fileID: 6600877886434558629}
   LeftEye: {fileID: 7923965157436285034}
   RightEye: {fileID: 8904855326878655865}
-  AllSprites:
-  - {fileID: 7418231137940222176}
-  - {fileID: 5698075958798445826}
-  - {fileID: 9160932169022976453}
-  - {fileID: 6600877886434558629}
-  - {fileID: 8904855326878655865}
-  - {fileID: 7923965157436285034}
 --- !u!114 &8341356781414373475
 MonoBehaviour:
   m_ObjectHideFlags: 0
