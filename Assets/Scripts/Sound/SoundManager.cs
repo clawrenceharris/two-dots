@@ -201,12 +201,10 @@ public class SoundManager : MonoBehaviour
         if (hittable is Tile tile)
         {
             sound = GetTileHitSound(tile);
-            PlaySound(sound);
         }
         if (hittable is Dot dot)
         {
             sound = GetDotHitSound(dot);
-            PlaySound(sound);
         }
 
         PlaySound(sound);
