@@ -19,35 +19,17 @@ public class ClearCommand : Command
         yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
     }
 
-    public static IEnumerator DoClear(List<IExplodable> toClear){
-        foreach (IHittable hittable in toClear)
-        {
-            
-            if (hittable.HitCount >= hittable.HitsToClear)
-            {
-                hittable.Clear();
-            }
-        }
-        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
-    }
-
+    
     public static IEnumerator DoClear(IHittable hittable){
         if (hittable.HitCount >= hittable.HitsToClear){
-            hittable.Clear();
+            CoroutineHandler.StartStaticCoroutine(hittable.Clear());
             yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
 
         }
             
     }
 
-    public static IEnumerator DoClear(IExplodable hittable){
-        
-         if(hittable.HitCount >= hittable.HitsToExplode){
-            hittable.Clear();
-            yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
-
-        }
-    }
+    
     public override IEnumerator Execute(Board board)
     {
         onCommandExecuting?.Invoke(this);
@@ -61,15 +43,7 @@ public class ClearCommand : Command
         DidExecute = toClear.Count > 0;
         yield return DoClear(toClear);
 
-
-
-
-
-
         Debug.Log(CommandInvoker.commandCount + " Executed " + nameof(ClearCommand));
-
-
-
 
         yield return base.Execute(board);
 

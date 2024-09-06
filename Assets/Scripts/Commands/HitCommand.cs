@@ -41,7 +41,7 @@ public class HitCommand : Command
                 //hit any normal tiles at the same position as the current hittable
                 IBoardElement b = (IBoardElement)hittable;
                 IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-                tile?.Hit(hitType, null);
+                CoroutineHandler.StartStaticCoroutine(tile?.Hit(hitType, null));
             });                    
     
         }
@@ -69,7 +69,7 @@ public class HitCommand : Command
             //if any, hit normal tiles at the same position as the current hittable
             IBoardElement b = (IBoardElement)hittable;
             IHittable tile = board.GetTileAt<IHittable>(b.Column, b.Row);
-            tile?.Hit(hitType, null);
+            CoroutineHandler.StartStaticCoroutine(tile?.Hit(hitType, null));
                 
         });                    
 

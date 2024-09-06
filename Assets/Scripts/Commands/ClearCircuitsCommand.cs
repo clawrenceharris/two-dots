@@ -30,8 +30,8 @@ public class ClearCircuitsCommand : Command
                     if(shouldClear)
                     {
                         Dot dotToRemove = board.GetDotAt(circuit.Column, circuit.Row);
-                        circuitToClear.Clear();
-                        dotToRemove.Clear(duration: 0);
+                        CoroutineHandler.StartStaticCoroutine(circuitToClear.Clear());
+                        CoroutineHandler.StartStaticCoroutine(dotToRemove.Clear(duration: 0));
                         DidExecute = true;
                         board.SpawnBomb(circuit.Column, circuit.Row);
                     }    
