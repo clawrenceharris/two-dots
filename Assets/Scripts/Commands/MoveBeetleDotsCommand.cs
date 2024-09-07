@@ -74,7 +74,6 @@ public class MoveBeetleDotsCommand : MoveCommand
             ////skip if the beetle dot was already hit
             if (beetleDot.WasHit)
             {
-                beetleDot.Debug(Color.blue);
                //reset the flag for next move
                beetleDot.WasHit = false;
                continue;
