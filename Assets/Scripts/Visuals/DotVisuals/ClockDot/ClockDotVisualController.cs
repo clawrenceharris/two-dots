@@ -108,7 +108,7 @@ INumerableVisualController
                 );
 
                 settings.Curve = curve;
-                StartCoroutine(Animate(new MoveAnimation{
+                dot.StartCoroutine(Animate(new MoveAnimation{
                     Target = new Vector2(pos.x, pos.y) * Board.offset,
                     Settings = settings,
                     
@@ -117,7 +117,7 @@ INumerableVisualController
             else{
                 AnimationCurve curve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
                 settings.Curve = curve;
-                StartCoroutine(Animate(new MoveAnimation{
+                dot.StartCoroutine(Animate(new MoveAnimation{
                     Target = new Vector2(pos.x, pos.y) * Board.offset,
                     Settings = settings
                 }));

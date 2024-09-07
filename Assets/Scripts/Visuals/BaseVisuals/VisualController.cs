@@ -80,9 +80,6 @@ public abstract class VisualController : IVisualController
 
     }
 
-    protected Coroutine StartCoroutine(IEnumerator coroutine,Action onComplete = null){
-        return CoroutineHandler.StartStaticCoroutine(coroutine, onComplete);
-    }
 
     public virtual void SetColor(Color color)
     {
@@ -120,11 +117,6 @@ public abstract class VisualController : IVisualController
                 spriteRenderer.enabled = true;
             }
         }
-    }
-
-    public T GetDotsGameObject<T>()
-    {
-        throw new NotImplementedException();
     }
 
     public IEnumerator Animate(IAnimation animation, AnimationLayer layer = AnimationLayer.BaseLayer){

@@ -3,12 +3,12 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class OneSidedBlockVisualController : TileVisualController
+public class OneSidedBlockVisualController : HittableTileVisualController, IDirectionalVisualController
 {
     private OneSidedBlock tile;
     private HittableTileVisuals visuals;
-
-   
+    private readonly DirectionalVisualController directionalVisualController = new();
+    
 
     public override T GetGameObject<T>() => tile as T;
 
@@ -18,12 +18,18 @@ public class OneSidedBlockVisualController : TileVisualController
     {
         tile = (OneSidedBlock)dotsGameObject;
         visuals = dotsGameObject.GetComponent<HittableTileVisuals>();
+        directionalVisualController.Init(this);
         base.Init(dotsGameObject);
     }
 
     public override void SetInitialColor()
     {
         visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+    }
+
+    public void SetRotation()
+    {
+        throw new NotImplementedException();
     }
 
     protected override void SetUp()

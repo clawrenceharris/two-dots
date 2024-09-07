@@ -1,31 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 public class DirectionalVisualController : IDirectionalVisualController
 {
 
-    private IDirectionalVisuals visuals;
-    private IDirectional directional;
-    public void Init(IDirectional directional, IDirectionalVisuals visuals)
+    private VisualController visualController;
+    private IDirectional Directional => visualController.GetGameObject<IDirectional>();
+    public void Init(VisualController visualController)
     {
-        this.visuals = visuals;
-        this.directional = directional;
+        this.visualController = visualController;
     }
-    public IEnumerator DoRotateAnimation()
-    {
-        
-        Vector3 rotation = directional.GetRotation();
-        DotsGameObject dotsGameObject = (DotsGameObject)directional;
-        yield return dotsGameObject.transform.DOLocalRotate(rotation, visuals.RotationDuration)
-                    .SetEase(visuals.RotationEase);
+    
 
-    }
-
-    public void UpdateRotation()
+    public void SetRotation()
     {
-        DotsGameObject dotsGameObject = (DotsGameObject)directional;
-        Vector3 rotation = directional.GetRotation();
+        DotsGameObject dotsGameObject = (DotsGameObject)Directional;
+        Vector3 rotation = Directional.GetRotation();
         dotsGameObject.transform.localRotation = Quaternion.Euler(rotation);
     }
 }

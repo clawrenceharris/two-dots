@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEditor.Playables;
 using UnityEngine;
 
-public class CircuitVisualController : TileVisualController
+public class CircuitVisualController : HittableTileVisualController, IHittableVisualController
 {
     private Circuit tile;
     private CircuitVisuals visuals;
     public override T GetGameObject<T>() => tile as T;
     public override T GetVisuals<T>() => visuals as T;
-
     public override void Init(DotsGameObject dotsGameObject){
         tile = (Circuit)dotsGameObject;
         visuals = dotsGameObject.GetComponent<CircuitVisuals>();
@@ -37,7 +36,11 @@ public class CircuitVisualController : TileVisualController
         }    
     }
 
-
+    public override IEnumerator Hit()
+    {
+        UpdateSprite();
+        return base.Hit();
+    }
     public override void SetColor(Color color)
     {
         base.SetColor(color);
@@ -50,6 +53,5 @@ public class CircuitVisualController : TileVisualController
         visuals.spriteRenderer.color = bgColor;
         visuals.OnSprite.color = ColorUtils.LightenColor(bgColor,0.6f);;
     }
-
-   
+    
 }

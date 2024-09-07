@@ -32,7 +32,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         dot = (BeetleDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<BeetleDotVisuals>();
         spriteManager = dotsGameObject.GetComponent<SpriteManager>();
-        directionalVisualController.Init(dot, visuals.directionalVisuals);
+        directionalVisualController.Init(this);
         base.Init(dotsGameObject);
 
     }
@@ -42,7 +42,7 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
         currentLayerIndex = Mathf.Clamp(dot.HitCount, 0, dot.HitsToClear-1);
 
-        UpdateRotation();
+        SetRotation();
         
         for(int i = 0; i < currentLayerIndex; i++)
             RemoveCurrentLayer();
@@ -64,6 +64,20 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         //Reset the transform parent of newly changed the current layer to the active transform
         CurrentLayer.LeftWing.transform.SetParent(visuals.ActiveLeftWings);
         CurrentLayer.RightWing.transform.SetParent(visuals.ActiveRightWings);
+    }
+    public void SetRotation()
+    {
+        Vector3 rotation = dot.GetRotation();
+        dot.StartCoroutine(SetRotation(rotation));
+    }
+
+    public IEnumerator SetRotation(Vector3 rotation)
+    {
+        
+        yield return Animate(new RotateAnimation(){
+            Target = rotation
+        });
+        directionalVisualController.SetRotation();
     }
 
     public override void SetInitialColor()
@@ -125,26 +139,10 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
         RemoveCurrentLayer();
 
     }
-
-    public IEnumerator DoRotateAnimation()
-    {
-
-        Vector3 rotation = dot.GetRotation();
-        yield return dot.transform.DOLocalRotate(rotation, visuals.rotationSpeed)
-                    .SetEase(visuals.rotationEase);
-
-    }
-
-    
-    
-
-
-      
    
    
     public IEnumerator DoSwap(Dot dotToSwap)
     {
-        dot.Debug(Color.red);
         float moveDuration = BeetleDotVisuals.moveDuration;
         int dotToSwapCol = dotToSwap.Column;
         int dotToSwapRow = dotToSwap.Row;
@@ -158,10 +156,10 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
        
         spriteManager.BringSpritesToTop();
-        StartCoroutine(dotToSwap.VisualController.Animate(new SwapAnimation{
+        dot.StartCoroutine(dotToSwap.VisualController.Animate(new SwapAnimation{
             Target = new Vector2(beetleDotCol, beetleDotRow) * Board.offset,
         }));
-        StartCoroutine(Animate(new SwapAnimation{
+        dot.StartCoroutine(Animate(new SwapAnimation{
             Target = new Vector2(dotToSwapCol, dotToSwapRow) * Board.offset
         }));
         yield return new WaitForSeconds(moveDuration);
@@ -193,8 +191,5 @@ public class BeetleDotVisualController : ColorableDotVisualController, IDirectio
 
     }
 
-    public void UpdateRotation()
-    {
-        directionalVisualController.UpdateRotation();
-    }
+    
 }

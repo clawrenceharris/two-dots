@@ -19,7 +19,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         dot = (MonsterDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<MonsterDotVisuals>();
         spriteManager = dotsGameObject.GetComponent<SpriteManager>();   
-        directionalVisualController.Init(dot, visuals.DirectionalVisuals);
+        directionalVisualController.Init(this);
         numerableVisualController.Init(dot, visuals.NumerableVisuals);
         base.Init(dotsGameObject);
     }
@@ -58,9 +58,9 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     }
 
 
-    public void UpdateRotation()
+    public void SetRotation()
     {
-        directionalVisualController.UpdateRotation();
+        directionalVisualController.SetRotation();
     }
 
     public IEnumerator ScaleNumbers()

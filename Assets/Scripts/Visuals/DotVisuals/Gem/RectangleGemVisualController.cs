@@ -25,7 +25,7 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
     {
         dot = (RectangleGem)dotsGameObject;
         visuals = dotsGameObject.GetComponent<GemVisuals>();
-        directionalVisualController.Init(dot, null);
+        directionalVisualController.Init(this);
        
         base.Init(dotsGameObject);
 
@@ -33,7 +33,7 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
     protected override void SetUp()
     {
         //rotate the gem to match the initial direction
-        UpdateRotation();
+        SetRotation();
         base.SetUp();
     }
    
@@ -50,9 +50,9 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
     }
    
     
-    public void UpdateRotation()
+    public void SetRotation()
     {
-        directionalVisualController.UpdateRotation();
+        directionalVisualController.SetRotation();
         FlipSpritesHorizontally(false);
         FlipSpritesVertically(false);
         float angle = dot.GetRotation().z;
