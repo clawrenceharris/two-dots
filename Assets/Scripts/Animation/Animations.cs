@@ -46,6 +46,15 @@ public class SwapAnimation : IAnimation{
     }
 
 }
+public class RotateAnimation : IAnimation{
+    public Vector3 Target {get; set;}
+    public AnimationSettings Settings {get; set;} = new();
+
+    public IEnumerator Animate(DotsAnimationComponent animatable)
+    {
+        yield return animatable.Rotate(Target, Settings);
+    }
+}
 public class ShakeAnimation : IAnimation{
     public Vector3 Target {get; set;}
     public ShakeSettings Settings {get; set;}

@@ -11,6 +11,8 @@ public interface IAnimatable
     List<Tween> Tweens{ get; }
     IEnumerator Move(Vector3 targetPosition, AnimationSettings settings);
     IEnumerator Shake(Vector3 strength, ShakeSettings settings);
+
+    IEnumerator Rotate(Vector3 targetRotation, AnimationSettings settings);
     IEnumerator PreviewClear(); 
     IEnumerator PreviewHit(); 
     IEnumerator Clear(AnimationSettings settings); 
@@ -105,6 +107,14 @@ public class DotsAnimationComponent : MonoBehaviour, IAnimatable
         Tween tween = transform.DOMoveY(yValue, settings.Duration)
         .SetEase(settings.Ease, settings.Amplitude, settings.Period);
         
+        yield return tween.WaitForCompletion();
+    }
+
+    public virtual IEnumerator Rotate(Vector3 targetRotation, AnimationSettings settings)
+    {
+        
+        Tween tween = transform.DOLocalRotate(targetRotation,0.6f)
+        .SetEase(settings.Ease);
         yield return tween.WaitForCompletion();
     }
 }
