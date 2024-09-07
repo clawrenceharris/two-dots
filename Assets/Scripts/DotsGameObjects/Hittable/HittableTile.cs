@@ -39,6 +39,7 @@ public abstract class HittableTile : Tile, IHittable
     }
     public virtual IEnumerator Hit(HitType hitType, Action onHitComplete = null)
     {
+        Hit(hitType);
         yield return hittable.Hit(hitType, onHitComplete);
     }
 

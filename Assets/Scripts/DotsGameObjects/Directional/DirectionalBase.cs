@@ -43,6 +43,6 @@ public class DirectionalBase : IDirectional
         DirectionX = directionX;
         DirectionY = directionY;
 
-        CoroutineHandler.StartStaticCoroutine(VisualController.DoRotateAnimation());
+        VisualController.SetRotation();
     }
 }
