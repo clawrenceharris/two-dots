@@ -25,7 +25,7 @@ public class PreviewableStateManager : MonoBehaviour
         
     }
 
-    public static int Count<T>(T previewable) 
+    public static int Count<T>() 
     where T : class, IPreviewable
     {
         return Board.FindDotsOfType<T>().Count;

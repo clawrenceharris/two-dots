@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Animations;
 using UnityEngine;
 
 public class HittableBase : IHittable
@@ -42,10 +43,14 @@ public class HittableBase : IHittable
 
 
     public IEnumerator Clear()
-    {  
-        VisualController visualController = DotsGameObject.GetVisualController<VisualController>();
-        float duration = visualController.GetVisuals<IHittableVisuals>().ClearDuration;
-        yield return Clear(duration);    
+    {   
+        
+        IClearable clearable = DotsGameObject.VisualController?.GetAnimatableComponent<IClearable>();
+        if(clearable != null)
+            yield return Clear(clearable.Settings.Duration);  
+        else{
+            Clear(0);
+        }  
     }
     
     public IEnumerator Clear(float duration){

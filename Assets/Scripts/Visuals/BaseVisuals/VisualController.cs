@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using System.Linq;
 using DG.Tweening;
+using Animations;
 
 
 /// <summary>
@@ -63,7 +64,19 @@ public abstract class VisualController : IVisualController
         }
     }
 
-    protected DotsAnimator animator;
+    private DotsAnimator animator;
+
+    public DotsAnimator Animator {
+        get{
+            if(animator == null){
+                if(GetGameObject<DotsGameObject>().TryGetComponent<DotsAnimator>(out var animator)){
+                    this.animator = animator;
+                }
+            }
+            return animator;
+        }
+    }
+
     protected Sprite sprite;
 
     public abstract void Init(DotsGameObject dotsGameObject);
@@ -80,7 +93,7 @@ public abstract class VisualController : IVisualController
 
     }
 
-
+    #region Sprites
     public virtual void SetColor(Color color)
     {
         GetVisuals<Visuals>().spriteRenderer.color = color;
@@ -118,11 +131,27 @@ public abstract class VisualController : IVisualController
             }
         }
     }
+    #endregion Sprites
+    
+    #region Animation
 
     public IEnumerator Animate(IAnimation animation, AnimationLayer layer = AnimationLayer.BaseLayer){
-        if(animator == null){
+        if(Animator == null){
             yield break;
         }
-        yield return animator.Animate(animation, layer);
+        yield return GetGameObject<DotsGameObject>().StartCoroutine(Animator.Animate(animation, layer));
     }
+   
+
+    public T GetAnimatableComponent<T>(AnimationLayer layer = AnimationLayer.BaseLayer)
+    where T : class,  IAnimatable
+    {
+        if(Animator != null){
+            return Animator.GetAnimatableComponent<T>(layer);
+        }
+        return default;
+    }
+    
+
+    #endregion Animations
 }

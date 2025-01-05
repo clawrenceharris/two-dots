@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using System;
+using Animations;
 
 
 /// <summary>
@@ -38,7 +39,7 @@ public class DotsAnimator : MonoBehaviour
         /// <summary>
         /// The component that can be animated within this layer.
         /// </summary>
-        public DotsAnimationComponent Animatable;
+        public AnimatableComponent Animatable;
     }
 
     /// <summary>
@@ -72,22 +73,26 @@ public class DotsAnimator : MonoBehaviour
     }
 
     /// <summary>
-    /// Kills all active tweens and stops all ongoing coroutines 
+    /// Stops all ongoing coroutines in all animation layers
     /// </summary>
     public void StopAnimations()
     {
         
         foreach(AnimationLayer layer in layers){
-            foreach(Tween tween in layer.Animatable.Tweens){
-                tween.Kill();
-            }
+            layer.Animatable.StopAllCoroutines();
+            
         }
     }
 
-    public T GetAnimationComponent<T>(global::AnimationLayer layer)
-    where T : DotsAnimationComponent
+    public T GetAnimatableComponent<T>(global::AnimationLayer layer = global::AnimationLayer.BaseLayer)
+    where T : class, IAnimatable
     {
+       
         return layers.Find(item => item.Layer == layer).Animatable as T;
+    }
+    public AnimatableComponent GetAnimatableComponent(global::AnimationLayer layer = global::AnimationLayer.BaseLayer)
+    {
+        return layers.Find(item => item.Layer == layer).Animatable;
     }
 }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Playables;
 using UnityEngine;
 
-public class CircuitVisualController : HittableTileVisualController, IHittableVisualController
+public class CircuitVisualController : HittableTileVisualController
 {
     private Circuit tile;
     private CircuitVisuals visuals;
@@ -22,8 +22,7 @@ public class CircuitVisualController : HittableTileVisualController, IHittableVi
         UpdateSprite();
     }
 
-    
-    
+
     public void UpdateSprite(){
         if(!tile.IsActive){
             visuals.OffSprite.enabled =true;
@@ -39,8 +38,10 @@ public class CircuitVisualController : HittableTileVisualController, IHittableVi
     public override IEnumerator Hit()
     {
         UpdateSprite();
-        return base.Hit();
+        yield return null;
     }
+
+    
     public override void SetColor(Color color)
     {
         base.SetColor(color);

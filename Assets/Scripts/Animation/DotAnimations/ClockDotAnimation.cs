@@ -1,24 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Animations;
 using DG.Tweening;
 using UnityEngine;
 
-public class ClockDotAnimation : DotsAnimationComponent
-{
-    private ClockDot Dot => (ClockDot)DotsGameObject;
-    public override IEnumerator Move(Vector3 targetPosition, AnimationSettings settings)
-    {
+public class ClockDotAnimation : DotAnimation, 
+IIdlable, 
+IClearPreviewable, 
+Animations.IHittable
 
-        Tween tween = transform.DOMove(targetPosition, settings.Duration)
-        .SetEase(settings.Curve);
-        Tweens.Add(tween);
-        yield return tween.WaitForCompletion();
+{
+    
+    [SerializeField]private AnimationSettings moveSettings;
+    [SerializeField]private AnimationSettings hitSettings;
+
+    AnimationSettings Animations.IHittable.Settings => hitSettings;
+
+    
+    
+
+    IEnumerator Animations.IHittable.Animate(HitAnimation animation)
+    {
+        float scaleDuration = hitSettings.Duration;
+
+        GetVisuals<ClockDotVisuals>().Digit1.transform.DOScale(Vector2.one * 1.8f, scaleDuration /2);
+        GetVisuals<ClockDotVisuals>().Digit2.transform.DOScale(Vector2.one * 1.8f, scaleDuration / 2);
+
+        yield return new WaitForSeconds(scaleDuration / 2);
+        GetVisuals<ClockDotVisuals>().Digit1.transform.DOScale(Vector2.one, scaleDuration / 2);
+        GetVisuals<ClockDotVisuals>().Digit2.transform.DOScale(Vector2.one, scaleDuration / 2);
     }
 
-    public override IEnumerator Idle()
+
+    IEnumerator IIdlable.Animate()
     {
        float elapsedTime = 0f;
-        Vector3 originalRotation = Dot.transform.eulerAngles;
+        Vector3 originalRotation = transform.eulerAngles;
         float duration = 1f;
         float shakeIntensity = 15f;
         float shakeSpeed = 10f;
@@ -28,7 +46,7 @@ public class ClockDotAnimation : DotsAnimationComponent
             float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
 
             // Apply the rotation
-            Dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
+            transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
 
             // Increment the elapsed time
             elapsedTime += Time.deltaTime;
@@ -37,15 +55,15 @@ public class ClockDotAnimation : DotsAnimationComponent
         }
 
         // Reset rotation to original position after the shaking animation is finished
-        Dot.transform.DORotate(Vector3.zero, duration /2);
+        transform.DORotate(Vector3.zero, duration /2);
         yield return new WaitForSeconds(duration /2);
-        yield return new WaitForSeconds(UnityEngine.Random.Range(6, 10));
+        yield return new WaitForSeconds(Random.Range(6, 10));
     }
-
-    public override IEnumerator PreviewClear()
+   
+    IEnumerator IClearPreviewable.Animate(PreviewClearAnimation animation)
     {
         float elapsedTime = 0f;
-        Vector3 originalRotation = Dot.transform.eulerAngles;
+        Vector3 originalRotation = transform.eulerAngles;
         float shakeDuration = 0.6f;
         float shakeIntensity = 15f;
         float shakeSpeed = 35f;
@@ -55,7 +73,7 @@ public class ClockDotAnimation : DotsAnimationComponent
             float shakeAmount = Mathf.Sin(elapsedTime * shakeSpeed) * shakeIntensity;
 
             // Apply the rotation
-            Dot.transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
+            transform.eulerAngles = originalRotation + new Vector3(0, 0, shakeAmount);
 
             // Increment the elapsed time
             elapsedTime += Time.deltaTime;
@@ -64,7 +82,9 @@ public class ClockDotAnimation : DotsAnimationComponent
         }
 
         // Reset rotation to original position after the shaking animation is finished
-        Dot.transform.eulerAngles = Vector2.zero;
+        transform.eulerAngles = Vector2.zero;
     }
+    
 
+   
 }

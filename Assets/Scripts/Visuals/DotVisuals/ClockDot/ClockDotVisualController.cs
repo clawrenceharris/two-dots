@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System;
 
 public class ClockDotVisualController : BlankDotBaseVisualController, 
-INumerableVisualController
+INumerableVisualController,
+IPreviewableVisualController
 {
     private ClockDot dot;
     private  ClockDotVisuals visuals;
+    private readonly PreviewableVisualController previewableVisualController = new();
     private readonly NumerableVisualController numerableVisualController = new();
     public override T GetGameObject<T>() => dot as T;
 
@@ -19,6 +21,7 @@ INumerableVisualController
         dot = (ClockDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<ClockDotVisuals>();
         numerableVisualController.Init(dot, visuals.numerableVisuals);
+        previewableVisualController.Init(this);
         base.Init(dotsGameObject);
 
         
@@ -94,38 +97,10 @@ INumerableVisualController
         float duration = ClockDotVisuals.moveDuration;
         float moveDuration = duration / path.Count;
         
-         var settings = new AnimationSettings{
-            Duration = moveDuration
-        };
-        foreach (Vector2Int pos in path)
-        {
-            if(pos == path.Last()){
-                AnimationCurve  curve = new(
-                    new Keyframe(0f, 0f, 0f, 0f),        // Start point
-                    new Keyframe(0.3f, 0.7f, 0f, 0f),    // Peak with higher value for more elasticity
-                    new Keyframe(0.7f, 0.3f, 0f, 0f),    // Bounce back to a lower value
-                    new Keyframe(1f, 1f, 0f, 0f)         // End point
-                );
-
-                settings.Curve = curve;
-                dot.StartCoroutine(Animate(new MoveAnimation{
-                    Target = new Vector2(pos.x, pos.y) * Board.offset,
-                    Settings = settings,
-                    
-                }));
-            }
-            else{
-                AnimationCurve curve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
-                settings.Curve = curve;
-                dot.StartCoroutine(Animate(new MoveAnimation{
-                    Target = new Vector2(pos.x, pos.y) * Board.offset,
-                    Settings = settings
-                }));
-            }
-            
-            yield return new WaitForSeconds(moveDuration);
-            onMoved?.Invoke();
-        }
+        CoroutineHandler.StartStaticCoroutine(Move(path.Select(pos=> new Vector3(pos.x, pos.y)).ToList()));
+       
+        yield return new WaitForSeconds(moveDuration);
+        
 
 
     }
@@ -137,12 +112,7 @@ INumerableVisualController
     private void MoveClockDotPreviews(ConnectionArgs args){
 
         List<ConnectableDot> connectedDots = ConnectionManager.Connection.ConnectedDots.ToList();
-        var settings = new AnimationSettings{
-            Ease = Ease.OutElastic,
-            Amplitude =0.5f,
-            Period = 1.5f,
-            Duration = 0.5f
-        };
+        
 
         if (ConnectionManager.ConnectedDots.Contains(dot))
         {
@@ -164,12 +134,8 @@ INumerableVisualController
 
                 lastAvailableDot = connectedDots[^count];
                 if(lastAvailableDot.DotType.IsBasicDot() || lastAvailableDot.DotType.IsClockDot()){
-
+                    clockDot.VisualController.Move(lastAvailableDot.transform.position);
                 }
-                    clockDot.VisualController.Animate(new MoveAnimation{
-                        Target = lastAvailableDot.transform.position,
-                        Settings = settings
-                    });
                 
             }
         }
@@ -178,5 +144,20 @@ INumerableVisualController
     public IEnumerator ScaleNumbers()
     {
         yield return numerableVisualController.ScaleNumbers();
+    }
+
+    public IEnumerator PreviewClear()
+    {
+        yield return previewableVisualController.PreviewClear();
+    }
+
+    public IEnumerator PreviewHit()
+    {
+        yield return previewableVisualController.PreviewHit();
+    }
+
+    public IEnumerator Idle()
+    {
+        yield return previewableVisualController.Idle();
     }
 }

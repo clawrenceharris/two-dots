@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceVisualController : TileVisualController
+public class IceVisualController : TileVisualController, IHittableVisualController
 {
     private Ice tile;
     private IceVisuals visuals;
@@ -44,5 +44,14 @@ public class IceVisualController : TileVisualController
         }
     }
 
-  
+    public IEnumerator Hit()
+    {
+        UpdateSprite();
+        yield return null;
+    }
+
+    public IEnumerator Clear(float duration)
+    {
+        yield return null;
+    }
 }

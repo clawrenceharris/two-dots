@@ -6,7 +6,7 @@ using System;
 public interface IExplodable : IHittable, IBoardElement
 {
     IExplosionRule ExplosionRule { get; }
-
+    bool DidExplode {get;}
     IEnumerator Explode(List<IHittable> toHit, Board board, Action<IHittable> onComplete);
 
     ExplosionType ExplosionType { get; }

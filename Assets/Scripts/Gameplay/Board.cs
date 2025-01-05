@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using DG.Tweening;
+using Animations;
 public class Board : MonoBehaviour
 {
     public static int Width { get; private set; }
@@ -21,7 +22,7 @@ public class Board : MonoBehaviour
     public static event Action<DotsGameObject> onObjectSpawned;
     public static float DotDropSpeed { get; private set; } = 0.45f;
     public List<Dot> ClearedDots { get; private set; } = new();
-
+    public List<Tile> ClearedTiles { get; private set; } = new();
     public static event Action<Board> onBoardCreated;
 
 
@@ -83,9 +84,8 @@ public class Board : MonoBehaviour
    
     private void OnCommandsEnded()
     {
-        CoroutineHandler.StartStaticCoroutine(DestroyClearedObjects(new(ClearedDots)), ()=>{
-            ClearedDots.Clear();
-        });
+
+       ClearedDots.Clear();
     }
 
     private void OnCleared(DotsGameObject dotsGameObject)
@@ -99,23 +99,22 @@ public class Board : MonoBehaviour
         }
         if (dotsGameObject is Tile tile)
         {
-            
             Tiles[tile.Column, tile.Row] = InitDotsGameObject<Tile>(dotsGameObject.Replacement);
-            
+            ClearedTiles.Add(tile);
         }
-        
+        StartCoroutine(DestroyClearedObjects(dotsGameObject));
         
     }
 
 
-    public IEnumerator DestroyClearedObjects(List<Dot> clearedDots)
+    public IEnumerator DestroyClearedObjects(DotsGameObject cleared)
     {
-        foreach(Dot dot in clearedDots){
-            VisualController visualController = dot.VisualController;
-            IHittableVisuals visuals = visualController.GetVisuals<IHittableVisuals>();
-            yield return new WaitForSeconds(visuals.ClearDuration);
-            Destroy(dot.gameObject);
-        }
+        IClearable clearable = cleared.VisualController.GetAnimatableComponent<IClearable>();
+        yield return new WaitForSeconds(clearable.Settings.Duration + 1);
+        Destroy(cleared);
+        
+
+
 
     }
     
@@ -127,9 +126,7 @@ public class Board : MonoBehaviour
     private void DropDot(Dot dot, int row){
         dot.Row = row;
        
-        StartCoroutine(dot.VisualController.Animate(new DropAnimation(){
-            Target = row * offset,
-        }));
+        StartCoroutine(dot.VisualController.Drop(row * offset));
     }
     
     private void InitDots()
@@ -363,6 +360,29 @@ public class Board : MonoBehaviour
         }
         return neighbors.Where((neighbor) => neighbor != null).ToList();
     }
+    public List<DotsGameObject> GetNeighbors(int col, int row, bool includesDiagonals = true)
+    {
+
+        List<DotsGameObject> dotsGameObjects = new();
+        dotsGameObjects.AddRange(GetDotNeighbors(col, row, includesDiagonals));
+        dotsGameObjects.AddRange(GetTileNeighbors(col, row, includesDiagonals));
+
+       
+        return dotsGameObjects.Where((neighbor) => neighbor != null).ToList();
+    }
+
+    public List<T> GetNeighbors<T>(int col, int row, bool includesDiagonals = true)
+    where T : class
+    {
+
+        List<T> dotsGameObjects = new();
+        dotsGameObjects.AddRange(GetDotNeighbors<T>(col, row, includesDiagonals));
+        dotsGameObjects.AddRange(GetTileNeighbors<T>(col, row, includesDiagonals));
+
+       
+        return dotsGameObjects.Where((neighbor) => neighbor != null).ToList();
+    }
+
 
     /// <summary>
     /// Returns a list of neighboring tiles that surrounds

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Animations;
 
 /// <summary>
 /// Represents a visual controller base that controlls the visuals of a hittable Dots game object
@@ -15,20 +16,23 @@ public class HittableVisualController : IHittableVisualController
         this.visualController = visualController;
     }
 
-
-    public IEnumerator Hit()
-    {
-        yield return visualController.Animate(new HitAnimation());
-    }
-
    
-    public IEnumerator Clear(float duration)
-    {
-        yield return visualController.Animate(new ClearAnimation(){
-            Settings = new AnimationSettings{
-                Duration = duration
-            }
-        });
-       
+    
+    public IEnumerator Hit(){
+        
+        yield return visualController.Animate(new HitAnimation());
+
     }
+
+    
+    public IEnumerator Clear(float duration){
+        
+        IClearable clearable = visualController.Animator.GetAnimatableComponent<IClearable>();
+        clearable.Settings.Duration = duration;
+        yield return visualController.Animate(new ClearAnimation());
+    }
+
+    
+    
+
 }

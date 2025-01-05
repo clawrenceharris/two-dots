@@ -42,7 +42,6 @@ public class ConnectLotusDotsCommand : Command
 
             var neighbor = board.GetDotAt<ConnectableDot>(b.Column + direction.x, b.Row + direction.y);
             var rule = new LotusDotConnectionRule();
-
             if (neighbor != null && !visitedDots.Contains(neighbor))
             {
                 //If the neighbor is not valid then exit the loop 

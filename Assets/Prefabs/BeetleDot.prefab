@@ -721,7 +721,7 @@ GameObject:
   - component: {fileID: 8289216525478438129}
   - component: {fileID: 1052824061767117065}
   m_Layer: 0
-  m_Name: Beetle Dot Parent
+  m_Name: Beetle Preview Layer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -759,6 +759,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 687b447c999ef4f96b66640eb8ac314d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clearSettings:
+    duration: 0
+    amplitude: 0
+    period: 0
+    ease: 0
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  shakeSettings:
+    duration: 0
+    amplitude: 0
+    period: 0
+    ease: 0
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    randomness: 90
+    snapping: 0
+    fadeOut: 0
+    shakeRandomnessMode: 1
+    vibrato: 10
+    strength: {x: 0.02, y: 0.02}
+  rotateSettings:
+    duration: 0
+    amplitude: 0
+    period: 0
+    ease: 0
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  hitSettings:
+    duration: 0
+    amplitude: 0
+    period: 0
+    ease: 0
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1 &2969042392531368742
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,6 +2145,8 @@ PrefabInstance:
     - {fileID: 0}
     - {fileID: 5224356030327197459, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
     - {fileID: 2023748872782733337, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+    - {fileID: 8428773850836562855, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+    - {fileID: 3285335926552377805, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2818817833734586123, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -2213,6 +2269,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 687b447c999ef4f96b66640eb8ac314d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clearSettings:
+    duration: 6
+    amplitude: 0
+    period: 0
+    ease: 0
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  shakeSettings:
+    duration: 1
+    amplitude: 0
+    period: 0
+    ease: 0
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    randomness: 90
+    snapping: 0
+    fadeOut: 0
+    shakeRandomnessMode: 1
+    vibrato: 10
+    strength: {x: 0.02, y: 0.02}
+  rotateSettings:
+    duration: 0.4
+    amplitude: 0
+    period: 0
+    ease: 27
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+  hitSettings:
+    duration: 0.8
+    amplitude: 0
+    period: 0
+    ease: 8
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!212 &8576582511116832377 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}

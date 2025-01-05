@@ -1,13 +1,24 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
-public class AnimationSettings{
-    public float Duration { get; set; } = 1f;
-    public Ease Ease { get; set; }
-    public AnimationCurve Curve { get; set; }
-    public float Amplitude { get; set; } = 0.1f;
-    public float Period { get; set; } = 0.5f;
+[Serializable]
+public class AnimationSettings : IAnimationSettings{
+    [SerializeField]private float duration;
+    [SerializeField]private float amplitude;
+    [SerializeField]private float period;
+    [SerializeField]private Ease ease;
+    [SerializeField]private int loops = 1;
+    [SerializeField]private AnimationCurve curve;
 
-    public int Loops { get; set; } = 1;
+    public AnimationCurve Curve {get => curve; set => curve = value;}
+    public float Amplitude {get => amplitude; set => amplitude = value;}
+
+
+    public float Period {get => period; set => period = value;}
+    public int Loops {get => loops; set => loops = value;}
+    public float Duration {get => duration; set => duration = value;}
+    
+    public Ease Ease {get => ease; set => ease = value;}
 
 }

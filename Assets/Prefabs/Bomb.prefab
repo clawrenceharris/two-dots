@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1716833105892258884}
   - component: {fileID: 5620620952153395163}
   - component: {fileID: 2372518334117369768}
-  - component: {fileID: 9149888296952244321}
   - component: {fileID: 6682469296464127845}
+  - component: {fileID: 880948768788447171}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -150,18 +150,6 @@ MonoBehaviour:
       clearDuration: 0
     explodeDuration: 0.1
   BombSprites: []
---- !u!114 &9149888296952244321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1116607520697210883}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93515d1c78ef84ac6809627eaece4ee5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6682469296464127845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,8 +163,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   layers:
-  - LayerName: 0
-    Animatable: {fileID: 9149888296952244321}
+  - Layer: 0
+    Animatable: {fileID: 880948768788447171}
+--- !u!114 &880948768788447171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1116607520697210883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b48d7f3499e4f4691e8b66db16716c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clearSettings:
+    duration: 0.4
+    amplitude: 0
+    period: 0
+    ease: 0
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1 &4044538420008121860
 GameObject:
   m_ObjectHideFlags: 0

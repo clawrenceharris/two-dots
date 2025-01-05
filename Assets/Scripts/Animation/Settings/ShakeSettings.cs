@@ -1,13 +1,37 @@
+using System;
 using DG.Tweening;
-using Newtonsoft.Json;
+using UnityEngine;
 
-public class ShakeSettings : AnimationSettings
+public interface IShakeSettings : IAnimationSettings{
+    public float Randomness {get; set;}
+    public bool Snapping {get; set;}
+    public bool FadeOut {get; set;}
+    public ShakeRandomnessMode ShakeRandomnessMode {get; set;}
+    public int Vibrato {get; set;}
+    public Vector2 Strength {get; set;}
+
+
+}
+
+[Serializable]
+public class ShakeSettings : AnimationSettings, IShakeSettings
 {
-    public int Vibrato { get; set; } = 10;  // Number of shakes
-    public float Randomness { get; set; } = 90f;
-    public bool Snapping = false;
-    public bool FadeOut {get; set;} = true;
+
+    [SerializeField]private float randomness = 90f;
+    [SerializeField]private bool snapping = false;
+    [SerializeField]private bool fadeOut = false;
+    [SerializeField]private ShakeRandomnessMode shakeRandomnessMode = ShakeRandomnessMode.Harmonic;
+    [SerializeField]private int vibrato = 10;
+    [SerializeField]private Vector2 strength = new(0.02f, 0.02f);
+    public float Randomness {get => randomness; set => randomness = value;}
+    public bool Snapping {get => snapping; set => snapping = value;}
+    public bool FadeOut {get => fadeOut; set => fadeOut = value;}
+    public ShakeRandomnessMode ShakeRandomnessMode {get => shakeRandomnessMode; set => shakeRandomnessMode = value;}
+    public int Vibrato {get => vibrato; set => vibrato = value;}
+    public Vector2 Strength {get => strength; set => strength = value;}
+
     
-    public ShakeRandomnessMode ShakeRandomnessMode {get; set;} =  ShakeRandomnessMode.Harmonic;
+
+
     
 }

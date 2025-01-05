@@ -9,7 +9,7 @@ public class IdleState : IState
     public IEnumerator UpdateState(PreviewableStateManager context)
     {
         
-        yield return context.DotsGameObject.VisualController.Animate(new IdleAnimation(), AnimationLayer.PreviewLayer);      
+        yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>().Idle();      
 
     }
 

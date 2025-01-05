@@ -78,10 +78,7 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
         directional.ChangeDirection(directionX, directionY);
     }
 
-    public Vector3 GetRotation()
-    {
-        return directional.GetRotation();
-    }
+    
 
     public bool ShouldPreviewClear(Board board)
     {
@@ -101,5 +98,15 @@ public class MonsterDot : ConnectableDot, IColorable, INumerable, IConnectable, 
     public IEnumerator UpdateCurrentNumber(int number)
     {
         yield return Numerable.UpdateCurrentNumber(number);
+    }
+
+    public Vector2Int FindBestDirection(Board board, Func<DotsGameObject, bool> isValidTarget)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Vector3 ToRotation(int dirX, int dirY)
+    {
+        return directional.ToRotation(dirX, dirY);
     }
 }

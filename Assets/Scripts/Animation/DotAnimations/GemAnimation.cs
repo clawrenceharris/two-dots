@@ -1,19 +1,36 @@
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
+using Animations;
+public class GemAnimation : DotAnimation,
+IClearPreviewable,
+IShakable
 
-public class GemAnimation : DotsAnimationComponent{
-    public override IEnumerator PreviewClear()
+{
+
+    [SerializeField]private ShakeSettings shakeSettings;
+    ShakeSettings IShakable.Settings => shakeSettings;
+
+    IEnumerator IClearPreviewable.Animate(PreviewClearAnimation animation)
     {
-        Vector2 strength = new(0.02f, 0.02f);
-        ShakeSettings settings = new(){
-                Vibrato = 10,
-                Duration = 2f,
-                Ease = Ease.OutQuad,
-                FadeOut = false
-                     
-        };
+        IShakable shakable= this;
+        yield return shakable.Animate(new ShakeAnimation{
+            Settings = shakeSettings
+        });
         
-        yield return Shake(strength, settings);
+        // ShakeSettings settings = new(){
+        //         Vibrato = 10,
+        //         Duration = 2f,
+        //         Ease = Ease.OutQuad,
+        //         FadeOut = false
+                     
+        // };
+        
+    }
+    
+    IEnumerator IShakable.Animate(ShakeAnimation animation)
+    {
+        animation.Settings = shakeSettings;
+        yield return GetAnimatable<ShakableBase>().Animate(animation);
     }
 }

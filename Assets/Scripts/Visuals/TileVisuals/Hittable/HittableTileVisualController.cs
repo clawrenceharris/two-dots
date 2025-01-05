@@ -7,6 +7,7 @@ using DG.Tweening;
 /// Represents a visual controller base that controls the visuals of a hittable Tile game object
 /// </summary>
 public abstract class HittableTileVisualController : TileVisualController, IHittableVisualController
+
 {
     private readonly HittableVisualController hittableVisualController = new();
 
@@ -22,9 +23,13 @@ public abstract class HittableTileVisualController : TileVisualController, IHitt
         yield return hittableVisualController.Hit();
     }
 
+
     public virtual IEnumerator Clear(float duration)
     {
         yield return hittableVisualController.Clear(duration);
     }
+
+  
+   
 
 }

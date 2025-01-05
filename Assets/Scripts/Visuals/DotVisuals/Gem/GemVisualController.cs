@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public abstract class GemVisualController : ColorableDotVisualController
+public abstract class GemVisualController : ColorableDotVisualController,
+IPreviewableVisualController
 {
+    private readonly PreviewableVisualController previewableVisualController = new();
     private GemVisuals Visuals => GetVisuals<GemVisuals>();
     private Gem Dot => GetGameObject<Gem>();
     
@@ -13,6 +15,7 @@ public abstract class GemVisualController : ColorableDotVisualController
     public override void Init(DotsGameObject dotsGameObject)
     {
         Subscribe();
+        previewableVisualController.Init(this);
         base.Init(dotsGameObject);
 
     }
@@ -141,6 +144,21 @@ public abstract class GemVisualController : ColorableDotVisualController
         //yield return new WaitForSeconds(Visuals.ClearDuration);
         yield break;
 
+    }
+
+    public IEnumerator PreviewClear()
+    {
+        yield return previewableVisualController.PreviewClear();
+    }
+
+    public IEnumerator PreviewHit()
+    {
+        yield return previewableVisualController.PreviewHit();
+    }
+
+    public IEnumerator Idle()
+    {
+        yield return previewableVisualController.Idle();
     }
     
 }

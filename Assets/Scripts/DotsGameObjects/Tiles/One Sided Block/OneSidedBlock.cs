@@ -51,8 +51,14 @@ public class OneSidedBlock : HittableTile, IDirectional
         directional.ChangeDirection(directionX, directionY);
     }
 
-    public Vector3 GetRotation()
+
+    public Vector2Int FindBestDirection(Board board, Func<DotsGameObject, bool> isValidTarget)
     {
-        return directional.GetRotation();
+        throw new NotImplementedException();
+    }
+
+    public Vector3 ToRotation(int dirX, int dirY)
+    {
+       return directional.ToRotation(dirX, dirY);
     }
 }

@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class MonsterDotVisualController : ColorableDotVisualController, INumerableVisualController, IDirectionalVisualController
+public class MonsterDotVisualController : ColorableDotVisualController, 
+INumerableVisualController,
+IPreviewableVisualController
 {
     private MonsterDot dot;
     private MonsterDotVisuals visuals;
     private SpriteManager spriteManager;
     private readonly DirectionalVisualController directionalVisualController = new();
     private readonly NumerableVisualController numerableVisualController = new();
+    private readonly PreviewableVisualController previewableVisualController = new();
     public override T GetGameObject<T>() => dot as T;
 
     public override T GetVisuals<T>() => visuals as T;
@@ -21,6 +24,7 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         spriteManager = dotsGameObject.GetComponent<SpriteManager>();   
         directionalVisualController.Init(this);
         numerableVisualController.Init(dot, visuals.NumerableVisuals);
+        previewableVisualController.Init(this);
         base.Init(dotsGameObject);
     }
 
@@ -42,12 +46,6 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
         spriteManager.BringSpritesBack();
     }
 
-    
-    public IEnumerator DoRotateAnimation()
-    {
-        //do nothing; no rotation animation needed
-        yield break;
-    }
 
     public override void SetInitialColor()
     {   
@@ -58,13 +56,23 @@ public class MonsterDotVisualController : ColorableDotVisualController, INumerab
     }
 
 
-    public void SetRotation()
-    {
-        directionalVisualController.SetRotation();
-    }
-
     public IEnumerator ScaleNumbers()
     {
        yield return numerableVisualController.ScaleNumbers();
+    }
+
+    public IEnumerator PreviewClear()
+    {
+        yield return previewableVisualController.PreviewClear();
+    }
+
+    public IEnumerator PreviewHit()
+    {
+        yield return previewableVisualController.PreviewHit();
+    }
+
+    public IEnumerator Idle()
+    {
+        yield return previewableVisualController.Idle();
     }
 }

@@ -15,21 +15,19 @@ public abstract class MoveCommand : Command
         where T : IDirectional, IBoardElement
     {
 
-        int rightX = -t.DirectionY;
-        int rightY = t.DirectionX;
-        int leftX = t.DirectionY;
-        int leftY = -t.DirectionX;
+        Vector2Int right = new(-t.DirectionY,t.DirectionX );
+        Vector2Int left = new(t.DirectionY, -t.DirectionX);
 
         //get the dot that is 90 degrees to the left of the dot (y, -x)
-        Dot left = board.GetDotAt(leftX + t.Column, leftY + t.Row);
+        Dot targetDot = board.GetDotAt(left.x + t.Column, left.y + t.Row);
 
-        if (CanMove(left))
+        if (CanMove(targetDot))
         {
-            return new Vector2Int(leftX, leftY);
+            return left;
         }
         else
         {
-            return new Vector2Int(rightX, rightY);
+            return right;
 
         }
 

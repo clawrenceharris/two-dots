@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class DirectionalVisualController : IDirectionalVisualController
+public class DirectionalVisualController
 {
 
     private VisualController visualController;
@@ -11,11 +11,4 @@ public class DirectionalVisualController : IDirectionalVisualController
         this.visualController = visualController;
     }
     
-
-    public void SetRotation()
-    {
-        DotsGameObject dotsGameObject = (DotsGameObject)Directional;
-        Vector3 rotation = Directional.GetRotation();
-        dotsGameObject.transform.localRotation = Quaternion.Euler(rotation);
-    }
 }

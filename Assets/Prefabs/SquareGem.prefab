@@ -93,7 +93,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8397229947021257754}
-  - component: {fileID: 9183740634742883870}
   m_Layer: 0
   m_Name: Effects
   m_TagString: Untagged
@@ -118,18 +117,6 @@ Transform:
   - {fileID: 109141379075706828}
   m_Father: {fileID: 6411312765153705899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9183740634742883870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979062482422104202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93515d1c78ef84ac6809627eaece4ee5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1694705730342288738
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,7 +963,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6579891909780830333, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: layers.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6579891909780830333, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: layers.Array.data[1].Layer
@@ -994,13 +981,9 @@ PrefabInstance:
       propertyPath: layers.Array.data[1].Animatable
       value: 
       objectReference: {fileID: 5320871281170847245}
-    - target: {fileID: 6579891909780830333, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
-      propertyPath: layers.Array.data[2].Animatable
-      value: 
-      objectReference: {fileID: 9183740634742883870}
     - target: {fileID: 6629530070703699901, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_Name
-      value: Square Gem
+      value: SquareGem
       objectReference: {fileID: 0}
     - target: {fileID: 7796637422996918524, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
       propertyPath: m_SortingLayer
@@ -1015,6 +998,7 @@ PrefabInstance:
     - {fileID: 6747493730836354960, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
     - {fileID: 957477070254284822, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
     - {fileID: 2023748872782733337, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
+    - {fileID: 8428773850836562855, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2818817833734586123, guid: 526d8194fb84e4654a0f6b3dda7cd1c7, type: 3}
@@ -1120,6 +1104,71 @@ MonoBehaviour:
   hittableVisuals:
     hitDuration: 0
     clearDuration: 0.4
+  AnimatableVisuals:
+    shakeAnimationSetting:
+      Vibrato: 10
+      Randomness: 90
+      Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      Snapping: 0
+      FadeOut: 1
+      ShakeRandomnessMode: 1
+      Duration: 0
+      Ease: 1
+      Amplitude: 0
+      Period: 0
+      Loops: 1
+    rotateAnimationSettings:
+      Duration: 0.3
+      Ease: 6
+      Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      Amplitude: 0.1
+      Period: 0.5
+      Loops: 1
+    moveSettings:
+      Duration: 0.6
+      Ease: 1
+      Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      Period: 0.5
+      Loops: 1
+    clearSettings:
+      Duration: 0.4
+      Ease: 1
+      Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      Amplitude: 0.1
+      Period: 0.5
+      Loops: 1
+    hitSettings:
+      Duration: 0.8
+      Ease: 1
+      Curve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      Amplitude: 0.1
+      Period: 0.5
+      Loops: 1
   outerDot: {fileID: 1428984078901661788}
   bombHitSprite: {fileID: 0}
   explodableVisuals:

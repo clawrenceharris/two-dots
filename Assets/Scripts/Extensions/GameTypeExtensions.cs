@@ -1,12 +1,41 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+
+public static class DotsExtensions{
+    public static List<Dot> FindDotNeighbors(this DotsGameObject dot, Board board){
+        return board.GetDotNeighbors(dot.Column, dot.Row);  
+    }
+    public static List<Tile> FindTileNeighbors(this DotsGameObject dot, Board board){
+        return board.GetTileNeighbors(dot.Column, dot.Row);  
+    }
+    public static List<T> FindTileNeighbors<T>(this DotsGameObject dot, Board board)
+     where T :class{
+        return board.GetTileNeighbors<T>(dot.Column, dot.Row);  
+    }
+    public static List<T> FindDotNeighbors<T>(this DotsGameObject dot, Board board)
+     where T :class{
+        return board.GetDotNeighbors<T>(dot.Column, dot.Row);
+    }
+    public static List<DotsGameObject> FindNeighbors(this DotsGameObject dot, Board board)
+    {
+        return board.GetNeighbors(dot.Column, dot.Row);
+    }
+
+    public static List<T> FindNeighbors<T>(this DotsGameObject dot, Board board)
+    where T : class
+    {
+        return board.GetNeighbors<T>(dot.Column, dot.Row);
+    }
+}
 
 public static class GameTypeExtensions
 {
 
-   
+    
     public static bool IsBlockable(this TileType type){
         return type == TileType.Block || type == TileType.OneSidedBlock;
 

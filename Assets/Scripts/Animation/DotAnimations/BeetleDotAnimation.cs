@@ -1,84 +1,127 @@
+
 using System.Collections;
 using System.Collections.Generic;
+using Animations;
 using DG.Tweening;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class BeetleDotAnimation : DotsAnimationComponent{
+public class BeetleDotAnimation : DotAnimation,
+IIdlable, 
+IClearPreviewable,
+IHitPreviewable,
+IRotatable,
+IShakable,
+Animations.IHittable
+
+{
     
-    private BeetleDot Dot => (BeetleDot)DotsGameObject;
-    private BeetleDotVisuals Visuals => DotsGameObject.VisualController.GetVisuals<BeetleDotVisuals>();
+    private BeetleDot Dot => GetGameObject<BeetleDot>();
+    private BeetleDotVisuals Visuals => GetVisuals<BeetleDotVisuals>();
+
+    [SerializeField]private ShakeSettings shakeSettings;
+    [SerializeField]private AnimationSettings rotateSettings;
+    [SerializeField]private AnimationSettings hitSettings;
+
+    AnimationSettings Animations.IHittable.Settings => hitSettings;
+    AnimationSettings IRotatable.Settings => rotateSettings;
+
+    ShakeSettings IShakable.Settings => shakeSettings;
 
    
-    public override IEnumerator PreviewClear()
+    IEnumerator IClearPreviewable.Animate(PreviewClearAnimation animation)
     {
-        Vector2 strength = new(0.02f, 0.02f);
-        ShakeSettings settings = new(){
-                Vibrato = 10,
-                Duration = 2f,
-                Ease = Ease.OutQuad,
-                FadeOut = false
-                     
-        };
-        yield return Shake(strength, settings);
+        
+        yield return GetAnimatable<ShakableBase>().Animate(new ShakeAnimation{
+            Settings = shakeSettings
+        });
         
     }
 
-    public override IEnumerator PreviewHit()
+    IEnumerator IHitPreviewable.Animate(PreviewHitAnimation a)
     {
-        var settings = new AnimationSettings{
-            Duration = 0.26f
-        };
+        
         float startFlapAngle = 45f;
         float endFlapAngle = 0f;
-        yield return FlapWings(settings,startFlapAngle, endFlapAngle);
+        float duration = 0.26f;
+       
+        yield return FlapWings(duration,1, startFlapAngle, endFlapAngle);
+        
     }
 
-    public override IEnumerator Idle()
+    IEnumerator IIdlable.Animate()
     {
-        yield return new WaitForSeconds(Random.Range(4, PreviewableStateManager.Count(Dot) * 6));
+        yield return new WaitForSeconds(Random.Range(4, PreviewableStateManager.Count<BeetleDot>() * 6));
         IEnumerator[] coroutines = {DoFlutterAnimation(), DoWiggleAnimation(), DoFlutterAndWiggleAnimation()};
         int rand = Random.Range(0, coroutines.Length);
         yield return coroutines[rand];
     }
-    private IEnumerator FlapWings(AnimationSettings settings, float startAngle, float endAngle)
+    private IEnumerator FlapWings(float duration, float startAngle, float endAngle)
     {
         Vector3 leftWingStartAngle = new(0, 0, -startAngle);
         Vector3 rightWingStartAngle = new(0, 0, startAngle);
         Vector3 leftWingEndAngle = new(0, 0, -endAngle);
         Vector3 rightWingEndAngle = new(0, 0, endAngle);
-        
-        int loops = settings.Loops;
-        Ease ease = settings.Ease;
-        float duration = settings.Duration;
-        int flapsCompleted = 0;
-        bool isInfinite = loops < 0;
-
-        while (isInfinite || flapsCompleted < loops)
+        float elapsedTime = 0.0f;
+        while (elapsedTime < duration)
         {
+            elapsedTime += Time.deltaTime;
+            yield return StartCoroutine(FlapWings(0.26f,1, startAngle, endAngle));
+            
             // Flap up
-            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().ActiveLeftWings.DOLocalRotate(leftWingStartAngle, duration / 2)
-            .SetEase(ease));
-            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().ActiveRightWings.DOLocalRotate(rightWingStartAngle, duration / 2)
-            .SetEase(ease));
+            // Visuals.ActiveLeftWings.DOLocalRotate(leftWingStartAngle, duration / 2)
+            // .SetEase(ease);
+            // Visuals.ActiveRightWings.DOLocalRotate(rightWingStartAngle, duration / 2)
+            // .SetEase(ease);
 
-            yield return new WaitForSeconds(duration / 2);
+            // yield return new WaitForSeconds(duration / 2);
 
-            // Flap down
-            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().ActiveLeftWings.DOLocalRotate(leftWingEndAngle, duration / 2)
-            .SetEase(ease));
-            Tweens.Add(Dot.VisualController.GetVisuals<BeetleDotVisuals>().ActiveRightWings.DOLocalRotate(rightWingEndAngle, duration / 2)
-            .SetEase(ease));
+            // // Flap down
+            // Visuals.ActiveLeftWings.DOLocalRotate(leftWingEndAngle, duration / 2)
+            // .SetEase(ease);
+            // Visuals.ActiveRightWings.DOLocalRotate(rightWingEndAngle, duration / 2)
+            // .SetEase(ease);
 
-            yield return new WaitForSeconds(duration / 2);
+            // yield return new WaitForSeconds(duration / 2);
 
-            flapsCompleted++;
+            // flapsCompleted++;
         }
         Visuals.ActiveLeftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
         Visuals.ActiveRightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
         
          
+    private IEnumerator FlapWings(float duration, int numFlaps, float startAngle, float endAngle)
+    {
+        Vector3 leftWingStartAngle = new(0, 0, -startAngle);
+        Vector3 rightWingStartAngle = new(0, 0, startAngle);
+        Vector3 leftWingEndAngle = new(0, 0, -endAngle);
+        Vector3 rightWingEndAngle = new(0, 0, endAngle);
+        Ease ease = Ease.OutCirc;
+        int flapsCompleted = 0;
+
+        while (flapsCompleted < numFlaps)
+        {
+            // Flap up
+            Visuals.ActiveLeftWings.DOLocalRotate(leftWingStartAngle, duration / 2)
+            .SetEase(ease);
+            Visuals.ActiveRightWings.DOLocalRotate(rightWingStartAngle, duration / 2)
+            .SetEase(ease);
+
+            yield return new WaitForSeconds(duration / 2);
+
+            // Flap down
+            Visuals.ActiveLeftWings.DOLocalRotate(leftWingEndAngle, duration / 2)
+            .SetEase(ease);
+            Visuals.ActiveRightWings.DOLocalRotate(rightWingEndAngle, duration / 2)
+            .SetEase(ease);
+
+            yield return new WaitForSeconds(duration / 2);
+
+            flapsCompleted++;
+        }
+       
+    }
+        
     
 
     private IEnumerator DoWiggleAnimation(){
@@ -102,7 +145,7 @@ public class BeetleDotAnimation : DotsAnimationComponent{
             .OnComplete(() => transform.DORotate(originalRotation, 0.5f)); // Return to original rotation
 
         // Start the sequence
-        Tweens.Add(wiggleSequence.Play());
+        wiggleSequence.Play();
         yield return new WaitForSeconds(wiggleDuration);
     }
     
@@ -111,12 +154,9 @@ public class BeetleDotAnimation : DotsAnimationComponent{
         float endFlapAngle = 0f;
         int flapCount = Random.Range(1,2);
         float flapDuration = Random.Range(0.5f,0.9f);
-        var settings = new AnimationSettings{
-            Loops = flapCount,
-            Duration = flapDuration
-        };
+       
 
-        yield return FlapWings(settings, startFlapAngle, endFlapAngle);
+        yield return FlapWings(flapDuration, flapCount, startFlapAngle, endFlapAngle);
         
     }
 
@@ -131,9 +171,12 @@ public class BeetleDotAnimation : DotsAnimationComponent{
 
 
   
-    public override IEnumerator Hit(AnimationSettings settings)
+    IEnumerator Animations.IHittable.Animate(HitAnimation animation)
     {
-        float duration = 1f;
+        Visuals.ActiveLeftWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        Visuals.ActiveRightWings.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        animation.Settings = hitSettings;
+        float duration = hitSettings.Duration;
         float rotationDuration = duration / 2;
         BeetleDotVisuals.WingLayer wingLayer = Visuals.WingLayers[^1];
      
@@ -154,26 +197,31 @@ public class BeetleDotAnimation : DotsAnimationComponent{
         wingLayer.RightWing.DOFade(0, duration);
         wingLayer.LeftWing.DOFade(0, duration);
         yield return new WaitForSeconds(duration);
+        wingLayer.RightWing.transform.rotation = Quaternion.Euler(Vector3.zero);
+        wingLayer.LeftWing.transform.rotation = Quaternion.Euler(Vector3.zero);
     }
 
-    public override IEnumerator Clear(AnimationSettings settings)
+    protected override IEnumerator Clear(ClearAnimation animation)
     {
+        IClearable clearable = this;
         bool isExplosion = Dot.HitType.IsExplosion();
         float startFlapAngle = isExplosion ? 20f : 45f;
         float endFlapAngle = isExplosion ? 15f : 0f;
-        float duration = settings.Duration;
         float elapsedTime = 0f;
         float amplitude = 1f;
+        float duration = clearable.Settings.Duration;
         float frequency = 0.1f;
         float speed = 42f;
         Vector3 direction = new(Dot.DirectionX, Dot.DirectionY);
 
         Vector3 startPosition = transform.position;
         Vector3 unitDirection = direction.normalized;
+        
+        Dot.StartCoroutine(GetAnimatable<ClearableBase>().Animate(new ClearAnimation{
+            Settings = clearable.Settings
+        }));
 
-        StartCoroutine(base.Clear(new AnimationSettings { Duration = duration * 2 }));
-
-        StartCoroutine(FlapWings(new AnimationSettings{Duration = 0.4f, Loops = -1}, startFlapAngle, endFlapAngle));
+        Dot.StartCoroutine(FlapWings(duration, startFlapAngle, endFlapAngle));
 
         while (elapsedTime < duration * speed)
         {
@@ -205,4 +253,20 @@ public class BeetleDotAnimation : DotsAnimationComponent{
         }
     }
 
+    public IEnumerator TryRotate(Vector3 targetRotation)
+    {
+        return null;
+    }
+
+    IEnumerator IShakable.Animate(ShakeAnimation animation)
+    {
+        animation.Settings = shakeSettings;
+        yield return GetAnimatable<ShakableBase>().Animate(animation);
+    }
+   
+    IEnumerator IRotatable.Animate(RotateAnimation animation)
+    {
+        animation.Settings = rotateSettings;
+        yield return GetAnimatable<RotatableBase>().Animate(animation);
+    }
 }

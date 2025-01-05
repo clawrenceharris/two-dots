@@ -8,7 +8,7 @@ public class PreviewHitState : IState
 
     public IEnumerator UpdateState(PreviewableStateManager context)
     {
-        yield return context.DotsGameObject.VisualController.Animate(new PreviewHitAnimation(), AnimationLayer.PreviewLayer);      
+        yield return context.DotsGameObject.GetVisualController<IPreviewableVisualController>()?.PreviewHit();      
      
     }
 }

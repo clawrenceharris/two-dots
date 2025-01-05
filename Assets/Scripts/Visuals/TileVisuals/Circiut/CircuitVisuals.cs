@@ -7,4 +7,6 @@ public class CircuitVisuals : HittableTileVisuals
     public SpriteRenderer OffSprite;
 
     public SpriteRenderer OnSprite;
+
+    
 }

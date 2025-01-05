@@ -27,6 +27,7 @@ public class MoveBeetleDotsCommand : MoveCommand
         if (!CanMove(dotToSwap))
         {
             Vector2Int newDir = FindBestDirection(beetleDot, board);
+            
             beetleDot.ChangeDirection(newDir.x, newDir.y);
         }
        
@@ -63,13 +64,13 @@ public class MoveBeetleDotsCommand : MoveCommand
 
         List<BeetleDot> beetleDots = board.FindElementsOfType<BeetleDot>();
         int beetleDotCount = 0;
-
+        int ongoingCoroutines = 0;
 
         // Perform the swap for each beetle dot in the dictionary
         foreach (BeetleDot beetleDot in beetleDots)
         {
             
-            Dot dotToSwap = board.GetDotAt(beetleDot.Column + beetleDot.DirectionX, beetleDot.Row + beetleDot.DirectionY);
+            Dot dotToSwap = beetleDot.GetTarget(board);
 
             ////skip if the beetle dot was already hit
             if (beetleDot.WasHit)
@@ -80,44 +81,21 @@ public class MoveBeetleDotsCommand : MoveCommand
             }
            
             //if the beetle dot can move and not hit
-            if (CanMove(dotToSwap))
-            {
-                beetleDot.Debug(Color.green);
+            
                 NotifyCommandExecuting(this);
                 DidExecute = true;
+                ongoingCoroutines++;
 
-                //then add it to the dictionary to be swapped
-                dotsToSwap.TryAdd(beetleDot, dotToSwap);
-            }
-            else
-            {
-                //change the direction the beetle dot faces
-                CoroutineHandler.StartStaticCoroutine(beetleDot.TrySwap(() =>
-                {
-                    UpdateBeetleDotDirection(beetleDot, dotToSwap, board);
-
-                }));
-            }
-           
-
-        }
-
-        foreach (BeetleDot beetleDot in dotsToSwap.Keys)
-        {
-
-            if (dotsToSwap.TryGetValue(beetleDot, out var dotToSwap))
-            {
-
-                int dotToSwapCol = dotToSwap.Column;
-                int dotToSwapRow = dotToSwap.Row;
-                int beetleDotCol = beetleDot.Column;
-                int beetleDotRow = beetleDot.Row;
-
-                CoroutineHandler.StartStaticCoroutine(beetleDot.DoSwap(dotToSwap, () =>
-                {
-
-                    beetleDotCount++;
-
+                CoroutineHandler.StartStaticCoroutine(beetleDot.TrySwap(board, (result)=>{
+                    
+                    if(result == false){
+                        return;
+                    }
+                    ongoingCoroutines--;
+                    int dotToSwapCol = dotToSwap.Column;
+                    int dotToSwapRow = dotToSwap.Row;
+                    int beetleDotCol = beetleDot.Column;
+                    int beetleDotRow = beetleDot.Row;
                     board.Put(dotToSwap, beetleDotCol, beetleDotRow);
                     board.Put(beetleDot, dotToSwapCol, dotToSwapRow);
 
@@ -126,17 +104,19 @@ public class MoveBeetleDotsCommand : MoveCommand
                     beetleDot.Column = dotToSwapCol;
                     beetleDot.Row = dotToSwapRow;
 
-                    Dot nextDotToSwap = board.GetDotAt(dotToSwapCol + beetleDot.DirectionX, dotToSwapRow + beetleDot.DirectionY);
-
-                    //beetle dot moved so update direction
-                    UpdateBeetleDotDirection(beetleDot, nextDotToSwap, board);
 
 
+                
                 }));
 
-            }
+            
+            
+          
 
-     
+              
+            
+           
+
         }
 
         yield return new WaitUntil(() => beetleDotCount == dotsToSwap.Count);

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,11 +26,6 @@ public class RectangleGem : Gem, IDirectional
        //do nothing
     }
 
-    public Vector3 GetRotation()
-    {
-        Vector3 rotation = directional.GetRotation();
-        return new Vector3(0,0, Mathf.Abs(rotation.z));
-    }
 
     private void OnDestroy(){
         VisualController.Unsubscribe();
@@ -41,5 +37,14 @@ public class RectangleGem : Gem, IDirectional
         visualController.Init(this);
     }
 
-    
+    public Vector2Int FindBestDirection(Board board, Func<DotsGameObject, bool> isValidTarget)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Vector3 ToRotation(int dirX, int dirY)
+    {
+        Vector3 rotation = directional.ToRotation(dirX, dirY);
+        return new Vector3(0,0, Mathf.Abs(rotation.z));
+    }
 }

@@ -12,12 +12,14 @@ public class NestingDotVisualController : DotVisualController
     public override T GetGameObject<T>() => dot as T;
 
     public override T GetVisuals<T>() => visuals as T;
-
+    private readonly PreviewableVisualController previewableVisualController = new();
     public override void Init(DotsGameObject dotsGameObject)
     {
         dot = (NestingDot)dotsGameObject;
         visuals = dotsGameObject.GetComponent<NestingDotVisuals>();
         color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
+        previewableVisualController.Init(this);
+
         base.Init(dotsGameObject);
     }
 
@@ -94,7 +96,20 @@ public class NestingDotVisualController : DotVisualController
         yield break;
     }
 
-   
+    public IEnumerator PreviewClear()
+    {
+        yield return previewableVisualController.PreviewClear();
+    }
+
+    public IEnumerator PreviewHit()
+    {
+        yield return previewableVisualController.PreviewHit();
+    }
+
+    public IEnumerator Idle()
+    {
+        yield return previewableVisualController.Idle();
+    }
 
     
 }

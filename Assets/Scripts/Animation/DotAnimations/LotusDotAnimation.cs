@@ -1,13 +1,15 @@
 using System.Collections;
+using Animations;
 using DG.Tweening;
 using UnityEngine;
 
-public class LotusDotAnimation : DotsAnimationComponent{
+public class LotusDotAnimation : DotAnimation,
+IIdlable
+{
     
 
-    private LotusDot Dot => (LotusDot)DotsGameObject;
 
-    private LotusDotVisuals Visuals => Dot.VisualController.GetVisuals<LotusDotVisuals>();
+    private LotusDotVisuals Visuals => GetVisuals<LotusDotVisuals>();
     private readonly AnimationCurve lotusCurve = new(
     
         new Keyframe(0f, 0f, 0f, 2.5f),        // Start point
@@ -20,7 +22,7 @@ public class LotusDotAnimation : DotsAnimationComponent{
     
     );
     
-    public override IEnumerator Idle()
+    IEnumerator IIdlable.Animate()
     {
         yield return new WaitForSeconds(Random.Range(1, 2));
         int direction = (Random.Range(0, 2) * 2) - 1;
@@ -29,6 +31,7 @@ public class LotusDotAnimation : DotsAnimationComponent{
 
         yield return coroutines[rand];
         yield return new WaitForSeconds(Random.Range(2, 4));
+        
     }
 
     

@@ -3,7 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
-public class OneSidedBlockVisualController : HittableTileVisualController, IDirectionalVisualController
+public class OneSidedBlockVisualController : HittableTileVisualController
 {
     private OneSidedBlock tile;
     private HittableTileVisuals visuals;
@@ -25,11 +25,6 @@ public class OneSidedBlockVisualController : HittableTileVisualController, IDire
     public override void SetInitialColor()
     {
         visuals.spriteRenderer.color = ColorSchemeManager.CurrentColorScheme.backgroundColor;
-    }
-
-    public void SetRotation()
-    {
-        throw new NotImplementedException();
     }
 
     protected override void SetUp()

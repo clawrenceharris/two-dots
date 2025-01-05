@@ -2,36 +2,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
-
-public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColorable
+public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColorable, ISwappable
 {
     public override DotType DotType => DotType.BeetleDot;
     public override int HitsToClear => 3;
-    private DotColor color;
+   
+    private int Index => HitsToClear - HitCount -1;
     public override DotColor Color
     {
         get
         {
-            if (HitCount > 0)
-                return colors[Mathf.Clamp(HitCount, 0, HitsToClear - 1)];
-            else
-                return color;
-        }
-        set
-        {
-            color = value;
+            return colors[Index];
+            
         }
     }
 
     private readonly DirectionalBase directional = new();
-
-    
+    private readonly SwappableBase swappable = new();
     public int DirectionX { get => directional.DirectionX; set => directional.DirectionX = value; }
     public int DirectionY { get => directional.DirectionY; set => directional.DirectionY = value; }
     private DotColor[] colors;
     public DotColor[] Colors { get => colors; set => colors = value; }
-    
 
     public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
 
@@ -48,24 +41,14 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
 
         }
     }
-
-
     public override void Init(int column, int row)
     {
-        base.Init(column, row);
         directional.Init(this);
-
+        swappable.Init(this);
+        base.Init(column, row);
     }
 
-    public IEnumerator DoSwap(Dot dotToSwap, Action onComplete = null)
-    {
-        
-        yield return VisualController.DoSwap(dotToSwap);
-        onComplete?.Invoke();
 
-    }
-
-    
     public override void Hit(HitType hitType)
     {
         HitCount++;
@@ -78,22 +61,19 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
         visualController.Init(this);
     }
 
-    public void ChangeDirection(int directionX, int directionY)
+    public IEnumerator TrySwap(Board board, Action<bool> onComplete)
     {
-        directional.ChangeDirection(directionX, directionY);
-    }
-
-    public IEnumerator TrySwap(Action onComplete = null)
-    {
-       
-
-        yield return VisualController.TrySwap();
-        onComplete?.Invoke();
-    }
-
-    public Vector3 GetRotation()
-    {
-        return directional.GetRotation();
+        DotsGameObject target = GetTarget(board);
+        if(IsValidTarget(target, board)){
+            yield return VisualController.DoSwap(target);
+            onComplete?.Invoke(true);
+        }
+        else{
+            Vector2Int newDirection = FindBestDirection(board, (target)=> IsValidTarget(target, board));
+            yield return VisualController.TrySwap();
+            ChangeDirection(newDirection.x, newDirection.y);
+            onComplete?.Invoke(false);
+        }
     }
 
     public override void Deselect()
@@ -113,4 +93,41 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
         ConnectionManager.ConnectedDots.Contains(this)) && 
         DotTouchIO.IsInputActive;
     }
+
+    
+    public bool IsValidTarget(DotsGameObject target, Board board)
+    {
+        if(target == null || target is ISwappable){
+            return false;
+        }
+        //if there is another swappable neighbor besides this one that has the same target as the given target
+        if(target.FindDotNeighbors<ISwappable>(board).Count((swappable)=>swappable.GetTarget(board) == target) > 1){
+            return false;
+        }
+        return true;
+    }
+
+
+
+    public Dot GetTarget(Board board)
+    {
+        return board.GetDotAt(Column + DirectionX, Row + DirectionY);
+    }
+
+    public Vector3 ToRotation(int directionX, int directionY)
+    {
+        return directional.ToRotation(directionX, directionY);
+    }
+
+        public Vector2Int FindBestDirection(Board board, Func<DotsGameObject, bool> isValidTarget)
+    {
+        return directional.FindBestDirection(board, isValidTarget);
+    }
+
+    public void ChangeDirection(int dirX, int dirY)
+    {
+        directional.ChangeDirection(dirX, dirY);
+        StartCoroutine(VisualController.Rotate(ToRotation(DirectionX, DirectionY)));
+    }
+
 }

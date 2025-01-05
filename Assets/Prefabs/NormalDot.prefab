@@ -98,8 +98,8 @@ GameObject:
   - component: {fileID: 6747493730836354960}
   - component: {fileID: 957477070254284822}
   - component: {fileID: 6579891909780830333}
-  - component: {fileID: 2023748872782733337}
   - component: {fileID: 8670703253560651672}
+  - component: {fileID: 3285335926552377805}
   m_Layer: 0
   m_Name: NormalDot
   m_TagString: Color Dot
@@ -232,19 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layers:
   - Layer: 0
-    Animatable: {fileID: 2023748872782733337}
---- !u!114 &2023748872782733337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6629530070703699901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93515d1c78ef84ac6809627eaece4ee5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+    Animatable: {fileID: 3285335926552377805}
 --- !u!114 &8670703253560651672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,4 +246,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSortingOrder: 0
-  sortingOrder: 0
+--- !u!114 &3285335926552377805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6629530070703699901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12b48d7f3499e4f4691e8b66db16716c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clearSettings:
+    duration: 0.4
+    amplitude: 0
+    period: 0
+    ease: 4
+    loops: 1
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4

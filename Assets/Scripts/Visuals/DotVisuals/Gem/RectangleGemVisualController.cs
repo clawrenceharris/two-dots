@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RectangleGemVisualController : GemVisualController, IDirectionalVisualController
+public class RectangleGemVisualController : GemVisualController
 {
     private RectangleGem dot;
     private GemVisuals visuals;
@@ -12,12 +12,6 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
     public override T GetGameObject<T>() => dot as T;
 
     public override T GetVisuals<T>() => visuals as T;
-    
-    public IEnumerator DoRotateAnimation()
-    {
-        //do nothing; no rotation animation needed
-        yield break;
-    }
     
    
 
@@ -33,7 +27,7 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
     protected override void SetUp()
     {
         //rotate the gem to match the initial direction
-        SetRotation();
+        Rotate();
         base.SetUp();
     }
    
@@ -50,12 +44,12 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
     }
    
     
-    public void SetRotation()
+    public void Rotate()
     {
-        directionalVisualController.SetRotation();
+        
         FlipSpritesHorizontally(false);
         FlipSpritesVertically(false);
-        float angle = dot.GetRotation().z;
+        float angle = dot.ToRotation(dot.DirectionX, dot.DirectionY).z;
         // Determine which flips to apply based on the angle
         if (angle == 90f || angle == 270f)
         {
@@ -86,7 +80,7 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
 
     public override SpriteRenderer GetHorizontalRay()
     {
-        float angle = dot.GetRotation().z;
+        float angle = dot.ToRotation(dot.DirectionX, dot.DirectionY).z;
         if (angle == 90f || angle == 270f)
         {
             return visuals.HorizontalRay;
@@ -97,7 +91,7 @@ public class RectangleGemVisualController : GemVisualController, IDirectionalVis
 
     public override SpriteRenderer GetVerticalRay()
     {
-        float angle = dot.GetRotation().z;
+        float angle = dot.ToRotation(dot.DirectionX, dot.DirectionY).z;
         if (angle == 0f  || angle == 180 || angle == 360f)
         {
             return visuals.VerticalRay;

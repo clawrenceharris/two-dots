@@ -16,14 +16,14 @@ public class ClearCommand : Command
                 CoroutineHandler.StartStaticCoroutine(hittable.Clear());
             }
         }
-        yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+        yield return new WaitForSeconds(HittableVisuals.CLEAR_DURATION);
     }
 
     
     public static IEnumerator DoClear(IHittable hittable){
         if (hittable.HitCount >= hittable.HitsToClear){
             CoroutineHandler.StartStaticCoroutine(hittable.Clear());
-            yield return new WaitForSeconds(HittableVisuals.defaultClearDuration);
+            yield return new WaitForSeconds(HittableVisuals.CLEAR_DURATION);
 
         }
             

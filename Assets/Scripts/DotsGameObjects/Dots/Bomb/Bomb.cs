@@ -4,6 +4,15 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
+
+public class BombExplosionHitRule : IHitRule
+{
+    public bool Validate(IHittable hittable, Board board)
+    {
+        IExplodable explodable = (IExplodable)hittable;
+        return explodable.DidExplode;
+    }
+}
 public class Bomb : Dot, IExplodable
 {
     
@@ -14,7 +23,7 @@ public class Bomb : Dot, IExplodable
     public IExplosionRule ExplosionRule => new BombExplosionRule();
     public override int HitsToClear => 1;
     public static BombExplosionManager bombExplosionManager = new();
-    public override IHitRule HitRule => null;
+    public override IHitRule HitRule => new BombExplosionHitRule();
 
     /// <summary>
     /// A list of hittables all Bomb objects have already hit
@@ -27,6 +36,7 @@ public class Bomb : Dot, IExplodable
 
     public int HitsToExplode => 0;
 
+    public bool DidExplode {get; private set;}
 
     public override void InitDisplayController()
     {
@@ -72,7 +82,7 @@ public class Bomb : Dot, IExplodable
         
         int counter = 0;
 
-
+        DidExplode = true;
         foreach (var bomb in BombExplosionManager.bombToDotsMap.Keys)
         {
             foreach (IHittable hittable in BombExplosionManager.bombToDotsMap[bomb])
@@ -121,8 +131,7 @@ public class Bomb : Dot, IExplodable
 
     public override void Hit(HitType hitType)
     {
-        if(hitType == HitType.BombExplosion)
-            HitCount++;
+        HitCount++;
         
     }
     

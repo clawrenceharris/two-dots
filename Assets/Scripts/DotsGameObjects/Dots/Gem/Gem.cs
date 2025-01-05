@@ -21,6 +21,8 @@ public abstract class Gem : ConnectableDot, IExplodable, IPreviewable
    
     public new GemVisualController VisualController => GetVisualController<GemVisualController>();
 
+    public bool DidExplode => throw new NotImplementedException();
+
     public IEnumerator Explode(List<IHittable> toHit, Board board, Action<IHittable> onComplete= null)
     { 
         HitCount++;
