@@ -5,41 +5,43 @@ using Newtonsoft.Json.Linq;
 
 public class LevelDataConverter : JsonConverter<LevelData>
 {
-    public override LevelData ReadJson(JsonReader reader, System.Type objectType, LevelData existingValue, bool hasExistingValue, JsonSerializer serializer)
+    public override LevelData ReadJson(JsonReader reader, Type objectType, LevelData existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         // Load JSON into a JObject to inspect its properties
         JObject jsonObject = JObject.Load(reader);
         // Deserialize common properties
         LevelData levelData = new()
         {
-            levelNum = (int)jsonObject["levelNum"],
-            width = (int)jsonObject["width"],
-            height = (int)jsonObject["height"],
-            moves = (int)jsonObject["moves"]
+            levelNum = (int)jsonObject[LevelDataKeys.LevelNum],
+            width = (int)jsonObject[LevelDataKeys.Width],
+            height = (int)jsonObject[LevelDataKeys.Height],
+            moves = (int)jsonObject[LevelDataKeys.Moves],
+            colors = jsonObject[LevelDataKeys.Colors].ToObject<string[]>()
+
         };
 
         // Deserialize arrays
-        JArray dotsToSpawnArray = (JArray)jsonObject["dotsToSpawn"];
+        JArray dotsToSpawnArray = (JArray)jsonObject[LevelDataKeys.DotsToSpawn];
         levelData.dotsToSpawn = DeserializeDotsArray(dotsToSpawnArray);
 
-        JArray dotsOnBoardArray = (JArray)jsonObject["dotsOnBoard"];
+        JArray dotsOnBoardArray = (JArray)jsonObject[LevelDataKeys.DotsOnBoard];
         levelData.dotsOnBoard = DeserializeDotsArray(dotsOnBoardArray);
 
         
-        JArray initialDotsToSpawn = (JArray)jsonObject["initialDotsToSpawn"];
-        levelData.initialDotsToSpawn = DeserializeDotsArray(initialDotsToSpawn);
+        JArray initialDotsToSpawn = (JArray)jsonObject[LevelDataKeys.InitDotsToSpawn];
+        levelData.initDotsToSpawn = DeserializeDotsArray(initialDotsToSpawn);
 
         
-        JArray tilesOnBoardArray = (JArray)jsonObject["tilesOnBoard"];
+        JArray tilesOnBoardArray = (JArray)jsonObject[LevelDataKeys.TilesOnBoard];
         levelData.tilesOnBoard = DeserializeTilesArray(tilesOnBoardArray);
 
         return levelData;
     }
-    private DotsGameObjectData[] DeserializeDotsArray(JArray array)
+    private DotObject[] DeserializeDotsArray(JArray array)
 
     {
 
-        DotsGameObjectData[] deserializedArray = new DotsGameObjectData[array.Count];
+        DotObject[] deserializedArray = new DotObject[array.Count];
         for (int i = 0; i < array.Count; i++)
         {
             JObject itemObject = (JObject)array[i];
@@ -50,11 +52,11 @@ public class LevelDataConverter : JsonConverter<LevelData>
     }
 
 
-    private DotsGameObjectData[] DeserializeTilesArray(JArray array)
+    private DotObject[] DeserializeTilesArray(JArray array)
 
     {
 
-        DotsGameObjectData[] deserializedArray = new DotsGameObjectData[array.Count];
+        DotObject[] deserializedArray = new DotObject[array.Count];
         for (int i = 0; i < array.Count; i++)
         {
             JObject itemObject = (JObject)array[i];

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 
 public class MoveMonsterDotsCommand : MoveCommand
@@ -83,15 +84,15 @@ public class MoveMonsterDotsCommand : MoveCommand
 
 
 
-                    //Set dot data that will be used to spawn a dot at the monster's start position
-                    DotsGameObjectData data = new(JSONLevelLoader.ToJsonDotType(DotType.NormalDot))
-                    {
-                        col = startCol,
-                        row = startRow
-                    };
-                    data.SetProperty("Color", JSONLevelLoader.ToJsonColor(monsterDot.Color));
+                    //Create the dot that will be used to spawn a dot at the monster's start position
+                    
+                    DotObject dotObject = new();
+                    
+                    dotObject.SetProperty(DotObject.Property.Type, LevelLoader.ToJsonDotType(DotType.NormalDot));
+                    dotObject.SetProperty(DotObject.Property.Color, LevelLoader.ToJsonColor(monsterDot.Color));
+                    dotObject.SetProperty(DotObject.Property.Position, new int[startCol, startRow]);
 
-                    NormalDot replacementDot = board.InitDotsGameObject<NormalDot>(data);
+                    NormalDot replacementDot = board.InitDotsGameObject<NormalDot>(dotObject);
 
                     replacementDots.Add(replacementDot);
                     board.DestroyDotsGameObject(dot);

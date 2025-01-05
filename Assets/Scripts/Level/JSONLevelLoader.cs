@@ -3,18 +3,18 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json;
 using System;
-using UnityEditor;
 
-public class JSONLevelLoader
+public class LevelLoader
 {
+    public static LevelData Level;
     public static LevelData LoadLevelData(TextAsset textAsset){
 
         var settings = new JsonSerializerSettings
         {
             Converters = { new LevelDataConverter() }
         };
-        LevelData level = JsonConvert.DeserializeObject<LevelData>(textAsset.text, settings);
-        return level;
+        Level = JsonConvert.DeserializeObject<LevelData>(textAsset.text, settings);
+        return Level;
     }
 
     
@@ -35,28 +35,28 @@ public class JSONLevelLoader
         //dots
         switch (type)
         {
-            case "normal": return GameAssets.Instance.NormalDot;
-            case "clock": return GameAssets.Instance.ClockDot;
-            case "bomb": return GameAssets.Instance.Bomb;
-            case "blank": return GameAssets.Instance.BlankDot;
-            case "anchor": return GameAssets.Instance.AnchorDot;
-            case "nesting": return GameAssets.Instance.NestingDot;
-            case "beetle": return GameAssets.Instance.BeetleDot;
-            case "monster": return GameAssets.Instance.MonsterDot;
-            case "lotus": return GameAssets.Instance.LotusDot;
-            case "gem": return GameAssets.Instance.SquareGem;
-            case "r-gem": return GameAssets.Instance.RectangleGem;
+            case LevelDataKeys.Types.Normal: return GameAssets.Instance.NormalDot;
+            case LevelDataKeys.Types.Clock: return GameAssets.Instance.ClockDot;
+            case LevelDataKeys.Types.Bomb: return GameAssets.Instance.Bomb;
+            case LevelDataKeys.Types.Blank: return GameAssets.Instance.BlankDot;
+            case LevelDataKeys.Types.Anchor: return GameAssets.Instance.AnchorDot;
+            case LevelDataKeys.Types.Nesting: return GameAssets.Instance.NestingDot;
+            case LevelDataKeys.Types.Beetle: return GameAssets.Instance.BeetleDot;
+            case LevelDataKeys.Types.Monster: return GameAssets.Instance.MonsterDot;
+            case LevelDataKeys.Types.Lotus: return GameAssets.Instance.LotusDot;
+            case LevelDataKeys.Types.SquareGem: return GameAssets.Instance.SquareGem;
+            case LevelDataKeys.Types.RectangleGem: return GameAssets.Instance.RectangleGem;
         };
 
         //tiles
         return type switch
         {
-            "one sided block" => GameAssets.Instance.OneSidedBlock,
-            "empty" => GameAssets.Instance.EmptyTile,
-            "ice" => GameAssets.Instance.Ice,
-            "water" => GameAssets.Instance.Water,
-            "circuit" => GameAssets.Instance.Circuit,
-            _ => throw new ArgumentException("'" + type + "' is not a valid Json game object type"),
+            LevelDataKeys.Types.OneSidedBlock => GameAssets.Instance.OneSidedBlock,
+            LevelDataKeys.Types.EmptyTile => GameAssets.Instance.EmptyTile,
+            LevelDataKeys.Types.Ice => GameAssets.Instance.Ice,
+            LevelDataKeys.Types.Water => GameAssets.Instance.Water,
+            LevelDataKeys.Types.Circuit => GameAssets.Instance.Circuit,
+            _ => throw new ArgumentException( type +" is not a valid Json game object type"),
         };
     }
 
@@ -67,13 +67,13 @@ public class JSONLevelLoader
     {
         return type switch
         {
-            "ice" => TileType.Ice,
+            LevelDataKeys.Types.Ice => TileType.Ice,
             "slime" => TileType.Slime,
-            "block" => TileType.Block,
-            "one sided block" => TileType.OneSidedBlock,
-            "empty" => TileType.EmptyTile,
-            "water" => TileType.Water,
-            "circuit" => TileType.Circuit,
+            LevelDataKeys.Types.Block => TileType.Block,
+            LevelDataKeys.Types.OneSidedBlock => TileType.OneSidedBlock,
+            LevelDataKeys.Types.EmptyTile => TileType.EmptyTile,
+           LevelDataKeys.Types.Water => TileType.Water,
+            LevelDataKeys.Types.Circuit => TileType.Circuit,
             _ => TileType.None,
         };
     }
@@ -83,12 +83,12 @@ public class JSONLevelLoader
     {
         return color switch
         {
-            "red" => DotColor.Red,
-            "blue" => DotColor.Blue,
-            "yellow" => DotColor.Yellow,
-            "purple" => DotColor.Purple,
-            "green" => DotColor.Green,
-            "blank" => DotColor.Blank,
+            LevelDataKeys.DotColors.Red => DotColor.Red,
+            LevelDataKeys.DotColors.Blue => DotColor.Blue,
+            LevelDataKeys.DotColors.Yellow => DotColor.Yellow,
+            LevelDataKeys.DotColors.Purple => DotColor.Purple,
+            LevelDataKeys.DotColors.Green => DotColor.Green,
+            LevelDataKeys.DotColors.Blank => DotColor.Blank,
             _ => throw new ArgumentException(),
         };
     }
@@ -99,13 +99,13 @@ public class JSONLevelLoader
         {
             DotType.NormalDot => "normal",
             DotType.ClockDot => "clock",
-            DotType.Bomb => "bomb",
-            DotType.BlankDot => "blank",
-            DotType.AnchorDot => "anchor",
-            DotType.NestingDot => "nesting",
-            DotType.BeetleDot => "beetle",
-            DotType.SquareGem => "gem",
-            DotType.RectangleGem => "r-gem",
+            DotType.Bomb => LevelDataKeys.Types.Bomb,
+            DotType.BlankDot => LevelDataKeys.Types.Blank,
+            DotType.AnchorDot => LevelDataKeys.Types.Anchor,
+            DotType.NestingDot => LevelDataKeys.Types.Nesting,
+            DotType.BeetleDot => LevelDataKeys.Types.Beetle,
+            DotType.SquareGem => LevelDataKeys.Types.SquareGem,
+            DotType.RectangleGem => LevelDataKeys.Types.RectangleGem,
             _ => throw new ArgumentException(),
         };
     }
@@ -114,11 +114,11 @@ public class JSONLevelLoader
         return type switch
         {
             TileType.Slime => "slime",
-            TileType.Ice => "ice",
-            TileType.Block => "block",
-            TileType.OneSidedBlock => "one sided block",
-            TileType.Water => "water",
-            TileType.Circuit => "circuit",
+            TileType.Ice => LevelDataKeys.Types.Ice,
+            TileType.Block => LevelDataKeys.Types.Block,
+            TileType.OneSidedBlock => LevelDataKeys.Types.OneSidedBlock,
+            TileType.Water => LevelDataKeys.Types.Water,
+            TileType.Circuit => LevelDataKeys.Types.Circuit,
             _ => throw new ArgumentException(),
         };
     }
@@ -127,12 +127,12 @@ public class JSONLevelLoader
     {
         return color switch
         {
-            DotColor.Red => "red",
-            DotColor.Blue => "blue",
-            DotColor.Yellow => "yellow",
-            DotColor.Purple => "purple",
-            DotColor.Green => "green",
-            DotColor.Blank => "blank",
+            DotColor.Red => LevelDataKeys.DotColors.Red,
+            DotColor.Blue => LevelDataKeys.DotColors.Blue,
+            DotColor.Yellow =>LevelDataKeys.DotColors.Yellow,
+            DotColor.Purple => LevelDataKeys.DotColors.Purple,
+            DotColor.Green => LevelDataKeys.DotColors.Green,
+            DotColor.Blank => LevelDataKeys.DotColors.Blank,
             _ => DotColor.None,
         };
     }

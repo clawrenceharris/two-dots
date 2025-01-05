@@ -38,7 +38,7 @@ public class Game : MonoBehaviour
         }
         SetTotalAmountOfLevels();
         levelManager = FindObjectOfType<LevelManager>();
-        LevelData level = JSONLevelLoader.LoadLevelData(startingLevel);
+        LevelData level = LevelLoader.LoadLevelData(startingLevel);
         levelManager.StartLevel(level);
     }
 

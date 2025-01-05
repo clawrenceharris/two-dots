@@ -41,8 +41,9 @@ public class SpreadWaterCommand : Command
             DidExecute = true;
 
             visitedDots.Add(neighbor);
-            DotsGameObjectData data = new(JSONLevelLoader.ToJsonTileType(TileType.Water))
+            DotObject data = new()
             {
+                type = LevelLoader.ToJsonTileType(TileType.Water),
                 col = neighbor.Column,
                 row = neighbor.Row
             };

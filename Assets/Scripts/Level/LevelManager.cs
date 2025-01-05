@@ -127,7 +127,7 @@ public class LevelManager : MonoBehaviour
     public void StartNextLevel()
     {
         OnLevelEnd?.Invoke();
-        LevelData level = JSONLevelLoader.LoadLevelData(Level.levelNum + 1);
+        LevelData level = LevelLoader.LoadLevelData(Level.levelNum + 1);
         StartLevel(level);
 
     }

@@ -13,10 +13,10 @@ public class Board : MonoBehaviour
 
     private Tile[,] Tiles;
 
-    private DotsGameObjectData[] tilesOnBoard;
-    private DotsGameObjectData[] initialDotsToSpawn;
-    private DotsGameObjectData[] dotsToSpawn;
-    private DotsGameObjectData[] dotsOnBoard;
+    private DotObject[] tilesOnBoard;
+    private DotObject[] initialDotsToSpawn;
+    private DotObject[] dotsToSpawn;
+    private DotObject[] dotsOnBoard;
 
     public static float offset = 2.5f;
     public static event Action<DotsGameObject> onObjectSpawned;
@@ -33,19 +33,19 @@ public class Board : MonoBehaviour
         Height = level.height;
         dotsOnBoard = level.dotsOnBoard;
         dotsToSpawn = level.dotsToSpawn;
-        initialDotsToSpawn = level.initialDotsToSpawn;
+        initialDotsToSpawn = level.initDotsToSpawn;
         Dots = new Dot[level.width, level.height];
         Tiles = new Tile[level.width, level.height];
         tilesOnBoard = level.tilesOnBoard;
-        SetUpBoard();
+        SetUpBoard(level);
 
 
     }
-    private void SetUpBoard()
+    private void SetUpBoard(LevelData level)
     {
         InitTiles();
         InitDots();
-        FillBoard(initialDotsToSpawn);
+        FillBoard(initialDotsToSpawn.Length > 0 ? initialDotsToSpawn : level.dotsToSpawn);
         onBoardCreated?.Invoke(this);
 
     }
@@ -184,22 +184,22 @@ public class Board : MonoBehaviour
     }
 
 
-    public T InitDotsGameObject<T>(DotsGameObjectData data)
+    public T InitDotsGameObject<T>(DotObject dObject)
         where T : DotsGameObject
     {
 
         T dotsGameObject = default;
 
-        if (data != null)
+        if (dObject != null)
         {
-            dotsGameObject = DotsFactory.CreateDotsGameObject<T>(data);
-            dotsGameObject.transform.position = new Vector2(data.col, data.row) * offset;
+            dotsGameObject = DotsFactory.CreateDotsGameObject<T>(dObject);
+            dotsGameObject.transform.position = new Vector2(dObject.col, dObject.row) * offset;
             dotsGameObject.transform.parent = transform;
-            dotsGameObject.name = data.type + " (" + data.col + ", " + data.col + ")";
-            dotsGameObject.Init(data.col, data.row);
+            dotsGameObject.name = dObject.type + " (" + dObject.col + ", " + dObject.col + ")";
+            dotsGameObject.Init(dObject.col, dObject.row);
 
             
-            Put(dotsGameObject, data.col, data.row);
+            Put(dotsGameObject, dObject.col, dObject.row);
             onObjectSpawned?.Invoke(dotsGameObject);
         }
 
@@ -208,12 +208,12 @@ public class Board : MonoBehaviour
     }
 
 
-    private Dot InitRandomDot(int col, int row, DotsGameObjectData[] dotsToSpawn)
+    private Dot InitRandomDot(int col, int row, DotObject[] dotsToSpawn)
     {
 
         int randDot = UnityEngine.Random.Range(0, dotsToSpawn.Length);
 
-        DotsGameObjectData dotData = dotsToSpawn[randDot];
+        DotObject dotData = dotsToSpawn[randDot];
 
         Dot dot = DotsFactory.CreateDotsGameObject<Dot>(dotData);
 
@@ -545,7 +545,7 @@ public class Board : MonoBehaviour
 
 
 
-    public bool FillBoard(DotsGameObjectData[] dotsToSpawn = null)
+    public bool FillBoard(DotObject[] dotsToSpawn = null)
     {
 
         bool dotsDropped = false;

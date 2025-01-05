@@ -1,0 +1,172 @@
+{
+  "levelNum": 1,
+  "width": 5,
+  "height": 5,
+  "moves": 5,
+  "initialDotsToSpawn": [
+    {
+      "type": "normal",
+      "color": "red"
+    },
+    {
+      "type": "beetle",
+      "color": "blue",
+      "directionX": -1,
+      "directionY": 0,
+      "hitCount": 2,
+      "colors": ["blue", "green", "purple"]
+    },
+
+    {
+      "type": "beetle",
+      "color": "yellow",
+      "directionX": 0,
+      "hitCount": 2,
+
+      "directionY": 1,
+      "colors": ["yellow", "blue", "red"]
+    },
+    {
+      "type": "blank"
+    },
+    {
+      "type": "blank"
+    },
+    {
+      "type": "blank"
+    },
+    {
+      "type": "blank"
+    },
+    {
+      "type": "blank"
+    }
+  ],
+  "dotsToSpawn": [
+    {
+      "type": "normal",
+      "color": "red"
+    },
+    {
+      "type": "beetle",
+      "color": "blue",
+      "directionX": -1,
+      "directionY": 0,
+      "colors": ["blue", "green", "purple"]
+    },
+
+    {
+      "type": "beetle",
+      "color": "yellow",
+      "directionX": 0,
+      "directionY": -1,
+      "colors": ["yellow", "blue", "red"]
+    },
+    {
+      "type": "normal",
+      "color": "blue"
+    },
+    {
+      "type": "normal",
+      "color": "yellow"
+    },
+    {
+      "type": "normal",
+      "color": "green"
+    },
+    {
+      "type": "blank"
+    },
+    {
+      "type": "blank"
+    }
+  ],
+  "dotsOnBoard": [
+    {
+      "type": "beetle",
+      "color": "blue",
+      "directionX": 1,
+      "directionY": 0,
+      "colors": ["blue", "green", "purple"],
+      "row": 0,
+      "col": 2
+    },
+
+    {
+      "type": "beetle",
+      "color": "yellow",
+      "directionX": 0,
+      "directionY": -1,
+      "colors": ["yellow", "blue", "red"],
+      "row": 1,
+      "col": 3
+    },
+    {
+      "type": "normal",
+      "color": "purple",
+      "row": 0,
+      "col": 3
+    },
+    {
+      "type": "beetle",
+      "color": "red",
+      "directionX": -1,
+      "directionY": 0,
+      "colors": ["red", "green", "yellow"],
+      "row": 0,
+      "col": 4
+    }
+  ],
+
+  "tilesOnBoard": [
+    {
+      "type": "ice",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "type": "ice",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "type": "ice",
+      "row": 0,
+      "col": 2
+    },
+    {
+      "type": "ice",
+      "row": 0,
+      "col": 3
+    },
+    {
+      "type": "ice",
+      "row": 0,
+      "col": 4
+    },
+    {
+      "type": "circuit",
+      "row": 2,
+      "col": 2,
+      "isActive": false
+    },
+    {
+      "type": "circuit",
+      "row": 1,
+      "col": 2,
+      "isActive": false
+    },
+    {
+      "type": "circuit",
+      "row": 1,
+      "col": 3,
+      "isActive": false
+    },
+    {
+      "type": "circuit",
+      "row": 1,
+      "col": 1,
+      "isActive": false
+    }
+  ]
+}

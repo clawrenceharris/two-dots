@@ -1,58 +1,78 @@
 using UnityEngine;
 using System;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
+using System.Collections.Generic;
 
 public class DotsFactory
 {
-    public static T CreateDotsGameObject<T>(DotsGameObjectData data)
+    public static T CreateDotsGameObject<T>(DotObject dObject)
         where T : DotsGameObject
     {
         
-        DotsGameObject dotsGameObject = Object.Instantiate(JSONLevelLoader.FromJsonType(data.type));
-
+        DotsGameObject dotsGameObject = Object.Instantiate(LevelLoader.FromJsonType(dObject.type));
         if (dotsGameObject is IHittable hittable)
         {
-            hittable.HitCount = data.hitCount;
+            hittable.HitCount = dObject.hitCount;
 
         }
 
         if (dotsGameObject is IColorable colorable)
         {
-            string color = data.GetProperty<string>("Color");
-            colorable.Color = JSONLevelLoader.FromJsonColor(color);
+            string color = dObject.GetProperty<string>(DotObject.Property.Color);
+            colorable.Color = LevelLoader.FromJsonColor(color);
         }
 
         if (dotsGameObject is INumerable numberable)
         {
-            int number = data.GetProperty<int>("Number");
+            int number = dObject.GetProperty<int>(DotObject.Property.Number);
 
             numberable.InitialNumber = number;
         }
 
         if (dotsGameObject is IDirectional directional)
         {
-            int directionX = data.GetProperty<int>("DirectionX");
-            int directionY = data.GetProperty<int>("DirectionY");
-
-            directional.DirectionX = directionX;
-            directional.DirectionY = directionY;
-
+            int[,] directions = dObject.GetProperty<int[,]>(DotObject.Property.Directions);
+            int row = Random.Range(0, directions.GetLength(0));
+            
+            directional.DirectionX = directions[row, 0];
+            directional.DirectionY = directions[row, 1];
         }
 
-        if(dotsGameObject is IMultiColorable multicolored)
-        {
-            string[] colors = data.GetProperty<string[]>("Colors");
-            multicolored.Colors = new DotColor[colors.Length];
+        if(dotsGameObject is IMultiColorable multicolorable)
+        {            
+            var colors = LevelLoader.Level.colors;
 
-            for (int i = 0; i < colors.Length; i++)
+            multicolorable.Colors = new DotColor[3];
+
+            //list that will contain 3 unique colors to initialize the dot object's colors
+            List<DotColor> dotColors = new();
+            DotColor color = multicolorable.Color;
+
+            for (int i = 0 ; i < 3; i++)
             {
-                multicolored.Colors[i] = JSONLevelLoader.FromJsonColor(colors[i]);
+                dotColors.Add(color);
+                
+                while(true){
+                    int rand = Random.Range(0, colors.Length);
+                    //get a random color from the level's colors
+                    color = LevelLoader.FromJsonColor(colors[rand]);
+                    //if the color is not already in the list exit the loop so it can be added
+                    if(!dotColors.Contains(color)){
+                        break;
+                    }
+                }
+
+
             }
+
+            multicolorable.Colors = dotColors.ToArray();
+
         }
 
         if(dotsGameObject is ISwitchable switchable)
         {
-            bool isActive = data.GetProperty<bool>("IsActive");
+            bool isActive = dObject.GetProperty<bool>(DotObject.Property.Active);
             switchable.IsActive = isActive;
 
            

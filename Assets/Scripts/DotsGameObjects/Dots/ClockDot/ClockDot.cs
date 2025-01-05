@@ -23,12 +23,13 @@ public class ClockDot : BlankDotBase, INumerable, IPreviewable
     public new ClockDotVisualController VisualController => GetVisualController<ClockDotVisualController>();
    
    
-    public override DotsGameObjectData Replacement
+    public override DotObject Replacement
     {
         get
         {
-            return new(JSONLevelLoader.ToJsonDotType(DotType.Bomb))
+            return new()
             {
+                type = LevelLoader.ToJsonDotType(DotType.Bomb),
                 col = Column,
                 row = Row
             };

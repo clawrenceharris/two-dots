@@ -29,12 +29,13 @@ public class BeetleDot : ConnectableDot, IDirectional, IPreviewable, IMultiColor
     public new BeetleDotVisualController VisualController => GetVisualController<BeetleDotVisualController>();
 
 
-    public override DotsGameObjectData Replacement
+    public override DotObject Replacement
     {
         get
         {
-            return new(JSONLevelLoader.ToJsonDotType(DotType.Bomb))
+            return new()
             {
+                type = LevelLoader.ToJsonDotType(DotType.Bomb),
                 col = Column,
                 row = Row
             };
